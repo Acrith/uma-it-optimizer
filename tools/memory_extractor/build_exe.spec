@@ -39,7 +39,10 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    # UPX packing amplifies small source-level changes into huge byte-level
+    # differences (compression is nonlinear), which makes Windows Defender's
+    # ML classifier score every release inconsistently. Left off deliberately.
+    upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=True,          # keep console window (users see progress + errors)

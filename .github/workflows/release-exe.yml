@@ -22,7 +22,10 @@ jobs:
           python-version: "3.13"
 
       - name: Install build deps
-        run: pip install frida frida-tools pyinstaller
+        # Versions pinned so every release ships a byte-similar exe. Floating
+        # deps means every build changes Frida/PyInstaller binary content,
+        # which flips Windows Defender's ML classifier unpredictably.
+        run: pip install frida==17.16.4 frida-tools==14.10.4 pyinstaller==6.21.0
 
       - name: Fetch bridge bundle
         working-directory: tools/memory_extractor
