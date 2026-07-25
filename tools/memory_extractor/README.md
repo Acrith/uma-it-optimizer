@@ -12,7 +12,7 @@ more, nothing that changes the game.
 1. Complete a run
 2. Reach the Training Log screen (the pop-up right after IT finishes,
    before you press OK — any tab is fine)
-3. Double-click **`umaladder-extract.exe`**
+3. Double-click **`uma-it-extract.exe`**
 4. Wait a few seconds. A JSON file appears in the `runs/` folder next
    to the exe.
 
@@ -57,7 +57,7 @@ pip install pyinstaller
 pyinstaller build_exe.spec
 ```
 
-Result at `dist/umaladder-extract.exe` (~15 MB, self-contained —
+Result at `dist/uma-it-extract.exe` (~15 MB, self-contained —
 bundles Python, Frida, and the bridge JS).
 
 **How it works — short version.** Attaches Frida to the running game

@@ -35,14 +35,14 @@ jobs:
       - name: Upload build artifact (for workflow_dispatch runs)
         uses: actions/upload-artifact@v4
         with:
-          name: umaladder-extract
-          path: tools/memory_extractor/dist/umaladder-extract.exe
+          name: uma-it-extract
+          path: tools/memory_extractor/dist/uma-it-extract.exe
 
       - name: Attach exe to Release (tag pushes only)
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: tools/memory_extractor/dist/umaladder-extract.exe
+          files: tools/memory_extractor/dist/uma-it-extract.exe
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,8 +1,8 @@
-# PyInstaller spec: build a single-file umaladder-extract.exe
+# PyInstaller spec: build a single-file uma-it-extract.exe
 #
 # Run:   pyinstaller build_exe.spec
 # Requires:  pip install pyinstaller  (Windows Python)
-# Result:    dist/umaladder-extract.exe   (~15 MB, self-contained)
+# Result:    dist/uma-it-extract.exe   (~15 MB, self-contained)
 
 # -*- mode: python ; coding: utf-8 -*-
 
@@ -35,7 +35,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='umaladder-extract',
+    name='uma-it-extract',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
