@@ -3,7 +3,10 @@
 Just run it (double-click the .exe, or `python dump_it_run.py`).
 No arguments needed:
 - Auto-detects the game process
-- Waits patiently if the game isn't running yet
+- Waits for the game to launch if it isn't running yet
+- Waits for a *completed* Training Log to appear in memory — you can
+  launch this before finishing your IT run; it polls until it sees
+  valid data, then captures automatically
 - Auto-names the output JSON with a timestamp + scenario + uma id
 - Saves into a ``runs/`` folder next to the script/exe
 
@@ -93,50 +96,87 @@ setTimeout(() => {
       }
     }
 
-    // SingleModeChara — enumerate all, then pick the instance most likely
-    // to represent the *completed* run: prefer highest fans, tie-break by
-    // chara_grade, then 5-stat sum. Also emits an smc_diag message with
-    // every candidate's key fields so we can debug wrong-instance issues
-    // (e.g. Grand Live keeping a pre-training instance alive alongside).
+    // ── SingleModeChara probe ─────────────────────────────────────────
+    // Enumerate all live instances, pick the one most likely to represent
+    // the *completed* run: prefer highest fans, tie-break by chara_grade,
+    // then 5-stat sum. Returns { picked, totalCount, candidates } — where
+    // picked has {w, fans, charaGrade, statSum} or is null if none exist.
     const smcCls = httpAsm.class('Gallop.SingleModeChara');
-    const smcs = Il2Cpp.gc.choose(smcCls);
-    const walked = smcs.map(inst => {
-      try { return walk(inst, smcCls.type.name, 0); }
-      catch (e) { return null; }
-    }).filter(w => w !== null);
+    function probeSmc() {
+      const smcs = Il2Cpp.gc.choose(smcCls);
+      const walked = smcs.map(inst => {
+        try { return walk(inst, smcCls.type.name, 0); }
+        catch (e) { return null; }
+      }).filter(w => w !== null);
+      const scored = walked.map((w, idx) => ({
+        w: w, idx: idx,
+        hasDeck: (w.support_card_array || []).length > 0,
+        fans: (typeof w.fans === 'number' ? w.fans : 0),
+        charaGrade: (typeof w.chara_grade === 'number' ? w.chara_grade : 0),
+        statSum: ['speed','stamina','power','wiz','guts']
+          .reduce((s, k) => s + (typeof w[k] === 'number' ? w[k] : 0), 0),
+      }));
+      const withDeck = scored.filter(s => s.hasDeck);
+      const pool = withDeck.length > 0 ? withDeck : scored;
+      pool.sort((a, b) =>
+        (b.fans - a.fans) || (b.charaGrade - a.charaGrade) || (b.statSum - a.statSum)
+      );
+      return {
+        picked: pool[0] || null,
+        totalCount: smcs.length,
+        candidates: walked.map(w => ({
+          scenario_id: w.scenario_id, chara_grade: w.chara_grade, fans: w.fans,
+          speed: w.speed, stamina: w.stamina, power: w.power, wiz: w.wiz, guts: w.guts,
+          support_card_count: (w.support_card_array || []).length,
+        })),
+      };
+    }
 
-    const diag = walked.map(w => ({
-      scenario_id: w.scenario_id, chara_grade: w.chara_grade, fans: w.fans,
-      speed: w.speed, stamina: w.stamina, power: w.power, wiz: w.wiz, guts: w.guts,
-      support_card_count: (w.support_card_array || []).length,
-    }));
-    send({type: 'smc_diag', total: smcs.length, candidates: diag});
+    // ── Poll loop ─────────────────────────────────────────────────────
+    // Instead of dumping immediately (which is timing-sensitive — the
+    // wrong screen produces pre-training data), poll SingleModeChara
+    // until it looks like a completed career. Then do the full dump in
+    // one shot. Player can launch the extractor before navigating to
+    // the Training Log; it'll wait.
+    const MIN_FANS_FOR_VALID = 100;   // any completed IT has thousands
+    const MIN_GRADE_FOR_VALID = 2;    // 1 = fresh template, 10 = completed
+    const POLL_INTERVAL_MS = 3000;
+    const MAX_POLLS = 100;            // 100 × 3s = 5 min
 
-    const scored = walked.map((w, idx) => ({
-      w: w, idx: idx,
-      hasDeck: (w.support_card_array || []).length > 0,
-      fans: (typeof w.fans === 'number' ? w.fans : 0),
-      charaGrade: (typeof w.chara_grade === 'number' ? w.chara_grade : 0),
-      statSum: ['speed','stamina','power','wiz','guts']
-        .reduce((s, k) => s + (typeof w[k] === 'number' ? w[k] : 0), 0),
-    }));
-    const withDeck = scored.filter(s => s.hasDeck);
-    const pool = withDeck.length > 0 ? withDeck : scored;
-    pool.sort((a, b) =>
-      (b.fans - a.fans) || (b.charaGrade - a.charaGrade) || (b.statSum - a.statSum)
-    );
-    const picked = pool[0];
-
-    if (picked) send({type: 'dump', label: 'SingleModeChara', count: 1, data: [picked.w]});
-    else        send({type: 'dump', label: 'SingleModeChara', count: 0, data: []});
-
-    dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeGainInfo'), 'GainInfo');
-    dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSupportCardGainInfo'), 'SupportCardGainInfo');
-    dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo'), 'SuccessionFactorGainInfo');
-    dumpAll(httpAsm.class('Gallop.SingleRaceHistory'), 'RaceHistory');
-    dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory');
-
-    send({type: 'done'});
+    let pollNum = 0;
+    function pollOnce() {
+      pollNum++;
+      const probe = probeSmc();
+      if (!probe.picked) {
+        send({type: 'poll', pollNum: pollNum, ok: false, reason: 'no_smc',
+              total_smc: probe.totalCount});
+        if (pollNum >= MAX_POLLS) { send({type: 'timeout'}); return; }
+        setTimeout(pollOnce, POLL_INTERVAL_MS);
+        return;
+      }
+      const p = probe.picked;
+      const valid = p.fans >= MIN_FANS_FOR_VALID && p.charaGrade >= MIN_GRADE_FOR_VALID;
+      if (!valid) {
+        send({type: 'poll', pollNum: pollNum, ok: false, reason: 'pre_training',
+              fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum,
+              total_smc: probe.totalCount});
+        if (pollNum >= MAX_POLLS) { send({type: 'timeout'}); return; }
+        setTimeout(pollOnce, POLL_INTERVAL_MS);
+        return;
+      }
+      // Valid! Full extraction now.
+      send({type: 'poll', pollNum: pollNum, ok: true,
+            fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum});
+      send({type: 'smc_diag', total: probe.totalCount, candidates: probe.candidates});
+      send({type: 'dump', label: 'SingleModeChara', count: 1, data: [p.w]});
+      dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeGainInfo'), 'GainInfo');
+      dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSupportCardGainInfo'), 'SupportCardGainInfo');
+      dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo'), 'SuccessionFactorGainInfo');
+      dumpAll(httpAsm.class('Gallop.SingleRaceHistory'), 'RaceHistory');
+      dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory');
+      send({type: 'done'});
+    }
+    pollOnce();
   }).catch(e => send({type: 'perform_err', err: e.message}));
 });
 """
@@ -176,13 +216,18 @@ def _wait_for_process() -> int:
 
 
 def _extract(pid: int) -> dict:
-    """Attach to the process, run the agent, collect the messages."""
+    """Attach to the process, run the agent, collect the messages.
+
+    Waits up to ~5 minutes for the agent's poll loop to find valid data
+    (a completed-looking SingleModeChara). This lets the player launch
+    the extractor before navigating to the Training Log — it just waits."""
     import frida
     session = frida.attach(pid)
     src = BRIDGE_JS.read_text(encoding="utf-8") + "\n" + AGENT_TAIL
 
     result: dict = {}
     done = [False]
+    timed_out = [False]
 
     def on_msg(msg, _data):
         if msg["type"] != "send":
@@ -190,7 +235,22 @@ def _extract(pid: int) -> dict:
         p = msg["payload"]
         t = p.get("type")
         if t == "init":
-            print("[+] IL2CPP ready, walking classes...")
+            print("[+] IL2CPP ready. Watching for Training Log data...")
+        elif t == "poll":
+            n = p.get("pollNum", 0)
+            reason = p.get("reason", "")
+            if p.get("ok"):
+                print(f"    [poll #{n}] Training Log data ready "
+                      f"(fans={p.get('fans')} grade={p.get('chara_grade')} "
+                      f"stat_sum={p.get('stat_sum')})")
+            elif reason == "no_smc":
+                print(f"    [poll #{n}] no SingleModeChara in memory "
+                      f"— not in an IT scenario yet?")
+            elif reason == "pre_training":
+                print(f"    [poll #{n}] pre-training state "
+                      f"(fans={p.get('fans')} grade={p.get('chara_grade')} "
+                      f"stat_sum={p.get('stat_sum')} instances={p.get('total_smc')}) "
+                      f"— navigate to Training Log to trigger capture")
         elif t == "dump":
             print(f"    {p['label']}: {p['count']} instance(s)")
             result[p["label"]] = p["data"]
@@ -209,10 +269,13 @@ def _extract(pid: int) -> dict:
                 print(f"    [SMC] 1 SingleModeChara: fans={c.get('fans','?')} "
                       f"grade={c.get('chara_grade','?')} deck={c.get('support_card_count', 0)}")
             else:
-                print("    [SMC] 0 SingleModeChara instances found (game not on Training Log?)")
+                print("    [SMC] 0 SingleModeChara instances found")
         elif t == "dump_err":
             print(f"    [!] {p['label']}: {p['err']}")
         elif t == "done":
+            done[0] = True
+        elif t == "timeout":
+            timed_out[0] = True
             done[0] = True
         elif t == "perform_err":
             print(f"[X] IL2CPP error: {p['err']}")
@@ -222,11 +285,17 @@ def _extract(pid: int) -> dict:
     script.on("message", on_msg)
     script.load()
 
-    for _ in range(120):  # up to 60s
+    # Agent's poll loop is 100 × 3s = 5 min; add generous buffer for
+    # full walk after valid state detected.
+    max_wait_seconds = 5 * 60 + 60
+    for _ in range(max_wait_seconds * 2):
         if done[0]:
             break
         time.sleep(0.5)
     session.detach()
+    if timed_out[0]:
+        print("[X] Timed out (5 min) waiting for Training Log data to appear.")
+        print("[X] Are you completing an IT run? Reach the Training Log screen and try again.")
     return result
 
 
@@ -245,7 +314,9 @@ def _output_name(result: dict) -> str:
 
 
 def _looks_empty(result: dict) -> bool:
-    """No SingleModeChara = user isn't on a Training Log screen."""
+    """No SingleModeChara means the poll loop timed out without ever
+    seeing a completed run — either the player never reached the
+    Training Log, or the game wasn't in an IT scenario at all."""
     return not (result.get("SingleModeChara") and len(result["SingleModeChara"]) > 0)
 
 
@@ -268,6 +339,13 @@ def main() -> int:
 
     pid = _wait_for_process()
 
+    print()
+    print("The extractor will now wait until a completed Training Log")
+    print("appears in memory. Feel free to launch it before finishing an")
+    print("IT run — capture happens automatically when you reach the")
+    print("Training Log screen. (Times out after 5 minutes.)")
+    print()
+
     try:
         result = _extract(pid)
     except Exception as e:
@@ -277,9 +355,9 @@ def main() -> int:
 
     if _looks_empty(result):
         print()
-        print("[!] Extraction ran but found no active Training Log data.")
-        print("[!] Are you sure you're on the Training Log screen right now?")
-        print("[!] (Complete an IT run, or open a saved run's Log entry.)")
+        print("[!] No completed Training Log data appeared within the wait window.")
+        print("[!] Run the extractor again once you've finished an IT run and")
+        print("[!] the Training Log popup is on screen.")
         return 5
 
     RUNS_DIR.mkdir(exist_ok=True)
