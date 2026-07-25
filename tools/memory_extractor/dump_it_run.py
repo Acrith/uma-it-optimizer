@@ -1,4 +1,4 @@
-"""Umaladder IT-run extractor — dumps the current Training Log to JSON.
+"""IT-run extractor — dumps the current Training Log to JSON.
 
 Just run it (double-click the .exe, or `python dump_it_run.py`).
 No arguments needed:
@@ -93,18 +93,42 @@ setTimeout(() => {
       }
     }
 
-    // SingleModeChara — pick the live instance (populated support_card_array)
+    // SingleModeChara — enumerate all, then pick the instance most likely
+    // to represent the *completed* run: prefer highest fans, tie-break by
+    // chara_grade, then 5-stat sum. Also emits an smc_diag message with
+    // every candidate's key fields so we can debug wrong-instance issues
+    // (e.g. Grand Live keeping a pre-training instance alive alongside).
     const smcCls = httpAsm.class('Gallop.SingleModeChara');
     const smcs = Il2Cpp.gc.choose(smcCls);
-    let smc = null;
-    smcs.forEach(inst => {
-      try {
-        const arr = inst.field('support_card_array').value;
-        if (arr !== null && arr.length > 0 && smc === null) smc = inst;
-      } catch (e) {}
-    });
-    if (smc) send({type: 'dump', label: 'SingleModeChara', count: 1, data: [walk(smc, smcCls.type.name, 0)]});
-    else     send({type: 'dump', label: 'SingleModeChara', count: 0, data: []});
+    const walked = smcs.map(inst => {
+      try { return walk(inst, smcCls.type.name, 0); }
+      catch (e) { return null; }
+    }).filter(w => w !== null);
+
+    const diag = walked.map(w => ({
+      scenario_id: w.scenario_id, chara_grade: w.chara_grade, fans: w.fans,
+      speed: w.speed, stamina: w.stamina, power: w.power, wiz: w.wiz, guts: w.guts,
+      support_card_count: (w.support_card_array || []).length,
+    }));
+    send({type: 'smc_diag', total: smcs.length, candidates: diag});
+
+    const scored = walked.map((w, idx) => ({
+      w: w, idx: idx,
+      hasDeck: (w.support_card_array || []).length > 0,
+      fans: (typeof w.fans === 'number' ? w.fans : 0),
+      charaGrade: (typeof w.chara_grade === 'number' ? w.chara_grade : 0),
+      statSum: ['speed','stamina','power','wiz','guts']
+        .reduce((s, k) => s + (typeof w[k] === 'number' ? w[k] : 0), 0),
+    }));
+    const withDeck = scored.filter(s => s.hasDeck);
+    const pool = withDeck.length > 0 ? withDeck : scored;
+    pool.sort((a, b) =>
+      (b.fans - a.fans) || (b.charaGrade - a.charaGrade) || (b.statSum - a.statSum)
+    );
+    const picked = pool[0];
+
+    if (picked) send({type: 'dump', label: 'SingleModeChara', count: 1, data: [picked.w]});
+    else        send({type: 'dump', label: 'SingleModeChara', count: 0, data: []});
 
     dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeGainInfo'), 'GainInfo');
     dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSupportCardGainInfo'), 'SupportCardGainInfo');
@@ -170,6 +194,22 @@ def _extract(pid: int) -> dict:
         elif t == "dump":
             print(f"    {p['label']}: {p['count']} instance(s)")
             result[p["label"]] = p["data"]
+        elif t == "smc_diag":
+            n = p.get("total", 0)
+            cands = p.get("candidates", []) or []
+            result["_smc_diag"] = cands
+            if n > 1:
+                print(f"    [SMC] {n} SingleModeChara instances found — picking best by fans:")
+                for i, c in enumerate(cands):
+                    ss = sum((c.get(k) or 0) for k in ("speed", "stamina", "power", "wiz", "guts"))
+                    print(f"        #{i}: fans={c.get('fans','?')} grade={c.get('chara_grade','?')} "
+                          f"stat_sum={ss} deck={c.get('support_card_count', 0)}")
+            elif n == 1:
+                c = cands[0] if cands else {}
+                print(f"    [SMC] 1 SingleModeChara: fans={c.get('fans','?')} "
+                      f"grade={c.get('chara_grade','?')} deck={c.get('support_card_count', 0)}")
+            else:
+                print("    [SMC] 0 SingleModeChara instances found (game not on Training Log?)")
         elif t == "dump_err":
             print(f"    [!] {p['label']}: {p['err']}")
         elif t == "done":
@@ -210,7 +250,7 @@ def _looks_empty(result: dict) -> bool:
 
 
 def main() -> int:
-    print(f"=== Umaladder IT-run extractor ===")
+    print("=== IT-run extractor ===")
     print(f"Output folder: {RUNS_DIR}")
     print()
 
