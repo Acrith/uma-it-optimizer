@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# uv / virtualenv
+.venv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Local data
+data/
+logs/
+
+# Upstream read-only mirrors
+references/
+
+# Local fixture / screenshot folders
+tests/fixtures/*.png
+IT-references/
+
+# Local project guide / editor scratch — not for the public repo
+CLAUDE.md
+AGENTS.md
+.claude/

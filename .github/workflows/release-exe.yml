@@ -1,0 +1,46 @@
+name: Build & release Windows exe
+
+# Push a tag like v0.3.0 → GH builds the exe on a Windows runner
+# and attaches it to a Release with that tag name. Non-technical
+# users only need to visit the Releases page and download.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:      # can also be triggered manually from the UI
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build deps
+        run: pip install frida frida-tools pyinstaller
+
+      - name: Fetch bridge bundle
+        working-directory: tools/memory_extractor
+        run: python setup.py
+
+      - name: Build exe
+        working-directory: tools/memory_extractor
+        run: pyinstaller build_exe.spec
+
+      - name: Upload build artifact (for workflow_dispatch runs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: umaladder-extract
+          path: tools/memory_extractor/dist/umaladder-extract.exe
+
+      - name: Attach exe to Release (tag pushes only)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tools/memory_extractor/dist/umaladder-extract.exe
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,146 @@
+{
+  "run_id": "20260725-2247-agnestachyon-01",
+  "extractor_version": "0.1.0-alpha",
+  "extracted_at": "2026-07-25T22:50:00Z",
+
+  "setup": {
+    "scenario": "Unity Cup",
+    "race_count": 41,
+    "deck": [
+      {"slot": 1, "character": "UNKNOWN_seed_manually", "rarity": "SR",  "type": "Speed",   "level": 45, "limit_break": 4, "is_friend": false},
+      {"slot": 2, "character": "UNKNOWN_seed_manually", "rarity": "SSR", "type": "Speed",   "level": 50, "limit_break": 4, "is_friend": false},
+      {"slot": 3, "character": "UNKNOWN_seed_manually", "rarity": "SSR", "type": "Wit",     "level": 45, "limit_break": 4, "is_friend": false},
+      {"slot": 4, "character": "UNKNOWN_seed_manually", "rarity": "SR",  "type": "Power",   "level": 45, "limit_break": 4, "is_friend": false},
+      {"slot": 5, "character": "UNKNOWN_seed_manually", "rarity": "SSR", "type": "Speed",   "level": 45, "limit_break": 4, "is_friend": false},
+      {"slot": 6, "character": "UNKNOWN_seed_manually", "rarity": "SSR", "type": "Friend",  "level": 50, "limit_break": 4, "is_friend": true}
+    ]
+  },
+
+  "outcome": {
+    "trainee": {
+      "name": "Agnes Tachyon",
+      "title": "tach-nology"
+    },
+
+    "stats": {
+      "speed": 888, "stamina": 684, "power": 730, "guts": 370, "wit": 684,
+      "skill_pts_remaining": 3394
+    },
+    "stat_grades": {
+      "speed": "A", "stamina": "B", "power": "B+", "guts": "D+", "wit": "B"
+    },
+
+    "aptitude_before": {
+      "track":    {"turf": "A", "dirt": "G"},
+      "distance": {"sprint": "G", "mile": "B", "medium": "A", "long": "B"},
+      "style":    {"front": "E", "pace": "A", "late": "B", "end": "F"}
+    },
+    "aptitude_after": {
+      "track":    {"turf": "A", "dirt": "G"},
+      "distance": {"sprint": "G", "mile": "B", "medium": "A", "long": "A"},
+      "style":    {"front": "D", "pace": "A", "late": "B", "end": "F"}
+    },
+
+    "career": {"races": 41, "wins": 41, "fans": 1013200},
+
+    "conditions": [],
+
+    "inspiration_bonuses": {
+      "speed":   {"total": 38,  "delta": 13},
+      "stamina": {"total": 177, "delta": 64},
+      "power":   {"total": 115, "delta": 43},
+      "guts":    {"total": 0,   "delta": 0},
+      "wit":     {"total": 0,   "delta": 0}
+    },
+
+    "support_card_contribs": [
+      {"slot": 1, "speed": 11, "stamina": 21, "power": 46, "guts": 11, "wit": 11, "skill_pts": 57},
+      {"slot": 2, "speed":  9, "stamina": 43, "power": 48, "guts":  9, "wit":  9, "skill_pts": 54},
+      {"slot": 3, "speed": 19, "stamina": 11, "power": 11, "guts": 11, "wit": 64, "skill_pts": 78},
+      {"slot": 4, "speed": 56, "stamina": 11, "power": 24, "guts": 11, "wit": 11, "skill_pts": 65},
+      {"slot": 5, "speed": 41, "stamina": 12, "power": 30, "guts": 12, "wit": 12, "skill_pts": 75},
+      {"slot": 6, "speed": 46, "stamina": 11, "power": 28, "guts": 11, "wit": 11, "skill_pts": 66}
+    ],
+
+    "event_totals": {
+      "speed":     {"total": 566,  "delta": 0},
+      "stamina":   {"total": 303,  "delta": 0},
+      "power":     {"total": 333,  "delta": 130},
+      "guts":      {"total": 207,  "delta": 0},
+      "wit":       {"total": 456,  "delta": 0},
+      "skill_pts": {"total": 2999, "delta": 0}
+    },
+
+    "sparks": {
+      "junior": [
+        {"name": "Attribute Sparks",       "stars": null, "category": "attribute_group"},
+        {"name": "Aptitude Sparks",        "stars": null, "category": "aptitude_group"},
+        {"name": "Triumphant Pulse",       "stars": 2,    "category": "skill"},
+        {"name": "Barcarole of Blessings", "stars": 2,    "category": "skill"}
+      ],
+      "classic": [
+        {"name": "Attribute Sparks",       "stars": null, "category": "attribute_group"},
+        {"name": "Hanshin Racecourse ○",   "stars": 2,    "category": "skill"},
+        {"name": "Homestretch Haste",      "stars": 1,    "category": "skill"},
+        {"name": "Pace Chaser Corners ○",  "stars": 2,    "category": "skill"},
+        {"name": "Hydrate",                "stars": 1,    "category": "skill"},
+        {"name": "Glittering Star",        "stars": 2,    "category": "skill"}
+      ],
+      "senior": [
+        {"name": "Attribute Sparks",       "stars": null, "category": "attribute_group"},
+        {"name": "Firm Conditions ○",      "stars": 1,    "category": "skill"},
+        {"name": "Corner Recovery ○",      "stars": 1,    "category": "skill"},
+        {"name": "Pace Chaser Corners ○",  "stars": 2,    "category": "skill"}
+      ]
+    },
+
+    "skill_hints_earned": {
+      "from_inspiration": [
+        {"skill": "Triumphant Pulse",       "level": 2},
+        {"skill": "Barcarole of Blessings", "level": 2},
+        {"skill": "Pace Chaser Corners ○",  "level": "max"},
+        {"skill": "Homestretch Haste",      "level": 1},
+        {"skill": "Hydrate",                "level": 2},
+        {"skill": "Glittering Star",        "level": 1},
+        {"skill": "Hanshin Racecourse ○",   "level": 3},
+        {"skill": "Corner Recovery ○",      "level": 1},
+        {"skill": "Firm Conditions",        "level": 1}
+      ],
+      "from_support_cards": [
+        {"card_slot": 1, "skill": "Hanshin Racecourse ○",  "level": 2},
+        {"card_slot": 1, "skill": "Firm Conditions ○",     "level": 3},
+        {"card_slot": 1, "skill": "Standard Distance ○",   "level": 3},
+        {"card_slot": 2, "skill": "Hesitant Front Runners","level": 1},
+        {"card_slot": 2, "skill": "Tail Held High",        "level": 1},
+        {"card_slot": 3, "skill": "Fall Runner",           "level": 1},
+        {"card_slot": 3, "skill": "Outer Post Proficiency ○","level": 1},
+        {"card_slot": 4, "skill": "Prepared to Pass",      "level": 1},
+        {"card_slot": 4, "skill": "Hesitant Front Runners","level": 1},
+        {"card_slot": 5, "skill": "Corner Recovery ○",     "level": 4},
+        {"card_slot": 5, "skill": "Straightaway Recovery", "level": 3},
+        {"card_slot": 6, "skill": "Go with the Flow",      "level": 3},
+        {"card_slot": 6, "skill": "Soft Step",             "level": 3},
+        {"card_slot": 6, "skill": "Shrewd Step",           "level": 3}
+      ],
+      "from_events": [
+        {"skill": "No Stopping Me!",         "level": 1},
+        {"skill": "Prepared to Pass",        "level": 2},
+        {"skill": "Murmur",                  "level": 1},
+        {"skill": "Tactical Tweak",          "level": 2},
+        {"skill": "It's On!",                "level": 2},
+        {"skill": "Non-Standard Distance ○", "level": 1},
+        {"skill": "Shifting Gears",          "level": 3},
+        {"skill": "Sprint Corners ○",        "level": 1},
+        {"skill": "Disorient",               "level": 1},
+        {"skill": "Up-Tempo",                "level": 1},
+        {"skill": "1,500,000 CC",            "level": 1},
+        {"skill": "Feature Act",             "level": 1},
+        {"skill": "All Set",                 "level": 2},
+        {"skill": "Ignited Spirit SPD",      "level": "max"},
+        {"skill": "Burning Spirit SPD",      "level": 3},
+        {"skill": "Ignited Spirit GUTS",     "level": 1},
+        {"skill": "Ignited Spirit STA",      "level": 2}
+      ]
+    }
+  }
+}

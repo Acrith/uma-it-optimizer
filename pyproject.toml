@@ -1,0 +1,53 @@
+[project]
+name = "uma-it-optimizer"
+version = "0.1.0"
+description = "Personal recorder and analyzer for Independent Training runs. Saves your farming outcomes to structured local data so you can figure out which setups actually work."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # OCR pipeline for Training Log extractor. torch pinned to the CPU
+    # wheels (see [tool.uv.sources] below) — CUDA torch is 10× larger
+    # and we do not need a GPU for game-UI text.
+    "easyocr>=1.7",
+    "opencv-python-headless>=4.10",
+    "torch>=2.0",
+    "torchvision>=0.15",
+    # Image loading + numeric handling used across extractor code.
+    "numpy>=1.26",
+    "pillow>=10.0",
+    # Perceptual hashing for card-thumbnail identification.
+    "imagehash>=4.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/uma_it_optimizer"]
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
