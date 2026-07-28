@@ -162,6 +162,34 @@ def race_name(program_id: int) -> str:
     return p.get("name") or f"?race:{program_id}"
 
 
+GAMETORA_CDN = "https://gametora.com/images/umamusume"
+
+
+def support_card_image_url(card_id: int, *, size: str = "small") -> str:
+    """Gametora CDN URL for a support card thumbnail.
+    size='small' (~30 KB) or 'full' (~200 KB, high-res render)."""
+    if size == "full":
+        return f"{GAMETORA_CDN}/supports/tex_support_card_{card_id}.png"
+    return f"{GAMETORA_CDN}/supports/support_card_s_{card_id}.png"
+
+
+def uma_card_image_url(uma_card_id: int, *, size: str = "thumb") -> str | None:
+    """Gametora CDN URL for a trainee card art. Requires resolving the
+    chara_id from masters (uma_card_id = chara_id × 100 + variant).
+    Returns None if the card isn't in our masters snapshot."""
+    m = load_masters()
+    card = m.get("uma_cards", {}).get(str(uma_card_id))
+    if not card:
+        return None
+    chara_id = card.get("chara_id")
+    if not chara_id:
+        return None
+    base = f"chara_stand_{chara_id}_{uma_card_id}.png"
+    if size == "full":
+        return f"{GAMETORA_CDN}/characters/{base}"
+    return f"{GAMETORA_CDN}/characters/thumb/{base}"
+
+
 def deck_summary(card_ids: tuple[int, ...] | list[int]) -> str:
     """Compact one-line deck description for the dashboard tooltip.
     Example: 'SSR Kitasan Black (Power) / SSR Fine Motion (Wit) / ...'."""

@@ -20,8 +20,10 @@ from .lookups import (
     scenario_name,
     skill_from_hint,
     skill_rarity_label,
+    support_card_image_url,
     support_card_name,
     support_card_type,
+    uma_card_image_url,
     uma_card_name,
 )
 
@@ -59,6 +61,7 @@ class RunDetail:
     timestamp: str
     trainee_card_id: int
     trainee_name: str
+    trainee_portrait_url: str | None
     scenario_id: int
     scenario_name: str
     final_stats: dict[str, int]
@@ -118,6 +121,7 @@ def build(path: Path) -> RunDetail:
             "card_id": None,
             "card_name": "Events",
             "card_type": "",
+            "image_url": None,
             "gains": gain,
             "hint_count": len(_hints(gain_infos[0])),
         })
@@ -128,6 +132,7 @@ def build(path: Path) -> RunDetail:
             "card_id": None,
             "card_name": "Inspiration",
             "card_type": "",
+            "image_url": None,
             "gains": gain,
             "hint_count": len(_hints(gain_infos[1])),
         })
@@ -140,6 +145,7 @@ def build(path: Path) -> RunDetail:
             "card_id": cid,
             "card_name": support_card_name(cid),
             "card_type": support_card_type(cid),
+            "image_url": support_card_image_url(cid),
             "gains": gain,
             "hint_count": 0,  # per-card hints not captured cleanly (placeholder strings)
         })
@@ -196,6 +202,7 @@ def build(path: Path) -> RunDetail:
         timestamp=ts,
         trainee_card_id=trainee_id,
         trainee_name=uma_card_name(trainee_id),
+        trainee_portrait_url=uma_card_image_url(trainee_id),
         scenario_id=scen_id,
         scenario_name=scenario_name(scen_id),
         final_stats=final_stats,

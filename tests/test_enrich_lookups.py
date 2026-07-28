@@ -62,6 +62,27 @@ def test_deck_summary_composes_all_six():
     assert summary.count(" / ") == 5   # 6 cards, 5 separators
 
 
+def test_support_card_image_urls():
+    small = lookups.support_card_image_url(30028)
+    full = lookups.support_card_image_url(30028, size="full")
+    assert small.endswith("/supports/support_card_s_30028.png")
+    assert full.endswith("/supports/tex_support_card_30028.png")
+
+
+def test_uma_card_image_url_uses_chara_and_card_ids():
+    # Agnes Tachyon: chara_id=1032, card_id=103201
+    thumb = lookups.uma_card_image_url(103201)
+    full = lookups.uma_card_image_url(103201, size="full")
+    assert thumb is not None and "chara_stand_1032_103201.png" in thumb
+    assert "/thumb/" in thumb
+    assert full is not None and "chara_stand_1032_103201.png" in full
+    assert "/thumb/" not in full
+
+
+def test_uma_card_image_url_unknown_returns_none():
+    assert lookups.uma_card_image_url(999999) is None
+
+
 def test_masters_bundled_snapshot_loads():
     """The bundled snapshot must have the expected top-level keys.
     Guards against a shipped-empty file or a schema drift."""

@@ -93,21 +93,52 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     .rarity-gold { color: #e4c060; }
     .rarity-unique { color: #d989ff; }
 }
+.header-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.trainee-portrait {
+    width: 96px;
+    height: 96px;
+    border-radius: 8px;
+    background: var(--row-alt);
+    border: 1px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.header-body { flex: 1; }
+.card-thumb {
+    width: 40px;
+    height: 52px;
+    border-radius: 3px;
+    vertical-align: middle;
+    object-fit: cover;
+    background: var(--row-alt);
+    border: 1px solid var(--border);
+}
+td.thumb-cell { width: 48px; padding: 4px 6px; }
 </style>
 </head>
 <body>
 <div class="subtitle"><a href="dashboard.html">← All runs</a></div>
-<h1>__HEADER__</h1>
-<div class="subtitle">__SUBTITLE__</div>
-
-<div class="stats">
+<div class="header-row">
+    __PORTRAIT__
+    <div class="header-body">
+        <h1>__HEADER__</h1>
+        <div class="subtitle">__SUBTITLE__</div>
+        <div class="stats">
 __HEADER_STATS__
+        </div>
+    </div>
 </div>
 
 <h2>Per-source stat contributions</h2>
 <table>
     <thead>
         <tr>
+            <th></th>
             <th>Source</th>
             <th>Type</th>
             <th class="num">Speed</th>
@@ -187,8 +218,14 @@ def render(d: RunDetail) -> str:
         g = c["gains"]
         type_chip = (f'<span class="chip type-{c["card_type"]}">{c["card_type"]}</span>'
                      if c["card_type"] else "")
+        img_html = (
+            f'<img class="card-thumb" src="{c["image_url"]}" alt="{c["card_name"]}"'
+            f' loading="lazy" onerror="this.style.visibility=\'hidden\'">'
+            if c.get("image_url") else ""
+        )
         contrib_rows_html.append(
             f'<tr>'
+            f'<td class="thumb-cell">{img_html}</td>'
             f'<td>{c["card_name"]}</td>'
             f'<td>{type_chip}</td>'
             f'<td class="num">{_fmt(g["speed"])}</td>'
@@ -205,6 +242,7 @@ def render(d: RunDetail) -> str:
     total_hints = sum(c["hint_count"] for c in d.contributions)
     contrib_rows_html.append(
         f'<tr class="total">'
+        f'<td></td>'
         f'<td>Total</td><td></td>'
         f'<td class="num">{_fmt(total_stats["speed"])}</td>'
         f'<td class="num">{_fmt(total_stats["stamina"])}</td>'
@@ -243,9 +281,17 @@ def render(d: RunDetail) -> str:
     if not factor_rows_html:
         factor_rows_html.append('<tr><td colspan="3">No factors captured.</td></tr>')
 
+    portrait_html = (
+        f'<img class="trainee-portrait" src="{d.trainee_portrait_url}" '
+        f'alt="{d.trainee_name}" loading="lazy" '
+        f'onerror="this.style.display=\'none\'">'
+        if d.trainee_portrait_url else ""
+    )
+
     return (
         DETAIL_HTML
         .replace("__TITLE__", f"{d.trainee_name} · {d.timestamp}")
+        .replace("__PORTRAIT__", portrait_html)
         .replace("__HEADER__", header)
         .replace("__SUBTITLE__", subtitle)
         .replace("__HEADER_STATS__", header_stats)
