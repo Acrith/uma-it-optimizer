@@ -153,6 +153,109 @@ def skill_rarity_label(rarity: int) -> str:
     return SKILL_RARITY_LABEL.get(rarity, f"r{rarity}")
 
 
+# Numeric rank → letter grade. Heuristic mapping calibrated against
+# typical Umamusume Global progression: G/F/E/D/C/B/A/S/SS with ± variants.
+# The game uses 98 rank tiers internally, but the visible letter grades
+# top out well before that — anything past SS+ is very rare in practice.
+# Community references vary on exact boundaries; this covers the observed
+# range (Global captures typically land in ranks 11-17, i.e. B to SS+).
+LETTER_GRADE_BY_RANK = {
+    1: "G",   2: "G+",
+    3: "F",   4: "F+",
+    5: "E",   6: "E+",
+    7: "D",   8: "D+",
+    9: "C",   10: "C+",
+    11: "B",  12: "B+",
+    13: "A",  14: "A+",
+    15: "S",  16: "S+",
+    17: "SS", 18: "SS+",
+}
+
+
+def letter_grade(rank: int) -> str:
+    """Numeric rank (1..98) → letter grade string. Above rank 18 uses
+    'EX+N' (extreme end of the distribution)."""
+    if rank <= 0:
+        return "?"
+    if rank in LETTER_GRADE_BY_RANK:
+        return LETTER_GRADE_BY_RANK[rank]
+    return f"EX+{rank - 18}"
+
+
+def letter_grade_range(rank_lo: int, rank_hi: int) -> str:
+    """Compact display for a floor-ceiling rank range.
+    Same letter → 'S'. Different → 'B–SS+'."""
+    lo = letter_grade(rank_lo)
+    hi = letter_grade(rank_hi)
+    if lo == hi:
+        return lo
+    return f"{lo}–{hi}"
+
+
+# ── Factor name composition ──────────────────────────────────────────
+# Factors are (factor_type, factor_group_id, rarity) triples where:
+# - type 1: stat (group 1=Speed .. 5=Wit)
+# - type 2: aptitude (10 predefined groups — see FACTOR_APTITUDE_NAMES)
+# - type 3: unique-skill inheritance (group=card_id, e.g. 100101 = Special Week variant 01)
+# - type 4: skill inheritance (group=skill group_id, lookup via existing skill helpers)
+# - type 5/6/7: scenario/green/rare factors — labeled generically for now
+# ★ count comes from rarity: 1=★, 2=★★, 3=★★★.
+
+FACTOR_STAT_NAMES = {
+    1: "Speed", 2: "Stamina", 3: "Power", 4: "Guts", 5: "Wit",
+}
+
+FACTOR_APTITUDE_NAMES = {
+    11: "Turf",   12: "Dirt",
+    21: "Sprint", 22: "Mile", 23: "Medium", 24: "Long",
+    31: "Front",  32: "Pace", 33: "Late",   34: "End",
+}
+
+
+def _stars(rarity: int) -> str:
+    return "★" * max(1, min(rarity, 3))
+
+
+def factor_name(factor_id: int) -> str:
+    """Compose a display name for a factor_id by looking up its type/group
+    in masters and formatting per-type. Returns a string like
+    'Speed ★★', 'Turf ★', 'Corner Recovery ○ ★★', 'Unique: Kitasan Black ★'.
+    Falls back to '?factor:<id>' if not resolvable."""
+    m = load_masters()
+    f = m.get("factors", {}).get(str(factor_id))
+    if not f:
+        return f"?factor:{factor_id}"
+    ftype = f.get("factor_type", 0)
+    group = f.get("group_id", 0)          # written as "group_id" in dump
+    rarity = f.get("rarity", 1)
+    stars = _stars(rarity)
+
+    if ftype == 1:
+        name = FACTOR_STAT_NAMES.get(group, f"?stat:{group}")
+        return f"{name} {stars}"
+    if ftype == 2:
+        name = FACTOR_APTITUDE_NAMES.get(group, f"?apt:{group}")
+        return f"{name} {stars}"
+    if ftype == 3:
+        # Unique-skill factor — group_id is a card_id (chara_id × 100 + variant)
+        cards = m.get("uma_cards", {})
+        card = cards.get(str(group))
+        who = card.get("chara_name") if card else f"?card:{group}"
+        return f"Unique: {who} {stars}"
+    if ftype == 4:
+        # Skill factor — group_id is a skill's group_id; find the ○ variant name
+        sid, name = skill_from_hint(group, 1)
+        # If lookup fails, try rarity 2 as fallback
+        if not sid:
+            sid, name = skill_from_hint(group, 2)
+        return f"{name} {stars}"
+    if ftype == 5:
+        return f"Green ({group}) {stars}"
+    if ftype == 6:
+        return f"White ({group}) {stars}"
+    return f"Factor:{group}/{ftype} {stars}"
+
+
 def race_name(program_id: int) -> str:
     """Resolve single-mode program_id (e.g. 2225) → 'URA Finale Finals'."""
     m = load_masters()

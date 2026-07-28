@@ -83,6 +83,60 @@ def test_uma_card_image_url_unknown_returns_none():
     assert lookups.uma_card_image_url(999999) is None
 
 
+def test_letter_grade_known_mappings():
+    assert lookups.letter_grade(1) == "G"
+    assert lookups.letter_grade(11) == "B"
+    assert lookups.letter_grade(15) == "S"
+    assert lookups.letter_grade(17) == "SS"
+    assert lookups.letter_grade(18) == "SS+"
+    # Above 18 = EX+N
+    assert lookups.letter_grade(19) == "EX+1"
+    assert lookups.letter_grade(98) == "EX+80"
+
+
+def test_letter_grade_range_same_and_different():
+    # Same tier → single letter
+    assert lookups.letter_grade_range(15, 15) == "S"
+    # Different → 'lo–hi'
+    assert lookups.letter_grade_range(13, 17) == "A–SS"
+
+
+def test_factor_name_stat_factor():
+    # factor_id 103 = Stat group 1 (Speed), rarity 3 → 'Speed ★★★'
+    assert lookups.factor_name(103) == "Speed ★★★"
+    # 203 = group 2 (Stamina) rarity 3 → 'Stamina ★★★'
+    assert lookups.factor_name(203) == "Stamina ★★★"
+    # 102 = Speed rarity 2 → 'Speed ★★'
+    assert lookups.factor_name(102) == "Speed ★★"
+
+
+def test_factor_name_aptitude_factor():
+    # From real capture: 3402 → group 34 (End), rarity 2 → 'End ★★'
+    assert lookups.factor_name(3402) == "End ★★"
+    # 3202 → group 32 (Pace) rarity 2 → 'Pace ★★'
+    assert lookups.factor_name(3202) == "Pace ★★"
+
+
+def test_factor_name_skill_factor():
+    # factor_id 2003501 = skill group 20035 (Corner Recovery), rarity 1
+    # → 'Corner Recovery ○ ★'
+    name = lookups.factor_name(2003501)
+    assert "Corner Recovery" in name
+    assert "★" in name
+
+
+def test_factor_name_unique_factor():
+    # 10060102 = type 3, group 100601 (Nice Nature? or Kitasan?), rarity 2
+    # Just verify shape — should say 'Unique: <name> ★★'
+    name = lookups.factor_name(10060102)
+    assert name.startswith("Unique:")
+    assert "★★" in name
+
+
+def test_factor_name_unknown_falls_back():
+    assert lookups.factor_name(999999999) == "?factor:999999999"
+
+
 def test_masters_bundled_snapshot_loads():
     """The bundled snapshot must have the expected top-level keys.
     Guards against a shipped-empty file or a schema drift."""

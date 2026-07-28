@@ -172,7 +172,7 @@ __HEADER_STATS__
         <tr>
             <th>Year</th>
             <th class="num">Count</th>
-            <th>Factor IDs</th>
+            <th>Factors</th>
         </tr>
     </thead>
     <tbody>__FACTOR_ROWS__</tbody>
@@ -269,14 +269,17 @@ def render(d: RunDetail) -> str:
     if not hint_rows_html:
         hint_rows_html.append('<tr><td colspan="4">No hints captured.</td></tr>')
 
-    # Factor rows
+    # Factor rows — grouped per year with composed names as chips
     factor_rows_html: list[str] = []
     for y in d.factors_by_year:
-        ids_str = ", ".join(str(f["factor_id"]) for f in y["factors"])
+        chips = "".join(
+            f'<span class="chip" title="factor_id {f["factor_id"]}">{f["name"]}</span>'
+            for f in y["factors"]
+        )
         factor_rows_html.append(
             f'<tr><td>Year {y["year"]}</td>'
             f'<td class="num">{len(y["factors"])}</td>'
-            f'<td class="mono">{ids_str}</td></tr>'
+            f'<td>{chips}</td></tr>'
         )
     if not factor_rows_html:
         factor_rows_html.append('<tr><td colspan="3">No factors captured.</td></tr>')

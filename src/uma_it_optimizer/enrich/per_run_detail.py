@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .lookups import (
+    factor_name,
     scenario_name,
     skill_from_hint,
     skill_rarity_label,
@@ -182,8 +183,10 @@ def build(path: Path) -> RunDetail:
         year = int(year_entry.get("<Year>k__BackingField", 0) or 0)
         factor_rows: list[dict] = []
         for f in year_entry.get("<GainFactorInfoArray>k__BackingField", []) or []:
+            fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
             factor_rows.append({
-                "factor_id": int(f.get("<FactorId>k__BackingField", 0) or 0),
+                "factor_id": fid,
+                "name": factor_name(fid),
                 "level": int(f.get("<Level>k__BackingField", 0) or 0),
             })
         factors_by_year.append({"year": year, "factors": factor_rows})

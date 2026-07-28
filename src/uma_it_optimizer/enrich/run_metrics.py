@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .lookups import deck_summary, scenario_name, uma_card_name
+from .lookups import deck_summary, letter_grade_range, scenario_name, uma_card_name
 from .scoring import estimate_from_run_json
 
 
@@ -111,6 +111,8 @@ class RunMetrics:
                                    if self.score_ceiling else "—"),
             "rank_range_label": (f"rank {self.rank_floor}–{self.rank_ceiling}"
                                   if self.rank_ceiling else "—"),
+            "letter_grade": (letter_grade_range(self.rank_floor, self.rank_ceiling)
+                             if self.rank_ceiling else "—"),
             "filename": self.filename,
         }
 
