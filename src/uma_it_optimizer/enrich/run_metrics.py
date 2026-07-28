@@ -6,7 +6,13 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .lookups import deck_summary, letter_grade_range, scenario_name, uma_card_name
+from .lookups import (
+    deck_summary,
+    letter_grade_range,
+    scenario_name,
+    support_card_image_url,
+    uma_card_name,
+)
 from .scoring import estimate_from_run_json
 
 
@@ -86,6 +92,7 @@ class RunMetrics:
             "deck_hash": self.deck_hash,
             "deck_card_ids": list(self.deck_card_ids),
             "deck_summary": deck_summary(self.deck_card_ids),
+            "deck_thumbnails": [support_card_image_url(c) for c in self.deck_card_ids],
             "fans_per_race": self.fans_per_race,
             "speed": self.speed,
             "stamina": self.stamina,

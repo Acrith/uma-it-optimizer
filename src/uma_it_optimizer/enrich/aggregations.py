@@ -16,6 +16,7 @@ from .lookups import (
     deck_summary,
     deck_type_composition,
     scenario_name,
+    support_card_image_url,
     uma_card_name,
 )
 from .run_metrics import RunMetrics
@@ -41,6 +42,7 @@ class DeckAggregate:
         return {
             "deck_hash": self.deck_hash,
             "deck_summary": self.deck_summary,
+            "deck_thumbnails": [support_card_image_url(c) for c in self.deck_card_ids],
             "type_composition": self.type_composition,
             "type_label": " / ".join(
                 f"{n}×{t}" for t, n in sorted(

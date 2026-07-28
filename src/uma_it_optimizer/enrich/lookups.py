@@ -265,6 +265,35 @@ def race_name(program_id: int) -> str:
     return p.get("name") or f"?race:{program_id}"
 
 
+def race_program_info(program_id: int) -> dict | None:
+    """Return the full program dict (name, race_id, grade, entry_num,
+    month, half) for a program_id, or None if not in masters."""
+    m = load_masters()
+    return m.get("programs", {}).get(str(program_id))
+
+
+# Race.grade → coarse grade label. Values from the game's `race` table.
+RACE_GRADE_LABEL = {
+    100: "G1", 200: "G2", 300: "G3",
+    400: "OP", 800: "Pre-OP", 900: "Debut/Maiden",
+}
+
+
+def race_grade_label(grade: int) -> str:
+    return RACE_GRADE_LABEL.get(grade, str(grade))
+
+
+def race_result_ordinal(rank: int) -> str:
+    """1 → '1st', 2 → '2nd', 12 → '12th' — for result_rank display."""
+    if rank <= 0:
+        return "—"
+    if 10 <= rank % 100 <= 20:
+        suffix = "th"
+    else:
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(rank % 10, "th")
+    return f"{rank}{suffix}"
+
+
 GAMETORA_CDN = "https://gametora.com/images/umamusume"
 
 

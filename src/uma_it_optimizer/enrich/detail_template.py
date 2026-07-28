@@ -166,6 +166,20 @@ __HEADER_STATS__
     <tbody>__HINT_ROWS__</tbody>
 </table>
 
+<h2>Race history <span class="subtle">— every race actually run, ordered by turn</span></h2>
+<table>
+    <thead>
+        <tr>
+            <th class="num">Turn</th>
+            <th>Race</th>
+            <th>Grade</th>
+            <th>Result</th>
+            <th>Style</th>
+        </tr>
+    </thead>
+    <tbody>__RACE_ROWS__</tbody>
+</table>
+
 <h2>Factors gained</h2>
 <table>
     <thead>
@@ -269,6 +283,22 @@ def render(d: RunDetail) -> str:
     if not hint_rows_html:
         hint_rows_html.append('<tr><td colspan="4">No hints captured.</td></tr>')
 
+    # Race rows — highlight wins with a subtle green tint
+    race_rows_html: list[str] = []
+    for rc in d.races:
+        result_style = 'color: #1e8a3a; font-weight: 600;' if rc["won"] else ''
+        race_rows_html.append(
+            f'<tr>'
+            f'<td class="num">{rc["turn"]}</td>'
+            f'<td>{rc["race_name"]}</td>'
+            f'<td>{rc["grade_label"]}</td>'
+            f'<td style="{result_style}">{rc["result_ordinal"]}</td>'
+            f'<td>{rc["running_style"]}</td>'
+            f'</tr>'
+        )
+    if not race_rows_html:
+        race_rows_html.append('<tr><td colspan="5">No races captured.</td></tr>')
+
     # Factor rows — grouped per year with composed names as chips
     factor_rows_html: list[str] = []
     for y in d.factors_by_year:
@@ -300,5 +330,6 @@ def render(d: RunDetail) -> str:
         .replace("__HEADER_STATS__", header_stats)
         .replace("__CONTRIBUTIONS_ROWS__", "".join(contrib_rows_html))
         .replace("__HINT_ROWS__", "".join(hint_rows_html))
+        .replace("__RACE_ROWS__", "".join(race_rows_html))
         .replace("__FACTOR_ROWS__", "".join(factor_rows_html))
     )

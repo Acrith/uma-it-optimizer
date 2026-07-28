@@ -156,6 +156,20 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     margin-right: 4px;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
+.deck-thumbs {
+    display: inline-flex;
+    gap: 1px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+.deck-thumbs img {
+    width: 20px;
+    height: 26px;
+    border-radius: 2px;
+    object-fit: cover;
+    background: var(--row-alt);
+    border: 1px solid var(--border);
+}
 </style>
 </head>
 <body>
@@ -309,7 +323,12 @@ const runsCtrl = makeSortable({
             <td>${fmtDate(r.timestamp)}</td>
             <td>${r.trainee_name}</td>
             <td>${r.scenario_name}</td>
-            <td class="mono" title="${r.deck_summary}">${r.deck_hash}</td>
+            <td title="${r.deck_summary}">
+                <span class="deck-thumbs">
+                    ${(r.deck_thumbnails||[]).map(u => u ? `<img src="${u}" loading="lazy" onerror="this.style.visibility='hidden'">` : '').join("")}
+                </span>
+                <span class="mono">${r.deck_hash}</span>
+            </td>
             <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
             <td title="${r.rank_range_label}"><strong>${r.letter_grade}</strong></td>
             <td class="num">${fmtNum(r.stat_sum)}</td>
@@ -342,7 +361,12 @@ const decksCtrl = makeSortable({
     filterFn: null,
     rowHtml: (d) => `
         <tr title="${d.deck_summary}">
-            <td class="mono">${d.deck_hash}</td>
+            <td>
+                <span class="deck-thumbs">
+                    ${(d.deck_thumbnails||[]).map(u => u ? `<img src="${u}" loading="lazy" onerror="this.style.visibility='hidden'">` : '').join("")}
+                </span>
+                <span class="mono">${d.deck_hash}</span>
+            </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip">${n}×${t}</span>`).join("")}</td>
             <td>${d.trainees_label}</td>

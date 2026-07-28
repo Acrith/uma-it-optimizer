@@ -18,6 +18,9 @@ from pathlib import Path
 
 from .lookups import (
     factor_name,
+    race_grade_label,
+    race_program_info,
+    race_result_ordinal,
     scenario_name,
     skill_from_hint,
     skill_rarity_label,
@@ -83,6 +86,9 @@ class RunDetail:
     # Factors gained per year
     factors_by_year: list[dict] = field(default_factory=list)
 
+    # Race history — one row per race actually run, oldest→newest
+    races: list[dict] = field(default_factory=list)
+
     def as_dict(self) -> dict:
         return {
             "filename": self.filename,
@@ -101,6 +107,7 @@ class RunDetail:
             "contributions": self.contributions,
             "hints": self.hints,
             "factors_by_year": self.factors_by_year,
+            "races": self.races,
         }
 
 
@@ -191,6 +198,31 @@ def build(path: Path) -> RunDetail:
             })
         factors_by_year.append({"year": year, "factors": factor_rows})
 
+    # ── Race history ─────────────────────────────────────────────────
+    # RaceHistory entries are program-scoped races with turn / result rank.
+    # Sort by turn ascending so the list reads oldest → newest.
+    RUN_STYLE_LABEL = {
+        1: "Nige (Front)", 2: "Senko (Pace)", 3: "Sashi (Late)", 4: "Oikomi (End)",
+    }
+    races: list[dict] = []
+    for rh in sorted(raw.get("RaceHistory", []) or [], key=lambda r: int(r.get("turn", 0) or 0)):
+        pid = int(rh.get("program_id", 0) or 0)
+        if pid == 0:
+            continue
+        info = race_program_info(pid) or {}
+        rank = int(rh.get("result_rank", 0) or 0)
+        races.append({
+            "turn": int(rh.get("turn", 0) or 0),
+            "program_id": pid,
+            "race_name": info.get("name", f"?race:{pid}"),
+            "grade": info.get("grade", 0),
+            "grade_label": race_grade_label(info.get("grade", 0)),
+            "result_rank": rank,
+            "result_ordinal": race_result_ordinal(rank),
+            "won": rank == 1,
+            "running_style": RUN_STYLE_LABEL.get(int(rh.get("running_style", 0) or 0), "?"),
+        })
+
     # ── Header stats ─────────────────────────────────────────────────
     final_stats = {k.lower(): int(chara.get(k.lower(), 0) or 0) for k in STAT_KEYS}
     caps = {k.lower(): int(chara.get(f"max_{k.lower()}", 0) or 0) for k in STAT_KEYS}
@@ -218,6 +250,7 @@ def build(path: Path) -> RunDetail:
         contributions=contributions,
         hints=hints,
         factors_by_year=factors_by_year,
+        races=races,
     )
 
 
