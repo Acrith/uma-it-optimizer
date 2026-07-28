@@ -6,6 +6,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .lookups import deck_summary, scenario_name, uma_card_name
+
 
 FILENAME_RE = re.compile(
     r"(?P<ts>\d{8}T\d{6})_scen(?P<scen>\d+)_uma(?P<uma>\d+)\.json$"
@@ -63,9 +65,12 @@ class RunMetrics:
             "run_state": self.run_state,
             "timestamp": self.timestamp,
             "scenario_id": self.scenario_id,
+            "scenario_name": scenario_name(self.scenario_id),
             "trainee_card_id": self.trainee_card_id,
+            "trainee_name": uma_card_name(self.trainee_card_id),
             "deck_hash": self.deck_hash,
             "deck_card_ids": list(self.deck_card_ids),
+            "deck_summary": deck_summary(self.deck_card_ids),
             "speed": self.speed,
             "stamina": self.stamina,
             "power": self.power,

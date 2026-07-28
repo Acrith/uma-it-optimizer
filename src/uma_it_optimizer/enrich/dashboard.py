@@ -158,8 +158,8 @@ __STATS_HTML__
         <tr>
             <th data-key="run_state"     data-type="text">State</th>
             <th data-key="timestamp"     data-type="text">Date</th>
-            <th data-key="trainee_card_id" data-type="num">Trainee</th>
-            <th data-key="scenario_id"   data-type="num">Scen</th>
+            <th data-key="trainee_name"  data-type="text">Trainee</th>
+            <th data-key="scenario_name" data-type="text">Scenario</th>
             <th data-key="deck_hash"     data-type="text">Deck#</th>
             <th data-key="stat_sum"      data-type="num">5-Stat</th>
             <th data-key="speed"         data-type="num">Spd</th>
@@ -201,12 +201,12 @@ function render(rows) {
         return;
     }
     body.innerHTML = rows.map(r => `
-        <tr title="${r.filename}">
+        <tr title="${r.filename}\\n${r.deck_summary}">
             <td><span class="badge badge-${r.run_state}">${r.run_state.replace("_", " ")}</span></td>
             <td>${fmtDate(r.timestamp)}</td>
-            <td class="num">${r.trainee_card_id}</td>
-            <td class="num">${r.scenario_id}</td>
-            <td class="mono">${r.deck_hash}</td>
+            <td>${r.trainee_name}</td>
+            <td>${r.scenario_name}</td>
+            <td class="mono" title="${r.deck_summary}">${r.deck_hash}</td>
             <td class="num">${fmtNum(r.stat_sum)}</td>
             <td class="num">${fmtNum(r.speed)}</td>
             <td class="num">${fmtNum(r.stamina)}</td>
