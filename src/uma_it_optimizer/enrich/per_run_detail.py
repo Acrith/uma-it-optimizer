@@ -357,6 +357,14 @@ def _planner_data(raw: dict) -> dict:
                 continue
             rarities_per_group.setdefault(gid, set()).add(rar)
 
+    # A gold-tier hint (rarity=2) — including event-delivered ones like
+    # 'Come What May' — implicitly unlocks the white variants in the
+    # same group. The reverse is NOT true: a white hint doesn't unlock
+    # the gold. So propagate 2 → also include 1 for the same group.
+    for gid, rars in rarities_per_group.items():
+        if 2 in rars:
+            rars.add(1)
+
     hint_groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
         variants = hint_group_variants(gid)   # all variants in the group
