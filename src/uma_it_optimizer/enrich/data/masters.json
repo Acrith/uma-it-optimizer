@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-07-28T21:02:41+00:00",
+    "generated_at": "2026-07-28T21:20:36+00:00",
     "source_mdb": "/mnt/c/Users/rafal.krawczak/AppData/LocalLow/Cygames/Umamusume/master/master.mdb",
     "source_size_bytes": 16224256,
     "source_mtime": "2026-07-28T10:23:19+00:00",
@@ -1794,6 +1794,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081001
@@ -1803,6 +1804,7 @@
       "chara_id": 1002,
       "chara_name": "Silence Suzuka",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081002
@@ -1812,6 +1814,7 @@
       "chara_id": 1003,
       "chara_name": "Tokai Teio",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081003
@@ -1821,6 +1824,7 @@
       "chara_id": 1004,
       "chara_name": "Maruzensky",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081004
@@ -1830,6 +1834,7 @@
       "chara_id": 1006,
       "chara_name": "Oguri Cap",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081006
@@ -1839,6 +1844,7 @@
       "chara_id": 1007,
       "chara_name": "Gold Ship",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081007
@@ -1848,6 +1854,7 @@
       "chara_id": 1008,
       "chara_name": "Vodka",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081008
@@ -1857,6 +1864,7 @@
       "chara_id": 1010,
       "chara_name": "Taiki Shuttle",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081010
@@ -1866,6 +1874,7 @@
       "chara_id": 1011,
       "chara_name": "Grass Wonder",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081011
@@ -1875,6 +1884,7 @@
       "chara_id": 1013,
       "chara_name": "Mejiro McQueen",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081013
@@ -1884,6 +1894,7 @@
       "chara_id": 1014,
       "chara_name": "El Condor Pasa",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081014
@@ -1893,6 +1904,7 @@
       "chara_id": 1015,
       "chara_name": "T.M. Opera O",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081015
@@ -1902,6 +1914,7 @@
       "chara_id": 1017,
       "chara_name": "Symboli Rudolf",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081017
@@ -1911,6 +1924,7 @@
       "chara_id": 1020,
       "chara_name": "Seiun Sky",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081020
@@ -1920,6 +1934,7 @@
       "chara_id": 1030,
       "chara_name": "Rice Shower",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081030
@@ -1929,6 +1944,7 @@
       "chara_id": 1035,
       "chara_name": "Winning Ticket",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081035
@@ -1938,6 +1954,7 @@
       "chara_id": 1040,
       "chara_name": "Gold City",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081040
@@ -1947,6 +1964,7 @@
       "chara_id": 1041,
       "chara_name": "Sakura Bakushin O",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081041
@@ -1956,6 +1974,7 @@
       "chara_id": 1045,
       "chara_name": "Super Creek",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081045
@@ -1965,6 +1984,7 @@
       "chara_id": 1052,
       "chara_name": "Haru Urara",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081052
@@ -1974,6 +1994,7 @@
       "chara_id": 9001,
       "chara_name": "Tazuna Hayakawa",
       "rarity": 1,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089001
@@ -1983,6 +2004,7 @@
       "chara_id": 9004,
       "chara_name": "Trainer Kiryuin",
       "rarity": 1,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089004
@@ -1992,6 +2014,7 @@
       "chara_id": 1009,
       "chara_name": "Daiwa Scarlet",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081009
@@ -2001,6 +2024,7 @@
       "chara_id": 1012,
       "chara_name": "Hishi Amazon",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081012
@@ -2010,6 +2034,7 @@
       "chara_id": 1018,
       "chara_name": "Air Groove",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081018
@@ -2019,6 +2044,7 @@
       "chara_id": 1019,
       "chara_name": "Agnes Digital",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081019
@@ -2028,6 +2054,7 @@
       "chara_id": 1021,
       "chara_name": "Tamamo Cross",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081021
@@ -2037,6 +2064,7 @@
       "chara_id": 1022,
       "chara_name": "Fine Motion",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081022
@@ -2046,6 +2074,7 @@
       "chara_id": 1023,
       "chara_name": "Biwa Hayahide",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081023
@@ -2055,6 +2084,7 @@
       "chara_id": 1024,
       "chara_name": "Mayano Top Gun",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081024
@@ -2064,6 +2094,7 @@
       "chara_id": 1025,
       "chara_name": "Manhattan Cafe",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081025
@@ -2073,6 +2104,7 @@
       "chara_id": 1026,
       "chara_name": "Mihono Bourbon",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081026
@@ -2082,6 +2114,7 @@
       "chara_id": 1027,
       "chara_name": "Mejiro Ryan",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081027
@@ -2091,6 +2124,7 @@
       "chara_id": 1029,
       "chara_name": "Yukino Bijin",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081029
@@ -2100,6 +2134,7 @@
       "chara_id": 1031,
       "chara_name": "Ines Fujin",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081031
@@ -2109,6 +2144,7 @@
       "chara_id": 1032,
       "chara_name": "Agnes Tachyon",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081032
@@ -2118,6 +2154,7 @@
       "chara_id": 1036,
       "chara_name": "Air Shakur",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081036
@@ -2127,6 +2164,7 @@
       "chara_id": 1037,
       "chara_name": "Eishin Flash",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081037
@@ -2136,6 +2174,7 @@
       "chara_id": 1046,
       "chara_name": "Smart Falcon",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081046
@@ -2145,6 +2184,7 @@
       "chara_id": 1050,
       "chara_name": "Narita Taishin",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081050
@@ -2154,6 +2194,7 @@
       "chara_id": 1051,
       "chara_name": "Nishino Flower",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081051
@@ -2163,6 +2204,7 @@
       "chara_id": 1054,
       "chara_name": "Biko Pegasus",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081054
@@ -2172,6 +2214,7 @@
       "chara_id": 1055,
       "chara_name": "Marvelous Sunday",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081055
@@ -2181,6 +2224,7 @@
       "chara_id": 1056,
       "chara_name": "Matikanefukukitaru",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081056
@@ -2190,6 +2234,7 @@
       "chara_id": 1058,
       "chara_name": "Meisho Doto",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081058
@@ -2199,6 +2244,7 @@
       "chara_id": 1059,
       "chara_name": "Mejiro Dober",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081059
@@ -2208,6 +2254,7 @@
       "chara_id": 1060,
       "chara_name": "Nice Nature",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081060
@@ -2217,6 +2264,7 @@
       "chara_id": 1061,
       "chara_name": "King Halo",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081061
@@ -2226,6 +2274,7 @@
       "chara_id": 1005,
       "chara_name": "Fuji Kiseki",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081005
@@ -2235,6 +2284,7 @@
       "chara_id": 1044,
       "chara_name": "Sweep Tosho",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081044
@@ -2244,6 +2294,7 @@
       "chara_id": 1066,
       "chara_name": "Twin Turbo",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081066
@@ -2253,6 +2304,7 @@
       "chara_id": 1065,
       "chara_name": "Daitaku Helios",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081065
@@ -2262,6 +2314,7 @@
       "chara_id": 1063,
       "chara_name": "Ikuno Dictus",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081063
@@ -2271,6 +2324,7 @@
       "chara_id": 1064,
       "chara_name": "Mejiro Palmer",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081064
@@ -2280,6 +2334,7 @@
       "chara_id": 1068,
       "chara_name": "Kitasan Black",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081068
@@ -2289,6 +2344,7 @@
       "chara_id": 1067,
       "chara_name": "Satono Diamond",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081067
@@ -2298,6 +2354,7 @@
       "chara_id": 1062,
       "chara_name": "Matikanetannhauser",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081062
@@ -2307,6 +2364,7 @@
       "chara_id": 1072,
       "chara_name": "Yaeno Muteki",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081072
@@ -2316,6 +2374,7 @@
       "chara_id": 1047,
       "chara_name": "Zenno Rob Roy",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081047
@@ -2325,6 +2384,7 @@
       "chara_id": 9006,
       "chara_name": "Riko Kashimoto",
       "rarity": 1,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089006
@@ -2334,6 +2394,7 @@
       "chara_id": 1042,
       "chara_name": "Seeking the Pearl",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081042
@@ -2343,6 +2404,7 @@
       "chara_id": 1069,
       "chara_name": "Sakura Chiyono O",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081069
@@ -2352,6 +2414,7 @@
       "chara_id": 1039,
       "chara_name": "Kawakami Princess",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081039
@@ -2361,6 +2424,7 @@
       "chara_id": 1028,
       "chara_name": "Hishi Akebono",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081028
@@ -2370,6 +2434,7 @@
       "chara_id": 1053,
       "chara_name": "Bamboo Memory",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081053
@@ -2379,6 +2444,7 @@
       "chara_id": 1043,
       "chara_name": "Shinko Windy",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081043
@@ -2388,6 +2454,7 @@
       "chara_id": 1049,
       "chara_name": "Nakayama Festa",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081049
@@ -2397,6 +2464,7 @@
       "chara_id": 1034,
       "chara_name": "Inari One",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081034
@@ -2406,6 +2474,7 @@
       "chara_id": 1071,
       "chara_name": "Mejiro Ardan",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081071
@@ -2415,6 +2484,7 @@
       "chara_id": 1048,
       "chara_name": "Tosen Jordan",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081048
@@ -2424,6 +2494,7 @@
       "chara_id": 1070,
       "chara_name": "Sirius Symboli",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081070
@@ -2433,6 +2504,7 @@
       "chara_id": 1016,
       "chara_name": "Narita Brian",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081016
@@ -2442,6 +2514,7 @@
       "chara_id": 1038,
       "chara_name": "Curren Chan",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081038
@@ -2451,6 +2524,7 @@
       "chara_id": 9005,
       "chara_name": "Sasami Anshinzawa",
       "rarity": 1,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089005
@@ -2460,6 +2534,7 @@
       "chara_id": 1033,
       "chara_name": "Admire Vega",
       "rarity": 1,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081033
@@ -2469,6 +2544,7 @@
       "chara_id": 1074,
       "chara_name": "Mejiro Bright",
       "rarity": 1,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081074
@@ -2478,6 +2554,7 @@
       "chara_id": 1077,
       "chara_name": "Narita Top Road",
       "rarity": 1,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081077
@@ -2487,6 +2564,7 @@
       "chara_id": 1057,
       "chara_name": "Mr. C.B.",
       "rarity": 1,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081057
@@ -2496,6 +2574,7 @@
       "chara_id": 1073,
       "chara_name": "Tsurumaru Tsuyoshi",
       "rarity": 1,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081073
@@ -2505,6 +2584,7 @@
       "chara_id": 9008,
       "chara_name": "Light Hello",
       "rarity": 1,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089008
@@ -2514,6 +2594,7 @@
       "chara_id": 1005,
       "chara_name": "Fuji Kiseki",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081005
@@ -2523,6 +2604,7 @@
       "chara_id": 1009,
       "chara_name": "Daiwa Scarlet",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081009
@@ -2532,6 +2614,7 @@
       "chara_id": 1012,
       "chara_name": "Hishi Amazon",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081012
@@ -2541,6 +2624,7 @@
       "chara_id": 1018,
       "chara_name": "Air Groove",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081018
@@ -2550,6 +2634,7 @@
       "chara_id": 1019,
       "chara_name": "Agnes Digital",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081019
@@ -2559,6 +2644,7 @@
       "chara_id": 1023,
       "chara_name": "Biwa Hayahide",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081023
@@ -2568,6 +2654,7 @@
       "chara_id": 1024,
       "chara_name": "Mayano Top Gun",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081024
@@ -2577,6 +2664,7 @@
       "chara_id": 1025,
       "chara_name": "Manhattan Cafe",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081025
@@ -2586,6 +2674,7 @@
       "chara_id": 1026,
       "chara_name": "Mihono Bourbon",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081026
@@ -2595,6 +2684,7 @@
       "chara_id": 1027,
       "chara_name": "Mejiro Ryan",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081027
@@ -2604,6 +2694,7 @@
       "chara_id": 1029,
       "chara_name": "Yukino Bijin",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081029
@@ -2613,6 +2704,7 @@
       "chara_id": 1032,
       "chara_name": "Agnes Tachyon",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081032
@@ -2622,6 +2714,7 @@
       "chara_id": 1037,
       "chara_name": "Eishin Flash",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081037
@@ -2631,6 +2724,7 @@
       "chara_id": 1050,
       "chara_name": "Narita Taishin",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081050
@@ -2640,6 +2734,7 @@
       "chara_id": 1055,
       "chara_name": "Marvelous Sunday",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081055
@@ -2649,6 +2744,7 @@
       "chara_id": 1056,
       "chara_name": "Matikanefukukitaru",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081056
@@ -2658,6 +2754,7 @@
       "chara_id": 1058,
       "chara_name": "Meisho Doto",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081058
@@ -2667,6 +2764,7 @@
       "chara_id": 1059,
       "chara_name": "Mejiro Dober",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081059
@@ -2676,6 +2774,7 @@
       "chara_id": 1060,
       "chara_name": "Nice Nature",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081060
@@ -2685,6 +2784,7 @@
       "chara_id": 1061,
       "chara_name": "King Halo",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081061
@@ -2694,6 +2794,7 @@
       "chara_id": 9004,
       "chara_name": "Trainer Kiryuin",
       "rarity": 2,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089004
@@ -2703,6 +2804,7 @@
       "chara_id": 1021,
       "chara_name": "Tamamo Cross",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081021
@@ -2712,6 +2814,7 @@
       "chara_id": 1044,
       "chara_name": "Sweep Tosho",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081044
@@ -2721,6 +2824,7 @@
       "chara_id": 1065,
       "chara_name": "Daitaku Helios",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081065
@@ -2730,6 +2834,7 @@
       "chara_id": 1063,
       "chara_name": "Ikuno Dictus",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081063
@@ -2739,6 +2844,7 @@
       "chara_id": 1060,
       "chara_name": "Nice Nature",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081060
@@ -2748,6 +2854,7 @@
       "chara_id": 1051,
       "chara_name": "Nishino Flower",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081051
@@ -2757,6 +2864,7 @@
       "chara_id": 1047,
       "chara_name": "Zenno Rob Roy",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081047
@@ -2766,6 +2874,7 @@
       "chara_id": 1042,
       "chara_name": "Seeking the Pearl",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081042
@@ -2775,6 +2884,7 @@
       "chara_id": 1031,
       "chara_name": "Ines Fujin",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081031
@@ -2784,6 +2894,7 @@
       "chara_id": 1043,
       "chara_name": "Shinko Windy",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081043
@@ -2793,6 +2904,7 @@
       "chara_id": 1034,
       "chara_name": "Inari One",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081034
@@ -2802,6 +2914,7 @@
       "chara_id": 1014,
       "chara_name": "El Condor Pasa",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081014
@@ -2811,6 +2924,7 @@
       "chara_id": 1071,
       "chara_name": "Mejiro Ardan",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081071
@@ -2820,6 +2934,7 @@
       "chara_id": 1048,
       "chara_name": "Tosen Jordan",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081048
@@ -2829,6 +2944,7 @@
       "chara_id": 1022,
       "chara_name": "Fine Motion",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081022
@@ -2838,6 +2954,7 @@
       "chara_id": 1070,
       "chara_name": "Sirius Symboli",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081070
@@ -2847,6 +2964,7 @@
       "chara_id": 1008,
       "chara_name": "Vodka",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081008
@@ -2856,6 +2974,7 @@
       "chara_id": 1027,
       "chara_name": "Mejiro Ryan",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081027
@@ -2865,6 +2984,7 @@
       "chara_id": 1033,
       "chara_name": "Admire Vega",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081033
@@ -2874,6 +2994,7 @@
       "chara_id": 1041,
       "chara_name": "Sakura Bakushin O",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081041
@@ -2883,6 +3004,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 2,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081001
@@ -2892,6 +3014,7 @@
       "chara_id": 1038,
       "chara_name": "Curren Chan",
       "rarity": 2,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081038
@@ -2901,6 +3024,7 @@
       "chara_id": 1046,
       "chara_name": "Smart Falcon",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081046
@@ -2910,6 +3034,7 @@
       "chara_id": 1044,
       "chara_name": "Sweep Tosho",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081044
@@ -2919,6 +3044,7 @@
       "chara_id": 1003,
       "chara_name": "Tokai Teio",
       "rarity": 2,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081003
@@ -2928,6 +3054,7 @@
       "chara_id": 1006,
       "chara_name": "Oguri Cap",
       "rarity": 2,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081006
@@ -2937,6 +3064,7 @@
       "chara_id": 1040,
       "chara_name": "Gold City",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081040
@@ -2946,6 +3074,7 @@
       "chara_id": 1020,
       "chara_name": "Seiun Sky",
       "rarity": 2,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081020
@@ -2955,6 +3084,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081001
@@ -2964,6 +3094,7 @@
       "chara_id": 1002,
       "chara_name": "Silence Suzuka",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081002
@@ -2973,6 +3104,7 @@
       "chara_id": 1003,
       "chara_name": "Tokai Teio",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081003
@@ -2982,6 +3114,7 @@
       "chara_id": 1007,
       "chara_name": "Gold Ship",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081007
@@ -2991,6 +3124,7 @@
       "chara_id": 1008,
       "chara_name": "Vodka",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081008
@@ -3000,6 +3134,7 @@
       "chara_id": 1011,
       "chara_name": "Grass Wonder",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081011
@@ -3009,6 +3144,7 @@
       "chara_id": 1014,
       "chara_name": "El Condor Pasa",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081014
@@ -3018,6 +3154,7 @@
       "chara_id": 1020,
       "chara_name": "Seiun Sky",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081020
@@ -3027,6 +3164,7 @@
       "chara_id": 1021,
       "chara_name": "Tamamo Cross",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081021
@@ -3036,6 +3174,7 @@
       "chara_id": 1022,
       "chara_name": "Fine Motion",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081022
@@ -3045,6 +3184,7 @@
       "chara_id": 1031,
       "chara_name": "Ines Fujin",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081031
@@ -3054,6 +3194,7 @@
       "chara_id": 1035,
       "chara_name": "Winning Ticket",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081035
@@ -3063,6 +3204,7 @@
       "chara_id": 1036,
       "chara_name": "Air Shakur",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081036
@@ -3072,6 +3214,7 @@
       "chara_id": 1040,
       "chara_name": "Gold City",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081040
@@ -3081,6 +3224,7 @@
       "chara_id": 1041,
       "chara_name": "Sakura Bakushin O",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081041
@@ -3090,6 +3234,7 @@
       "chara_id": 1045,
       "chara_name": "Super Creek",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081045
@@ -3099,6 +3244,7 @@
       "chara_id": 1046,
       "chara_name": "Smart Falcon",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081046
@@ -3108,6 +3254,7 @@
       "chara_id": 1051,
       "chara_name": "Nishino Flower",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081051
@@ -3117,6 +3264,7 @@
       "chara_id": 1052,
       "chara_name": "Haru Urara",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081052
@@ -3126,6 +3274,7 @@
       "chara_id": 1054,
       "chara_name": "Biko Pegasus",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081054
@@ -3135,6 +3284,7 @@
       "chara_id": 9001,
       "chara_name": "Tazuna Hayakawa",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089001
@@ -3144,6 +3294,7 @@
       "chara_id": 1013,
       "chara_name": "Mejiro McQueen",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081013
@@ -3153,6 +3304,7 @@
       "chara_id": 1030,
       "chara_name": "Rice Shower",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081030
@@ -3162,6 +3314,7 @@
       "chara_id": 1006,
       "chara_name": "Oguri Cap",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081006
@@ -3171,6 +3324,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081001
@@ -3180,6 +3334,7 @@
       "chara_id": 1066,
       "chara_name": "Twin Turbo",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081066
@@ -3189,6 +3344,7 @@
       "chara_id": 1064,
       "chara_name": "Mejiro Palmer",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081064
@@ -3198,6 +3354,7 @@
       "chara_id": 1068,
       "chara_name": "Kitasan Black",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081068
@@ -3207,6 +3364,7 @@
       "chara_id": 1067,
       "chara_name": "Satono Diamond",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081067
@@ -3216,6 +3374,7 @@
       "chara_id": 1062,
       "chara_name": "Matikanetannhauser",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081062
@@ -3225,6 +3384,7 @@
       "chara_id": 1029,
       "chara_name": "Yukino Bijin",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081029
@@ -3234,6 +3394,7 @@
       "chara_id": 1072,
       "chara_name": "Yaeno Muteki",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081072
@@ -3243,6 +3404,7 @@
       "chara_id": 1035,
       "chara_name": "Winning Ticket",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081035
@@ -3252,6 +3414,7 @@
       "chara_id": 1030,
       "chara_name": "Rice Shower",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081030
@@ -3261,6 +3424,7 @@
       "chara_id": 9006,
       "chara_name": "Riko Kashimoto",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089006
@@ -3270,6 +3434,7 @@
       "chara_id": 1069,
       "chara_name": "Sakura Chiyono O",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081069
@@ -3279,6 +3444,7 @@
       "chara_id": 1039,
       "chara_name": "Kawakami Princess",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081039
@@ -3288,6 +3454,7 @@
       "chara_id": 1028,
       "chara_name": "Hishi Akebono",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081028
@@ -3297,6 +3464,7 @@
       "chara_id": 1059,
       "chara_name": "Mejiro Dober",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081059
@@ -3306,6 +3474,7 @@
       "chara_id": 1053,
       "chara_name": "Bamboo Memory",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081053
@@ -3315,6 +3484,7 @@
       "chara_id": 1049,
       "chara_name": "Nakayama Festa",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081049
@@ -3324,6 +3494,7 @@
       "chara_id": 1016,
       "chara_name": "Narita Brian",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081016
@@ -3333,6 +3504,7 @@
       "chara_id": 1044,
       "chara_name": "Sweep Tosho",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081044
@@ -3342,6 +3514,7 @@
       "chara_id": 1035,
       "chara_name": "Winning Ticket",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081035
@@ -3351,6 +3524,7 @@
       "chara_id": 1009,
       "chara_name": "Daiwa Scarlet",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081009
@@ -3360,6 +3534,7 @@
       "chara_id": 1027,
       "chara_name": "Mejiro Ryan",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081027
@@ -3369,6 +3544,7 @@
       "chara_id": 9008,
       "chara_name": "Light Hello",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089008
@@ -3378,6 +3554,7 @@
       "chara_id": 1010,
       "chara_name": "Taiki Shuttle",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081010
@@ -3387,6 +3564,7 @@
       "chara_id": 1060,
       "chara_name": "Nice Nature",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081060
@@ -3396,6 +3574,7 @@
       "chara_id": 1020,
       "chara_name": "Seiun Sky",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081020
@@ -3405,6 +3584,7 @@
       "chara_id": 1061,
       "chara_name": "King Halo",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081061
@@ -3414,6 +3594,7 @@
       "chara_id": 1007,
       "chara_name": "Gold Ship",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081007
@@ -3423,6 +3604,7 @@
       "chara_id": 1003,
       "chara_name": "Tokai Teio",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081003
@@ -3432,6 +3614,7 @@
       "chara_id": 1026,
       "chara_name": "Mihono Bourbon",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081026
@@ -3441,6 +3624,7 @@
       "chara_id": 1066,
       "chara_name": "Twin Turbo",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081066
@@ -3450,6 +3634,7 @@
       "chara_id": 1023,
       "chara_name": "Biwa Hayahide",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081023
@@ -3459,6 +3644,7 @@
       "chara_id": 1002,
       "chara_name": "Silence Suzuka",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081002
@@ -3468,6 +3654,7 @@
       "chara_id": 1063,
       "chara_name": "Ikuno Dictus",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081063
@@ -3477,6 +3664,7 @@
       "chara_id": 1021,
       "chara_name": "Tamamo Cross",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081021
@@ -3486,6 +3674,7 @@
       "chara_id": 1047,
       "chara_name": "Zenno Rob Roy",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081047
@@ -3495,6 +3684,7 @@
       "chara_id": 1026,
       "chara_name": "Mihono Bourbon",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081026
@@ -3504,6 +3694,7 @@
       "chara_id": 1017,
       "chara_name": "Symboli Rudolf",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 1,
       "support_card_type": 3,
       "skill_set_id": 9081017
@@ -3513,6 +3704,7 @@
       "chara_id": 1038,
       "chara_name": "Curren Chan",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081038
@@ -3522,6 +3714,7 @@
       "chara_id": 1016,
       "chara_name": "Narita Brian",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081016
@@ -3531,6 +3724,7 @@
       "chara_id": 1029,
       "chara_name": "Yukino Bijin",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081029
@@ -3540,6 +3734,7 @@
       "chara_id": 1065,
       "chara_name": "Daitaku Helios",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081065
@@ -3549,6 +3744,7 @@
       "chara_id": 1024,
       "chara_name": "Mayano Top Gun",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081024
@@ -3558,6 +3754,7 @@
       "chara_id": 1050,
       "chara_name": "Narita Taishin",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081050
@@ -3567,6 +3764,7 @@
       "chara_id": 1055,
       "chara_name": "Marvelous Sunday",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081055
@@ -3576,6 +3774,7 @@
       "chara_id": 1025,
       "chara_name": "Manhattan Cafe",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081025
@@ -3585,6 +3784,7 @@
       "chara_id": 1002,
       "chara_name": "Silence Suzuka",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081002
@@ -3594,6 +3794,7 @@
       "chara_id": 1033,
       "chara_name": "Admire Vega",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081033
@@ -3603,6 +3804,7 @@
       "chara_id": 1056,
       "chara_name": "Matikanefukukitaru",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081056
@@ -3612,6 +3814,7 @@
       "chara_id": 1058,
       "chara_name": "Meisho Doto",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081058
@@ -3621,6 +3824,7 @@
       "chara_id": 9005,
       "chara_name": "Sasami Anshinzawa",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 2,
       "skill_set_id": 9089005
@@ -3630,6 +3834,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 3,
+      "command_id": 0,
       "command_type": 0,
       "support_card_type": 3,
       "skill_set_id": 9081001
@@ -3639,6 +3844,7 @@
       "chara_id": 1051,
       "chara_name": "Nishino Flower",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081051
@@ -3648,6 +3854,7 @@
       "chara_id": 1041,
       "chara_name": "Sakura Bakushin O",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081041
@@ -3657,6 +3864,7 @@
       "chara_id": 1048,
       "chara_name": "Tosen Jordan",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081048
@@ -3666,6 +3874,7 @@
       "chara_id": 1019,
       "chara_name": "Agnes Digital",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081019
@@ -3675,6 +3884,7 @@
       "chara_id": 1077,
       "chara_name": "Narita Top Road",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081077
@@ -3684,6 +3894,7 @@
       "chara_id": 1074,
       "chara_name": "Mejiro Bright",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081074
@@ -3693,6 +3904,7 @@
       "chara_id": 1067,
       "chara_name": "Satono Diamond",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081067
@@ -3702,6 +3914,7 @@
       "chara_id": 1055,
       "chara_name": "Marvelous Sunday",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081055
@@ -3711,6 +3924,7 @@
       "chara_id": 1017,
       "chara_name": "Symboli Rudolf",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081017
@@ -3720,6 +3934,7 @@
       "chara_id": 1070,
       "chara_name": "Sirius Symboli",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081070
@@ -3729,6 +3944,7 @@
       "chara_id": 1036,
       "chara_name": "Air Shakur",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081036
@@ -3738,6 +3954,7 @@
       "chara_id": 1009,
       "chara_name": "Daiwa Scarlet",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081009
@@ -3747,6 +3964,7 @@
       "chara_id": 1053,
       "chara_name": "Bamboo Memory",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081053
@@ -3756,6 +3974,7 @@
       "chara_id": 1042,
       "chara_name": "Seeking the Pearl",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081042
@@ -3765,6 +3984,7 @@
       "chara_id": 1039,
       "chara_name": "Kawakami Princess",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081039
@@ -3774,6 +3994,7 @@
       "chara_id": 1057,
       "chara_name": "Mr. C.B.",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081057
@@ -3783,6 +4004,7 @@
       "chara_id": 1052,
       "chara_name": "Haru Urara",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081052
@@ -3792,6 +4014,7 @@
       "chara_id": 1063,
       "chara_name": "Ikuno Dictus",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081063
@@ -3801,6 +4024,7 @@
       "chara_id": 1030,
       "chara_name": "Rice Shower",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081030
@@ -3810,6 +4034,7 @@
       "chara_id": 1032,
       "chara_name": "Agnes Tachyon",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081032
@@ -3819,6 +4044,7 @@
       "chara_id": 1014,
       "chara_name": "El Condor Pasa",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081014
@@ -3828,6 +4054,7 @@
       "chara_id": 1062,
       "chara_name": "Matikanetannhauser",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081062
@@ -3837,6 +4064,7 @@
       "chara_id": 1047,
       "chara_name": "Zenno Rob Roy",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081047
@@ -3846,6 +4074,7 @@
       "chara_id": 1001,
       "chara_name": "Special Week",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081001
@@ -3855,6 +4084,7 @@
       "chara_id": 1018,
       "chara_name": "Air Groove",
       "rarity": 3,
+      "command_id": 102,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081018
@@ -3864,6 +4094,7 @@
       "chara_id": 1004,
       "chara_name": "Maruzensky",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081004
@@ -3873,6 +4104,7 @@
       "chara_id": 1049,
       "chara_name": "Nakayama Festa",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081049
@@ -3882,6 +4114,7 @@
       "chara_id": 1069,
       "chara_name": "Sakura Chiyono O",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081069
@@ -3891,6 +4124,7 @@
       "chara_id": 1025,
       "chara_name": "Manhattan Cafe",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081025
@@ -3900,6 +4134,7 @@
       "chara_id": 1003,
       "chara_name": "Tokai Teio",
       "rarity": 3,
+      "command_id": 106,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081003
@@ -3909,6 +4144,7 @@
       "chara_id": 1066,
       "chara_name": "Twin Turbo",
       "rarity": 3,
+      "command_id": 103,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081066
@@ -3918,6 +4154,7 @@
       "chara_id": 1023,
       "chara_name": "Biwa Hayahide",
       "rarity": 3,
+      "command_id": 105,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081023
@@ -3927,6 +4164,7 @@
       "chara_id": 1026,
       "chara_name": "Mihono Bourbon",
       "rarity": 3,
+      "command_id": 101,
       "command_type": 1,
       "support_card_type": 1,
       "skill_set_id": 9081026

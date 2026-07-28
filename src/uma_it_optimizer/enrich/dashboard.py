@@ -4,6 +4,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from .aggregations import by_deck
 from .run_metrics import RunMetrics, summarize_directory
 
 
@@ -134,6 +135,25 @@ label.toggle {
     text-align: center;
     color: var(--muted);
 }
+h2 {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: var(--fg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.chip {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--row-alt);
+    color: var(--muted);
+    font-size: 11px;
+    margin-right: 4px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
 </style>
 </head>
 <body>
@@ -144,6 +164,28 @@ label.toggle {
 __STATS_HTML__
 </div>
 
+<h2>Deck performance <span class="subtle">— completed runs only, click column to sort</span></h2>
+<div class="table-wrap">
+<table id="decks">
+    <thead>
+        <tr>
+            <th data-key="deck_hash"     data-type="text">Deck#</th>
+            <th data-key="type_label"    data-type="text">Types</th>
+            <th data-key="trainees_label" data-type="text">Trainees</th>
+            <th data-key="runs"          data-type="num">Runs</th>
+            <th data-key="avg_stat_sum"  data-type="num">Avg 5-Stat</th>
+            <th data-key="best_stat_sum" data-type="num">Best 5-Stat</th>
+            <th data-key="avg_fans"      data-type="num">Avg Fans</th>
+            <th data-key="best_fans"     data-type="num">Best Fans</th>
+            <th data-key="avg_unspent_sp" data-type="num">Avg SP</th>
+            <th data-key="avg_factors"   data-type="num">Avg Fac</th>
+        </tr>
+    </thead>
+    <tbody id="decks-body"></tbody>
+</table>
+</div>
+
+<h2>All runs <span class="subtle">— per-capture detail</span></h2>
 <div class="controls">
     <input type="search" id="filter" placeholder="Filter (deck#, trainee, scenario, ...)">
     <label class="toggle">
@@ -181,6 +223,7 @@ __STATS_HTML__
 
 <script>
 const DATA = __DATA_JSON__;
+const DECKS = __DECKS_JSON__;
 
 function fmtDate(ts) {
     // 20260725T185207 → 2026-07-25 18:52
@@ -193,14 +236,69 @@ function fmtNum(n) {
     return typeof n === "number" ? n.toLocaleString() : n;
 }
 
-function render(rows) {
-    const body = document.getElementById("runs-body");
-    if (!rows.length) {
-        body.innerHTML =
-            '<tr><td colspan="17" class="empty">No runs match this filter.</td></tr>';
-        return;
+// ── generic sortable-table controller ─────────────────────────────
+function makeSortable({tableId, bodyId, colspan, data, defaultKey, defaultDir, rowHtml, filterFn}) {
+    const table = document.getElementById(tableId);
+    const body = document.getElementById(bodyId);
+    let sortKey = defaultKey;
+    let sortDir = defaultDir;
+    let filterText = "";
+    let showAll = false;
+
+    function apply() {
+        let rows = data;
+        if (filterFn) rows = rows.filter(r => filterFn(r, {showAll, filterText}));
+        const q = filterText.trim().toLowerCase();
+        if (q) {
+            rows = rows.filter(r =>
+                Object.values(r).some(v => String(v).toLowerCase().includes(q))
+            );
+        }
+        const numeric = table.querySelector(`th[data-key="${sortKey}"]`)?.dataset.type === "num";
+        rows = [...rows].sort((a, b) => {
+            const av = a[sortKey], bv = b[sortKey];
+            if (numeric) return ((av || 0) - (bv || 0)) * sortDir;
+            return String(av).localeCompare(String(bv)) * sortDir;
+        });
+        table.querySelectorAll("th").forEach(th => {
+            th.classList.remove("sort-asc", "sort-desc");
+            if (th.dataset.key === sortKey) {
+                th.classList.add(sortDir === 1 ? "sort-asc" : "sort-desc");
+            }
+        });
+        if (!rows.length) {
+            body.innerHTML = `<tr><td colspan="${colspan}" class="empty">No rows.</td></tr>`;
+        } else {
+            body.innerHTML = rows.map(rowHtml).join("");
+        }
     }
-    body.innerHTML = rows.map(r => `
+
+    table.querySelectorAll("th").forEach(th => {
+        th.addEventListener("click", () => {
+            const key = th.dataset.key;
+            if (sortKey === key) sortDir = -sortDir;
+            else { sortKey = key; sortDir = th.dataset.type === "num" ? -1 : 1; }
+            apply();
+        });
+    });
+
+    return {
+        apply,
+        setFilter: (t) => { filterText = t; apply(); },
+        setShowAll: (v) => { showAll = v; apply(); },
+    };
+}
+
+// ── runs table ────────────────────────────────────────────────────
+const runsCtrl = makeSortable({
+    tableId: "runs",
+    bodyId: "runs-body",
+    colspan: 17,
+    data: DATA,
+    defaultKey: "timestamp",
+    defaultDir: -1,
+    filterFn: (r, {showAll}) => showAll || r.run_state === "completed",
+    rowHtml: (r) => `
         <tr title="${r.filename}\\n${r.deck_summary}">
             <td><span class="badge badge-${r.run_state}">${r.run_state.replace("_", " ")}</span></td>
             <td>${fmtDate(r.timestamp)}</td>
@@ -220,59 +318,39 @@ function render(rows) {
             <td class="num">${fmtNum(r.unspent_sp)}</td>
             <td class="num">${fmtNum(r.races_run)}</td>
         </tr>
-    `).join("");
-}
-
-let sortKey = "timestamp";
-let sortDir = -1; // -1 desc, 1 asc
-let filterText = "";
-let showAll = false;
-
-function applyAndRender() {
-    const q = filterText.trim().toLowerCase();
-    let rows = DATA;
-    if (!showAll) rows = rows.filter(r => r.run_state === "completed");
-    if (q) {
-        rows = rows.filter(r =>
-            Object.values(r).some(v =>
-                String(v).toLowerCase().includes(q)
-            )
-        );
-    }
-    const numeric = document.querySelector(`th[data-key="${sortKey}"]`)
-        ?.dataset.type === "num";
-    rows = [...rows].sort((a, b) => {
-        const av = a[sortKey], bv = b[sortKey];
-        if (numeric) return (av - bv) * sortDir;
-        return String(av).localeCompare(String(bv)) * sortDir;
-    });
-    document.querySelectorAll("th").forEach(th => {
-        th.classList.remove("sort-asc", "sort-desc");
-        if (th.dataset.key === sortKey) {
-            th.classList.add(sortDir === 1 ? "sort-asc" : "sort-desc");
-        }
-    });
-    render(rows);
-}
-
-document.querySelectorAll("th").forEach(th => {
-    th.addEventListener("click", () => {
-        const key = th.dataset.key;
-        if (sortKey === key) sortDir = -sortDir;
-        else { sortKey = key; sortDir = th.dataset.type === "num" ? -1 : 1; }
-        applyAndRender();
-    });
+    `,
 });
-document.getElementById("filter").addEventListener("input", e => {
-    filterText = e.target.value;
-    applyAndRender();
-});
-document.getElementById("show-all").addEventListener("change", e => {
-    showAll = e.target.checked;
-    applyAndRender();
+document.getElementById("filter").addEventListener("input", e => runsCtrl.setFilter(e.target.value));
+document.getElementById("show-all").addEventListener("change", e => runsCtrl.setShowAll(e.target.checked));
+
+// ── decks table ───────────────────────────────────────────────────
+const decksCtrl = makeSortable({
+    tableId: "decks",
+    bodyId: "decks-body",
+    colspan: 10,
+    data: DECKS,
+    defaultKey: "best_fans",
+    defaultDir: -1,
+    filterFn: null,
+    rowHtml: (d) => `
+        <tr title="${d.deck_summary}">
+            <td class="mono">${d.deck_hash}</td>
+            <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
+                    .map(([t,n]) => `<span class="chip">${n}×${t}</span>`).join("")}</td>
+            <td>${d.trainees_label}</td>
+            <td class="num">${d.runs}</td>
+            <td class="num">${fmtNum(d.avg_stat_sum)}</td>
+            <td class="num">${fmtNum(d.best_stat_sum)}</td>
+            <td class="num">${fmtNum(d.avg_fans)}</td>
+            <td class="num">${fmtNum(d.best_fans)}</td>
+            <td class="num">${fmtNum(d.avg_unspent_sp)}</td>
+            <td class="num">${d.avg_factors}</td>
+        </tr>
+    `,
 });
 
-applyAndRender();
+runsCtrl.apply();
+decksCtrl.apply();
 </script>
 </body>
 </html>
@@ -317,6 +395,13 @@ def build_dashboard(runs_dir: Path, out_path: Path) -> Path:
     runs = summarize_directory(runs_dir)
     rows = [r.as_row() for r in runs]
     data_json = json.dumps(rows, ensure_ascii=False)
+
+    # Deck aggregation over completed runs only — pre-training captures
+    # would pollute avg/best figures with base-state noise.
+    completed = [r for r in runs if r.run_state == "completed"]
+    deck_rows = [d.as_row() for d in by_deck(completed)]
+    decks_json = json.dumps(deck_rows, ensure_ascii=False)
+
     subtitle = (
         f"Source: <code>{runs_dir}</code> — {len(runs)} run"
         f"{'s' if len(runs) != 1 else ''} loaded"
@@ -326,6 +411,7 @@ def build_dashboard(runs_dir: Path, out_path: Path) -> Path:
         .replace("__SUBTITLE__", subtitle)
         .replace("__STATS_HTML__", _stats_html(runs))
         .replace("__DATA_JSON__", data_json)
+        .replace("__DECKS_JSON__", decks_json)
     )
     out_path.write_text(html, encoding="utf-8")
     return out_path

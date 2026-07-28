@@ -143,7 +143,8 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         # the enrichment layer decorate.
         support_cards: dict[str, dict] = {}
         for r in con.execute(
-            "SELECT id, chara_id, rarity, command_type, support_card_type, skill_set_id "
+            "SELECT id, chara_id, rarity, command_type, command_id, "
+            "support_card_type, skill_set_id "
             "FROM support_card_data"
         ):
             cid = r["id"]
@@ -152,6 +153,10 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "chara_id": r["chara_id"],
                 "chara_name": uma_names.get(r["chara_id"], f"?uma:{r['chara_id']}"),
                 "rarity": r["rarity"],
+                # command_id is the training-focus indicator (101=Power,
+                # 102=Speed, 103=Stamina, 105=Guts, 106=Wit, 0=Friend).
+                # See lookups.SUPPORT_TYPE_BY_CMD for the mapping.
+                "command_id": r["command_id"],
                 "command_type": r["command_type"],
                 "support_card_type": r["support_card_type"],
                 "skill_set_id": r["skill_set_id"],

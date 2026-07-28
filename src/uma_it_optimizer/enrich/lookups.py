@@ -18,6 +18,19 @@ BUNDLED_PATH = Path(__file__).parent / "data" / "masters.json"
 
 RARITY_PREFIX_SUPPORT = {1: "R", 2: "SR", 3: "SSR"}
 
+# support_card_data.command_id → training-focus type. Empirically verified
+# against ~15 known Global cards (Fine Motion=106=Wit, Marvelous Sunday=102
+# =Speed, Nice Nature/Winning Ticket/Mejiro Palmer=103=Stamina, etc.).
+# command_id=104 is unused in current Global build.
+SUPPORT_TYPE_BY_CMD = {
+    0: "Friend",
+    101: "Power",
+    102: "Speed",
+    103: "Stamina",
+    105: "Guts",
+    106: "Wit",
+}
+
 
 @lru_cache(maxsize=4)
 def _load_from(path_str: str) -> dict:
@@ -57,17 +70,31 @@ def scenario_name(scenario_id: int) -> str:
     return s.get("name") or f"?scen:{scenario_id}"
 
 
-def support_card_name(card_id: int, *, with_rarity: bool = True) -> str:
-    """Resolve support card id (e.g. 30028) → 'SSR Kitasan Black'."""
+def support_card_type(card_id: int) -> str:
+    """Resolve support card id → training-focus type (Speed/Stamina/...)."""
+    m = load_masters()
+    c = m.get("support_cards", {}).get(str(card_id))
+    if not c:
+        return "?"
+    return SUPPORT_TYPE_BY_CMD.get(c.get("command_id"), "?")
+
+
+def support_card_name(card_id: int, *, with_rarity: bool = True,
+                      with_type: bool = False) -> str:
+    """Resolve support card id (e.g. 30028) → 'SSR Kitasan Black'.
+    With ``with_type=True`` produces 'SSR Kitasan Black (Power)'."""
     m = load_masters()
     c = m.get("support_cards", {}).get(str(card_id))
     if not c:
         return f"?sup:{card_id}"
     name = c.get("chara_name") or f"?sup:{card_id}"
-    if not with_rarity:
-        return name
-    prefix = RARITY_PREFIX_SUPPORT.get(c.get("rarity", 0), "")
-    return f"{prefix} {name}".strip()
+    if with_rarity:
+        prefix = RARITY_PREFIX_SUPPORT.get(c.get("rarity", 0), "")
+        name = f"{prefix} {name}".strip()
+    if with_type:
+        t = SUPPORT_TYPE_BY_CMD.get(c.get("command_id"), "?")
+        name = f"{name} ({t})"
+    return name
 
 
 def skill_name(skill_id: int) -> str:
@@ -90,6 +117,15 @@ def race_name(program_id: int) -> str:
 
 def deck_summary(card_ids: tuple[int, ...] | list[int]) -> str:
     """Compact one-line deck description for the dashboard tooltip.
-    Example: 'SSR Kitasan / SSR Fine / SR Nishino / SR Windy / ...'."""
-    parts = [support_card_name(c) for c in card_ids]
+    Example: 'SSR Kitasan Black (Power) / SSR Fine Motion (Wit) / ...'."""
+    parts = [support_card_name(c, with_type=True) for c in card_ids]
     return " / ".join(parts)
+
+
+def deck_type_composition(card_ids: tuple[int, ...] | list[int]) -> dict[str, int]:
+    """Return {type: count} for a deck. E.g. {'Speed': 2, 'Power': 2, 'Wit': 1, 'Friend': 1}."""
+    out: dict[str, int] = {}
+    for cid in card_ids:
+        t = support_card_type(cid)
+        out[t] = out.get(t, 0) + 1
+    return out
