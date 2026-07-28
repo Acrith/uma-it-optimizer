@@ -5,6 +5,8 @@ from collections import Counter
 from pathlib import Path
 
 from .aggregations import by_deck
+from .detail_template import render as render_detail
+from .per_run_detail import build as build_detail
 from .run_metrics import RunMetrics, summarize_directory
 
 
@@ -209,12 +211,13 @@ __STATS_HTML__
             <th data-key="power"         data-type="num">Pow</th>
             <th data-key="wiz"           data-type="num">Wiz</th>
             <th data-key="guts"          data-type="num">Gts</th>
-            <th data-key="fans"          data-type="num">Fans</th>
-            <th data-key="factors_total" data-type="num">Factors</th>
-            <th data-key="skills_owned"  data-type="num">Skills</th>
-            <th data-key="skill_hints_available" data-type="num">Hints</th>
             <th data-key="unspent_sp"    data-type="num">SP</th>
             <th data-key="races_run"     data-type="num">Races</th>
+            <th data-key="fans_per_race" data-type="num">Fans/Race</th>
+            <th data-key="fans"          data-type="num">Fans</th>
+            <th data-key="factors_total" data-type="num">Factors</th>
+            <th data-key="skill_hints_available" data-type="num">Hints</th>
+            <th data-key="timestamp"     data-type="text">Detail</th>
         </tr>
     </thead>
     <tbody id="runs-body"></tbody>
@@ -293,7 +296,7 @@ function makeSortable({tableId, bodyId, colspan, data, defaultKey, defaultDir, r
 const runsCtrl = makeSortable({
     tableId: "runs",
     bodyId: "runs-body",
-    colspan: 17,
+    colspan: 18,
     data: DATA,
     defaultKey: "timestamp",
     defaultDir: -1,
@@ -311,12 +314,13 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.power)}</td>
             <td class="num">${fmtNum(r.wiz)}</td>
             <td class="num">${fmtNum(r.guts)}</td>
-            <td class="num">${fmtNum(r.fans)}</td>
-            <td class="num">${fmtNum(r.factors_total)}</td>
-            <td class="num">${fmtNum(r.skills_owned)}</td>
-            <td class="num">${fmtNum(r.skill_hints_available)}</td>
             <td class="num">${fmtNum(r.unspent_sp)}</td>
             <td class="num">${fmtNum(r.races_run)}</td>
+            <td class="num">${fmtNum(r.fans_per_race)}</td>
+            <td class="num">${fmtNum(r.fans)}</td>
+            <td class="num">${fmtNum(r.factors_total)}</td>
+            <td class="num">${fmtNum(r.skill_hints_available)}</td>
+            <td>${r.detail_href ? `<a href="${r.detail_href}">Open ▸</a>` : "—"}</td>
         </tr>
     `,
 });
@@ -394,6 +398,23 @@ def _stats_html(runs: list[RunMetrics]) -> str:
 def build_dashboard(runs_dir: Path, out_path: Path) -> Path:
     runs = summarize_directory(runs_dir)
     rows = [r.as_row() for r in runs]
+
+    # Generate per-run detail pages alongside the main dashboard, and
+    # inject the href into each row so the main table can link to it.
+    for row, r in zip(rows, runs, strict=True):
+        run_json_path = runs_dir / r.filename
+        if not run_json_path.exists():
+            row["detail_href"] = None
+            continue
+        try:
+            detail = build_detail(run_json_path)
+            html = render_detail(detail)
+            detail_name = f"detail_{r.timestamp}_uma{r.trainee_card_id}.html"
+            (runs_dir / detail_name).write_text(html, encoding="utf-8")
+            row["detail_href"] = detail_name
+        except (KeyError, ValueError, json.JSONDecodeError):
+            row["detail_href"] = None
+
     data_json = json.dumps(rows, ensure_ascii=False)
 
     # Deck aggregation over completed runs only — pre-training captures

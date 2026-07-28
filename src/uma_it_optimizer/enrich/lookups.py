@@ -106,6 +106,53 @@ def skill_name(skill_id: int) -> str:
     return s.get("name") or f"?skill:{skill_id}"
 
 
+@lru_cache(maxsize=1)
+def _hint_group_index() -> dict[tuple[int, int], int]:
+    """Build (group_id, rarity) → canonical skill_id lookup by scanning
+    masters.json. Preference order for tie-breaking: rate=1 (○ variant,
+    the gold single-circle name most players recognize), then rate=2 (◎),
+    then any other."""
+    m = load_masters()
+    index: dict[tuple[int, int], int] = {}
+    best_rate: dict[tuple[int, int], int] = {}
+    for sid_str, s in m.get("skills", {}).items():
+        key = (s.get("group_id", 0), s.get("rarity", 0))
+        rate = s.get("group_rate", 0)
+        priority = {1: 3, 2: 2, -1: 0}.get(rate, 1)  # ○ wins, then ◎, then rest
+        if key not in index or priority > best_rate.get(key, -1):
+            index[key] = int(sid_str)
+            best_rate[key] = priority
+    return index
+
+
+def skill_from_hint(group_id: int, rarity: int) -> tuple[int, str]:
+    """Skill hints in captures store (group_id, rarity) — a hint group
+    that maps to several variants (◎/○/×). We pick the ○ variant as the
+    canonical display name (what shows on the hint bubble in-game).
+    Returns (canonical_skill_id, display_name)."""
+    idx = _hint_group_index()
+    sid = idx.get((group_id, rarity))
+    if sid is None:
+        return 0, f"?hint:{group_id}/{rarity}"
+    return sid, skill_name(sid)
+
+
+# Skill rarity → readable tier badge. 1=white(common), 2=gold(rare),
+# 4/5=unique. Verified against actual run data where rarity 1 hints
+# resolve to '○'-suffixed names (gold indicator).
+SKILL_RARITY_LABEL = {
+    1: "white",   # common
+    2: "gold",    # rare
+    3: "gold",    # rare (some scenario-locked variants)
+    4: "unique",
+    5: "unique",
+}
+
+
+def skill_rarity_label(rarity: int) -> str:
+    return SKILL_RARITY_LABEL.get(rarity, f"r{rarity}")
+
+
 def race_name(program_id: int) -> str:
     """Resolve single-mode program_id (e.g. 2225) → 'URA Finale Finals'."""
     m = load_masters()

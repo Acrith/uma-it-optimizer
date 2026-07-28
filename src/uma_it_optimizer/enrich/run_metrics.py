@@ -49,6 +49,13 @@ class RunMetrics:
     races_run: int
 
     @property
+    def fans_per_race(self) -> int:
+        """Rough per-race yield. Fans are largely a function of how many
+        races you scheduled, so this normalizes across runs with different
+        race counts — still not a 'quality' metric, but at least comparable."""
+        return int(self.fans / self.races_run) if self.races_run else 0
+
+    @property
     def run_state(self) -> str:
         """Rough heuristic for whether the capture was of a completed
         Training Log or a pre-training / mid-scenario state. Completed IT
@@ -71,6 +78,7 @@ class RunMetrics:
             "deck_hash": self.deck_hash,
             "deck_card_ids": list(self.deck_card_ids),
             "deck_summary": deck_summary(self.deck_card_ids),
+            "fans_per_race": self.fans_per_race,
             "speed": self.speed,
             "stamina": self.stamina,
             "power": self.power,
