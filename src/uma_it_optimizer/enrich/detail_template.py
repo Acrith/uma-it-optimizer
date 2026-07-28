@@ -787,12 +787,20 @@ def render(d: RunDetail) -> str:
     else:
         score_table = '<p class="subtle">Score estimator produced no result for this capture.</p>'
 
-    # Plan rows
+    # Plan rows — gold-upgrade rows are indented + prefixed with '└→'
+    # so their pairing with the preceding white is visually explicit.
     plan_rows_html: list[str] = []
     for p in d.plan:
+        indent_prefix = ""
+        row_class = ""
+        if p.get("is_gold_upgrade"):
+            indent_prefix = ('<span style="color: var(--muted); '
+                             'font-family: ui-monospace; margin-right: 6px;">'
+                             '└→</span>')
+            row_class = ' style="background: color-mix(in srgb, #ffea54 6%, transparent);"'
         plan_rows_html.append(
-            f'<tr>'
-            f'<td>{p["name"]}</td>'
+            f'<tr{row_class}>'
+            f'<td>{indent_prefix}{p["name"]}</td>'
             f'<td class="num">{p["sp_cost"]}</td>'
             f'<td class="num">{p["grade_value"]}</td>'
             f'<td class="num">{p["value_per_sp"]:.2f}</td>'

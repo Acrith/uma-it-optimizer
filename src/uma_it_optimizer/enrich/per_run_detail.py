@@ -439,8 +439,10 @@ def _planner_data(raw: dict) -> dict:
 
 
 def _plan_rows(raw: dict) -> list[dict]:
-    """List of {skill_id, name, sp_cost, grade_value, value_per_sp}
-    for the knapsack's chosen skills, best-value first."""
+    """List of {skill_id, name, sp_cost, grade_value, value_per_sp,
+    group_id, rarity, is_gold_upgrade} for the knapsack's chosen skills.
+    Ordered so paired white+gold picks are adjacent — makes the
+    prerequisite relationship visible in the table."""
     try:
         est = estimate_from_run_json(raw)
     except (KeyError, IndexError, ValueError):
@@ -452,6 +454,9 @@ def _plan_rows(raw: dict) -> list[dict]:
             "sp_cost": p.sp_cost,
             "grade_value": p.grade_value,
             "value_per_sp": round(p.value_per_sp, 2),
+            "group_id": p.group_id,
+            "rarity": p.rarity,
+            "is_gold_upgrade": p.rarity == 2,
         }
         for p in est.plan
     ]

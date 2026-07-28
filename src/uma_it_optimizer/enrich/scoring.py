@@ -47,6 +47,8 @@ class SkillPurchase:
     sp_cost: int
     grade_value: int
     value_per_sp: float
+    group_id: int = 0    # hint group — used to keep white+gold pairs adjacent
+    rarity: int = 1      # 1 = white / 2 = gold — used for sort order within group
 
 
 @dataclass(frozen=True)
@@ -349,8 +351,19 @@ def optimal_purchase_grouped(
             sp_cost=cost,
             grade_value=val,
             value_per_sp=val / cost if cost else 0.0,
+            group_id=int(s.get("group_id", 0) or 0),
+            rarity=int(s.get("rarity", 1) or 1),
         ))
-    plan.sort(key=lambda p: (-p.value_per_sp, -p.grade_value))
+    # Sort so paired picks are adjacent: whites before their golds within
+    # a group. Groups ordered by the best value/SP any pick in them
+    # achieved (so highest-impact groups sit at the top). Precompute the
+    # per-group best to keep the sort key trivial.
+    best_vps: dict[int, float] = {}
+    for p in plan:
+        cur = best_vps.get(p.group_id)
+        if cur is None or p.value_per_sp > cur:
+            best_vps[p.group_id] = p.value_per_sp
+    plan.sort(key=lambda p: (-best_vps.get(p.group_id, 0.0), p.group_id, p.rarity))
     return plan, total_value, sp_used
 
 
