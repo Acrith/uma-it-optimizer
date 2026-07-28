@@ -255,6 +255,19 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "released_at": datetime.fromtimestamp(r["start_date"], tz=timezone.utc).date().isoformat(),
             }
 
+        # ── rank thresholds (single_mode_rank) ─────────────────────────
+        # Given a computed SS-grade score, look up the rank tier.
+        # 98 rows, id=1 lowest, higher id = better rank. Letter-grade
+        # mapping (SS/S+/etc) is rendered as UI assets, not text_data —
+        # kept as numeric ranks here.
+        rank_tiers: list[dict] = []
+        for r in con.execute("SELECT id, min_value, max_value FROM single_mode_rank ORDER BY id"):
+            rank_tiers.append({
+                "rank": r["id"],
+                "min": r["min_value"],
+                "max": r["max_value"],
+            })
+
         con.close()
 
         # ── assemble output ────────────────────────────────────────────
@@ -278,6 +291,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 },
             },
             "scenarios": scenarios,
+            "rank_tiers": rank_tiers,
             "umas": umas,
             "uma_cards": uma_cards,
             "support_cards": support_cards,

@@ -205,6 +205,8 @@ __STATS_HTML__
             <th data-key="trainee_name"  data-type="text">Trainee</th>
             <th data-key="scenario_name" data-type="text">Scenario</th>
             <th data-key="deck_hash"     data-type="text">Deck#</th>
+            <th data-key="score_ceiling" data-type="num" title="Estimated SS-grade score: floor (no more SP spent) – ceiling (all unspent SP spent at default rate 2.0×)">Score est.</th>
+            <th data-key="rank_ceiling"  data-type="num" title="Numeric rank tier from single_mode_rank (98 tiers)">Rank</th>
             <th data-key="stat_sum"      data-type="num">5-Stat</th>
             <th data-key="speed"         data-type="num">Spd</th>
             <th data-key="stamina"       data-type="num">Sta</th>
@@ -296,7 +298,7 @@ function makeSortable({tableId, bodyId, colspan, data, defaultKey, defaultDir, r
 const runsCtrl = makeSortable({
     tableId: "runs",
     bodyId: "runs-body",
-    colspan: 18,
+    colspan: 20,
     data: DATA,
     defaultKey: "timestamp",
     defaultDir: -1,
@@ -308,6 +310,8 @@ const runsCtrl = makeSortable({
             <td>${r.trainee_name}</td>
             <td>${r.scenario_name}</td>
             <td class="mono" title="${r.deck_summary}">${r.deck_hash}</td>
+            <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
+            <td class="num" title="${r.rank_range_label}">${r.rank_ceiling ? r.rank_range_label : "—"}</td>
             <td class="num">${fmtNum(r.stat_sum)}</td>
             <td class="num">${fmtNum(r.speed)}</td>
             <td class="num">${fmtNum(r.stamina)}</td>

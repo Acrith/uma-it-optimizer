@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .lookups import deck_summary, scenario_name, uma_card_name
+from .scoring import estimate_from_run_json
 
 
 FILENAME_RE = re.compile(
@@ -47,6 +48,13 @@ class RunMetrics:
     skill_hints_available: int
     factors_total: int
     races_run: int
+
+    # Estimated SS-grade score decomposition (see enrich.scoring for math).
+    # Zero for pre_training captures (no meaningful score before training).
+    score_floor: int          # actual state (no more SP spent)
+    score_ceiling: int        # if all unspent SP spent at default rate
+    rank_floor: int           # numeric rank tier for floor score
+    rank_ceiling: int         # numeric rank tier for ceiling score
 
     @property
     def fans_per_race(self) -> int:
@@ -95,6 +103,14 @@ class RunMetrics:
             "skill_hints_available": self.skill_hints_available,
             "factors_total": self.factors_total,
             "races_run": self.races_run,
+            "score_floor": self.score_floor,
+            "score_ceiling": self.score_ceiling,
+            "rank_floor": self.rank_floor,
+            "rank_ceiling": self.rank_ceiling,
+            "score_range_label": (f"{self.score_floor:,} – {self.score_ceiling:,}"
+                                   if self.score_ceiling else "—"),
+            "rank_range_label": (f"rank {self.rank_floor}–{self.rank_ceiling}"
+                                  if self.rank_ceiling else "—"),
             "filename": self.filename,
         }
 
@@ -142,6 +158,17 @@ def summarize(path: Path) -> RunMetrics:
         len(g.get("<SkillTipsArray>k__BackingField", [])) for g in gain_infos
     )
 
+    # Score estimation only for runs that look like completed IT — fresh /
+    # pre-training captures have base stats + 0 fans and would report a
+    # meaningless floor of ~0.
+    if int(chara.get("fans", 0)) >= 100 and (speed + stamina + power + wiz + guts) >= 1000:
+        est = estimate_from_run_json(raw)
+        score_floor, score_ceiling = est.floor, est.ceiling
+        rank_floor, rank_ceiling = est.rank_floor, est.rank_ceiling
+    else:
+        score_floor = score_ceiling = 0
+        rank_floor = rank_ceiling = 0
+
     return RunMetrics(
         filename=path.name,
         timestamp=m["ts"],
@@ -176,6 +203,10 @@ def summarize(path: Path) -> RunMetrics:
         skill_hints_available=skill_hints_available,
         factors_total=factors_total,
         races_run=len(raw.get("RaceHistory", [])),
+        score_floor=score_floor,
+        score_ceiling=score_ceiling,
+        rank_floor=rank_floor,
+        rank_ceiling=rank_ceiling,
     )
 
 
