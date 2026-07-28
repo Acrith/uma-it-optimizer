@@ -127,7 +127,7 @@ td.thumb-cell {
     display: inline-block;
     box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
-.card-widget img {
+.card-widget-art {
     width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .card-widget-rarity {
@@ -329,7 +329,8 @@ def render(d: RunDetail) -> str:
             )
             lb_html = (
                 f'<div class="card-widget" title="{c["card_name"]}">'
-                f'<img src="{c["image_url"]}" alt="{c["card_name"]}" loading="lazy"'
+                f'<img class="card-widget-art" src="{c["image_url"]}"'
+                f' alt="{c["card_name"]}" loading="lazy"'
                 f' onerror="this.style.visibility=\'hidden\'">'
                 f'{rarity_html}'
                 f'{type_html}'
