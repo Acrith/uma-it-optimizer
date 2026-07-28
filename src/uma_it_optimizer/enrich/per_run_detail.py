@@ -333,30 +333,41 @@ def _planner_data(raw: dict) -> dict:
     owned_ids = [int(s.get("skill_id", 0) or 0)
                  for s in chara.get("skill_array", []) or []]
 
-    # Collect unique (group_id, rarity) hint keys across all sources.
-    seen: set[tuple[int, int]] = set()
+    # Collect unique group_ids across all hint sources. Within a group we
+    # want ALL variants regardless of hint's own rarity, because upgrade
+    # pairs (white → gold, e.g. Corner Adept ○ → Professor of Curvature)
+    # share a group_id — the game unlocks the gold upgrade after you own
+    # the white. Filtering by hint rarity would hide half the pair.
+    seen_groups: set[int] = set()
     hint_groups: list[dict] = []
     for gi in raw.get("GainInfo", []) or []:
         for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
             if not isinstance(t, dict):
                 continue
             gid = int(t.get("group_id", 0) or 0)
-            rar = int(t.get("rarity", 0) or 0)
-            if gid == 0 or (gid, rar) in seen:
+            if gid == 0 or gid in seen_groups:
                 continue
-            seen.add((gid, rar))
-            variants = hint_group_variants(gid, rarity=rar)
+            seen_groups.add(gid)
+            variants = hint_group_variants(gid)  # no rarity filter
             if not variants:
                 continue
-            # Skip variants that are already owned.
             variants = [v for v in variants if v["skill_id"] not in owned_ids]
             if not variants:
                 continue
-            # Use best-value variant's name as the group's display name
-            display_name = variants[0]["name"]
+            # Group title: prefer the white ○ variant's name (that's the
+            # base skill name — 'Corner Adept' rather than 'Professor of
+            # Curvature'). Fall back to the highest-value variant's name.
+            white_o = next((v for v in variants
+                            if v.get("rate") == 1 and (v.get("grade_value") or 0) > 0), None)
+            display_name = (white_o or max(variants, key=lambda v: v["grade_value"]))["name"]
+            # Strip trailing decorators like " ○" so the group title reads
+            # cleanly ('Corner Adept' rather than 'Corner Adept ○').
+            for suffix in (" ○", " ◎", " ×"):
+                if display_name.endswith(suffix):
+                    display_name = display_name[: -len(suffix)]
+                    break
             hint_groups.append({
                 "group_id": gid,
-                "rarity": rar,
                 "display_name": display_name,
                 "variants": variants,
             })

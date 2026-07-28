@@ -135,6 +135,24 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     margin-bottom: 4px;
 }
 .hint-group.has-selection { border-color: #58a6ff; background: color-mix(in srgb, #58a6ff 6%, var(--bg)); }
+.variant-row {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 4px;
+}
+.variant-row-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    min-width: 42px;
+}
+.tier-note {
+    color: #ba8500;
+    font-size: 9px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-left: 3px;
+}
 .variant-list { display: flex; flex-wrap: wrap; gap: 5px; }
 .variant-btn {
     display: inline-flex; flex-direction: column;
@@ -337,32 +355,26 @@ PLANNER_JS = """
     if (!root) return;
 
     // ── state ─────────────────────────────────────────────────────
-    // selection: Map<group_id, skill_id>. Group can have at most one pick.
-    const selection = new Map();
+    // selection: Set<skill_id>. Each variant toggles independently, so
+    // the user can pick both a white ○ AND its gold upgrade in the same
+    // group (they're separate purchases in-game).
+    const selection = new Set();
 
     function selectKnapsack() {
         selection.clear();
-        for (const sid of (P.knapsack_selection || [])) {
-            for (const g of P.hint_groups) {
-                if (g.variants.some(v => v.skill_id === sid)) {
-                    selection.set(g.group_id, sid);
-                    break;
-                }
-            }
-        }
+        for (const sid of (P.knapsack_selection || [])) selection.add(sid);
     }
     function selectNone() { selection.clear(); }
 
     // ── math ──────────────────────────────────────────────────────
-    function pickedVariant(g) {
-        const sid = selection.get(g.group_id);
-        return sid == null ? null : g.variants.find(v => v.skill_id === sid);
-    }
     function totals() {
         let sp = 0, value = 0;
         for (const g of P.hint_groups) {
-            const v = pickedVariant(g);
-            if (v) { sp += v.sp_cost; value += v.grade_value; }
+            for (const v of g.variants) {
+                if (selection.has(v.skill_id)) {
+                    sp += v.sp_cost; value += v.grade_value;
+                }
+            }
         }
         return { sp, value };
     }
@@ -416,13 +428,12 @@ PLANNER_JS = """
                 ${P.hint_groups.map(renderGroup).join('')}
             </div>
         `;
-        // Wire clicks
+        // Wire clicks — each variant toggles independently
         root.querySelectorAll('.variant-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const gid = parseInt(btn.dataset.group);
                 const sid = parseInt(btn.dataset.skill);
-                if (selection.get(gid) === sid) selection.delete(gid);
-                else selection.set(gid, sid);
+                if (selection.has(sid)) selection.delete(sid);
+                else selection.add(sid);
                 render();
             });
         });
@@ -436,25 +447,44 @@ PLANNER_JS = """
     }
 
     function renderGroup(g) {
-        const pickedSid = selection.get(g.group_id);
+        // Split variants into white (rarity=1: ○/×) vs gold (rarity=2: ◎/alt)
+        // rows. Renders each row separately so upgrade pairs read as a
+        // parent + child ('Corner Adept ○ 100SP + Professor of Curvature 130SP').
+        const whites = g.variants.filter(v => v.rate === 1 || v.rate === -1);
+        const golds = g.variants.filter(v => v.rate === 2 || v.rate === 3);
+        const hasSel = g.variants.some(v => selection.has(v.skill_id));
+        const rows = [];
+        if (whites.length) rows.push(renderVariantRow(whites, 'White', false));
+        if (golds.length) rows.push(renderVariantRow(golds, 'Gold upgrade', true));
         return `
-            <div class="hint-group ${pickedSid ? 'has-selection' : ''}">
+            <div class="hint-group ${hasSel ? 'has-selection' : ''}">
                 <div class="hint-group-title">${g.display_name}</div>
+                ${rows.join('')}
+            </div>
+        `;
+    }
+
+    function renderVariantRow(variants, tierLabel, isUpgrade) {
+        const notice = isUpgrade
+            ? '<span class="tier-note">(needs white bought)</span>' : '';
+        return `
+            <div class="variant-row">
+                <span class="variant-row-label">${tierLabel}${notice}</span>
                 <div class="variant-list">
-                    ${g.variants.map(v => renderVariant(g.group_id, v, pickedSid === v.skill_id)).join('')}
+                    ${variants.map(v => renderVariant(v, selection.has(v.skill_id))).join('')}
                 </div>
             </div>
         `;
     }
 
-    function renderVariant(gid, v, selected) {
+    function renderVariant(v, selected) {
         const cls = ['variant-btn'];
         if (selected) cls.push('selected');
         if (v.grade_value < 0) cls.push('negative');
         return `
             <button class="${cls.join(' ')}"
-                data-group="${gid}" data-skill="${v.skill_id}"
-                title="${v.name}">
+                data-skill="${v.skill_id}"
+                title="${v.name} · ${v.value_per_sp} value/SP">
                 <span class="variant-btn-label">${v.rate_label}</span>
                 <span class="variant-btn-nums">${v.sp_cost} SP · ${v.grade_value > 0 ? '+' : ''}${v.grade_value}</span>
             </button>
