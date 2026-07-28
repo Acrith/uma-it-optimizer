@@ -366,6 +366,65 @@ PLANNER_JS = """
     }
     function selectNone() { selection.clear(); }
 
+    // Locate which group + variant a skill_id belongs to.
+    function findVariant(sid) {
+        for (const g of P.hint_groups) {
+            for (const v of g.variants) {
+                if (v.skill_id === sid) return { group: g, variant: v };
+            }
+        }
+        return null;
+    }
+    // Currently-selected variant of a given rarity within a group.
+    function pickedInTier(group, rarity) {
+        return group.variants.find(v => v.rarity === rarity && selection.has(v.skill_id));
+    }
+    // The "canonical" white variant to auto-pick when a gold is chosen:
+    // prefer ○ (rate=1), then ◎ (rate=2), avoid × (rate=-1).
+    function defaultWhite(group) {
+        return group.variants.find(v => v.rarity === 1 && v.rate === 1)
+            || group.variants.find(v => v.rarity === 1 && v.rate === 2)
+            || group.variants.find(v => v.rarity === 1);
+    }
+    // Toggle a variant with proper tier semantics:
+    //  - White tier is mutex within the group (◎/○/× replace each other).
+    //  - Deselecting white also cascades-deselects gold in the same group.
+    //  - Selecting gold auto-selects a white prerequisite if none is picked.
+    //  - Gold is mutex within its tier (usually only one gold variant).
+    function toggleVariant(sid) {
+        const found = findVariant(sid);
+        if (!found) return;
+        const { group, variant } = found;
+
+        if (variant.rarity === 1) {
+            const currentWhite = pickedInTier(group, 1);
+            if (currentWhite && currentWhite.skill_id === sid) {
+                selection.delete(sid);
+                // Cascade: white gone → gold prereq broken, deselect gold
+                for (const v of group.variants) {
+                    if (v.rarity === 2) selection.delete(v.skill_id);
+                }
+            } else {
+                if (currentWhite) selection.delete(currentWhite.skill_id);
+                selection.add(sid);
+            }
+            return;
+        }
+        if (variant.rarity === 2) {
+            const currentGold = pickedInTier(group, 2);
+            if (currentGold && currentGold.skill_id === sid) {
+                selection.delete(sid);  // deselect gold only; white stays
+            } else {
+                if (currentGold) selection.delete(currentGold.skill_id);
+                selection.add(sid);
+                if (!pickedInTier(group, 1)) {
+                    const w = defaultWhite(group);
+                    if (w) selection.add(w.skill_id);
+                }
+            }
+        }
+    }
+
     // ── math ──────────────────────────────────────────────────────
     function totals() {
         let sp = 0, value = 0;
@@ -428,12 +487,10 @@ PLANNER_JS = """
                 ${P.hint_groups.map(renderGroup).join('')}
             </div>
         `;
-        // Wire clicks — each variant toggles independently
+        // Wire clicks — respect tier semantics (see toggleVariant)
         root.querySelectorAll('.variant-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const sid = parseInt(btn.dataset.skill);
-                if (selection.has(sid)) selection.delete(sid);
-                else selection.add(sid);
+                toggleVariant(parseInt(btn.dataset.skill));
                 render();
             });
         });
