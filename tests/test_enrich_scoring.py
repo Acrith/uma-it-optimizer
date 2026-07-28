@@ -60,14 +60,17 @@ def test_estimate_stat_clamped_at_cap():
     assert e.stat_score == FIVE_STATUS_FINAL_SCORE[1200]
 
 
-def test_estimate_sp_ceiling_bonus():
-    # 100 SP at default rate 2.0 → 200 bonus points
+def test_estimate_sp_ceiling_bonus_naive():
+    # 100 SP at default rate 2.0 → 200 bonus points (naive ceiling)
     e = estimate(stats={k: 0 for k in FIVE_STATS},
                  caps={k: 1200 for k in FIVE_STATS},
                  owned_skill_ids=[],
                  unspent_sp=100)
     assert e.sp_ceiling_bonus == int(PT_SCORE_RATE_DEFAULT * 100)
-    assert e.ceiling - e.floor == e.sp_ceiling_bonus
+    assert e.naive_ceiling - e.floor == e.sp_ceiling_bonus
+    # With no hints available, planned_score == floor (nothing to buy)
+    assert e.planned_score == e.floor
+    assert e.plan == ()
 
 
 def test_estimate_owned_skill_included_in_floor():
@@ -92,12 +95,19 @@ def test_estimate_from_real_unity_cup_run():
     raw = json.loads(REAL_RUN.read_text(encoding="utf-8"))
     e = estimate_from_run_json(raw)
 
-    # Sanity: floor < ceiling (there IS unspent SP)
-    assert e.floor < e.ceiling
+    # Sanity: floor < planned (there IS unspent SP + hints to buy)
+    assert e.floor < e.planned_score
     # Ranks should be in the valid 1..98 range
     assert 1 <= e.rank_floor <= 98
-    assert 1 <= e.rank_ceiling <= 98
-    # Ceiling rank ≥ floor rank (higher score → equal or higher tier)
-    assert e.rank_ceiling >= e.rank_floor
+    assert 1 <= e.rank_planned <= 98
+    assert e.rank_planned >= e.rank_floor
     # Agnes' unique skill 100321 (grade_value=340) is her only owned skill
     assert e.owned_skill_score == 340
+    # Plan must be non-empty and stay within budget
+    assert e.plan
+    assert e.sp_spent_in_plan <= e.unspent_sp
+    # Plan is the honest ceiling — cannot exceed naive (which allows free
+    # 2.0 conversion of every SP even if no hint matches). BUT — for
+    # value-per-SP > 2.0 skills, plan CAN exceed naive if we spend less
+    # than budget for very-high-value skills. So this is a soft guardrail:
+    assert e.planned_score >= e.floor

@@ -30,6 +30,7 @@ from .lookups import (
     uma_card_image_url,
     uma_card_name,
 )
+from .scoring import estimate_from_run_json
 
 
 STAT_KEYS = ("Speed", "Stamina", "Power", "Wiz", "Guts")
@@ -89,6 +90,11 @@ class RunDetail:
     # Race history — one row per race actually run, oldest→newest
     races: list[dict] = field(default_factory=list)
 
+    # Optimal skill-purchase plan given available hints + unspent SP.
+    # Empty when no hints/SP or run is pre-training.
+    score_summary: dict = field(default_factory=dict)
+    plan: list[dict] = field(default_factory=list)
+
     def as_dict(self) -> dict:
         return {
             "filename": self.filename,
@@ -108,6 +114,8 @@ class RunDetail:
             "hints": self.hints,
             "factors_by_year": self.factors_by_year,
             "races": self.races,
+            "score_summary": self.score_summary,
+            "plan": self.plan,
         }
 
 
@@ -251,7 +259,47 @@ def build(path: Path) -> RunDetail:
         hints=hints,
         factors_by_year=factors_by_year,
         races=races,
+        score_summary=_score_summary(raw),
+        plan=_plan_rows(raw),
     )
+
+
+def _score_summary(raw: dict) -> dict:
+    """Compact score decomposition for the detail header."""
+    try:
+        est = estimate_from_run_json(raw)
+    except (KeyError, IndexError, ValueError):
+        return {}
+    return {
+        "stat_score": est.stat_score,
+        "owned_skill_score": est.owned_skill_score,
+        "floor": est.floor,
+        "naive_ceiling": est.naive_ceiling,
+        "planned_score": est.planned_score,
+        "unspent_sp": est.unspent_sp,
+        "sp_spent_in_plan": est.sp_spent_in_plan,
+        "rank_floor": est.rank_floor,
+        "rank_planned": est.rank_planned,
+    }
+
+
+def _plan_rows(raw: dict) -> list[dict]:
+    """List of {skill_id, name, sp_cost, grade_value, value_per_sp}
+    for the knapsack's chosen skills, best-value first."""
+    try:
+        est = estimate_from_run_json(raw)
+    except (KeyError, IndexError, ValueError):
+        return []
+    return [
+        {
+            "skill_id": p.skill_id,
+            "name": p.name,
+            "sp_cost": p.sp_cost,
+            "grade_value": p.grade_value,
+            "value_per_sp": round(p.value_per_sp, 2),
+        }
+        for p in est.plan
+    ]
 
 
 def _label_for_gain_source(gi_idx: int, sup_cards: list[dict]) -> str:

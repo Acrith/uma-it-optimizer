@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-07-28T21:49:42+00:00",
+    "generated_at": "2026-07-28T22:35:37+00:00",
     "source_mdb": "/mnt/c/Users/rafal.krawczak/AppData/LocalLow/Cygames/Umamusume/master/master.mdb",
     "source_size_bytes": 16224256,
     "source_mtime": "2026-07-28T10:23:19+00:00",
@@ -4671,6 +4671,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10081": {
@@ -4681,6 +4682,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10091": {
@@ -4691,6 +4693,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10111": {
@@ -4701,6 +4704,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10141": {
@@ -4711,6 +4715,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10181": {
@@ -4721,6 +4726,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10241": {
@@ -4731,6 +4737,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10271": {
@@ -4741,6 +4748,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10321": {
@@ -4751,6 +4759,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10351": {
@@ -4761,6 +4770,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10411": {
@@ -4771,6 +4781,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10451": {
@@ -4781,6 +4792,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10521": {
@@ -4791,6 +4803,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10561": {
@@ -4801,6 +4814,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10601": {
@@ -4811,6 +4825,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10611": {
@@ -4821,6 +4836,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "10621": {
@@ -4831,6 +4847,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 240,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100011": {
@@ -4841,6 +4858,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100021": {
@@ -4851,6 +4869,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100031": {
@@ -4861,6 +4880,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100041": {
@@ -4871,6 +4891,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100051": {
@@ -4881,6 +4902,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100061": {
@@ -4891,6 +4913,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100071": {
@@ -4901,6 +4924,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100081": {
@@ -4911,6 +4935,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100091": {
@@ -4921,6 +4946,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100101": {
@@ -4931,6 +4957,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100111": {
@@ -4941,6 +4968,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100121": {
@@ -4951,6 +4979,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100131": {
@@ -4961,6 +4990,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100141": {
@@ -4971,6 +5001,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100151": {
@@ -4981,6 +5012,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100161": {
@@ -4991,6 +5023,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100171": {
@@ -5001,6 +5034,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100181": {
@@ -5011,6 +5045,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100191": {
@@ -5021,6 +5056,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100201": {
@@ -5031,6 +5067,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100211": {
@@ -5041,6 +5078,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100221": {
@@ -5051,6 +5089,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100231": {
@@ -5061,6 +5100,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100241": {
@@ -5071,6 +5111,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100251": {
@@ -5081,6 +5122,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100261": {
@@ -5091,6 +5133,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100271": {
@@ -5101,6 +5144,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100281": {
@@ -5111,6 +5155,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100301": {
@@ -5121,6 +5166,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100311": {
@@ -5131,6 +5177,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100321": {
@@ -5141,6 +5188,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100331": {
@@ -5151,6 +5199,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100341": {
@@ -5161,6 +5210,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100351": {
@@ -5171,6 +5221,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100361": {
@@ -5181,6 +5232,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100371": {
@@ -5191,6 +5243,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100381": {
@@ -5201,6 +5254,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100391": {
@@ -5211,6 +5265,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100401": {
@@ -5221,6 +5276,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100411": {
@@ -5231,6 +5287,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100421": {
@@ -5241,6 +5298,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100441": {
@@ -5251,6 +5309,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100451": {
@@ -5261,6 +5320,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100461": {
@@ -5271,6 +5331,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100481": {
@@ -5281,6 +5342,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100501": {
@@ -5291,6 +5353,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100511": {
@@ -5301,6 +5364,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100521": {
@@ -5311,6 +5375,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100531": {
@@ -5321,6 +5386,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100561": {
@@ -5331,6 +5397,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100581": {
@@ -5341,6 +5408,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100591": {
@@ -5351,6 +5419,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100601": {
@@ -5361,6 +5430,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100611": {
@@ -5371,6 +5441,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100621": {
@@ -5381,6 +5452,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100641": {
@@ -5391,6 +5463,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100671": {
@@ -5401,6 +5474,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100681": {
@@ -5411,6 +5485,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100691": {
@@ -5421,6 +5496,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100711": {
@@ -5431,6 +5507,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100721": {
@@ -5441,6 +5518,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100741": {
@@ -5451,6 +5529,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100981": {
@@ -5461,6 +5540,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "100991": {
@@ -5471,6 +5551,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110011": {
@@ -5481,6 +5562,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110031": {
@@ -5491,6 +5573,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110041": {
@@ -5501,6 +5584,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110051": {
@@ -5511,6 +5595,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110061": {
@@ -5521,6 +5606,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110071": {
@@ -5531,6 +5617,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110101": {
@@ -5541,6 +5628,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110111": {
@@ -5551,6 +5639,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110131": {
@@ -5561,6 +5650,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110141": {
@@ -5571,6 +5661,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110151": {
@@ -5581,6 +5672,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110171": {
@@ -5591,6 +5683,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110181": {
@@ -5601,6 +5694,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110201": {
@@ -5611,6 +5705,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110221": {
@@ -5621,6 +5716,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110231": {
@@ -5631,6 +5727,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110241": {
@@ -5641,6 +5738,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110261": {
@@ -5651,6 +5749,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110301": {
@@ -5661,6 +5760,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110351": {
@@ -5671,6 +5771,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110371": {
@@ -5681,6 +5782,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110381": {
@@ -5691,6 +5793,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110401": {
@@ -5701,6 +5804,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110451": {
@@ -5711,6 +5815,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110461": {
@@ -5721,6 +5826,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110501": {
@@ -5731,6 +5837,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110521": {
@@ -5741,6 +5848,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110561": {
@@ -5751,6 +5859,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110591": {
@@ -5761,6 +5870,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110601": {
@@ -5771,6 +5881,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "110611": {
@@ -5781,6 +5892,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "120011": {
@@ -5791,6 +5903,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "120131": {
@@ -5801,6 +5914,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "200011": {
@@ -5811,6 +5925,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200012": {
@@ -5821,6 +5936,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200013": {
@@ -5831,6 +5947,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200014": {
@@ -5841,6 +5958,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "200021": {
@@ -5851,6 +5969,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200022": {
@@ -5861,6 +5980,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200023": {
@@ -5871,6 +5991,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200031": {
@@ -5881,6 +6002,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200032": {
@@ -5891,6 +6013,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200033": {
@@ -5901,6 +6024,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200041": {
@@ -5911,6 +6035,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200042": {
@@ -5921,6 +6046,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200043": {
@@ -5931,6 +6057,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200051": {
@@ -5941,6 +6068,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200052": {
@@ -5951,6 +6079,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200053": {
@@ -5961,6 +6090,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200061": {
@@ -5971,6 +6101,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200062": {
@@ -5981,6 +6112,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200063": {
@@ -5991,6 +6123,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200064": {
@@ -6001,6 +6134,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "200071": {
@@ -6011,6 +6145,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200072": {
@@ -6021,6 +6156,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200073": {
@@ -6031,6 +6167,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200081": {
@@ -6041,6 +6178,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "200082": {
@@ -6051,6 +6189,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "200083": {
@@ -6061,6 +6200,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "200091": {
@@ -6071,6 +6211,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "200092": {
@@ -6081,6 +6222,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "200093": {
@@ -6091,6 +6233,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "200101": {
@@ -6101,6 +6244,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "200102": {
@@ -6111,6 +6255,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "200103": {
@@ -6121,6 +6266,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "200111": {
@@ -6131,6 +6277,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "200112": {
@@ -6141,6 +6288,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "200113": {
@@ -6151,6 +6299,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "200121": {
@@ -6161,6 +6310,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "200122": {
@@ -6171,6 +6321,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "200123": {
@@ -6181,6 +6332,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "200131": {
@@ -6191,6 +6343,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200132": {
@@ -6201,6 +6354,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200133": {
@@ -6211,6 +6365,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200141": {
@@ -6221,6 +6376,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200142": {
@@ -6231,6 +6387,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200143": {
@@ -6241,6 +6398,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200151": {
@@ -6251,6 +6409,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200152": {
@@ -6261,6 +6420,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200153": {
@@ -6271,6 +6431,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200154": {
@@ -6281,6 +6442,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "200161": {
@@ -6291,6 +6453,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200162": {
@@ -6301,6 +6464,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200163": {
@@ -6311,6 +6475,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200171": {
@@ -6321,6 +6486,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200172": {
@@ -6331,6 +6497,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200173": {
@@ -6341,6 +6508,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200174": {
@@ -6351,6 +6519,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "200181": {
@@ -6361,6 +6530,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200182": {
@@ -6371,6 +6541,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200183": {
@@ -6381,6 +6552,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200191": {
@@ -6391,6 +6563,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200192": {
@@ -6401,6 +6574,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200193": {
@@ -6411,6 +6585,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200194": {
@@ -6421,6 +6596,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "200201": {
@@ -6431,6 +6607,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200202": {
@@ -6441,6 +6618,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200203": {
@@ -6451,6 +6629,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200211": {
@@ -6461,6 +6640,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200212": {
@@ -6471,6 +6651,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200221": {
@@ -6481,6 +6662,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200222": {
@@ -6491,6 +6673,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200231": {
@@ -6501,6 +6684,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200232": {
@@ -6511,6 +6695,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200233": {
@@ -6521,6 +6706,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200241": {
@@ -6531,6 +6717,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200242": {
@@ -6541,6 +6728,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200251": {
@@ -6551,6 +6739,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200252": {
@@ -6561,6 +6750,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200253": {
@@ -6571,6 +6761,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200261": {
@@ -6581,6 +6772,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200262": {
@@ -6591,6 +6783,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200263": {
@@ -6601,6 +6794,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200271": {
@@ -6611,6 +6805,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200272": {
@@ -6621,6 +6816,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200281": {
@@ -6631,6 +6827,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200282": {
@@ -6641,6 +6838,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200283": {
@@ -6651,6 +6849,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200291": {
@@ -6661,6 +6860,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200292": {
@@ -6671,6 +6871,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200301": {
@@ -6681,6 +6882,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200302": {
@@ -6691,6 +6893,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200311": {
@@ -6701,6 +6904,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200321": {
@@ -6711,6 +6915,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200331": {
@@ -6721,6 +6926,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200332": {
@@ -6731,6 +6937,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200333": {
@@ -6741,6 +6948,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200341": {
@@ -6751,6 +6959,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200342": {
@@ -6761,6 +6970,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200343": {
@@ -6771,6 +6981,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200351": {
@@ -6781,6 +6992,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200352": {
@@ -6791,6 +7003,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200353": {
@@ -6801,6 +7014,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200361": {
@@ -6811,6 +7025,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200362": {
@@ -6821,6 +7036,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200371": {
@@ -6831,6 +7047,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200372": {
@@ -6841,6 +7058,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200381": {
@@ -6851,6 +7069,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200382": {
@@ -6861,6 +7080,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200391": {
@@ -6871,6 +7091,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200401": {
@@ -6881,6 +7102,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200411": {
@@ -6891,6 +7113,7 @@
       "group_rate": -1,
       "category": 3,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200421": {
@@ -6901,6 +7124,7 @@
       "group_rate": -1,
       "category": 3,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200431": {
@@ -6911,6 +7135,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 394,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "200432": {
@@ -6921,6 +7146,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 129,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "200433": {
@@ -6931,6 +7157,7 @@
       "group_rate": -1,
       "category": 1,
       "grade_value": -174,
+      "sp_cost": 70,
       "singlemode_only_unique": true
     },
     "200441": {
@@ -6941,6 +7168,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200442": {
@@ -6951,6 +7179,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200451": {
@@ -6961,6 +7190,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "200452": {
@@ -6971,6 +7201,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 129,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "200461": {
@@ -6981,6 +7212,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200462": {
@@ -6991,6 +7223,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200471": {
@@ -7001,6 +7234,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200472": {
@@ -7011,6 +7245,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200481": {
@@ -7021,6 +7256,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200482": {
@@ -7031,6 +7267,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200491": {
@@ -7041,6 +7278,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 394,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "200492": {
@@ -7051,6 +7289,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "200501": {
@@ -7061,6 +7300,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "200502": {
@@ -7071,6 +7311,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 129,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "200511": {
@@ -7081,6 +7322,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200512": {
@@ -7091,6 +7333,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200521": {
@@ -7101,6 +7344,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "200531": {
@@ -7111,6 +7355,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "200532": {
@@ -7121,6 +7366,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "200541": {
@@ -7131,6 +7377,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200542": {
@@ -7141,6 +7388,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200551": {
@@ -7151,6 +7399,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200552": {
@@ -7161,6 +7410,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200561": {
@@ -7171,6 +7421,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200562": {
@@ -7181,6 +7432,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200571": {
@@ -7191,6 +7443,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200572": {
@@ -7201,6 +7454,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200581": {
@@ -7211,6 +7465,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200582": {
@@ -7221,6 +7476,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200591": {
@@ -7231,6 +7487,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200592": {
@@ -7241,6 +7498,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200601": {
@@ -7251,6 +7509,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200602": {
@@ -7261,6 +7520,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200611": {
@@ -7271,6 +7531,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200612": {
@@ -7281,6 +7542,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200621": {
@@ -7291,6 +7553,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200622": {
@@ -7301,6 +7564,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200631": {
@@ -7311,6 +7575,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200632": {
@@ -7321,6 +7586,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200641": {
@@ -7331,6 +7597,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "200642": {
@@ -7341,6 +7608,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "200651": {
@@ -7351,6 +7619,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200652": {
@@ -7361,6 +7630,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200662": {
@@ -7371,6 +7641,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200671": {
@@ -7381,6 +7652,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200672": {
@@ -7391,6 +7663,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200681": {
@@ -7401,6 +7674,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200682": {
@@ -7411,6 +7685,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200691": {
@@ -7421,6 +7696,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200692": {
@@ -7431,6 +7707,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200701": {
@@ -7441,6 +7718,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200702": {
@@ -7451,6 +7729,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200711": {
@@ -7461,6 +7740,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200712": {
@@ -7471,6 +7751,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200721": {
@@ -7481,6 +7762,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200722": {
@@ -7491,6 +7773,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200731": {
@@ -7501,6 +7784,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200732": {
@@ -7511,6 +7795,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200741": {
@@ -7521,6 +7806,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200742": {
@@ -7531,6 +7817,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200751": {
@@ -7541,6 +7828,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200752": {
@@ -7551,6 +7839,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200761": {
@@ -7561,6 +7850,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200762": {
@@ -7571,6 +7861,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "200771": {
@@ -7581,6 +7872,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "200772": {
@@ -7591,6 +7883,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "200781": {
@@ -7601,6 +7894,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "200791": {
@@ -7611,6 +7905,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 174,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200801": {
@@ -7621,6 +7916,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 174,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200811": {
@@ -7631,6 +7927,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 174,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200821": {
@@ -7641,6 +7938,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 174,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200831": {
@@ -7651,6 +7949,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200841": {
@@ -7661,6 +7960,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200851": {
@@ -7671,6 +7971,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200861": {
@@ -7681,6 +7982,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200871": {
@@ -7691,6 +7993,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200881": {
@@ -7701,6 +8004,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200891": {
@@ -7711,6 +8015,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200901": {
@@ -7721,6 +8026,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200911": {
@@ -7731,6 +8037,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200921": {
@@ -7741,6 +8048,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200931": {
@@ -7751,6 +8059,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200941": {
@@ -7761,6 +8070,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "200951": {
@@ -7771,6 +8081,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200952": {
@@ -7781,6 +8092,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "200953": {
@@ -7791,6 +8103,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "200961": {
@@ -7801,6 +8114,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200962": {
@@ -7811,6 +8125,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "200963": {
@@ -7821,6 +8136,7 @@
       "group_rate": 3,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "200971": {
@@ -7831,6 +8147,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "200972": {
@@ -7841,6 +8158,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "200981": {
@@ -7851,6 +8169,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "200982": {
@@ -7861,6 +8180,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 262,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "200991": {
@@ -7871,6 +8191,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "200992": {
@@ -7881,6 +8202,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201001": {
@@ -7891,6 +8213,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 394,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201002": {
@@ -7901,6 +8224,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 174,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "201011": {
@@ -7911,6 +8235,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "201012": {
@@ -7921,6 +8246,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 262,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "201021": {
@@ -7931,6 +8257,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "201022": {
@@ -7941,6 +8268,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 262,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "201031": {
@@ -7951,6 +8279,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201032": {
@@ -7961,6 +8290,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201041": {
@@ -7971,6 +8301,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201042": {
@@ -7981,6 +8312,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201051": {
@@ -7991,6 +8323,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201052": {
@@ -8001,6 +8334,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201061": {
@@ -8011,6 +8345,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201062": {
@@ -8021,6 +8356,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201071": {
@@ -8031,6 +8367,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201072": {
@@ -8041,6 +8378,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201081": {
@@ -8051,6 +8389,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 461,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201082": {
@@ -8061,6 +8400,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201091": {
@@ -8071,6 +8411,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201092": {
@@ -8081,6 +8422,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201101": {
@@ -8091,6 +8433,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201102": {
@@ -8101,6 +8444,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201103": {
@@ -8111,6 +8455,7 @@
       "group_rate": 3,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "201111": {
@@ -8121,6 +8466,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201112": {
@@ -8131,6 +8477,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201113": {
@@ -8141,6 +8488,7 @@
       "group_rate": 3,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "201121": {
@@ -8151,6 +8499,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201122": {
@@ -8161,6 +8510,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 129,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201131": {
@@ -8171,6 +8521,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 394,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201132": {
@@ -8181,6 +8532,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 174,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "201141": {
@@ -8191,6 +8543,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201142": {
@@ -8201,6 +8554,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201151": {
@@ -8211,6 +8565,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201152": {
@@ -8221,6 +8576,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201161": {
@@ -8231,6 +8587,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201162": {
@@ -8241,6 +8598,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201171": {
@@ -8251,6 +8609,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201172": {
@@ -8261,6 +8620,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201173": {
@@ -8271,6 +8631,7 @@
       "group_rate": 3,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "201181": {
@@ -8281,6 +8642,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201182": {
@@ -8291,6 +8653,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201191": {
@@ -8301,6 +8664,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201192": {
@@ -8311,6 +8675,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201201": {
@@ -8321,6 +8686,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201202": {
@@ -8331,6 +8697,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201211": {
@@ -8341,6 +8708,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201212": {
@@ -8351,6 +8719,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201221": {
@@ -8361,6 +8730,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 461,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201222": {
@@ -8371,6 +8741,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201231": {
@@ -8381,6 +8752,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201232": {
@@ -8391,6 +8763,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 129,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201241": {
@@ -8401,6 +8774,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201242": {
@@ -8411,6 +8785,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201251": {
@@ -8421,6 +8796,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201252": {
@@ -8431,6 +8807,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201261": {
@@ -8441,6 +8818,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201262": {
@@ -8451,6 +8829,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 129,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201271": {
@@ -8461,6 +8840,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201272": {
@@ -8471,6 +8851,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201281": {
@@ -8481,6 +8862,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201282": {
@@ -8491,6 +8873,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201291": {
@@ -8501,6 +8884,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201292": {
@@ -8511,6 +8895,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201302": {
@@ -8521,6 +8906,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201311": {
@@ -8531,6 +8917,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201312": {
@@ -8541,6 +8928,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201321": {
@@ -8551,6 +8939,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201322": {
@@ -8561,6 +8950,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201331": {
@@ -8571,6 +8961,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201332": {
@@ -8581,6 +8972,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201341": {
@@ -8591,6 +8983,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201342": {
@@ -8601,6 +8994,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201351": {
@@ -8611,6 +9005,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201352": {
@@ -8621,6 +9016,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201361": {
@@ -8631,6 +9027,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201362": {
@@ -8641,6 +9038,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201371": {
@@ -8651,6 +9049,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201372": {
@@ -8661,6 +9060,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 85,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201381": {
@@ -8671,6 +9071,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201382": {
@@ -8681,6 +9082,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201391": {
@@ -8691,6 +9093,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201392": {
@@ -8701,6 +9104,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201401": {
@@ -8711,6 +9115,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201402": {
@@ -8721,6 +9126,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201411": {
@@ -8731,6 +9137,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201412": {
@@ -8741,6 +9148,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201421": {
@@ -8751,6 +9159,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201422": {
@@ -8761,6 +9170,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201431": {
@@ -8771,6 +9181,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "201432": {
@@ -8781,6 +9192,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 85,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "201441": {
@@ -8791,6 +9203,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201442": {
@@ -8801,6 +9214,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201451": {
@@ -8811,6 +9225,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201452": {
@@ -8821,6 +9236,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201453": {
@@ -8831,6 +9247,7 @@
       "group_rate": 3,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "201461": {
@@ -8841,6 +9258,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 262,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201462": {
@@ -8851,6 +9269,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": false
     },
     "201471": {
@@ -8861,6 +9280,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201472": {
@@ -8871,6 +9291,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 85,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201481": {
@@ -8881,6 +9302,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "201482": {
@@ -8891,6 +9313,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "201491": {
@@ -8901,6 +9324,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201492": {
@@ -8911,6 +9335,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201501": {
@@ -8921,6 +9346,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201502": {
@@ -8931,6 +9357,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 85,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201511": {
@@ -8941,6 +9368,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201512": {
@@ -8951,6 +9379,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201521": {
@@ -8961,6 +9390,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "201522": {
@@ -8971,6 +9401,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201531": {
@@ -8981,6 +9412,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "201532": {
@@ -8991,6 +9423,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201541": {
@@ -9001,6 +9434,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "201542": {
@@ -9011,6 +9445,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201551": {
@@ -9021,6 +9456,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 217,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "201552": {
@@ -9031,6 +9467,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201561": {
@@ -9041,6 +9478,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 334,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "201562": {
@@ -9051,6 +9489,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": false
     },
     "201571": {
@@ -9061,6 +9500,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201581": {
@@ -9071,6 +9511,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201591": {
@@ -9081,6 +9522,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201592": {
@@ -9091,6 +9533,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201601": {
@@ -9101,6 +9544,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201611": {
@@ -9111,6 +9555,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201612": {
@@ -9121,6 +9566,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201621": {
@@ -9131,6 +9577,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 100,
       "singlemode_only_unique": false
     },
     "201631": {
@@ -9141,6 +9588,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "201641": {
@@ -9151,6 +9599,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "201651": {
@@ -9161,6 +9610,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201652": {
@@ -9171,6 +9621,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201661": {
@@ -9181,6 +9632,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201662": {
@@ -9191,6 +9643,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201671": {
@@ -9201,6 +9654,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201672": {
@@ -9211,6 +9665,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201681": {
@@ -9221,6 +9676,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 394,
+      "sp_cost": 140,
       "singlemode_only_unique": true
     },
     "201682": {
@@ -9231,6 +9687,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 174,
+      "sp_cost": 140,
       "singlemode_only_unique": false
     },
     "201691": {
@@ -9241,6 +9698,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201692": {
@@ -9251,6 +9709,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "201701": {
@@ -9261,6 +9720,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "201702": {
@@ -9271,6 +9731,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "201801": {
@@ -9281,6 +9742,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "201901": {
@@ -9291,6 +9753,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "201902": {
@@ -9301,6 +9764,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202001": {
@@ -9311,6 +9775,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "202002": {
@@ -9321,6 +9786,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202011": {
@@ -9331,6 +9797,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202012": {
@@ -9341,6 +9808,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202021": {
@@ -9351,6 +9819,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202022": {
@@ -9361,6 +9830,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202031": {
@@ -9371,6 +9841,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 334,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "202032": {
@@ -9381,6 +9852,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 129,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "202041": {
@@ -9391,6 +9863,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202042": {
@@ -9401,6 +9874,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202051": {
@@ -9411,6 +9885,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 370,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "202061": {
@@ -9421,6 +9896,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 360,
       "singlemode_only_unique": true
     },
     "202071": {
@@ -9431,6 +9907,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "202072": {
@@ -9441,6 +9918,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "202081": {
@@ -9451,6 +9929,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202082": {
@@ -9461,6 +9940,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202091": {
@@ -9471,6 +9951,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202092": {
@@ -9481,6 +9962,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202101": {
@@ -9491,6 +9973,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202102": {
@@ -9501,6 +9984,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202111": {
@@ -9511,6 +9995,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202112": {
@@ -9521,6 +10006,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202121": {
@@ -9531,6 +10017,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202122": {
@@ -9541,6 +10028,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202131": {
@@ -9551,6 +10039,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202132": {
@@ -9561,6 +10050,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202141": {
@@ -9571,6 +10061,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -174,
+      "sp_cost": 0,
       "singlemode_only_unique": true
     },
     "202151": {
@@ -9581,6 +10072,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202152": {
@@ -9591,6 +10083,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202161": {
@@ -9601,6 +10094,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202172": {
@@ -9611,6 +10105,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "202181": {
@@ -9621,6 +10116,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -174,
+      "sp_cost": 0,
       "singlemode_only_unique": true
     },
     "202191": {
@@ -9631,6 +10127,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "202192": {
@@ -9641,6 +10138,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "202201": {
@@ -9651,6 +10149,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202202": {
@@ -9661,6 +10160,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202203": {
@@ -9671,6 +10171,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202211": {
@@ -9681,6 +10182,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202212": {
@@ -9691,6 +10193,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202213": {
@@ -9701,6 +10204,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202221": {
@@ -9711,6 +10215,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202222": {
@@ -9721,6 +10226,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202223": {
@@ -9731,6 +10237,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202231": {
@@ -9741,6 +10248,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202232": {
@@ -9751,6 +10259,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202233": {
@@ -9761,6 +10270,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202241": {
@@ -9771,6 +10281,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202242": {
@@ -9781,6 +10292,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202243": {
@@ -9791,6 +10303,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202251": {
@@ -9801,6 +10314,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 90,
       "singlemode_only_unique": true
     },
     "202252": {
@@ -9811,6 +10325,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 70,
       "singlemode_only_unique": false
     },
     "202253": {
@@ -9821,6 +10336,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 40,
       "singlemode_only_unique": true
     },
     "202261": {
@@ -9831,6 +10347,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202262": {
@@ -9841,6 +10358,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202271": {
@@ -9851,6 +10369,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202272": {
@@ -9861,6 +10380,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202281": {
@@ -9871,6 +10391,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202282": {
@@ -9881,6 +10402,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202291": {
@@ -9891,6 +10413,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 150,
       "singlemode_only_unique": true
     },
     "202292": {
@@ -9901,6 +10424,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "202301": {
@@ -9911,6 +10435,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 160,
       "singlemode_only_unique": true
     },
     "202302": {
@@ -9921,6 +10446,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 160,
       "singlemode_only_unique": false
     },
     "202303": {
@@ -9931,6 +10457,7 @@
       "group_rate": -1,
       "category": 4,
       "grade_value": -262,
+      "sp_cost": 100,
       "singlemode_only_unique": true
     },
     "202311": {
@@ -9941,6 +10468,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202312": {
@@ -9951,6 +10479,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202321": {
@@ -9961,6 +10490,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202322": {
@@ -9971,6 +10501,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202331": {
@@ -9981,6 +10512,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "202332": {
@@ -9991,6 +10523,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "202341": {
@@ -10001,6 +10534,7 @@
       "group_rate": 3,
       "category": 0,
       "grade_value": 461,
+      "sp_cost": 130,
       "singlemode_only_unique": true
     },
     "202342": {
@@ -10011,6 +10545,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 110,
       "singlemode_only_unique": true
     },
     "202343": {
@@ -10021,6 +10556,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 129,
+      "sp_cost": 90,
       "singlemode_only_unique": false
     },
     "202344": {
@@ -10031,6 +10567,7 @@
       "group_rate": -1,
       "category": 0,
       "grade_value": -129,
+      "sp_cost": 50,
       "singlemode_only_unique": true
     },
     "202351": {
@@ -10041,6 +10578,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 461,
+      "sp_cost": 120,
       "singlemode_only_unique": true
     },
     "202352": {
@@ -10051,6 +10589,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 174,
+      "sp_cost": 120,
       "singlemode_only_unique": false
     },
     "202361": {
@@ -10061,6 +10600,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202362": {
@@ -10071,6 +10611,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202371": {
@@ -10081,6 +10622,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202372": {
@@ -10091,6 +10633,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202381": {
@@ -10101,6 +10644,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202382": {
@@ -10111,6 +10655,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202391": {
@@ -10121,6 +10666,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202392": {
@@ -10131,6 +10677,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202401": {
@@ -10141,6 +10688,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202402": {
@@ -10151,6 +10699,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202411": {
@@ -10161,6 +10710,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202412": {
@@ -10171,6 +10721,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202421": {
@@ -10181,6 +10732,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202422": {
@@ -10191,6 +10743,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202431": {
@@ -10201,6 +10754,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 170,
       "singlemode_only_unique": true
     },
     "202432": {
@@ -10211,6 +10765,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 170,
       "singlemode_only_unique": false
     },
     "202441": {
@@ -10221,6 +10776,7 @@
       "group_rate": 2,
       "category": 0,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202451": {
@@ -10231,6 +10787,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202452": {
@@ -10241,6 +10798,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202461": {
@@ -10251,6 +10809,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202462": {
@@ -10261,6 +10820,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202471": {
@@ -10271,6 +10831,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202472": {
@@ -10281,6 +10842,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202481": {
@@ -10291,6 +10853,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202482": {
@@ -10301,6 +10864,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "202501": {
@@ -10311,6 +10875,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 508,
+      "sp_cost": 180,
       "singlemode_only_unique": true
     },
     "202502": {
@@ -10321,6 +10886,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 217,
+      "sp_cost": 180,
       "singlemode_only_unique": false
     },
     "210011": {
@@ -10331,6 +10897,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210012": {
@@ -10341,6 +10908,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210021": {
@@ -10351,6 +10919,7 @@
       "group_rate": 2,
       "category": 2,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210022": {
@@ -10361,6 +10930,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210031": {
@@ -10371,6 +10941,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210032": {
@@ -10381,6 +10952,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210041": {
@@ -10391,6 +10963,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210042": {
@@ -10401,6 +10974,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210051": {
@@ -10411,6 +10985,7 @@
       "group_rate": 2,
       "category": 1,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210052": {
@@ -10421,6 +10996,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210061": {
@@ -10431,6 +11007,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210062": {
@@ -10441,6 +11018,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210071": {
@@ -10451,6 +11029,7 @@
       "group_rate": 2,
       "category": 4,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210072": {
@@ -10461,6 +11040,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210081": {
@@ -10471,6 +11051,7 @@
       "group_rate": 2,
       "category": 3,
       "grade_value": 633,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "210082": {
@@ -10481,6 +11062,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 263,
+      "sp_cost": 200,
       "singlemode_only_unique": false
     },
     "210091": {
@@ -10491,6 +11073,7 @@
       "group_rate": 1,
       "category": 2,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "210101": {
@@ -10501,6 +11084,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "210111": {
@@ -10511,6 +11095,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "210121": {
@@ -10521,6 +11106,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "210131": {
@@ -10531,6 +11117,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "210141": {
@@ -10541,6 +11128,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 174,
+      "sp_cost": 150,
       "singlemode_only_unique": false
     },
     "300011": {
@@ -10551,6 +11139,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300021": {
@@ -10561,6 +11150,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300031": {
@@ -10571,6 +11161,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300041": {
@@ -10581,6 +11172,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300051": {
@@ -10591,6 +11183,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300061": {
@@ -10601,6 +11194,7 @@
       "group_rate": 1,
       "category": 3,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300071": {
@@ -10611,6 +11205,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300081": {
@@ -10621,6 +11216,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300091": {
@@ -10631,6 +11227,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300101": {
@@ -10641,6 +11238,7 @@
       "group_rate": 1,
       "category": 4,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300111": {
@@ -10651,6 +11249,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300121": {
@@ -10661,6 +11260,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300131": {
@@ -10671,6 +11271,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "300141": {
@@ -10681,6 +11282,7 @@
       "group_rate": 1,
       "category": 5,
       "grade_value": 340,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "900011": {
@@ -10691,6 +11293,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900021": {
@@ -10701,6 +11304,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900031": {
@@ -10711,6 +11315,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900041": {
@@ -10721,6 +11326,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900051": {
@@ -10731,6 +11337,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900061": {
@@ -10741,6 +11348,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900071": {
@@ -10751,6 +11359,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900081": {
@@ -10761,6 +11370,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900091": {
@@ -10771,6 +11381,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900101": {
@@ -10781,6 +11392,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900111": {
@@ -10791,6 +11403,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900121": {
@@ -10801,6 +11414,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900131": {
@@ -10811,6 +11425,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900141": {
@@ -10821,6 +11436,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900151": {
@@ -10831,6 +11447,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900161": {
@@ -10841,6 +11458,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900171": {
@@ -10851,6 +11469,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900181": {
@@ -10861,6 +11480,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900191": {
@@ -10871,6 +11491,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900201": {
@@ -10881,6 +11502,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900211": {
@@ -10891,6 +11513,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900221": {
@@ -10901,6 +11524,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900231": {
@@ -10911,6 +11535,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900241": {
@@ -10921,6 +11546,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900251": {
@@ -10931,6 +11557,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900261": {
@@ -10941,6 +11568,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900271": {
@@ -10951,6 +11579,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900281": {
@@ -10961,6 +11590,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900301": {
@@ -10971,6 +11601,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900311": {
@@ -10981,6 +11612,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900321": {
@@ -10991,6 +11623,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900331": {
@@ -11001,6 +11634,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900341": {
@@ -11011,6 +11645,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900351": {
@@ -11021,6 +11656,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900361": {
@@ -11031,6 +11667,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900371": {
@@ -11041,6 +11678,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900381": {
@@ -11051,6 +11689,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900391": {
@@ -11061,6 +11700,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900401": {
@@ -11071,6 +11711,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900411": {
@@ -11081,6 +11722,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900441": {
@@ -11091,6 +11733,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900451": {
@@ -11101,6 +11744,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900461": {
@@ -11111,6 +11755,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900481": {
@@ -11121,6 +11766,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900501": {
@@ -11131,6 +11777,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900511": {
@@ -11141,6 +11788,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900521": {
@@ -11151,6 +11799,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900531": {
@@ -11161,6 +11810,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900561": {
@@ -11171,6 +11821,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900581": {
@@ -11181,6 +11832,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900591": {
@@ -11191,6 +11843,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900601": {
@@ -11201,6 +11854,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900611": {
@@ -11211,6 +11865,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900621": {
@@ -11221,6 +11876,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900641": {
@@ -11231,6 +11887,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900671": {
@@ -11241,6 +11898,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900681": {
@@ -11251,6 +11909,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900691": {
@@ -11261,6 +11920,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900711": {
@@ -11271,6 +11931,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900721": {
@@ -11281,6 +11942,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900741": {
@@ -11291,6 +11953,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "900981": {
@@ -11301,6 +11964,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910011": {
@@ -11311,6 +11975,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910031": {
@@ -11321,6 +11986,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910041": {
@@ -11331,6 +11997,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910051": {
@@ -11341,6 +12008,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910061": {
@@ -11351,6 +12019,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910071": {
@@ -11361,6 +12030,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910101": {
@@ -11371,6 +12041,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910111": {
@@ -11381,6 +12052,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910131": {
@@ -11391,6 +12063,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910141": {
@@ -11401,6 +12074,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910151": {
@@ -11411,6 +12085,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910171": {
@@ -11421,6 +12096,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910181": {
@@ -11431,6 +12107,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910201": {
@@ -11441,6 +12118,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910221": {
@@ -11451,6 +12129,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910231": {
@@ -11461,6 +12140,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910241": {
@@ -11471,6 +12151,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910261": {
@@ -11481,6 +12162,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910301": {
@@ -11491,6 +12173,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910351": {
@@ -11501,6 +12184,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910371": {
@@ -11511,6 +12195,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910381": {
@@ -11521,6 +12206,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910401": {
@@ -11531,6 +12217,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910451": {
@@ -11541,6 +12228,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910461": {
@@ -11551,6 +12239,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910501": {
@@ -11561,6 +12250,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910521": {
@@ -11571,6 +12261,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910561": {
@@ -11581,6 +12272,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910591": {
@@ -11591,6 +12283,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910601": {
@@ -11601,6 +12294,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "910611": {
@@ -11611,6 +12305,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "920011": {
@@ -11621,6 +12316,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "920131": {
@@ -11631,6 +12327,7 @@
       "group_rate": 2,
       "category": 5,
       "grade_value": 180,
+      "sp_cost": 200,
       "singlemode_only_unique": true
     },
     "1000011": {
@@ -11641,6 +12338,7 @@
       "group_rate": 1,
       "category": 101,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "1000012": {
@@ -11651,6 +12349,7 @@
       "group_rate": 1,
       "category": 101,
       "grade_value": 0,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "1100011": {
@@ -11661,6 +12360,7 @@
       "group_rate": 1,
       "category": 1,
       "grade_value": -500,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "1200011": {
@@ -11671,6 +12371,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 508,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "1200021": {
@@ -11681,6 +12382,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 508,
+      "sp_cost": null,
       "singlemode_only_unique": true
     },
     "1200031": {
@@ -11691,6 +12393,7 @@
       "group_rate": 1,
       "category": 0,
       "grade_value": 508,
+      "sp_cost": null,
       "singlemode_only_unique": true
     }
   },

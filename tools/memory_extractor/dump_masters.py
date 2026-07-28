@@ -167,11 +167,19 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         # Tachyon's "Triumphant Pulse", id 100321) have disable_singlemode=1
         # but appear in IT runs regardless. That flag means "cannot be
         # acquired by random skill hint" — not "cannot appear in IT".
+        #
+        # Skill SP cost lives in single_mode_skill_need_point (only 569
+        # entries — many skills are inheritance-only and can't be bought).
+        # We LEFT JOIN so all skills come through even without a cost row.
         skills: dict[str, dict] = {}
         for r in con.execute(
-            "SELECT id, rarity, group_id, group_rate, skill_category, "
-            "grade_value, disable_singlemode "
-            "FROM skill_data"
+            """
+            SELECT s.id, s.rarity, s.group_id, s.group_rate, s.skill_category,
+                   s.grade_value, s.disable_singlemode,
+                   n.need_skill_point
+            FROM skill_data s
+            LEFT JOIN single_mode_skill_need_point n ON n.id = s.id
+            """
         ):
             sid = r["id"]
             skills[str(sid)] = {
@@ -182,6 +190,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "group_rate": r["group_rate"],
                 "category": r["skill_category"],
                 "grade_value": r["grade_value"],
+                "sp_cost": r["need_skill_point"],  # None if not purchasable in IT
                 "singlemode_only_unique": bool(r["disable_singlemode"]),
             }
 

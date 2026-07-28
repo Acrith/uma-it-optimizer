@@ -166,6 +166,22 @@ __HEADER_STATS__
     <tbody>__HINT_ROWS__</tbody>
 </table>
 
+<h2>Score breakdown <span class="subtle">— what the SS-grade estimator says</span></h2>
+__SCORE_TABLE__
+
+<h2>Recommended skill purchases <span class="subtle">— knapsack-optimal plan for your unspent SP</span></h2>
+<table>
+    <thead>
+        <tr>
+            <th>Skill</th>
+            <th class="num">SP cost</th>
+            <th class="num">Grade value</th>
+            <th class="num">Value / SP</th>
+        </tr>
+    </thead>
+    <tbody>__PLAN_ROWS__</tbody>
+</table>
+
 <h2>Race history <span class="subtle">— every race actually run, ordered by turn</span></h2>
 <table>
     <thead>
@@ -321,6 +337,54 @@ def render(d: RunDetail) -> str:
         if d.trainee_portrait_url else ""
     )
 
+    # Score-breakdown table
+    ss = d.score_summary or {}
+    if ss:
+        # Format helpers
+        def fnum(n): return f"{n:,}" if isinstance(n, int) else str(n)
+        score_table = (
+            '<table>\n<thead><tr>'
+            '<th>Component</th><th class="num">Score</th><th>Notes</th>'
+            '</tr></thead><tbody>'
+            f'<tr><td>Stats (5-stat curve)</td><td class="num">{fnum(ss["stat_score"])}</td>'
+            f'<td>from FiveStatusFinalScore lookup</td></tr>'
+            f'<tr><td>Owned skills</td><td class="num">{fnum(ss["owned_skill_score"])}</td>'
+            f'<td>sum of grade_value for skills you already have</td></tr>'
+            f'<tr class="total"><td>Floor (no more SP spent)</td>'
+            f'<td class="num">{fnum(ss["floor"])}</td><td>rank {ss["rank_floor"]}</td></tr>'
+            f'<tr><td>+ Optimal SP spend</td>'
+            f'<td class="num">+{fnum(ss["planned_score"] - ss["floor"])}</td>'
+            f'<td>{ss["sp_spent_in_plan"]}/{ss["unspent_sp"]} SP used '
+            f'({len(d.plan)} skills)</td></tr>'
+            f'<tr class="total"><td>Planned score (knapsack ceiling)</td>'
+            f'<td class="num">{fnum(ss["planned_score"])}</td>'
+            f'<td>rank {ss["rank_planned"]}</td></tr>'
+            f'<tr><td>Naive ceiling (2.0×SP)</td>'
+            f'<td class="num">{fnum(ss["naive_ceiling"])}</td>'
+            f'<td>flat conversion, overstates by '
+            f'{fnum(ss["naive_ceiling"] - ss["planned_score"])}</td></tr>'
+            '</tbody></table>'
+        )
+    else:
+        score_table = '<p class="subtle">Score estimator produced no result for this capture.</p>'
+
+    # Plan rows
+    plan_rows_html: list[str] = []
+    for p in d.plan:
+        plan_rows_html.append(
+            f'<tr>'
+            f'<td>{p["name"]}</td>'
+            f'<td class="num">{p["sp_cost"]}</td>'
+            f'<td class="num">{p["grade_value"]}</td>'
+            f'<td class="num">{p["value_per_sp"]:.2f}</td>'
+            f'</tr>'
+        )
+    if not plan_rows_html:
+        plan_rows_html.append(
+            '<tr><td colspan="4">No hints available to buy '
+            '(or no SP budget). Estimator falls back to owned-skill-only floor.</td></tr>'
+        )
+
     return (
         DETAIL_HTML
         .replace("__TITLE__", f"{d.trainee_name} · {d.timestamp}")
@@ -330,6 +394,8 @@ def render(d: RunDetail) -> str:
         .replace("__HEADER_STATS__", header_stats)
         .replace("__CONTRIBUTIONS_ROWS__", "".join(contrib_rows_html))
         .replace("__HINT_ROWS__", "".join(hint_rows_html))
+        .replace("__SCORE_TABLE__", score_table)
+        .replace("__PLAN_ROWS__", "".join(plan_rows_html))
         .replace("__RACE_ROWS__", "".join(race_rows_html))
         .replace("__FACTOR_ROWS__", "".join(factor_rows_html))
     )
