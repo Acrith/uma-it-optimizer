@@ -320,6 +320,13 @@ def _score_summary(raw: dict) -> dict:
     }
 
 
+def _skill_rarity(group_id: int, skill_id: int) -> int:
+    """Look up skill_data.rarity for a specific skill_id."""
+    m = load_masters()
+    s = m.get("skills", {}).get(str(skill_id))
+    return int(s.get("rarity", 0)) if s else 0
+
+
 def _planner_data(raw: dict) -> dict:
     """Build the interactive-planner blob: every unique hint group with
     all its variants, the SP budget, currently-owned skills, and the
@@ -333,44 +340,47 @@ def _planner_data(raw: dict) -> dict:
     owned_ids = [int(s.get("skill_id", 0) or 0)
                  for s in chara.get("skill_array", []) or []]
 
-    # Collect unique group_ids across all hint sources. Within a group we
-    # want ALL variants regardless of hint's own rarity, because upgrade
-    # pairs (white → gold, e.g. Corner Adept ○ → Professor of Curvature)
-    # share a group_id — the game unlocks the gold upgrade after you own
-    # the white. Filtering by hint rarity would hide half the pair.
-    seen_groups: set[int] = set()
-    hint_groups: list[dict] = []
+    # For each group_id, collect the set of rarities the player actually
+    # has hints for. A gold-tier upgrade (rarity=2 skill) is only
+    # available if the player has a rarity=2 hint for that same group —
+    # not just any hint. Without this filter, the planner shows every
+    # possible gold upgrade in the game regardless of what the run
+    # actually captured, which is dishonestly generous.
+    rarities_per_group: dict[int, set[int]] = {}
     for gi in raw.get("GainInfo", []) or []:
         for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
             if not isinstance(t, dict):
                 continue
             gid = int(t.get("group_id", 0) or 0)
-            if gid == 0 or gid in seen_groups:
+            rar = int(t.get("rarity", 0) or 0)
+            if gid == 0:
                 continue
-            seen_groups.add(gid)
-            variants = hint_group_variants(gid)  # no rarity filter
-            if not variants:
-                continue
-            variants = [v for v in variants if v["skill_id"] not in owned_ids]
-            if not variants:
-                continue
-            # Group title: prefer the white ○ variant's name (that's the
-            # base skill name — 'Corner Adept' rather than 'Professor of
-            # Curvature'). Fall back to the highest-value variant's name.
-            white_o = next((v for v in variants
-                            if v.get("rate") == 1 and (v.get("grade_value") or 0) > 0), None)
-            display_name = (white_o or max(variants, key=lambda v: v["grade_value"]))["name"]
-            # Strip trailing decorators like " ○" so the group title reads
-            # cleanly ('Corner Adept' rather than 'Corner Adept ○').
-            for suffix in (" ○", " ◎", " ×"):
-                if display_name.endswith(suffix):
-                    display_name = display_name[: -len(suffix)]
-                    break
-            hint_groups.append({
-                "group_id": gid,
-                "display_name": display_name,
-                "variants": variants,
-            })
+            rarities_per_group.setdefault(gid, set()).add(rar)
+
+    hint_groups: list[dict] = []
+    for gid, avail_rarities in rarities_per_group.items():
+        variants = hint_group_variants(gid)   # all variants in the group
+        # Keep only variants whose rarity matches a hint the player has.
+        variants = [v for v in variants
+                    if _skill_rarity(gid, v["skill_id"]) in avail_rarities]
+        # And skip already-owned skills.
+        variants = [v for v in variants if v["skill_id"] not in owned_ids]
+        if not variants:
+            continue
+        # Group title: prefer the white ○ variant's name (that's the base
+        # skill name — 'Corner Adept' rather than 'Professor of Curvature').
+        white_o = next((v for v in variants
+                        if v.get("rate") == 1 and (v.get("grade_value") or 0) > 0), None)
+        display_name = (white_o or max(variants, key=lambda v: v["grade_value"]))["name"]
+        for suffix in (" ○", " ◎", " ×"):
+            if display_name.endswith(suffix):
+                display_name = display_name[: -len(suffix)]
+                break
+        hint_groups.append({
+            "group_id": gid,
+            "display_name": display_name,
+            "variants": variants,
+        })
 
     # Sort hint groups by their best variant's value_per_sp desc so the
     # most impactful groups sit at the top.

@@ -447,15 +447,21 @@ PLANNER_JS = """
     }
 
     function renderGroup(g) {
-        // Split variants into white (rarity=1: ○/×) vs gold (rarity=2: ◎/alt)
-        // rows. Renders each row separately so upgrade pairs read as a
-        // parent + child ('Corner Adept ○ 100SP + Professor of Curvature 130SP').
-        const whites = g.variants.filter(v => v.rate === 1 || v.rate === -1);
-        const golds = g.variants.filter(v => v.rate === 2 || v.rate === 3);
+        // Split by skill rarity, not by group_rate:
+        //  rarity=1 (white tier): can contain ◎ ○ × variants — mutually
+        //    exclusive picks of the same base skill (double-circle
+        //    activate-always, single-circle situational, × harmful).
+        //  rarity=2 (gold tier / true upgrade): separate purchase,
+        //    requires white to be owned first (e.g. Corner Adept ○
+        //    → Professor of Curvature).
+        // We only render rows the player actually has hints for — the
+        // Python side already filtered `g.variants` accordingly.
+        const whites = g.variants.filter(v => v.rarity === 1);
+        const golds = g.variants.filter(v => v.rarity === 2);
         const hasSel = g.variants.some(v => selection.has(v.skill_id));
         const rows = [];
         if (whites.length) rows.push(renderVariantRow(whites, 'White', false));
-        if (golds.length) rows.push(renderVariantRow(golds, 'Gold upgrade', true));
+        if (golds.length)  rows.push(renderVariantRow(golds, 'Gold upgrade', true));
         return `
             <div class="hint-group ${hasSel ? 'has-selection' : ''}">
                 <div class="hint-group-title">${g.display_name}</div>

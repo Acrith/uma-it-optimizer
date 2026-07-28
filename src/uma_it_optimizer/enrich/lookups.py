@@ -183,6 +183,7 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
             "name": s.get("name", f"?skill:{sid_str}"),
             "rate": rate,
             "rate_label": GROUP_RATE_LABEL.get(rate, "?"),
+            "rarity": int(s.get("rarity", 0) or 0),
             "sp_cost": int(cost),
             "grade_value": int(val),
             "value_per_sp": round(val / cost, 2) if cost else 0.0,
