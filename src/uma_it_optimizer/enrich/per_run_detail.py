@@ -138,6 +138,7 @@ def build(path: Path) -> RunDetail:
             "card_name": "Events",
             "card_type": "",
             "image_url": None,
+            "limit_break": None,
             "gains": gain,
             "hint_count": len(_hints(gain_infos[0])),
         })
@@ -149,21 +150,39 @@ def build(path: Path) -> RunDetail:
             "card_name": "Inspiration",
             "card_type": "",
             "image_url": None,
+            "limit_break": None,
             "gains": gain,
             "hint_count": len(_hints(gain_infos[1])),
         })
-    for sc in sup_cards:
+    # Per-card LB level lives on SingleModeChara.support_card_array
+    # ({position, support_card_id, limit_break_count, exp, ...}). Build a
+    # lookup so we can show LB crystals per card.
+    lb_by_card_id = {
+        int(entry.get("support_card_id", 0) or 0): int(entry.get("limit_break_count", 0) or 0)
+        for entry in (chara.get("support_card_array") or [])
+    }
+
+    for i, sc in enumerate(sup_cards):
         cid = int(sc.get("<SupportCardId>k__BackingField", 0) or 0)
         gi = sc.get("<GainInfo>k__BackingField", {}) or {}
         gain = _gain_fields(gi)
+        # SupportCardGainInfo[i] hints live in GainInfo[7-i] (reverse-mapped
+        # relative to the Events[0] / Inspiration[1] / Cards[2..7] layout).
+        # SupportCardGainInfo's own SkillTipsArray only contains untraversed
+        # placeholder strings, so we route to GainInfo[7-i] instead.
+        card_hints_idx = len(gain_infos) - 1 - i
+        card_hints = 0
+        if 0 <= card_hints_idx < len(gain_infos):
+            card_hints = len(_hints(gain_infos[card_hints_idx]))
         contributions.append({
             "source": "Support",
             "card_id": cid,
             "card_name": support_card_name(cid),
             "card_type": support_card_type(cid),
             "image_url": support_card_image_url(cid),
+            "limit_break": lb_by_card_id.get(cid, 0),
             "gains": gain,
-            "hint_count": 0,  # per-card hints not captured cleanly (placeholder strings)
+            "hint_count": card_hints,
         })
 
     # ── Skill hints across all sources ───────────────────────────────

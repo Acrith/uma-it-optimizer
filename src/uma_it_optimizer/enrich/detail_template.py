@@ -110,15 +110,34 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 }
 .header-body { flex: 1; }
 .card-thumb {
-    width: 40px;
-    height: 52px;
-    border-radius: 3px;
+    width: 60px;
+    height: 78px;
+    border-radius: 4px;
     vertical-align: middle;
     object-fit: cover;
     background: var(--row-alt);
     border: 1px solid var(--border);
+    display: block;
 }
-td.thumb-cell { width: 48px; padding: 4px 6px; }
+td.thumb-cell {
+    width: 72px;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+.lb-crystals {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 3px;
+}
+.lb-crystals svg { width: 10px; height: 10px; display: block; }
+.lb-diamond-filled { fill: #f5c542; stroke: #b8860b; stroke-width: 1; }
+.lb-diamond-empty  { fill: none; stroke: #999; stroke-width: 1; }
+@media (prefers-color-scheme: dark) {
+    .lb-diamond-filled { fill: #ffd858; stroke: #a06c00; }
+    .lb-diamond-empty  { stroke: #555; }
+}
 </style>
 </head>
 <body>
@@ -253,9 +272,21 @@ def render(d: RunDetail) -> str:
             f' loading="lazy" onerror="this.style.visibility=\'hidden\'">'
             if c.get("image_url") else ""
         )
+        # LB crystals: 4 diamonds, N filled based on limit_break (0..4).
+        # SVG rhombus (diamond) shape, 10px each — matches game-UI orange.
+        lb = c.get("limit_break")
+        if lb is not None:
+            def _diamond(filled: bool) -> str:
+                cls = "lb-diamond-filled" if filled else "lb-diamond-empty"
+                return (f'<svg viewBox="0 0 10 10">'
+                        f'<polygon class="{cls}" points="5,0 10,5 5,10 0,5"/></svg>')
+            crystals = "".join(_diamond(i < lb) for i in range(4))
+            lb_html = f'{img_html}<div class="lb-crystals" title="Limit break {lb}/4">{crystals}</div>'
+        else:
+            lb_html = img_html
         contrib_rows_html.append(
             f'<tr>'
-            f'<td class="thumb-cell">{img_html}</td>'
+            f'<td class="thumb-cell">{lb_html}</td>'
             f'<td>{c["card_name"]}</td>'
             f'<td>{type_chip}</td>'
             f'<td class="num">{_fmt(g["speed"])}</td>'
