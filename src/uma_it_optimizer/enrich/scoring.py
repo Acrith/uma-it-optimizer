@@ -29,8 +29,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from collections import defaultdict
+
 from .data.five_status_score import FIVE_STATUS_FINAL_SCORE
-from .lookups import load_masters, skill_from_hint
+from .lookups import hint_group_variants, load_masters, skill_from_hint
 
 
 PT_SCORE_RATE_DEFAULT = 2.0
@@ -204,6 +206,125 @@ def optimal_purchase(
     return plan, total_value, sp_used
 
 
+def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dict]:
+    """Per-group option packages for multi-choice knapsack.
+
+    Each hint group contributes 0..N mutually-exclusive packages:
+      - do nothing (implicit — knapsack always considers it)
+      - buy just white variant W₁ (cost W₁.sp, value W₁.val)
+      - buy white W₁ + gold G₁ (cost W₁.sp + G₁.sp, value W₁.val + G₁.val)
+      - ...one entry per (white, [gold?]) combination.
+
+    Enforces game rules:
+      - Gold requires a white in the same group as prerequisite (both cost).
+      - Only variants with the player's captured hint rarities count
+        (with rarity=2 → rarity=1 auto-unlock, per game convention).
+      - Skips × variants (negative value — knapsack would never pick).
+      - Skips owned skills.
+    """
+    rarities_per_group: dict[int, set[int]] = defaultdict(set)
+    for gi in raw.get("GainInfo", []) or []:
+        for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
+            if not isinstance(t, dict):
+                continue
+            gid = int(t.get("group_id", 0) or 0)
+            rar = int(t.get("rarity", 0) or 0)
+            if gid == 0:
+                continue
+            rarities_per_group[gid].add(rar)
+    for _gid, rars in rarities_per_group.items():
+        if 2 in rars:
+            rars.add(1)  # gold-tier hint implicitly unlocks white
+
+    owned = set(owned_skill_ids)
+    groups: list[dict] = []
+    for gid, avail_rarities in rarities_per_group.items():
+        variants = hint_group_variants(gid)
+        variants = [v for v in variants
+                    if v["rarity"] in avail_rarities and v["skill_id"] not in owned]
+        # Whites eligible as standalone or as prereq: positive value only
+        whites = [v for v in variants if v["rarity"] == 1 and v["grade_value"] > 0]
+        golds = [v for v in variants if v["rarity"] == 2]
+        if not whites and not golds:
+            continue
+        packages: list[dict] = [{"cost": 0, "value": 0, "skill_ids": ()}]
+        for w in whites:
+            packages.append({
+                "cost": w["sp_cost"], "value": w["grade_value"],
+                "skill_ids": (w["skill_id"],),
+            })
+            for g in golds:
+                packages.append({
+                    "cost": w["sp_cost"] + g["sp_cost"],
+                    "value": w["grade_value"] + g["grade_value"],
+                    "skill_ids": (w["skill_id"], g["skill_id"]),
+                })
+        groups.append({"group_id": gid, "packages": packages})
+    return groups
+
+
+def optimal_purchase_grouped(
+    hint_group_options: list[dict],
+    sp_budget: int,
+) -> tuple[list["SkillPurchase"], int, int]:
+    """Multi-choice knapsack: pick at most one package per hint group,
+    maximize Σ value subject to Σ cost ≤ budget.
+
+    Each package is (cost, value, skill_ids_bought). One package per
+    group represents 'do nothing / buy white / buy white+gold'.
+    """
+    if not hint_group_options or sp_budget <= 0:
+        return [], 0, 0
+
+    n = len(hint_group_options)
+    # dp[i][w] = best value using first i groups within budget w
+    # choice[i][w] = which package index of group i-1 was picked
+    dp = [[0] * (sp_budget + 1) for _ in range(n + 1)]
+    choice = [[0] * (sp_budget + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        packages = hint_group_options[i - 1]["packages"]
+        for w in range(sp_budget + 1):
+            best_v = dp[i - 1][w]
+            best_pkg = 0
+            for pkg_idx, pkg in enumerate(packages):
+                c = pkg["cost"]
+                if c <= w:
+                    v = dp[i - 1][w - c] + pkg["value"]
+                    if v > best_v:
+                        best_v = v
+                        best_pkg = pkg_idx
+            dp[i][w] = best_v
+            choice[i][w] = best_pkg
+
+    total_value = dp[n][sp_budget]
+    chosen_sids: list[int] = []
+    w = sp_budget
+    for i in range(n, 0, -1):
+        pkg_idx = choice[i][w]
+        pkg = hint_group_options[i - 1]["packages"][pkg_idx]
+        chosen_sids.extend(pkg["skill_ids"])
+        w -= pkg["cost"]
+    sp_used = sp_budget - w
+
+    skills = load_masters().get("skills", {})
+    plan: list[SkillPurchase] = []
+    for sid in chosen_sids:
+        s = skills.get(str(sid))
+        if not s:
+            continue
+        cost = int(s.get("sp_cost") or 0)
+        val = int(s.get("grade_value") or 0)
+        plan.append(SkillPurchase(
+            skill_id=sid,
+            name=s.get("name", f"?skill:{sid}"),
+            sp_cost=cost,
+            grade_value=val,
+            value_per_sp=val / cost if cost else 0.0,
+        ))
+    plan.sort(key=lambda p: (-p.value_per_sp, -p.grade_value))
+    return plan, total_value, sp_used
+
+
 def _rank_for_score(score: int) -> int:
     """Look up numeric rank tier for a score. Returns highest tier if score
     exceeds all thresholds; returns 1 for negative/zero scores."""
@@ -257,35 +378,40 @@ def estimate(*,
 
 
 def estimate_from_run_json(raw: dict) -> ScoreEstimate:
-    """Build a ScoreEstimate directly from a run's raw JSON. Includes the
-    knapsack optimum over all skill hints captured across sources."""
+    """Build a ScoreEstimate from a run's raw JSON. Uses the multi-choice
+    knapsack over per-group option packages so gold picks always come
+    bundled with their required white prerequisite (both costs paid)."""
     chara = raw["SingleModeChara"][0]
     stats = {k: int(chara.get(k, 0) or 0) for k in FIVE_STATS}
     caps = {k: int(chara.get(f"max_{k}", 0) or 0) for k in FIVE_STATS}
-    owned = [int(s.get("skill_id", 0) or 0) for s in chara.get("skill_array", []) or []]
+    owned = [int(s.get("skill_id", 0) or 0)
+             for s in chara.get("skill_array", []) or []]
 
-    # Collect all skill hints across all GainInfo sources — map each
-    # (group_id, rarity) to its canonical skill_id.
-    unspent_sp = 0
-    hint_skill_ids: list[int] = []
-    seen: set[tuple[int, int]] = set()
-    for gi in raw.get("GainInfo", []) or []:
-        unspent_sp += int(gi.get("<SkillPoint>k__BackingField", 0) or 0)
-        for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
-            if not isinstance(t, dict):
-                continue
-            key = (int(t.get("group_id", 0) or 0), int(t.get("rarity", 0) or 0))
-            if key in seen or key[0] == 0:
-                continue
-            seen.add(key)
-            sid, _ = skill_from_hint(*key)
-            if sid:
-                hint_skill_ids.append(sid)
+    unspent_sp = sum(
+        int(gi.get("<SkillPoint>k__BackingField", 0) or 0)
+        for gi in raw.get("GainInfo", []) or []
+    )
 
-    return estimate(
-        stats=stats,
-        caps=caps,
-        owned_skill_ids=owned,
-        available_hint_skill_ids=hint_skill_ids,
+    stat = _stat_score(stats, caps)
+    owned_val = _owned_skill_score(owned)
+    sp_bonus = int(PT_SCORE_RATE_DEFAULT * unspent_sp)
+    floor = stat + owned_val
+    naive_ceiling = floor + sp_bonus
+
+    hint_groups_opts = _build_hint_group_options(raw, owned)
+    plan, plan_value, sp_used = optimal_purchase_grouped(hint_groups_opts, unspent_sp)
+    planned_score = floor + plan_value
+
+    return ScoreEstimate(
+        stat_score=stat,
+        owned_skill_score=owned_val,
         unspent_sp=unspent_sp,
+        sp_ceiling_bonus=sp_bonus,
+        floor=floor,
+        naive_ceiling=naive_ceiling,
+        planned_score=planned_score,
+        sp_spent_in_plan=sp_used,
+        plan=tuple(plan),
+        rank_floor=_rank_for_score(floor),
+        rank_planned=_rank_for_score(planned_score),
     )
