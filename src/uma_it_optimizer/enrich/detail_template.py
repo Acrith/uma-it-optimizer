@@ -109,35 +109,68 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     flex-shrink: 0;
 }
 .header-body { flex: 1; }
-.card-thumb {
-    width: 60px;
-    height: 78px;
-    border-radius: 4px;
-    vertical-align: middle;
-    object-fit: cover;
-    background: var(--row-alt);
-    border: 1px solid var(--border);
-    display: block;
-}
+/* ── game-style card widget ─────────────────────────────────────── */
 td.thumb-cell {
-    width: 72px;
+    width: 78px;
     padding: 6px;
     text-align: center;
     vertical-align: middle;
 }
-.lb-crystals {
-    display: flex;
-    gap: 2px;
+.card-widget {
+    position: relative;
+    width: 66px;
+    height: 88px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: var(--row-alt);
+    border: 1px solid var(--border);
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.card-widget img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.card-widget-rarity {
+    position: absolute; top: 0; left: 0;
+    padding: 1px 5px 2px;
+    font-size: 9px; font-weight: 800;
+    color: white;
+    letter-spacing: 0.02em;
+    border-radius: 0 0 4px 0;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+/* SSR = rainbow-ish gold, SR = purple, R = blue — matches game conventions */
+.rarity-ssr { background: linear-gradient(135deg, #ff5c9e, #ffa754 40%, #ffea54 80%); }
+.rarity-sr  { background: linear-gradient(135deg, #b76aff, #6a4fff); }
+.rarity-r   { background: linear-gradient(135deg, #4fa6ff, #4f7dff); }
+.card-widget-type {
+    position: absolute; top: 3px; right: 3px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    font-size: 9px; font-weight: 800;
+    text-align: center;
+    line-height: 15px;
+    color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.7);
+}
+.type-icon-Speed   { background: #3a7bff; }
+.type-icon-Stamina { background: #e64545; }
+.type-icon-Power   { background: #ff8f30; }
+.type-icon-Guts    { background: #e94494; }
+.type-icon-Wit     { background: #37b34a; }
+.type-icon-Friend  { background: #f5c942; color: #6a4600; text-shadow: none; }
+.card-widget-crystals {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    display: flex; gap: 1px;
     justify-content: center;
-    margin-top: 3px;
+    padding: 3px 2px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
 }
-.lb-crystals svg { width: 10px; height: 10px; display: block; }
-.lb-diamond-filled { fill: #f5c542; stroke: #b8860b; stroke-width: 1; }
-.lb-diamond-empty  { fill: none; stroke: #999; stroke-width: 1; }
-@media (prefers-color-scheme: dark) {
-    .lb-diamond-filled { fill: #ffd858; stroke: #a06c00; }
-    .lb-diamond-empty  { stroke: #555; }
-}
+.card-widget-crystals svg { width: 10px; height: 10px; display: block; }
+/* Blue diamonds, mirroring the in-game LB indicator */
+.lb-diamond-filled { fill: #6ab6ff; stroke: #2f6fc7; stroke-width: 1; }
+.lb-diamond-empty  { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 1; }
 </style>
 </head>
 <body>
@@ -237,6 +270,23 @@ def _stat_card(label: str, value: str) -> str:
             f'<span class="stat-value">{value}</span></div>')
 
 
+def _rarity_from_id(card_id: int) -> tuple[str, str]:
+    """Support card id prefix encodes rarity: 1xxxx=R, 2xxxx=SR, 3xxxx=SSR.
+    Returns (css_class, display_label)."""
+    prefix = card_id // 10000
+    if prefix == 3:
+        return "ssr", "SSR"
+    if prefix == 2:
+        return "sr", "SR"
+    return "r", "R"
+
+
+def _type_short(card_type: str) -> str:
+    """One-letter abbreviation shown inside the type badge circle."""
+    return {"Speed": "S", "Stamina": "St", "Power": "P",
+            "Guts": "G", "Wit": "W", "Friend": "F"}.get(card_type, "?")
+
+
 def _fmt(n: int | None) -> str:
     if n is None or n == 0:
         return "—"
@@ -267,23 +317,41 @@ def render(d: RunDetail) -> str:
         g = c["gains"]
         type_chip = (f'<span class="chip type-{c["card_type"]}">{c["card_type"]}</span>'
                      if c["card_type"] else "")
-        img_html = (
-            f'<img class="card-thumb" src="{c["image_url"]}" alt="{c["card_name"]}"'
-            f' loading="lazy" onerror="this.style.visibility=\'hidden\'">'
-            if c.get("image_url") else ""
-        )
-        # LB crystals: 4 diamonds, N filled based on limit_break (0..4).
-        # SVG rhombus (diamond) shape, 10px each — matches game-UI orange.
-        lb = c.get("limit_break")
-        if lb is not None:
-            def _diamond(filled: bool) -> str:
-                cls = "lb-diamond-filled" if filled else "lb-diamond-empty"
-                return (f'<svg viewBox="0 0 10 10">'
-                        f'<polygon class="{cls}" points="5,0 10,5 5,10 0,5"/></svg>')
-            crystals = "".join(_diamond(i < lb) for i in range(4))
-            lb_html = f'{img_html}<div class="lb-crystals" title="Limit break {lb}/4">{crystals}</div>'
+        # Card widget imitating the in-game card layout — rarity badge
+        # top-left, type badge top-right, LB crystals overlaid on the
+        # bottom. Only support cards get the full treatment; Events /
+        # Inspiration have no image so no widget.
+        if c.get("image_url"):
+            rarity_class, rarity_label = _rarity_from_id(c.get("card_id") or 0)
+            type_letter = _type_short(c.get("card_type", ""))
+            lb = c.get("limit_break")
+            if lb is not None:
+                def _diamond(filled: bool) -> str:
+                    cls = "lb-diamond-filled" if filled else "lb-diamond-empty"
+                    return (f'<svg viewBox="0 0 10 10">'
+                            f'<polygon class="{cls}" points="5,0 10,5 5,10 0,5"/></svg>')
+                crystals_html = (
+                    f'<div class="card-widget-crystals" title="Limit break {lb}/4">'
+                    f'{"".join(_diamond(i < lb) for i in range(4))}</div>'
+                )
+            else:
+                crystals_html = ""
+            type_html = (
+                f'<span class="card-widget-type type-icon-{c["card_type"]}"'
+                f' title="{c["card_type"]}">{type_letter}</span>'
+                if c["card_type"] else ""
+            )
+            lb_html = (
+                f'<div class="card-widget" title="{c["card_name"]}">'
+                f'<img src="{c["image_url"]}" alt="{c["card_name"]}" loading="lazy"'
+                f' onerror="this.style.visibility=\'hidden\'">'
+                f'<span class="card-widget-rarity rarity-{rarity_class}">{rarity_label}</span>'
+                f'{type_html}'
+                f'{crystals_html}'
+                f'</div>'
+            )
         else:
-            lb_html = img_html
+            lb_html = ""
         contrib_rows_html.append(
             f'<tr>'
             f'<td class="thumb-cell">{lb_html}</td>'
