@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .lookups import (
+    RARITY_PREFIX_SUPPORT,
     factor_name,
     race_grade_label,
     race_program_info,
@@ -26,7 +27,9 @@ from .lookups import (
     skill_rarity_label,
     support_card_image_url,
     support_card_name,
+    support_card_rarity_icon_url,
     support_card_type,
+    support_card_type_icon_url,
     uma_card_image_url,
     uma_card_name,
 )
@@ -174,12 +177,16 @@ def build(path: Path) -> RunDetail:
         card_hints = 0
         if 0 <= card_hints_idx < len(gain_infos):
             card_hints = len(_hints(gain_infos[card_hints_idx]))
+        rarity_prefix_int = cid // 10000
         contributions.append({
             "source": "Support",
             "card_id": cid,
             "card_name": support_card_name(cid),
             "card_type": support_card_type(cid),
             "image_url": support_card_image_url(cid),
+            "rarity_icon_url": support_card_rarity_icon_url(cid),
+            "type_icon_url": support_card_type_icon_url(cid),
+            "rarity_label": RARITY_PREFIX_SUPPORT.get(rarity_prefix_int, "R"),
             "limit_break": lb_by_card_id.get(cid, 0),
             "gains": gain,
             "hint_count": card_hints,

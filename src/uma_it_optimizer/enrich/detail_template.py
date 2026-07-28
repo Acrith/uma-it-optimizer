@@ -131,35 +131,17 @@ td.thumb-cell {
     width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .card-widget-rarity {
-    position: absolute; top: 0; left: 0;
-    padding: 1px 5px 2px;
-    font-size: 9px; font-weight: 800;
-    color: white;
-    letter-spacing: 0.02em;
-    border-radius: 0 0 4px 0;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+    position: absolute; top: 1px; left: 1px;
+    width: 32px; height: auto;
+    display: block;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
 }
-/* SSR = rainbow-ish gold, SR = purple, R = blue — matches game conventions */
-.rarity-ssr { background: linear-gradient(135deg, #ff5c9e, #ffa754 40%, #ffea54 80%); }
-.rarity-sr  { background: linear-gradient(135deg, #b76aff, #6a4fff); }
-.rarity-r   { background: linear-gradient(135deg, #4fa6ff, #4f7dff); }
 .card-widget-type {
-    position: absolute; top: 3px; right: 3px;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    font-size: 9px; font-weight: 800;
-    text-align: center;
-    line-height: 15px;
-    color: white;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.7);
+    position: absolute; top: 2px; right: 2px;
+    width: 18px; height: 18px;
+    display: block;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
 }
-.type-icon-Speed   { background: #3a7bff; }
-.type-icon-Stamina { background: #e64545; }
-.type-icon-Power   { background: #ff8f30; }
-.type-icon-Guts    { background: #e94494; }
-.type-icon-Wit     { background: #37b34a; }
-.type-icon-Friend  { background: #f5c942; color: #6a4600; text-shadow: none; }
 .card-widget-crystals {
     position: absolute; bottom: 0; left: 0; right: 0;
     display: flex; gap: 1px;
@@ -317,13 +299,10 @@ def render(d: RunDetail) -> str:
         g = c["gains"]
         type_chip = (f'<span class="chip type-{c["card_type"]}">{c["card_type"]}</span>'
                      if c["card_type"] else "")
-        # Card widget imitating the in-game card layout — rarity badge
-        # top-left, type badge top-right, LB crystals overlaid on the
-        # bottom. Only support cards get the full treatment; Events /
-        # Inspiration have no image so no widget.
+        # Card widget imitating the in-game card layout, using gametora's
+        # actual utx_txt_rarity_* and utx_ico_obtain_* asset URLs from
+        # the game's own icon set. Events / Inspiration have no image.
         if c.get("image_url"):
-            rarity_class, rarity_label = _rarity_from_id(c.get("card_id") or 0)
-            type_letter = _type_short(c.get("card_type", ""))
             lb = c.get("limit_break")
             if lb is not None:
                 def _diamond(filled: bool) -> str:
@@ -336,16 +315,23 @@ def render(d: RunDetail) -> str:
                 )
             else:
                 crystals_html = ""
+            rarity_html = (
+                f'<img class="card-widget-rarity" src="{c["rarity_icon_url"]}"'
+                f' alt="{c["rarity_label"]}" loading="lazy"'
+                f' onerror="this.style.visibility=\'hidden\'">'
+                if c.get("rarity_icon_url") else ""
+            )
             type_html = (
-                f'<span class="card-widget-type type-icon-{c["card_type"]}"'
-                f' title="{c["card_type"]}">{type_letter}</span>'
-                if c["card_type"] else ""
+                f'<img class="card-widget-type" src="{c["type_icon_url"]}"'
+                f' alt="{c["card_type"]}" title="{c["card_type"]}" loading="lazy"'
+                f' onerror="this.style.visibility=\'hidden\'">'
+                if c.get("type_icon_url") else ""
             )
             lb_html = (
                 f'<div class="card-widget" title="{c["card_name"]}">'
                 f'<img src="{c["image_url"]}" alt="{c["card_name"]}" loading="lazy"'
                 f' onerror="this.style.visibility=\'hidden\'">'
-                f'<span class="card-widget-rarity rarity-{rarity_class}">{rarity_label}</span>'
+                f'{rarity_html}'
                 f'{type_html}'
                 f'{crystals_html}'
                 f'</div>'

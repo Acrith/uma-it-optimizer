@@ -31,6 +31,18 @@ SUPPORT_TYPE_BY_CMD = {
     106: "Wit",
 }
 
+# Same command_id → gametora's utx_ico_obtain_XX index. These are the
+# exact type icons the game uses (boot/heart/bicep/flame/grad-cap/smiley).
+SUPPORT_TYPE_ICON_INDEX = {
+    0: 5,       # Friend (yellow smiley)
+    101: 2,     # Power (bicep)
+    102: 0,     # Speed (boot)
+    103: 1,     # Stamina (heart)
+    105: 3,     # Guts (flame)
+    106: 4,     # Wit (graduation cap)
+    # 6 = Group (multi-smiley) — no current command_id maps here on Global
+}
+
 
 @lru_cache(maxsize=4)
 def _load_from(path_str: str) -> dict:
@@ -303,6 +315,28 @@ def support_card_image_url(card_id: int, *, size: str = "small") -> str:
     if size == "full":
         return f"{GAMETORA_CDN}/supports/tex_support_card_{card_id}.png"
     return f"{GAMETORA_CDN}/supports/support_card_s_{card_id}.png"
+
+
+def support_card_rarity_icon_url(card_id: int) -> str:
+    """Gametora URL for the pill-shaped rarity ribbon (R/SR/SSR).
+    Derived from card_id prefix: 1xxxx=R, 2xxxx=SR, 3xxxx=SSR."""
+    prefix = card_id // 10000
+    idx = prefix if prefix in (1, 2, 3) else 1
+    return f"{GAMETORA_CDN}/icons/utx_txt_rarity_0{idx}.png"
+
+
+def support_card_type_icon_url(card_id: int) -> str | None:
+    """Gametora URL for the type icon (boot/heart/bicep/flame/grad/smiley).
+    Uses command_id from masters to pick the utx_ico_obtain index."""
+    m = load_masters()
+    c = m.get("support_cards", {}).get(str(card_id))
+    if not c:
+        return None
+    cmd = c.get("command_id")
+    idx = SUPPORT_TYPE_ICON_INDEX.get(cmd)
+    if idx is None:
+        return None
+    return f"{GAMETORA_CDN}/icons/utx_ico_obtain_0{idx}.png"
 
 
 def uma_card_image_url(uma_card_id: int, *, size: str = "thumb") -> str | None:
