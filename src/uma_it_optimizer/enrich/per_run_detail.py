@@ -17,8 +17,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .lookups import (
+    LETTER_GRADE_BY_RANK,
     RARITY_PREFIX_SUPPORT,
     factor_name,
+    hint_group_variants,
+    load_masters,
     race_grade_label,
     race_program_info,
     race_result_ordinal,
@@ -98,6 +101,12 @@ class RunDetail:
     score_summary: dict = field(default_factory=dict)
     plan: list[dict] = field(default_factory=list)
 
+    # Interactive planner data — one entry per unique hint group with
+    # all its variants (◎/○/×), plus base state (SP budget, owned skills,
+    # and which variants the knapsack picked). Consumed by JS in the
+    # detail page to power the click-to-plan UI.
+    planner: dict = field(default_factory=dict)
+
     def as_dict(self) -> dict:
         return {
             "filename": self.filename,
@@ -119,6 +128,7 @@ class RunDetail:
             "races": self.races,
             "score_summary": self.score_summary,
             "plan": self.plan,
+            "planner": self.planner,
         }
 
 
@@ -287,6 +297,7 @@ def build(path: Path) -> RunDetail:
         races=races,
         score_summary=_score_summary(raw),
         plan=_plan_rows(raw),
+        planner=_planner_data(raw),
     )
 
 
@@ -306,6 +317,72 @@ def _score_summary(raw: dict) -> dict:
         "sp_spent_in_plan": est.sp_spent_in_plan,
         "rank_floor": est.rank_floor,
         "rank_planned": est.rank_planned,
+    }
+
+
+def _planner_data(raw: dict) -> dict:
+    """Build the interactive-planner blob: every unique hint group with
+    all its variants, the SP budget, currently-owned skills, and the
+    knapsack's initial selection (so the UI opens on 'optimal picks')."""
+    try:
+        est = estimate_from_run_json(raw)
+    except (KeyError, IndexError, ValueError):
+        return {}
+
+    chara = raw["SingleModeChara"][0]
+    owned_ids = [int(s.get("skill_id", 0) or 0)
+                 for s in chara.get("skill_array", []) or []]
+
+    # Collect unique (group_id, rarity) hint keys across all sources.
+    seen: set[tuple[int, int]] = set()
+    hint_groups: list[dict] = []
+    for gi in raw.get("GainInfo", []) or []:
+        for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
+            if not isinstance(t, dict):
+                continue
+            gid = int(t.get("group_id", 0) or 0)
+            rar = int(t.get("rarity", 0) or 0)
+            if gid == 0 or (gid, rar) in seen:
+                continue
+            seen.add((gid, rar))
+            variants = hint_group_variants(gid, rarity=rar)
+            if not variants:
+                continue
+            # Skip variants that are already owned.
+            variants = [v for v in variants if v["skill_id"] not in owned_ids]
+            if not variants:
+                continue
+            # Use best-value variant's name as the group's display name
+            display_name = variants[0]["name"]
+            hint_groups.append({
+                "group_id": gid,
+                "rarity": rar,
+                "display_name": display_name,
+                "variants": variants,
+            })
+
+    # Sort hint groups by their best variant's value_per_sp desc so the
+    # most impactful groups sit at the top.
+    hint_groups.sort(
+        key=lambda g: -max(v["value_per_sp"] for v in g["variants"]),
+    )
+
+    # Initial selection = whatever the knapsack chose.
+    knapsack_ids = [p.skill_id for p in est.plan]
+
+    # Bundle enough of masters.json for the JS to do score→rank→letter
+    # in-browser without loading the whole 700 KB masters file.
+    m = load_masters()
+
+    return {
+        "budget": est.unspent_sp,
+        "floor_score": est.floor,
+        "floor_rank": est.rank_floor,
+        "owned_skill_ids": owned_ids,
+        "hint_groups": hint_groups,
+        "knapsack_selection": knapsack_ids,
+        "rank_tiers": m.get("rank_tiers", []),
+        "letter_grade_by_rank": LETTER_GRADE_BY_RANK,
     }
 
 

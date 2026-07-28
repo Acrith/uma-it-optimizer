@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from .per_run_detail import RunDetail
+from .per_run_detail import RunDetail  # noqa: F401
 
 
 DETAIL_HTML = """\
@@ -89,6 +89,81 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 .rarity-white { color: var(--muted); }
 .rarity-gold  { color: #ba8500; font-weight: 600; }
 .rarity-unique{ color: #b054d0; font-weight: 600; }
+
+/* ── SP planner ─────────────────────────────────────────────────── */
+.planner-topbar {
+    position: sticky; top: 0;
+    display: flex; gap: 20px; align-items: center;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    z-index: 5;
+}
+.planner-stat { display: flex; flex-direction: column; }
+.planner-stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+.planner-stat-value { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.planner-stat-value.over-budget { color: #d43f3f; }
+.planner-actions { margin-left: auto; display: flex; gap: 8px; }
+.planner-btn {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.planner-btn:hover { background: var(--hover); }
+
+.hint-group-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+}
+.hint-group {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg);
+}
+.hint-group-title {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+.hint-group.has-selection { border-color: #58a6ff; background: color-mix(in srgb, #58a6ff 6%, var(--bg)); }
+.variant-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.variant-btn {
+    display: inline-flex; flex-direction: column;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--row-alt);
+    color: var(--fg);
+    font-size: 11px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    min-width: 66px;
+}
+.variant-btn:hover { border-color: #58a6ff; }
+.variant-btn.selected {
+    background: #58a6ff;
+    color: white;
+    border-color: #2f6fc7;
+}
+.variant-btn.negative { color: #a02020; }
+.variant-btn.negative.selected { background: #a02020; color: white; border-color: #6a0000; }
+.variant-btn-label { font-weight: 700; }
+.variant-btn-name { opacity: 0.85; }
+.variant-btn-nums {
+    font-size: 10px; opacity: 0.8;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+}
 @media (prefers-color-scheme: dark) {
     .rarity-gold { color: #e4c060; }
     .rarity-unique { color: #d989ff; }
@@ -203,7 +278,10 @@ __HEADER_STATS__
 <h2>Score breakdown <span class="subtle">— what the SS-grade estimator says</span></h2>
 __SCORE_TABLE__
 
-<h2>Recommended skill purchases <span class="subtle">— knapsack-optimal plan for your unspent SP</span></h2>
+<h2>SP planner <span class="subtle">— click variants to plan your skill picks · budget updates live</span></h2>
+<div id="planner-root">__PLANNER_HTML__</div>
+
+<h2>Knapsack-optimal picks <span class="subtle">— the auto-recommended plan</span></h2>
 <table>
     <thead>
         <tr>
@@ -242,8 +320,150 @@ __SCORE_TABLE__
     <tbody>__FACTOR_ROWS__</tbody>
 </table>
 
+<script>
+__PLANNER_JS__
+</script>
+
 </body>
 </html>
+"""
+
+
+PLANNER_JS = """
+(() => {
+    const P = __PLANNER_DATA__;
+    if (!P || !P.hint_groups || !P.hint_groups.length) return;
+    const root = document.getElementById('planner-root');
+    if (!root) return;
+
+    // ── state ─────────────────────────────────────────────────────
+    // selection: Map<group_id, skill_id>. Group can have at most one pick.
+    const selection = new Map();
+
+    function selectKnapsack() {
+        selection.clear();
+        for (const sid of (P.knapsack_selection || [])) {
+            for (const g of P.hint_groups) {
+                if (g.variants.some(v => v.skill_id === sid)) {
+                    selection.set(g.group_id, sid);
+                    break;
+                }
+            }
+        }
+    }
+    function selectNone() { selection.clear(); }
+
+    // ── math ──────────────────────────────────────────────────────
+    function pickedVariant(g) {
+        const sid = selection.get(g.group_id);
+        return sid == null ? null : g.variants.find(v => v.skill_id === sid);
+    }
+    function totals() {
+        let sp = 0, value = 0;
+        for (const g of P.hint_groups) {
+            const v = pickedVariant(g);
+            if (v) { sp += v.sp_cost; value += v.grade_value; }
+        }
+        return { sp, value };
+    }
+    function rankForScore(score) {
+        for (const t of P.rank_tiers) {
+            if (t.min <= score && score <= t.max) return t.rank;
+        }
+        return score <= 0 ? 1 : P.rank_tiers[P.rank_tiers.length - 1].rank;
+    }
+    function letterForRank(r) {
+        return P.letter_grade_by_rank[r] || (r > 18 ? `EX+${r - 18}` : '?');
+    }
+
+    // ── render ────────────────────────────────────────────────────
+    function render() {
+        const { sp, value } = totals();
+        const spLeft = P.budget - sp;
+        const totalScore = P.floor_score + value;
+        const rank = rankForScore(totalScore);
+        const overBudget = sp > P.budget;
+
+        root.innerHTML = `
+            <div class="planner-topbar">
+                <div class="planner-stat">
+                    <span class="planner-stat-label">SP used</span>
+                    <span class="planner-stat-value ${overBudget ? 'over-budget' : ''}">
+                        ${sp.toLocaleString()} / ${P.budget.toLocaleString()}
+                        <span style="font-size: 12px; color: var(--muted);">(${spLeft} left)</span>
+                    </span>
+                </div>
+                <div class="planner-stat">
+                    <span class="planner-stat-label">Score bonus</span>
+                    <span class="planner-stat-value">+${value.toLocaleString()}</span>
+                </div>
+                <div class="planner-stat">
+                    <span class="planner-stat-label">Est. total</span>
+                    <span class="planner-stat-value">${totalScore.toLocaleString()}</span>
+                </div>
+                <div class="planner-stat">
+                    <span class="planner-stat-label">Est. grade</span>
+                    <span class="planner-stat-value">${letterForRank(rank)}
+                        <span style="font-size: 12px; color: var(--muted);">(rank ${rank})</span>
+                    </span>
+                </div>
+                <div class="planner-actions">
+                    <button class="planner-btn" data-action="knapsack">Reset to optimum</button>
+                    <button class="planner-btn" data-action="clear">Clear all</button>
+                </div>
+            </div>
+            <div class="hint-group-list">
+                ${P.hint_groups.map(renderGroup).join('')}
+            </div>
+        `;
+        // Wire clicks
+        root.querySelectorAll('.variant-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const gid = parseInt(btn.dataset.group);
+                const sid = parseInt(btn.dataset.skill);
+                if (selection.get(gid) === sid) selection.delete(gid);
+                else selection.set(gid, sid);
+                render();
+            });
+        });
+        root.querySelectorAll('button[data-action]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.action === 'knapsack') selectKnapsack();
+                if (btn.dataset.action === 'clear') selectNone();
+                render();
+            });
+        });
+    }
+
+    function renderGroup(g) {
+        const pickedSid = selection.get(g.group_id);
+        return `
+            <div class="hint-group ${pickedSid ? 'has-selection' : ''}">
+                <div class="hint-group-title">${g.display_name}</div>
+                <div class="variant-list">
+                    ${g.variants.map(v => renderVariant(g.group_id, v, pickedSid === v.skill_id)).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderVariant(gid, v, selected) {
+        const cls = ['variant-btn'];
+        if (selected) cls.push('selected');
+        if (v.grade_value < 0) cls.push('negative');
+        return `
+            <button class="${cls.join(' ')}"
+                data-group="${gid}" data-skill="${v.skill_id}"
+                title="${v.name}">
+                <span class="variant-btn-label">${v.rate_label}</span>
+                <span class="variant-btn-nums">${v.sp_cost} SP · ${v.grade_value > 0 ? '+' : ''}${v.grade_value}</span>
+            </button>
+        `;
+    }
+
+    selectKnapsack();
+    render();
+})();
 """
 
 
@@ -471,6 +691,15 @@ def render(d: RunDetail) -> str:
             '(or no SP budget). Estimator falls back to owned-skill-only floor.</td></tr>'
         )
 
+    # Planner: JS data + placeholder HTML (JS renders into the div on load)
+    planner_data_json = json.dumps(d.planner, ensure_ascii=False) if d.planner else "null"
+    planner_placeholder = (
+        '<p class="subtle">Loading planner…</p>'
+        if d.planner else
+        '<p class="subtle">No skill hints available — no plan to build.</p>'
+    )
+    planner_js = PLANNER_JS.replace("__PLANNER_DATA__", planner_data_json)
+
     return (
         DETAIL_HTML
         .replace("__TITLE__", f"{d.trainee_name} · {d.timestamp}")
@@ -481,6 +710,8 @@ def render(d: RunDetail) -> str:
         .replace("__CONTRIBUTIONS_ROWS__", "".join(contrib_rows_html))
         .replace("__HINT_ROWS__", "".join(hint_rows_html))
         .replace("__SCORE_TABLE__", score_table)
+        .replace("__PLANNER_HTML__", planner_placeholder)
+        .replace("__PLANNER_JS__", planner_js)
         .replace("__PLAN_ROWS__", "".join(plan_rows_html))
         .replace("__RACE_ROWS__", "".join(race_rows_html))
         .replace("__FACTOR_ROWS__", "".join(factor_rows_html))

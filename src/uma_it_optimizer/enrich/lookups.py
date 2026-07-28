@@ -149,6 +149,48 @@ def skill_from_hint(group_id: int, rarity: int) -> tuple[int, str]:
     return sid, skill_name(sid)
 
 
+# group_rate → variant label: 2=◎ (double circle, always-active version),
+# 1=○ (single circle, situational), -1=× (harmful, never buy), 3=alt gold.
+GROUP_RATE_LABEL = {2: "◎", 1: "○", -1: "×", 3: "alt"}
+GROUP_RATE_RANK = {2: 0, 1: 1, 3: 2, -1: 3}   # display order: ◎ before ○ before alt before ×
+
+
+def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
+    """Return skill variants in a hint group as {skill_id, name, rate,
+    rate_label, sp_cost, grade_value, value_per_sp}. Sorted best-first
+    (◎ then ○ then alt then ×). Skills without an sp_cost are omitted.
+
+    If ``rarity`` is given, only variants of that skill_data.rarity are
+    returned — a hint at (group, rarity) unlocks only skills of that
+    same rarity (e.g. rarity=1 hint on group 20035 gives you
+    'Corner Recovery ○' and '×' — not the rarity=2 gold rare
+    'Swinging Maestro' in the same group)."""
+    m = load_masters()
+    skills = m.get("skills", {})
+    variants: list[dict] = []
+    for sid_str, s in skills.items():
+        if s.get("group_id") != group_id:
+            continue
+        if rarity is not None and s.get("rarity") != rarity:
+            continue
+        cost = s.get("sp_cost")
+        val = s.get("grade_value")
+        if not cost or not val:
+            continue
+        rate = s.get("group_rate", 0)
+        variants.append({
+            "skill_id": int(sid_str),
+            "name": s.get("name", f"?skill:{sid_str}"),
+            "rate": rate,
+            "rate_label": GROUP_RATE_LABEL.get(rate, "?"),
+            "sp_cost": int(cost),
+            "grade_value": int(val),
+            "value_per_sp": round(val / cost, 2) if cost else 0.0,
+        })
+    variants.sort(key=lambda v: (GROUP_RATE_RANK.get(v["rate"], 9), -v["grade_value"]))
+    return variants
+
+
 # Skill rarity → readable tier badge. 1=white(common), 2=gold(rare),
 # 4/5=unique. Verified against actual run data where rarity 1 hints
 # resolve to '○'-suffixed names (gold indicator).
