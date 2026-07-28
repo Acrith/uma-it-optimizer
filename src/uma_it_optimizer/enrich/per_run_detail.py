@@ -365,16 +365,39 @@ def _planner_data(raw: dict) -> dict:
         if 2 in rars:
             rars.add(1)
 
+    owned_set = set(owned_ids)
     hint_groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
-        variants = hint_group_variants(gid)   # all variants in the group
-        # Keep only variants whose rarity matches a hint the player has.
-        variants = [v for v in variants
-                    if _skill_rarity(gid, v["skill_id"]) in avail_rarities]
-        # And skip already-owned skills.
-        variants = [v for v in variants if v["skill_id"] not in owned_ids]
-        if not variants:
+        raw_variants = hint_group_variants(gid)  # every variant in the group
+
+        planner_variants: list[dict] = []
+        for v in raw_variants:
+            if v["rarity"] not in avail_rarities:
+                continue
+            is_negative = v["grade_value"] < 0
+            if v["skill_id"] in owned_set:
+                if is_negative:
+                    # Owned × — offer removal: pay sp_cost, gain |value|.
+                    # The 50 SP cost is a REMOVAL fee; the value flips
+                    # positive because removing the -N penalty raises the
+                    # final score by +N.
+                    planner_variants.append({
+                        **v,
+                        "grade_value": -v["grade_value"],  # flip to positive
+                        "rate_label": "R×",                # "R" for remove
+                        "action": "remove",
+                    })
+                # else: owned positive skill — already in floor, don't offer
+                continue
+            if is_negative:
+                # × variants can't be *bought* — the game only assigns them
+                # via events. Not owned → not available to the player.
+                continue
+            planner_variants.append({**v, "action": "buy"})
+
+        if not planner_variants:
             continue
+        variants = planner_variants
         # Group title: prefer the white ○ variant's name (that's the base
         # skill name — 'Corner Adept' rather than 'Professor of Curvature').
         white_o = next((v for v in variants

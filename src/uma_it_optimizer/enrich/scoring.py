@@ -239,14 +239,30 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
     owned = set(owned_skill_ids)
     groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
-        variants = hint_group_variants(gid)
-        variants = [v for v in variants
-                    if v["rarity"] in avail_rarities and v["skill_id"] not in owned]
-        # Whites eligible as standalone or as prereq: positive value only
-        whites = [v for v in variants if v["rarity"] == 1 and v["grade_value"] > 0]
+        raw_variants = hint_group_variants(gid)
+        # Filter × 'buy' options — those can't be purchased from hints.
+        # Owned × are exposed via separate removal packages below.
+        variants = [v for v in raw_variants
+                    if v["rarity"] in avail_rarities
+                    and v["skill_id"] not in owned
+                    and v["grade_value"] > 0]
+        whites = [v for v in variants if v["rarity"] == 1]
         golds = [v for v in variants if v["rarity"] == 2]
-        if not whites and not golds:
+
+        # Owned × in this group → each becomes a standalone "removal" package
+        # (pay sp_cost, gain |grade_value| since the -N penalty is lifted).
+        removals: list[dict] = []
+        for v in raw_variants:
+            if v["skill_id"] in owned and v["grade_value"] < 0:
+                removals.append({
+                    "cost": v["sp_cost"],
+                    "value": -v["grade_value"],
+                    "skill_ids": (v["skill_id"],),
+                })
+
+        if not whites and not golds and not removals:
             continue
+
         packages: list[dict] = [{"cost": 0, "value": 0, "skill_ids": ()}]
         for w in whites:
             packages.append({
@@ -259,6 +275,19 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
                     "value": w["grade_value"] + g["grade_value"],
                     "skill_ids": (w["skill_id"], g["skill_id"]),
                 })
+        # Each × removal is independent of buy decisions — but our multi-
+        # choice knapsack picks ONE package per group. So we bundle: a
+        # removal can be added on top of every buy package.
+        if removals:
+            base_packages = list(packages)
+            for r in removals:
+                for base in base_packages:
+                    packages.append({
+                        "cost": base["cost"] + r["cost"],
+                        "value": base["value"] + r["value"],
+                        "skill_ids": base["skill_ids"] + r["skill_ids"],
+                    })
+
         groups.append({"group_id": gid, "packages": packages})
     return groups
 

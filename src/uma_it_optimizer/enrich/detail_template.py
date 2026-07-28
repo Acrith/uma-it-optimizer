@@ -173,8 +173,8 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     color: white;
     border-color: #2f6fc7;
 }
-.variant-btn.negative { color: #a02020; }
-.variant-btn.negative.selected { background: #a02020; color: white; border-color: #6a0000; }
+.variant-btn.remove { color: #1e8a3a; border-color: #a4d9ba; }
+.variant-btn.remove.selected { background: #1e8a3a; color: white; border-color: #10662a; }
 .variant-btn-label { font-weight: 700; }
 .variant-btn-name { opacity: 0.85; }
 .variant-btn-nums {
@@ -380,11 +380,13 @@ PLANNER_JS = """
         return group.variants.find(v => v.rarity === rarity && selection.has(v.skill_id));
     }
     // The "canonical" white variant to auto-pick when a gold is chosen:
-    // prefer ○ (rate=1), then ◎ (rate=2), avoid × (rate=-1).
+    // prefer ○ (rate=1), then ◎ (rate=2). Only considers buy options —
+    // removals aren't valid as prereqs for a gold upgrade.
     function defaultWhite(group) {
-        return group.variants.find(v => v.rarity === 1 && v.rate === 1)
-            || group.variants.find(v => v.rarity === 1 && v.rate === 2)
-            || group.variants.find(v => v.rarity === 1);
+        const buys = group.variants.filter(v => v.rarity === 1 && v.action !== 'remove');
+        return buys.find(v => v.rate === 1)
+            || buys.find(v => v.rate === 2)
+            || buys[0];
     }
     // Toggle a variant with proper tier semantics:
     //  - White tier is mutex within the group (◎/○/× replace each other).
@@ -396,13 +398,26 @@ PLANNER_JS = """
         if (!found) return;
         const { group, variant } = found;
 
+        // Removals are independent — no mutex, no cascade.
+        if (variant.action === 'remove') {
+            if (selection.has(sid)) selection.delete(sid);
+            else selection.add(sid);
+            return;
+        }
+        // pickedInTier only considers 'buy' variants of a given rarity
+        // (removals live in their own row and shouldn't participate in
+        // the white/gold mutex or prereq logic).
+        const buyPickedInTier = (rarity) =>
+            group.variants.find(v => v.rarity === rarity
+                && v.action !== 'remove'
+                && selection.has(v.skill_id));
+
         if (variant.rarity === 1) {
-            const currentWhite = pickedInTier(group, 1);
+            const currentWhite = buyPickedInTier(1);
             if (currentWhite && currentWhite.skill_id === sid) {
                 selection.delete(sid);
-                // Cascade: white gone → gold prereq broken, deselect gold
                 for (const v of group.variants) {
-                    if (v.rarity === 2) selection.delete(v.skill_id);
+                    if (v.rarity === 2 && v.action !== 'remove') selection.delete(v.skill_id);
                 }
             } else {
                 if (currentWhite) selection.delete(currentWhite.skill_id);
@@ -411,13 +426,13 @@ PLANNER_JS = """
             return;
         }
         if (variant.rarity === 2) {
-            const currentGold = pickedInTier(group, 2);
+            const currentGold = buyPickedInTier(2);
             if (currentGold && currentGold.skill_id === sid) {
-                selection.delete(sid);  // deselect gold only; white stays
+                selection.delete(sid);
             } else {
                 if (currentGold) selection.delete(currentGold.skill_id);
                 selection.add(sid);
-                if (!pickedInTier(group, 1)) {
+                if (!buyPickedInTier(1)) {
                     const w = defaultWhite(group);
                     if (w) selection.add(w.skill_id);
                 }
@@ -504,21 +519,23 @@ PLANNER_JS = """
     }
 
     function renderGroup(g) {
-        // Split by skill rarity, not by group_rate:
-        //  rarity=1 (white tier): can contain ◎ ○ × variants — mutually
-        //    exclusive picks of the same base skill (double-circle
-        //    activate-always, single-circle situational, × harmful).
-        //  rarity=2 (gold tier / true upgrade): separate purchase,
-        //    requires white to be owned first (e.g. Corner Adept ○
-        //    → Professor of Curvature).
-        // We only render rows the player actually has hints for — the
-        // Python side already filtered `g.variants` accordingly.
-        const whites = g.variants.filter(v => v.rarity === 1);
-        const golds = g.variants.filter(v => v.rarity === 2);
+        // Three UI rows possible per group:
+        //  - Buy white (rarity=1, action=buy): ◎/○ variants of the same
+        //    base skill — mutually exclusive picks.
+        //  - Buy gold upgrade (rarity=2, action=buy): requires a white
+        //    picked as prereq; auto-selects a default white if you pick
+        //    gold alone.
+        //  - Remove × (action=remove): the × skill was auto-acquired
+        //    during the career; player pays sp_cost to cleanse it.
+        //    Independent of white/gold picks.
+        const buyWhites = g.variants.filter(v => v.rarity === 1 && v.action !== 'remove');
+        const buyGolds  = g.variants.filter(v => v.rarity === 2 && v.action !== 'remove');
+        const removals  = g.variants.filter(v => v.action === 'remove');
         const hasSel = g.variants.some(v => selection.has(v.skill_id));
         const rows = [];
-        if (whites.length) rows.push(renderVariantRow(whites, 'White', false));
-        if (golds.length)  rows.push(renderVariantRow(golds, 'Gold upgrade', true));
+        if (buyWhites.length) rows.push(renderVariantRow(buyWhites, 'White', 'buy-white'));
+        if (buyGolds.length)  rows.push(renderVariantRow(buyGolds, 'Gold upgrade', 'buy-gold'));
+        if (removals.length)  rows.push(renderVariantRow(removals, 'Remove', 'remove'));
         return `
             <div class="hint-group ${hasSel ? 'has-selection' : ''}">
                 <div class="hint-group-title">${g.display_name}</div>
@@ -527,9 +544,12 @@ PLANNER_JS = """
         `;
     }
 
-    function renderVariantRow(variants, tierLabel, isUpgrade) {
-        const notice = isUpgrade
-            ? '<span class="tier-note">(needs white bought)</span>' : '';
+    function renderVariantRow(variants, tierLabel, kind) {
+        const notice = kind === 'buy-gold'
+            ? '<span class="tier-note">(needs white bought)</span>'
+            : kind === 'remove'
+            ? '<span class="tier-note">(× auto-acquired; cleanse)</span>'
+            : '';
         return `
             <div class="variant-row">
                 <span class="variant-row-label">${tierLabel}${notice}</span>
@@ -543,13 +563,13 @@ PLANNER_JS = """
     function renderVariant(v, selected) {
         const cls = ['variant-btn'];
         if (selected) cls.push('selected');
-        if (v.grade_value < 0) cls.push('negative');
+        if (v.action === 'remove') cls.push('remove');
         return `
             <button class="${cls.join(' ')}"
                 data-skill="${v.skill_id}"
-                title="${v.name} · ${v.value_per_sp} value/SP">
+                title="${v.name}">
                 <span class="variant-btn-label">${v.rate_label}</span>
-                <span class="variant-btn-nums">${v.sp_cost} SP · ${v.grade_value > 0 ? '+' : ''}${v.grade_value}</span>
+                <span class="variant-btn-nums">${v.sp_cost} SP · +${v.grade_value}</span>
             </button>
         `;
     }
