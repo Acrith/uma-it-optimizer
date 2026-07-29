@@ -681,6 +681,28 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     vertical-align: middle;
     display: inline-block;
 }
+/* Grade badge icons are ucarecdn PNGs designed against a light card
+   surface. On dark backgrounds their soft cream halo reads as a
+   yellowed rectangle and the letters look muddy. A small saturation
+   bump + white drop-shadow makes them punch clearly. */
+:root[data-theme="dark"] .grade-badge,
+:root[data-theme="dark"] .planner-grade-badge,
+:root[data-theme="dark"] .fac-body img.grade-badge {
+    filter:
+        drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
+        drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+        saturate(1.15) brightness(1.05);
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .grade-badge,
+    :root:not([data-theme="light"]) .planner-grade-badge,
+    :root:not([data-theme="light"]) .fac-body img.grade-badge {
+        filter:
+            drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
+            saturate(1.15) brightness(1.05);
+    }
+}
 .preset-badge {
     display: inline-block;
     padding: 1px 6px;
