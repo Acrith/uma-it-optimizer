@@ -11,6 +11,8 @@ from .lookups import (
     letter_grade_range,
     scenario_name,
     support_card_image_url,
+    support_card_name,
+    support_card_type_icon_url,
     uma_card_name,
 )
 from .scoring import estimate_from_run_json
@@ -29,6 +31,7 @@ class RunMetrics:
     trainee_card_id: int
     deck_hash: str            # 6-char hex
     deck_card_ids: tuple[int, ...]
+    deck_limit_breaks: tuple[int, ...]  # parallel to deck_card_ids, 0-4
 
     speed: int
     stamina: int
@@ -93,6 +96,16 @@ class RunMetrics:
             "deck_card_ids": list(self.deck_card_ids),
             "deck_summary": deck_summary(self.deck_card_ids),
             "deck_thumbnails": [support_card_image_url(c) for c in self.deck_card_ids],
+            "deck_cards": [
+                {
+                    "card_id": cid,
+                    "name": support_card_name(cid),
+                    "image_url": support_card_image_url(cid),
+                    "type_icon_url": support_card_type_icon_url(cid),
+                    "limit_break": lb,
+                }
+                for cid, lb in zip(self.deck_card_ids, self.deck_limit_breaks, strict=False)
+            ],
             "fans_per_race": self.fans_per_race,
             "speed": self.speed,
             "stamina": self.stamina,
@@ -154,6 +167,14 @@ def summarize(path: Path) -> RunMetrics:
     guts = int(chara["guts"])
 
     deck_ids = tuple(_support_card_id(c) for c in raw.get("SupportCardGainInfo", []))
+    # LB per card comes from SingleModeChara.support_card_array (not the
+    # SupportCardGainInfo entries). Build a card_id → LB map and align to
+    # deck_ids order; unknown cards fall back to LB=0.
+    lb_by_cid = {
+        int(e.get("support_card_id", 0) or 0): int(e.get("limit_break_count", 0) or 0)
+        for e in (chara.get("support_card_array") or [])
+    }
+    deck_lbs = tuple(lb_by_cid.get(cid, 0) for cid in deck_ids)
 
     factors_total = sum(
         len(year.get("<GainFactorInfoArray>k__BackingField", []))
@@ -185,6 +206,7 @@ def summarize(path: Path) -> RunMetrics:
         trainee_card_id=int(m["uma"]),
         deck_hash=_deck_hash(deck_ids),
         deck_card_ids=deck_ids,
+        deck_limit_breaks=deck_lbs,
         speed=speed,
         stamina=stamina,
         power=power,

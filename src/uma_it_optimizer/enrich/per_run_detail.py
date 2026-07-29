@@ -20,6 +20,7 @@ from .lookups import (
     LETTER_GRADE_BY_RANK,
     RARITY_PREFIX_SUPPORT,
     factor_name,
+    factor_type_label,
     hint_group_variants,
     load_masters,
     race_grade_label,
@@ -244,6 +245,7 @@ def build(path: Path) -> RunDetail:
             factor_rows.append({
                 "factor_id": fid,
                 "name": factor_name(fid),
+                "type_label": factor_type_label(fid),
                 "level": int(f.get("<Level>k__BackingField", 0) or 0),
             })
         factors_by_year.append({"year": year, "factors": factor_rows})

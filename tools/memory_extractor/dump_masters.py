@@ -244,23 +244,48 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             }
 
         # ── factors (succession_factor) ────────────────────────────────
-        # factor_type: 1=stat, 2=aptitude, 3=skill, 4=unique (approx.)
-        # Factor names aren't in a simple text_data category — they're
-        # composed (e.g. "Speed ★★" is factor_type=1 + effect_group=speed
-        # + grade=2). Pass raw fields through for the enrichment layer.
+        # factor_type: 1=stat, 2=aptitude, 3=unique-chara-inherit, 4=skill,
+        #              5=chara-green, 6=race-green, 7=very-rare.
+        # For type 5/6/7 (greens) we join succession_factor_effect to
+        # find what the green actually grants: either a skill hint
+        # (target_type=41 → value_1 = skill_id) or stat bonuses
+        # (target_type in 1..5 → Speed/Stamina/Power/Guts/Wit).
+        stat_names_by_target = {1: "Speed", 2: "Stamina", 3: "Power",
+                                4: "Guts", 5: "Wit"}
+        green_grants: dict[int, dict] = {}
+        for r in con.execute(
+            "SELECT DISTINCT factor_group_id, target_type, value_1 "
+            "FROM succession_factor_effect"
+        ):
+            gid = r["factor_group_id"]
+            g = green_grants.setdefault(gid, {"skill_ids": set(), "stats": set()})
+            if r["target_type"] == 41:
+                g["skill_ids"].add(int(r["value_1"]))
+            elif r["target_type"] in stat_names_by_target:
+                g["stats"].add(stat_names_by_target[r["target_type"]])
+
         factors: dict[str, dict] = {}
         for r in con.execute(
             "SELECT factor_id, factor_group_id, rarity, grade, factor_type, effect_group_id "
             "FROM succession_factor"
         ):
             fid = r["factor_id"]
+            gid = r["factor_group_id"]
+            grant = green_grants.get(gid, {})
+            granted_skill_ids = sorted(grant.get("skill_ids") or [])
+            granted_skill_names = [
+                skill_names.get(sid, f"?skill:{sid}") for sid in granted_skill_ids
+            ]
             factors[str(fid)] = {
                 "id": fid,
-                "group_id": r["factor_group_id"],
+                "group_id": gid,
                 "rarity": r["rarity"],
                 "grade": r["grade"],
                 "factor_type": r["factor_type"],
                 "effect_group_id": r["effect_group_id"],
+                "granted_skill_ids": granted_skill_ids,
+                "granted_skill_names": granted_skill_names,
+                "granted_stats": sorted(grant.get("stats") or []),
             }
 
         # ── scenarios ──────────────────────────────────────────────────

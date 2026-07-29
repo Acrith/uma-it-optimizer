@@ -158,18 +158,33 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 }
 .deck-thumbs {
     display: inline-flex;
-    gap: 1px;
+    gap: 3px;
     vertical-align: middle;
     margin-right: 6px;
 }
-.deck-thumbs img {
-    width: 20px;
-    height: 26px;
-    border-radius: 2px;
+.deck-thumb-wrap { position: relative; display: inline-block; }
+.deck-thumb-wrap img.card {
+    width: 32px;
+    height: 42px;
+    border-radius: 3px;
     object-fit: cover;
     background: var(--row-alt);
     border: 1px solid var(--border);
+    display: block;
 }
+.deck-thumb-wrap img.type-badge {
+    position: absolute; top: -2px; right: -2px;
+    width: 12px; height: 12px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+.deck-thumb-wrap .lb-mini {
+    display: flex; gap: 1px; justify-content: center;
+    margin-top: 2px;
+}
+.deck-thumb-wrap .lb-mini svg { width: 6px; height: 6px; display: block; }
+.lb-mini .filled { fill: #6ab6ff; stroke: #2f6fc7; stroke-width: 1; }
+.lb-mini .empty { fill: none; stroke: rgba(150,150,150,0.5); stroke-width: 1; }
+tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 </style>
 </head>
 <body>
@@ -218,9 +233,9 @@ __STATS_HTML__
             <th data-key="timestamp"     data-type="text">Date</th>
             <th data-key="trainee_name"  data-type="text">Trainee</th>
             <th data-key="scenario_name" data-type="text">Scenario</th>
-            <th data-key="deck_hash"     data-type="text">Deck#</th>
-            <th data-key="score_ceiling" data-type="num" title="Estimated SS-grade score: floor (no more SP spent) – ceiling (all unspent SP spent at default rate 2.0×)">Score est.</th>
-            <th data-key="letter_grade"  data-type="text" title="Letter grade estimated from rank tier; range shown when floor and ceiling straddle a grade boundary">Grade</th>
+            <th data-key="deck_hash"     data-type="text">Deck</th>
+            <th data-key="score_ceiling" data-type="num" title="Estimated SS-grade score at knapsack-optimal SP spend">Score</th>
+            <th data-key="letter_grade"  data-type="text" title="Letter grade range from rank tier">Grade</th>
             <th data-key="stat_sum"      data-type="num">5-Stat</th>
             <th data-key="speed"         data-type="num">Spd</th>
             <th data-key="stamina"       data-type="num">Sta</th>
@@ -229,9 +244,7 @@ __STATS_HTML__
             <th data-key="guts"          data-type="num">Gts</th>
             <th data-key="unspent_sp"    data-type="num">SP</th>
             <th data-key="races_run"     data-type="num">Races</th>
-            <th data-key="fans_per_race" data-type="num">Fans/Race</th>
             <th data-key="fans"          data-type="num">Fans</th>
-            <th data-key="factors_total" data-type="num">Factors</th>
             <th data-key="skill_hints_available" data-type="num">Hints</th>
             <th data-key="timestamp"     data-type="text">Detail</th>
         </tr>
@@ -253,6 +266,22 @@ function fmtDate(ts) {
 function fmtNum(n) {
     if (n === null || n === undefined) return "";
     return typeof n === "number" ? n.toLocaleString() : n;
+}
+function renderDeckThumb(c) {
+    if (!c || !c.image_url) return "";
+    const crystals = c.limit_break != null
+        ? Array.from({length: 4}, (_, i) =>
+            `<svg viewBox="0 0 10 10"><polygon class="${i < c.limit_break ? 'filled' : 'empty'}" points="5,0 10,5 5,10 0,5"/></svg>`
+          ).join("")
+        : "";
+    const typeBadge = c.type_icon_url
+        ? `<img class="type-badge" src="${c.type_icon_url}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+        : "";
+    return `<span class="deck-thumb-wrap" title="${c.name || ""} · LB ${c.limit_break ?? '?'}/4">
+        <img class="card" src="${c.image_url}" loading="lazy" onerror="this.style.visibility='hidden'">
+        ${typeBadge}
+        <span class="lb-mini">${crystals}</span>
+    </span>`;
 }
 
 // ── generic sortable-table controller ─────────────────────────────
@@ -325,9 +354,9 @@ const runsCtrl = makeSortable({
             <td>${r.scenario_name}</td>
             <td title="${r.deck_summary}">
                 <span class="deck-thumbs">
-                    ${(r.deck_thumbnails||[]).map(u => u ? `<img src="${u}" loading="lazy" onerror="this.style.visibility='hidden'">` : '').join("")}
+                    ${(r.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
-                <span class="mono">${r.deck_hash}</span>
+                <span class="mono" style="font-size: 10px; color: var(--muted); vertical-align: middle;">${r.deck_hash}</span>
             </td>
             <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
             <td title="${r.rank_range_label}"><strong>${r.letter_grade}</strong></td>
@@ -363,9 +392,9 @@ const decksCtrl = makeSortable({
         <tr title="${d.deck_summary}">
             <td>
                 <span class="deck-thumbs">
-                    ${(d.deck_thumbnails||[]).map(u => u ? `<img src="${u}" loading="lazy" onerror="this.style.visibility='hidden'">` : '').join("")}
+                    ${(d.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
-                <span class="mono">${d.deck_hash}</span>
+                <span class="mono" style="font-size: 10px; color: var(--muted); vertical-align: middle;">${d.deck_hash}</span>
             </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip">${n}×${t}</span>`).join("")}</td>

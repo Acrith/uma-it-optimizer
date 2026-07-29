@@ -353,11 +353,31 @@ def factor_name(factor_id: int) -> str:
         if not sid:
             sid, name = skill_from_hint(group, 2)
         return f"{name} {stars}"
-    if ftype == 5:
+    if ftype in (5, 6, 7):
+        # Greens grant either a specific skill hint (dump encodes the
+        # skill name in granted_skill_names) or a stat/stat-pair bonus
+        # (granted_stats). Prefer the skill name if any; else combine
+        # stat names with '+'.
+        skills = f.get("granted_skill_names") or []
+        stats = f.get("granted_stats") or []
+        if skills:
+            return f"{skills[0]} {stars}"
+        if stats:
+            return f"{'+'.join(stats)} {stars}"
         return f"Green ({group}) {stars}"
-    if ftype == 6:
-        return f"White ({group}) {stars}"
     return f"Factor:{group}/{ftype} {stars}"
+
+
+def factor_type_label(factor_id: int) -> str:
+    """Category label for color-coding a factor chip in the UI."""
+    m = load_masters()
+    f = m.get("factors", {}).get(str(factor_id))
+    if not f:
+        return "unknown"
+    return {1: "stat", 2: "aptitude", 3: "unique",
+            4: "skill", 5: "green", 6: "green", 7: "special"}.get(
+                f.get("factor_type", 0), "unknown"
+            )
 
 
 def race_name(program_id: int) -> str:

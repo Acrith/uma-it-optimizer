@@ -78,6 +78,15 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 .chip.type-Guts   { background: #ffe6f2; color: #a02060; }
 .chip.type-Wit    { background: #e0f2e0; color: #206020; }
 .chip.type-Friend { background: #fff8cc; color: #806000; }
+
+/* Factor category chips — uma.moe-style color coding */
+.chip.factor-stat     { background: #d5e5ff; color: #0f3d80; }
+.chip.factor-aptitude { background: #ffd9dd; color: #900026; }
+.chip.factor-unique   { background: #d3f0d5; color: #1e6a2b; border: 1px solid #6bc38a; }
+.chip.factor-skill    { background: #ececf0; color: #3a3a45; }
+.chip.factor-green    { background: #e0f2df; color: #206020; }
+.chip.factor-special  { background: #f0e2ff; color: #4c1a8a; }
+.chip.factor-unknown  { background: var(--row-alt); color: var(--muted); }
 @media (prefers-color-scheme: dark) {
     .chip.type-Speed  { background: #1a2540; color: #7fa7ff; }
     .chip.type-Stamina{ background: #3d1a1a; color: #ff9090; }
@@ -1014,11 +1023,14 @@ def render(d: RunDetail) -> str:
     if not race_rows_html:
         race_rows_html.append('<tr><td colspan="5">No races captured.</td></tr>')
 
-    # Factor rows — grouped per year with composed names as chips
+    # Factor rows — chips color-coded by category (stat/aptitude/skill/
+    # unique/green) so a whole year's factor mix reads at a glance,
+    # mirroring the uma.moe visual language.
     factor_rows_html: list[str] = []
     for y in d.factors_by_year:
         chips = "".join(
-            f'<span class="chip" title="factor_id {f["factor_id"]}">{f["name"]}</span>'
+            f'<span class="chip factor-{f["type_label"]}" '
+            f'title="factor_id {f["factor_id"]}">{f["name"]}</span>'
             for f in y["factors"]
         )
         factor_rows_html.append(
