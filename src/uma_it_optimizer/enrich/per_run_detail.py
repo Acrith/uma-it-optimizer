@@ -251,31 +251,52 @@ def build(path: Path) -> RunDetail:
     TYPE_ORDER = {"stat": 0, "aptitude": 1, "green": 2,
                   "skill": 3, "unique": 4, "special": 5, "unknown": 9}
 
+    # Year 1's SuccessionFactorGainInfo bucket is a mix of two things
+    # the game accounts together but the PLAYER experiences separately:
+    #   1. Actual year-1 spark procs — blue stat factors, plus both
+    #      direct parents' unique-inherit (auto-guaranteed).
+    #   2. Pre-run affinity adjustments — aptitude factors that boost
+    #      the trainee's aptitudes toward A before turn 1 ever runs.
+    #      These aren't 'sparks' the player sees mid-run.
+    #
+    # Aptitude factors CAN spark in year 2/3 (random chance). Filter
+    # them out of the year-1 factor list so what remains is the honest
+    # 'stuff that proc'd during Junior year' view. A subtle badge on
+    # the year-1 row will note the pre-run affinity ledger separately.
     factors_by_year: list[dict] = []
-    for year_entry in raw.get("SuccessionFactorGainInfo", []) or []:
+    for year_idx, year_entry in enumerate(raw.get("SuccessionFactorGainInfo", []) or []):
         year = int(year_entry.get("<Year>k__BackingField", 0) or 0)
-        # Dedup by factor_id and count hits. Sparks legitimately proc
-        # multiple times — a stat spark hit count is meaningful (see the
-        # uma.moe "3x Stamina" convention). Grouping lets those counts
-        # surface visibly instead of drowning in repeated chip rows.
         agg: dict[int, dict] = {}
+        preroll_aptitudes: dict[int, int] = {}  # year-1 aptitude entries → count
         for f in year_entry.get("<GainFactorInfoArray>k__BackingField", []) or []:
             fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
             if fid == 0:
                 continue
+            type_label = factor_type_label(fid)
+            if year_idx == 0 and type_label == "aptitude":
+                preroll_aptitudes[fid] = preroll_aptitudes.get(fid, 0) + 1
+                continue
             entry = agg.setdefault(fid, {
                 "factor_id": fid,
                 "name": factor_name(fid),
-                "type_label": factor_type_label(fid),
+                "type_label": type_label,
                 "hits": 0,
             })
             entry["hits"] += 1
-        # Sort by category, then hits desc, then name for stable order
         factor_rows = sorted(
             agg.values(),
             key=lambda r: (TYPE_ORDER.get(r["type_label"], 9), -r["hits"], r["name"]),
         )
-        factors_by_year.append({"year": year, "factors": factor_rows})
+        preroll_rows = [
+            {"factor_id": fid, "name": factor_name(fid),
+             "type_label": "aptitude", "hits": n}
+            for fid, n in preroll_aptitudes.items()
+        ]
+        preroll_rows.sort(key=lambda r: (-r["hits"], r["name"]))
+        factors_by_year.append({
+            "year": year, "factors": factor_rows,
+            "preroll_aptitudes": preroll_rows,
+        })
 
     # ── Race history ─────────────────────────────────────────────────
     # RaceHistory entries are program-scoped races with turn / result rank.
@@ -372,8 +393,11 @@ def _build_lineage(raw: dict) -> dict:
             if fid <= 0:
                 continue
             ftype = int((factors_master.get(str(fid)) or {}).get("factor_type", 0))
-            if year_idx == 0 and ftype == 3:
-                # Year-1 unique auto-inherit; not player-influenced.
+            # Year-1 exclusions — these hit the ledger but aren't
+            # 'spark' events the player sees mid-run:
+            #   - type 3 (unique): auto-inherit from direct parents
+            #   - type 2 (aptitude): pre-run affinity boost, not a proc
+            if year_idx == 0 and ftype in (2, 3):
                 continue
             spark_hits[fid] += 1
 
@@ -590,6 +614,32 @@ def _planner_data(raw: dict) -> dict:
     for gid, rars in rarities_per_group.items():
         if 2 in rars:
             rars.add(1)
+
+    # Trainee's innate skills (available_skill_set) show up in the SP
+    # panel from turn 1 even without a hint proc — the planner needs to
+    # see them as buyable options. Filter by need_rank ≤ trainee's
+    # current chara_grade so unrelated late-unlock skills don't
+    # pollute the list.
+    from .lookups import innate_skills_for_card
+    m = load_masters()
+    all_skills = m.get("skills", {})
+    chara = raw.get("SingleModeChara", [{}])[0] if raw.get("SingleModeChara") else {}
+    trainee_card_id = int(chara.get("card_id") or 0)
+    trainee_grade = int(chara.get("chara_grade") or 0)
+    for entry in innate_skills_for_card(trainee_card_id):
+        if int(entry.get("need_rank") or 0) > trainee_grade:
+            continue
+        sid = int(entry.get("skill_id") or 0)
+        skill_row = all_skills.get(str(sid))
+        if not skill_row:
+            continue
+        gid = int(skill_row.get("group_id") or 0)
+        rar = int(skill_row.get("rarity") or 0)
+        if gid == 0:
+            continue
+        rarities_per_group.setdefault(gid, set()).add(rar)
+        if rar == 2:
+            rarities_per_group[gid].add(1)
 
     owned_set = set(owned_ids)
     # Per-skill hint level, used to apply the in-game SP discount

@@ -306,6 +306,14 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 .chip.factor-green    { background: #e0f2df; color: #206020; }
 .chip.factor-special  { background: #f0e2ff; color: #4c1a8a; }
 .chip.factor-unknown  { background: var(--row-alt); color: var(--muted); }
+/* Pre-run affinity aptitudes get a diamond marker and dimmed styling
+   so they're visibly distinct from actual year-1 spark procs. */
+.chip.preroll { opacity: 0.65; border: 1px dashed rgba(0,0,0,0.15); }
+.chip.preroll sup { font-size: 9px; margin-left: 2px; opacity: 0.75; }
+.preroll-note {
+    color: var(--muted); font-size: 11px; font-style: italic;
+    margin-top: 4px;
+}
 @media (prefers-color-scheme: dark) {
     .chip.type-Speed  { background: #1a2540; color: #7fa7ff; }
     .chip.type-Stamina{ background: #3d1a1a; color: #ff9090; }
@@ -1508,11 +1516,34 @@ def render(d: RunDetail) -> str:
                 f'{f["name"]}{hits_badge}'
                 f'</span>'
             )
+        # Year 1 also carries pre-run aptitude affinity (parents'
+        # aptitude factors that get pre-baked into the trainee's
+        # aptitudes before turn 1). Render them alongside the year's
+        # sparks but flagged so they don't get read as year-1 procs.
+        preroll = y.get("preroll_aptitudes") or []
+        if preroll:
+            for f in preroll:
+                hits_badge = f' <b>{f["hits"]}×</b>' if f["hits"] > 1 else ""
+                chip_parts.append(
+                    f'<span class="chip factor-aptitude preroll" '
+                    f'title="Pre-run aptitude affinity — applied before '
+                    f'turn 1, not a spark. factor_id {f["factor_id"]}">'
+                    f'{f["name"]}{hits_badge}<sup>◈</sup></span>'
+                )
         total_hits = sum(f["hits"] for f in y["factors"])
+        preroll_note = ""
+        if preroll:
+            n = sum(f["hits"] for f in preroll)
+            preroll_note = (
+                f'<div class="preroll-note">'
+                f'<sup>◈</sup> {n} pre-run aptitude affinity '
+                f'not counted in the total — applied before the run starts.'
+                f'</div>'
+            )
         factor_rows_html.append(
             f'<tr><td>Year {y["year"]}</td>'
             f'<td class="num">{total_hits}</td>'
-            f'<td>{"".join(chip_parts)}</td></tr>'
+            f'<td>{"".join(chip_parts)}{preroll_note}</td></tr>'
         )
     if not factor_rows_html:
         factor_rows_html.append('<tr><td colspan="3">No factors captured.</td></tr>')
