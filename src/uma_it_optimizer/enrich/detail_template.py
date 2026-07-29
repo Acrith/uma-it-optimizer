@@ -306,6 +306,18 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 .chip.factor-green    { background: #e0f2df; color: #206020; }
 .chip.factor-special  { background: #f0e2ff; color: #4c1a8a; }
 .chip.factor-unknown  { background: var(--row-alt); color: var(--muted); }
+/* Factors-gained table — the Factors column packs many chips, so let
+   it wrap onto multiple lines and give each row a bit of vertical
+   breathing room. Year + Count stay narrow on the left. */
+.factors-table td:nth-of-type(1) { white-space: nowrap; vertical-align: top; width: 60px; }
+.factors-table td:nth-of-type(2) { white-space: nowrap; vertical-align: top; width: 60px; }
+.factors-table td:nth-of-type(3) {
+    white-space: normal;
+    line-height: 1.9;
+    padding-top: 8px; padding-bottom: 8px;
+}
+.factors-table td .chip { margin: 2px 3px; }
+
 /* Pre-run affinity aptitudes get a diamond marker and dimmed styling
    so they're visibly distinct from actual year-1 spark procs. */
 .chip.preroll { opacity: 0.65; border: 1px dashed rgba(0,0,0,0.15); }
@@ -698,7 +710,7 @@ __SCORE_TABLE__
 <div id="lineage">__LINEAGE_PANEL__</div>
 
 <h2 id="factors">Factors gained</h2>
-<table>
+<table class="factors-table">
     <thead>
         <tr>
             <th>Year</th>
