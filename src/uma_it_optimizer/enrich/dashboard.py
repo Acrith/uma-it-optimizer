@@ -18,47 +18,167 @@ HTML_TEMPLATE = """\
 <title>IT runs — dashboard</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
+/* Dark theme is primary — light stays as an accessibility fallback.
+   Section-scoped accents so Decks / Runs / Analytics feel distinct. */
 :root {
-    color-scheme: light dark;
-    --bg: #fafafa;
-    --fg: #1a1a1a;
-    --muted: #666;
-    --border: #ddd;
-    --row-alt: #f2f2f2;
-    --hover: #e8f0fe;
-    --accent: #0366d6;
+    color-scheme: dark light;
+    --bg: #0f1116;
+    --bg-2: #161922;
+    --bg-3: #1e2230;
+    --fg: #e7e9ee;
+    --muted: #8b93a7;
+    --border: #23283a;
+    --row-alt: #1a1e2a;
+    --hover: #22283a;
+    --accent: #ff5c9b;         /* pink primary — Uma brand-adjacent */
+    --accent-2: #ffb454;       /* gold */
+    --accent-decks: #ff5c9b;   /* pink */
+    --accent-runs: #58a6ff;    /* blue */
+    --accent-lineage: #37b34a; /* green */
+    --shadow: 0 4px 16px rgba(0,0,0,0.35);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+    --radius: 8px;
 }
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
     :root {
-        --bg: #14161a;
-        --fg: #e4e4e4;
-        --muted: #999;
-        --border: #2a2d33;
-        --row-alt: #1a1d22;
-        --hover: #21334d;
-        --accent: #58a6ff;
+        --bg: #f6f4f8;
+        --bg-2: #ffffff;
+        --bg-3: #ffffff;
+        --fg: #1a1a1a;
+        --muted: #666;
+        --border: #e0dce6;
+        --row-alt: #faf7fc;
+        --hover: #ffe1ee;
+        --accent: #e5307c;
+        --shadow: 0 4px 16px rgba(0,0,0,0.08);
+        --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
     }
 }
 * { box-sizing: border-box; }
 body {
     margin: 0;
-    padding: 24px;
-    font: 14px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+    font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--bg);
     color: var(--fg);
+    min-height: 100vh;
 }
-h1 { margin: 0 0 4px; font-size: 20px; }
-.subtitle { color: var(--muted); margin-bottom: 16px; font-size: 13px; }
+/* App shell: sidebar rail + main scroll area. Sidebar carries the
+   brand mark, section nav, and quick stats — keeps the main area
+   free for content. */
+.app {
+    display: grid;
+    /* minmax(0, 1fr) so a wide table inside .main can't force the
+       grid track to expand past the viewport — the .table-wrap
+       handles horizontal scroll instead of the whole page. */
+    grid-template-columns: 220px minmax(0, 1fr);
+    min-height: 100vh;
+}
+.sidebar {
+    background: var(--bg-2);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    position: sticky; top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: 20px;
+}
+.sidebar-brand {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 0 6px;
+}
+.sidebar-brand .brand-mark {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+}
+.sidebar-brand .brand-sub {
+    color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+}
+.side-nav { display: flex; flex-direction: column; gap: 2px; }
+.side-nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    color: var(--muted);
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.12s, color 0.12s;
+}
+.side-nav a:hover { background: var(--hover); color: var(--fg); }
+.side-nav a.active {
+    background: var(--bg-3);
+    color: var(--accent);
+    box-shadow: inset 3px 0 0 var(--accent);
+}
+.side-nav .nav-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: currentColor; opacity: 0.85;
+}
+.side-nav a[data-section="decks"] .nav-dot { color: var(--accent-decks); }
+.side-nav a[data-section="runs"] .nav-dot { color: var(--accent-runs); }
+.side-nav a[data-section="analytics"] .nav-dot { color: var(--accent-lineage); }
+.side-quick {
+    margin-top: auto;
+    padding: 12px;
+    background: var(--bg-3);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column; gap: 8px;
+    font-size: 11px;
+}
+.side-quick .stat { display: flex; flex-direction: row; justify-content: space-between; align-items: baseline; gap: 8px; }
+.side-quick .stat-label { color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 10px; }
+.side-quick .stat-value { color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.main {
+    padding: 24px 32px 48px;
+    min-width: 0;    /* let table-wrap scroll instead of expanding grid */
+}
+.main .card-panel {
+    /* Panels honor the viewport width; the .table-wrap inside handles
+       overflow-x so wide tables scroll horizontally without breaking
+       out of the panel. overflow-hidden here would clip the table-wrap's
+       scrollbar — leave it unset so the inner wrap's overflow-x wins. */
+    max-width: 100%;
+}
+h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+}
+h1::before {
+    content: ""; display: inline-block;
+    width: 4px; height: 22px;
+    background: var(--section-accent, var(--accent));
+    border-radius: 3px;
+}
+.subtitle { color: var(--muted); margin-bottom: 24px; font-size: 13px; }
+
+section.panel {
+    display: none;
+}
+section.panel.active { display: block; }
+/* Panel-scoped accent so headers, chips, links, badges all inherit */
+section.panel[data-section="decks"]     { --section-accent: var(--accent-decks); }
+section.panel[data-section="runs"]      { --section-accent: var(--accent-runs); }
+section.panel[data-section="analytics"] { --section-accent: var(--accent-lineage); }
+
 .stats {
     display: flex;
-    gap: 24px;
-    margin-bottom: 20px;
+    gap: 20px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
 }
 .stat { display: flex; flex-direction: column; }
 .stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase;
     letter-spacing: 0.05em; }
-.stat-value { font-size: 18px; font-weight: 600; }
+.stat-value {
+    font-size: 20px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+}
 input[type=search] {
     width: 100%;
     max-width: 400px;
@@ -144,8 +264,25 @@ h2 {
     color: var(--fg);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    display: flex; align-items: center; gap: 8px;
+}
+h2::before {
+    content: ""; display: inline-block;
+    width: 3px; height: 14px;
+    background: var(--section-accent, var(--accent));
+    border-radius: 2px;
 }
 h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+/* Content panels — subtle bordered surface so sections feel like
+   discrete units instead of one long scroll. */
+.card-panel {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
 .chip {
     display: inline-block;
     padding: 1px 6px;
@@ -381,14 +518,25 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 </style>
 </head>
 <body>
-<h1>Independent Training runs</h1>
-<div class="subtitle">__SUBTITLE__</div>
+<div class="app">
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <span class="brand-mark">uma-it-optimizer</span>
+        <span class="brand-sub">Independent Training</span>
+    </div>
+    <nav class="side-nav" id="side-nav">
+        <a href="#decks" data-section="decks" class="active"><span class="nav-dot"></span>Decks</a>
+        <a href="#runs" data-section="runs"><span class="nav-dot"></span>Runs</a>
+    </nav>
+    <div class="side-quick" id="side-quick">__STATS_HTML__</div>
+</aside>
 
-<div class="stats">
-__STATS_HTML__
-</div>
+<main class="main">
+<section class="panel active" id="decks-panel" data-section="decks">
+<h1>Deck performance</h1>
+<div class="subtitle">__SUBTITLE__ — completed runs only. Click a column to sort.</div>
 
-<h2>Deck performance <span class="subtle">— completed runs only, click column to sort</span></h2>
+<div class="card-panel">
 <div class="deck-filter-panel">
     <div class="filter-row">
         <span class="filter-label">Cards</span>
@@ -416,6 +564,8 @@ __STATS_HTML__
         <div class="card-picker-grid" id="deck-card-grid"></div>
     </div>
 </div>
+</div>
+<div class="card-panel">
 <div class="table-wrap">
 <table id="decks">
     <thead>
@@ -437,8 +587,14 @@ __STATS_HTML__
 </table>
 <div class="deck-footer" id="deck-footer"></div>
 </div>
+</div>
+</section>
 
-<h2>All runs <span class="subtle">— per-capture detail</span></h2>
+<section class="panel" id="runs-panel" data-section="runs">
+<h1>All runs</h1>
+<div class="subtitle">Every capture, sortable and filterable.</div>
+
+<div class="card-panel">
 <div class="controls">
     <input type="search" id="filter" placeholder="Filter (deck#, trainee, scenario, ...)">
     <label class="toggle">
@@ -476,7 +632,37 @@ __STATS_HTML__
     <tbody id="runs-body"></tbody>
 </table>
 </div>
+</div>
+</section>
+</main>
+</div>
 
+<script>
+// Section nav — swap active panel + accent scope; keep hash in sync so
+// deep-links (dashboard.html#runs) land on the right tab.
+(function () {
+    const nav = document.getElementById("side-nav");
+    if (!nav) return;
+    function activate(section) {
+        nav.querySelectorAll("a").forEach(a => {
+            a.classList.toggle("active", a.dataset.section === section);
+        });
+        document.querySelectorAll("section.panel").forEach(p => {
+            p.classList.toggle("active", p.dataset.section === section);
+        });
+    }
+    nav.addEventListener("click", (e) => {
+        const a = e.target.closest("a[data-section]");
+        if (!a) return;
+        e.preventDefault();
+        const section = a.dataset.section;
+        history.replaceState(null, "", "#" + section);
+        activate(section);
+    });
+    const initial = (location.hash || "").replace(/^#/, "") || "decks";
+    activate(initial);
+})();
+</script>
 <script>
 const DATA = __DATA_JSON__;
 const DECKS = __DECKS_JSON__;
@@ -652,7 +838,7 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.races_run)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
             <td class="num">${fmtNum(r.skill_hints_available)}</td>
-            <td>${r.detail_href ? `<a href="${r.detail_href}">Open ▸</a>` : "—"}</td>
+            <td>${r.detail_href ? `<a href="${r.detail_href}" target="_blank" rel="noopener">Open ▸</a>` : "—"}</td>
         </tr>
     `,
 });

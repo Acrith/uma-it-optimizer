@@ -16,26 +16,115 @@ DETAIL_HTML = """\
 <title>__TITLE__</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
+/* Dark-first — mirrors the dashboard shell. Section accent is
+   'lineage' green for the detail page. */
 :root {
-    color-scheme: light dark;
-    --bg: #fafafa; --fg: #1a1a1a; --muted: #666;
-    --border: #ddd; --row-alt: #f2f2f2; --hover: #e8f0fe;
-    --accent: #0366d6;
+    color-scheme: dark light;
+    --bg: #0f1116; --bg-2: #161922; --bg-3: #1e2230;
+    --fg: #e7e9ee; --muted: #8b93a7;
+    --border: #23283a; --row-alt: #1a1e2a; --hover: #22283a;
+    --accent: #58a6ff; --accent-2: #ffb454;
+    --accent-decks: #ff5c9b; --accent-runs: #58a6ff; --accent-lineage: #37b34a;
+    --section-accent: var(--accent-runs);
+    --shadow: 0 4px 16px rgba(0,0,0,0.35);
+    --radius: 8px;
 }
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
     :root {
-        --bg: #14161a; --fg: #e4e4e4; --muted: #999;
-        --border: #2a2d33; --row-alt: #1a1d22; --hover: #21334d;
-        --accent: #58a6ff;
+        --bg: #f6f4f8; --bg-2: #ffffff; --bg-3: #ffffff;
+        --fg: #1a1a1a; --muted: #666;
+        --border: #e0dce6; --row-alt: #faf7fc; --hover: #ffe1ee;
+        --accent: #0366d6;
+        --shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
 }
 * { box-sizing: border-box; }
 body {
-    margin: 0; padding: 24px;
-    font: 14px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--bg); color: var(--fg);
-    max-width: 1400px; margin-left: auto; margin-right: auto;
+    min-height: 100vh;
 }
+/* App shell — mirrors dashboard.py. Kept inline so detail pages open
+   standalone without needing an external stylesheet. */
+.app {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    min-height: 100vh;
+}
+.sidebar {
+    background: var(--bg-2);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    position: sticky; top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: 20px;
+}
+.sidebar-brand { display: flex; flex-direction: column; gap: 2px; padding: 0 6px; }
+.sidebar-brand .brand-mark {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+    background: linear-gradient(135deg, var(--accent-decks), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sidebar-brand .brand-sub {
+    color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+}
+.side-nav { display: flex; flex-direction: column; gap: 2px; }
+.side-nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; color: var(--muted); text-decoration: none;
+    border-radius: 6px; font-weight: 500; transition: background 0.12s, color 0.12s;
+}
+.side-nav a:hover { background: var(--hover); color: var(--fg); }
+.side-nav a.active {
+    background: var(--bg-3); color: var(--accent-lineage);
+    box-shadow: inset 3px 0 0 var(--accent-lineage);
+}
+.side-nav .nav-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: currentColor; opacity: 0.85;
+}
+.side-nav a[data-section="decks"] .nav-dot { color: var(--accent-decks); }
+.side-nav a[data-section="runs"] .nav-dot { color: var(--accent-runs); }
+.side-nav a[data-section="detail"] .nav-dot { color: var(--accent-lineage); }
+.side-quick {
+    margin-top: auto;
+    padding: 10px 12px;
+    background: var(--bg-3);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column; gap: 4px;
+    font-size: 11px;
+}
+.side-quick .stat {
+    display: flex; flex-direction: row;
+    justify-content: space-between; align-items: center;
+    gap: 8px;
+    min-width: 0;
+    line-height: 1.4;
+}
+.side-quick .stat-label {
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.04em; font-size: 9px;
+    flex-shrink: 0;
+}
+.side-quick .stat-value {
+    color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    min-width: 0; text-align: right;
+}
+
+.main {
+    padding: 24px 32px 48px;
+    min-width: 0;
+}
+.main .card-panel { max-width: 100%; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { margin: 0 0 4px; font-size: 22px; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1 { margin: 0 0 4px; font-size: 22px; }
@@ -643,7 +732,20 @@ td.thumb-cell {
 </style>
 </head>
 <body>
-<div class="subtitle"><a href="dashboard.html">← All runs</a></div>
+<div class="app">
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <span class="brand-mark">uma-it-optimizer</span>
+        <span class="brand-sub">Independent Training</span>
+    </div>
+    <nav class="side-nav">
+        <a href="dashboard.html#decks" target="_blank" data-section="decks"><span class="nav-dot"></span>Decks</a>
+        <a href="dashboard.html#runs" target="_blank" data-section="runs"><span class="nav-dot"></span>Runs</a>
+        <a href="#" data-section="detail" class="active"><span class="nav-dot"></span>__RUN_TAB_LABEL__</a>
+    </nav>
+    <div class="side-quick">__SIDEBAR_STATS__</div>
+</aside>
+<main class="main">
 <div class="header-row">
     __PORTRAIT__
     <div class="header-body">
@@ -654,8 +756,6 @@ __HEADER_STATS__
 </div>
 
 <nav class="section-nav">
-    <a href="dashboard.html" class="back-link">← Dashboard</a>
-    <span class="nav-sep"></span>
     <a href="#contribs">Contributions</a>
     <a href="#hints">Hints</a>
     <a href="#score">Score</a>
@@ -733,6 +833,9 @@ __SCORE_TABLE__
     </thead>
     <tbody>__FACTOR_ROWS__</tbody>
 </table>
+
+</main>
+</div>
 
 <script>
 __PLANNER_JS__
@@ -1386,15 +1489,9 @@ def render(d: RunDetail) -> str:
         )
         for (k, lbl) in fac_defs
     ) + _sp_widget(d.unspent_sp) + '</div>'
-    # Compact meta strip — quick numbers Motivation / Vital removed as
-    # they don't help decision-making post-run.
-    header_stats += (
-        '<div class="meta-strip">'
-        f'<span>5-stat sum <b>{sum(d.final_stats.values()):,}</b></span>'
-        f'<span>Fans <b>{d.fans:,}</b></span>'
-        f'<span>Races <b>{d.races_run}</b></span>'
-        '</div>'
-    )
+    # 5-stat sum / Fans / Races strip removed — it duplicated the
+    # sidebar's quick-stats block. The sidebar is persistent and
+    # carries the same numbers.
 
     # Contribution rows — columns render in Speed/Stamina/Power/Guts/
     # Wisdom/SP order to match in-game facility layout. Zero values get
@@ -1665,6 +1762,32 @@ def render(d: RunDetail) -> str:
 
     lineage_panel = _render_lineage_panel(getattr(d, "lineage", None))
 
+    # Quick-stats sidebar block — compact key/value pairs for this run.
+    # Kept tight (labels UPPERCASE small, values tabular-num right-aligned,
+    # ellipsis on overflow) so a long trainee/scenario name doesn't wrap.
+    sidebar_stats = "".join([
+        f'<div class="stat"><span class="stat-label">Trainee</span>'
+        f'<span class="stat-value" title="{d.trainee_name}">{d.trainee_name}</span></div>',
+        f'<div class="stat"><span class="stat-label">Scenario</span>'
+        f'<span class="stat-value" title="{d.scenario_name}">{d.scenario_name}</span></div>',
+        f'<div class="stat"><span class="stat-label">5-stat</span>'
+        f'<span class="stat-value">{sum(d.final_stats.values()):,}</span></div>',
+        f'<div class="stat"><span class="stat-label">Fans</span>'
+        f'<span class="stat-value">{d.fans:,}</span></div>',
+        f'<div class="stat"><span class="stat-label">Races</span>'
+        f'<span class="stat-value">{d.races_run}</span></div>',
+    ])
+
+    # Sidebar tab label — replaces the generic "Run detail" with a
+    # human-readable identifier so multiple open detail pages can be
+    # told apart at a glance. Timestamp is the run's short local time.
+    ts = d.timestamp
+    if len(ts) >= 13 and ts[8] == 'T':
+        short_ts = f"{ts[4:6]}/{ts[6:8]} {ts[9:11]}:{ts[11:13]}"
+    else:
+        short_ts = ts
+    tab_label = f"{d.trainee_name} · {short_ts}"
+
     return (
         DETAIL_HTML
         .replace("__TITLE__", f"{d.trainee_name} · {d.timestamp}")
@@ -1672,6 +1795,8 @@ def render(d: RunDetail) -> str:
         .replace("__HEADER__", header)
         .replace("__SUBTITLE__", subtitle)
         .replace("__HEADER_STATS__", header_stats)
+        .replace("__SIDEBAR_STATS__", sidebar_stats)
+        .replace("__RUN_TAB_LABEL__", tab_label)
         .replace("__LINEAGE_PANEL__", lineage_panel)
         .replace("__CONTRIBUTIONS_ROWS__", "".join(contrib_rows_html))
         .replace("__HINT_ROWS__", "".join(hint_rows_html))
