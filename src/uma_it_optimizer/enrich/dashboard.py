@@ -316,7 +316,7 @@ function fmtNum(n) {
 // a heuristic guess and let the user correct it with a click. Overrides
 // survive page reloads and dashboard regenerations.
 const PRESET_OVERRIDE_KEY = "uma_it_preset_overrides_v1";
-const PRESET_CYCLE = ["Balanced", "Stamina", "Sprint", "Custom"];
+const PRESET_CYCLE = ["Balanced", "Stamina", "Sprint"];
 function loadPresetOverrides() {
     try { return JSON.parse(localStorage.getItem(PRESET_OVERRIDE_KEY) || "{}"); }
     catch { return {}; }
