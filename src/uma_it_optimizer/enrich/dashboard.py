@@ -122,13 +122,24 @@ body {
 .side-nav a[data-section^="run:"] .nav-dot { color: var(--accent-lineage); }
 .side-nav a.dynamic-tab {
     display: flex; align-items: center; gap: 8px;
-    padding-right: 4px;
+    padding: 6px 4px 6px 10px;
+    line-height: 1.25;
 }
-.side-nav a.dynamic-tab .tab-label {
+.side-nav a.dynamic-tab .tab-body {
     flex: 1; min-width: 0;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    font-size: 12px;
+    display: flex; flex-direction: column; gap: 2px;
 }
+.side-nav a.dynamic-tab .tab-line1 {
+    font-size: 12px; font-weight: 600;
+    color: inherit;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.side-nav a.dynamic-tab .tab-line2 {
+    font-size: 10px;
+    color: var(--muted);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.side-nav a.dynamic-tab.active .tab-line2 { color: color-mix(in srgb, var(--accent-lineage) 75%, var(--muted)); }
 .side-nav a.dynamic-tab .tab-close {
     display: inline-flex; align-items: center; justify-content: center;
     width: 18px; height: 18px;
@@ -559,7 +570,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         <a href="#runs" data-section="runs"><span class="nav-dot"></span>Runs</a>
         <div id="side-nav-runs"></div>
     </nav>
-    <div class="side-quick" id="side-quick">__STATS_HTML__</div>
+    <div class="side-quick" id="side-quick" data-scope="dashboard">__STATS_HTML__</div>
 </aside>
 
 <main class="main">
@@ -684,7 +695,54 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     // openRuns: filename -> {label, detail_href, navEl, panelEl}
     const openRuns = new Map();
 
+    // Save the initial dashboard-wide side-quick HTML so we can restore
+    // it when the user switches back to a static (Decks/Runs) panel.
+    const sideQuick = document.getElementById("side-quick");
+    const dashboardStatsHTML = sideQuick.innerHTML;
+
+    function fmtNumSafe(n) {
+        return typeof n === "number" ? n.toLocaleString() : (n || "—");
+    }
+
+    function renderRunSidebarStats(row) {
+        const grade = row.grade_ceiling_letter || row.grade_floor_letter || "—";
+        const score = row.score_ceiling ? fmtNumSafe(row.score_ceiling) : "—";
+        sideQuick.innerHTML = `
+            <div class="stat"><span class="stat-label">Trainee</span>
+                <span class="stat-value" title="${row.trainee_name}">${row.trainee_name}</span></div>
+            <div class="stat"><span class="stat-label">Scenario</span>
+                <span class="stat-value" title="${row.scenario_name}">${row.scenario_name}</span></div>
+            <div class="stat"><span class="stat-label">Grade</span>
+                <span class="stat-value">${grade}</span></div>
+            <div class="stat"><span class="stat-label">Score</span>
+                <span class="stat-value">${score}</span></div>
+            <div class="stat"><span class="stat-label">5-stat</span>
+                <span class="stat-value">${fmtNumSafe(row.stat_sum)}</span></div>
+            <div class="stat"><span class="stat-label">Fans</span>
+                <span class="stat-value">${fmtNumSafe(row.fans)}</span></div>
+            <div class="stat"><span class="stat-label">Races</span>
+                <span class="stat-value">${fmtNumSafe(row.races_run)}</span></div>
+        `;
+        sideQuick.dataset.scope = "run";
+    }
+
+    function restoreDashboardSidebarStats() {
+        if (sideQuick.dataset.scope !== "dashboard") {
+            sideQuick.innerHTML = dashboardStatsHTML;
+            sideQuick.dataset.scope = "dashboard";
+        }
+    }
+
+    // Per-section scroll memory so switching between tabs restores
+    // exactly where you were (not just the page top).
+    const scrollY = new Map();
+    let currentSection = null;
+
     function activate(section) {
+        // Save current scroll before swapping.
+        if (currentSection !== null) {
+            scrollY.set(currentSection, window.scrollY);
+        }
         nav.querySelectorAll("a").forEach(a => {
             a.classList.toggle("active", a.dataset.section === section);
         });
@@ -696,7 +754,19 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         runPanels.querySelectorAll("section.panel").forEach(p => {
             p.classList.toggle("active", p.dataset.section === section);
         });
+        currentSection = section;
+        // Contextual side-quick swap: run tab active → this run's stats;
+        // otherwise → dashboard aggregate stats.
+        if (section.startsWith("run:")) {
+            const filename = section.slice(4);
+            const row = DATA.find(r => r.filename === filename);
+            if (row) renderRunSidebarStats(row);
+        } else {
+            restoreDashboardSidebarStats();
+        }
         history.replaceState(null, "", "#" + section);
+        // Restore per-section scroll — 0 on first visit.
+        window.scrollTo({top: scrollY.get(section) || 0, behavior: "instant"});
     }
 
     function shortTs(ts) {
@@ -707,6 +777,29 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         return ts;
     }
 
+    function tabGrade(row) {
+        // Prefer the planned ceiling letter (with icon fallback logic
+        // handled in the run detail); tabs just show the letter.
+        return row.grade_ceiling_letter || row.grade_floor_letter || "";
+    }
+
+    // Scenario abbreviations for the tab's second line — the full name
+    // still shows on hover via the title attribute.
+    const SCENARIO_SHORT = {
+        "URA Finale": "URA",
+        "Unity Cup": "Unity",
+        "Our Grand Concert": "GrandConcert",
+        "Trackblazer": "MANT",
+    };
+    function shortScenario(name) {
+        return SCENARIO_SHORT[name] || name;
+    }
+    function shortSP(sp) {
+        if (typeof sp !== "number") return "—";
+        if (sp >= 10000) return (sp / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+        return sp.toLocaleString();
+    }
+
     function openRun(row) {
         const filename = row.filename;
         if (openRuns.has(filename)) {
@@ -715,15 +808,28 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         }
         if (!row.detail_href) return;
         const section = "run:" + filename;
-        const label = `${row.trainee_name} · ${shortTs(row.timestamp)}`;
+        const line1 = `${row.trainee_name} · ${shortTs(row.timestamp)}`;
+        const grade = tabGrade(row);
+        const spStr = shortSP(row.unspent_sp);
+        const line2Parts = [shortScenario(row.scenario_name)];
+        if (grade) line2Parts.push(grade);
+        line2Parts.push(`${spStr} SP`);
+        const line2 = line2Parts.join(" · ");
+        // Full metadata as hover title
+        const fullLabel = `${row.trainee_name} · ${shortTs(row.timestamp)}\n${row.scenario_name} · ${grade || "—"} · ${row.unspent_sp?.toLocaleString() || "—"} SP`;
 
-        // Sidebar entry — anchor with dynamic label + × button
+        // Sidebar entry — two-line label with × button
         const navEl = document.createElement("a");
         navEl.href = "#" + section;
         navEl.className = "dynamic-tab";
         navEl.dataset.section = section;
+        navEl.dataset.filename = filename;
+        navEl.title = fullLabel;
         navEl.innerHTML = `<span class="nav-dot"></span>
-            <span class="tab-label" title="${label}">${label}</span>
+            <span class="tab-body">
+              <span class="tab-line1">${line1}</span>
+              <span class="tab-line2">${line2}</span>
+            </span>
             <button class="tab-close" title="Close this run" aria-label="Close">×</button>`;
         dynNav.appendChild(navEl);
 
@@ -733,12 +839,12 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         panelEl.dataset.section = section;
         const iframe = document.createElement("iframe");
         iframe.className = "run-panel-frame";
-        iframe.src = row.detail_href + "?embed=1";
-        iframe.title = label;
+        iframe.src = row.detail_href + "#embed";
+        iframe.title = line1;
         panelEl.appendChild(iframe);
         runPanels.appendChild(panelEl);
 
-        openRuns.set(filename, {label, detail_href: row.detail_href, navEl, panelEl});
+        openRuns.set(filename, {label: line1, detail_href: row.detail_href, navEl, panelEl});
         activate(section);
     }
 
@@ -1097,7 +1203,7 @@ decksCtrl.apply = function () {
     // Footer: how many decks visible / total after filter (of overall)
     const parts = [];
     parts.push(`${visible} of ${total} decks`);
-    if (deckFilterText || deckScenarioActive.size > 0)
+    if (deckScenarioActive.size > 0 || deckPickedCards.size > 0)
         parts.push('<button class="link-btn" id="deck-clear-inline">Clear filters</button>');
     if (!deckExpanded && total > DECK_TOP_N)
         parts.push(`<button class="link-btn" id="deck-expand-inline">Show all ${total}</button>`);

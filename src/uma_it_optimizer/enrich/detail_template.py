@@ -857,7 +857,9 @@ __SCORE_TABLE__
 // iframe (?embed=1), collapse the shell so only the run content shows.
 // The dashboard supplies its own sidebar around us.
 (function () {
-    if (location.search.includes('embed=1')) {
+    // Embed mode triggered via hash (#embed) — file:// URLs render
+    // query strings inconsistently, but hash fragments work everywhere.
+    if (location.hash === '#embed' || location.search.includes('embed=1')) {
         document.body.classList.add('embed-mode');
     }
     // When the standalone shell is visible, sidebar Decks / Runs links
