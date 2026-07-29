@@ -767,22 +767,17 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 
 <section class="panel" id="runs-panel" data-section="runs">
 <h1>All runs</h1>
-<div class="subtitle">Every capture, sortable and filterable.</div>
+<div class="subtitle">Every completed capture, sortable and filterable.</div>
 
 <div class="card-panel">
 <div class="controls">
     <input type="search" id="filter" placeholder="Filter (deck#, trainee, scenario, ...)">
-    <label class="toggle">
-        <input type="checkbox" id="show-all">
-        Show pre-training / incomplete captures
-    </label>
 </div>
 
 <div class="table-wrap">
 <table id="runs">
     <thead>
         <tr>
-            <th data-key="run_state"     data-type="text">State</th>
             <th data-key="timestamp"     data-type="text">Date</th>
             <th data-key="trainee_name"  data-type="text">Trainee</th>
             <th data-key="scenario_name" data-type="text">Scenario</th>
@@ -1265,14 +1260,13 @@ function makeSortable({tableId, bodyId, colspan, data, defaultKey, defaultDir, r
 const runsCtrl = makeSortable({
     tableId: "runs",
     bodyId: "runs-body",
-    colspan: 21,
+    colspan: 20,
     data: DATA,
     defaultKey: "timestamp",
     defaultDir: -1,
-    filterFn: (r, {showAll}) => showAll || r.run_state === "completed",
+    filterFn: null,
     rowHtml: (r) => `
         <tr title="${r.filename}\\n${r.deck_summary}">
-            <td><span class="badge badge-${r.run_state}">${r.run_state.replace("_", " ")}</span></td>
             <td>${fmtDate(r.timestamp)}</td>
             <td>${r.trainee_name}</td>
             <td>${r.scenario_name}</td>
@@ -1303,7 +1297,6 @@ const runsCtrl = makeSortable({
     `,
 });
 document.getElementById("filter").addEventListener("input", e => runsCtrl.setFilter(e.target.value));
-document.getElementById("show-all").addEventListener("change", e => runsCtrl.setShowAll(e.target.checked));
 
 // Deck drilldown — either the whole deck row OR the small hash pill
 // filters the All Runs table to that deck and switches to the Runs
@@ -1409,7 +1402,7 @@ const decksCtrl = makeSortable({
                     ${(d.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
                 <button class="deck-hash-link" data-deck="${d.deck_hash}" title="Filter All Runs to this deck">${d.deck_hash}</button>
-                <span class="deck-drilldown-hint">Open runs ▸</span>
+                <span class="deck-drilldown-hint">Open ▸</span>
             </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip type-${t}">${n}×${t}</span>`).join("")}</td>

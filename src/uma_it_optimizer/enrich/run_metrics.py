@@ -300,12 +300,23 @@ def summarize(path: Path) -> RunMetrics:
 
 
 def summarize_directory(runs_dir: Path) -> list[RunMetrics]:
+    """Load every *.json in ``runs_dir`` that matches the extractor's
+    naming convention, keep only completed captures.
+
+    Pre-training / mid-scenario captures produce meaningless data
+    (zero-fans zero-stat frozen frames) and just clutter the dashboard,
+    so they're dropped at the source rather than filtered in the UI.
+    Files that fail to parse or have a bad structure are skipped
+    silently — a corrupt capture shouldn't kill the whole dashboard."""
     out: list[RunMetrics] = []
     for p in sorted(runs_dir.glob("*.json")):
         if not FILENAME_RE.search(p.name):
             continue
         try:
-            out.append(summarize(p))
+            metrics = summarize(p)
         except (ValueError, KeyError, json.JSONDecodeError):
             continue
+        if metrics.run_state != "completed":
+            continue
+        out.append(metrics)
     return out
