@@ -753,15 +753,15 @@ PLANNER_JS = """
     }
 
     function renderGroup(g) {
+        // Pill tier gradients (white/gold/purple×/green-remove) already
+        // convey what each variant IS — no need for row labels.
+        // Order variants: whites first, then gold upgrades, then removals.
         const buyWhites = g.variants.filter(v => v.rarity === 1 && v.action !== 'remove');
         const buyGolds  = g.variants.filter(v => v.rarity === 2 && v.action !== 'remove');
         const removals  = g.variants.filter(v => v.action === 'remove');
         const hasSel = g.variants.some(v => selection.has(v.skill_id));
         const dimmed = !groupMatchesFilter(g);
-        const rows = [];
-        if (buyWhites.length) rows.push(renderVariantRow(buyWhites, 'White', 'buy-white'));
-        if (buyGolds.length)  rows.push(renderVariantRow(buyGolds, 'Gold upgrade', 'buy-gold'));
-        if (removals.length)  rows.push(renderVariantRow(removals, 'Remove', 'remove'));
+        const ordered = [...buyWhites, ...buyGolds, ...removals];
 
         // Classification chips — use the "best" (positive) variant's tags
         // since ○/◎/× of the same skill share classification.
@@ -780,22 +780,8 @@ PLANNER_JS = """
                     ${g.display_name}
                     ${styleChips}${distChips}${universalChip}
                 </div>
-                ${rows.join('')}
-            </div>
-        `;
-    }
-
-    function renderVariantRow(variants, tierLabel, kind) {
-        const notice = kind === 'buy-gold'
-            ? '<span class="tier-note">(needs white bought)</span>'
-            : kind === 'remove'
-            ? '<span class="tier-note">(× auto-acquired; cleanse)</span>'
-            : '';
-        return `
-            <div class="variant-row">
-                <span class="variant-row-label">${tierLabel}${notice}</span>
                 <div class="variant-list">
-                    ${variants.map(v => renderVariant(v, selection.has(v.skill_id))).join('')}
+                    ${ordered.map(v => renderVariant(v, selection.has(v.skill_id))).join('')}
                 </div>
             </div>
         `;
