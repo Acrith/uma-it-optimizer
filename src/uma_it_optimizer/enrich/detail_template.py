@@ -16,27 +16,36 @@ DETAIL_HTML = """\
 <title>__TITLE__</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-/* Dark-first — mirrors the dashboard shell. Section accent is
-   'lineage' green for the detail page. */
+/* Palette mirrors the dashboard shell. Section accent for the detail
+   page is 'lineage' green. Theme resolves via the same three-way
+   rule: explicit data-theme wins, then OS preference, then dark. */
 :root {
     color-scheme: dark light;
-    --bg: #0f1116; --bg-2: #161922; --bg-3: #1e2230;
-    --fg: #e7e9ee; --muted: #8b93a7;
-    --border: #23283a; --row-alt: #1a1e2a; --hover: #22283a;
-    --accent: #58a6ff; --accent-2: #ffb454;
-    --accent-decks: #ff5c9b; --accent-runs: #58a6ff; --accent-lineage: #37b34a;
+    --bg: #10131c; --bg-2: #171b28; --bg-3: #202538;
+    --fg: #e8eaf2; --muted: #8a90a6;
+    --border: #262c42; --row-alt: #181c2a; --hover: #232a42;
+    --accent: #62b0ff; --accent-2: #ffb454;
+    --accent-decks: #ff5c9b; --accent-runs: #62b0ff; --accent-lineage: #47c95c;
     --section-accent: var(--accent-runs);
-    --shadow: 0 4px 16px rgba(0,0,0,0.35);
+    --shadow: 0 4px 16px rgba(0,0,0,0.4);
     --radius: 8px;
 }
 @media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f6f4f8; --bg-2: #ffffff; --bg-3: #ffffff;
+    :root:not([data-theme="dark"]) {
+        --bg: #f4f2f6; --bg-2: #ffffff; --bg-3: #ffffff;
         --fg: #1a1a1a; --muted: #666;
-        --border: #e0dce6; --row-alt: #faf7fc; --hover: #ffe1ee;
+        --border: #e0dce6; --row-alt: #faf7fc; --hover: #edeaf3;
         --accent: #0366d6;
         --shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
+}
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f4f2f6; --bg-2: #ffffff; --bg-3: #ffffff;
+    --fg: #1a1a1a; --muted: #666;
+    --border: #e0dce6; --row-alt: #faf7fc; --hover: #edeaf3;
+    --accent: #0366d6;
+    --shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 * { box-sizing: border-box; }
 body {
@@ -876,6 +885,20 @@ __SCORE_TABLE__
     if (location.hash === '#embed' || location.search.includes('embed=1')) {
         document.body.classList.add('embed-mode');
     }
+    // Sync theme with the parent (if embedded) or with localStorage
+    // (if standalone). Also listen for live theme changes from parent.
+    function applyTheme(theme) {
+        if (theme === 'light' || theme === 'dark') {
+            document.documentElement.dataset.theme = theme;
+        } else {
+            delete document.documentElement.dataset.theme;
+        }
+    }
+    try { applyTheme(localStorage.getItem('uma_it_theme')); }
+    catch (_) { /* localStorage can be denied inside iframes */ }
+    window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'theme') applyTheme(e.data.value);
+    });
     // When the standalone shell is visible, sidebar Decks / Runs links
     // navigate back to the dashboard; message the parent instead when
     // embedded (dashboard picks up the click via postMessage and

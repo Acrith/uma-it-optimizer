@@ -427,16 +427,25 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 tr.deck-row { cursor: pointer; transition: background 0.12s; }
 tr.deck-row:hover { background: var(--hover) !important; }
 tr.deck-row:hover .deck-drilldown-hint { opacity: 1; transform: translateX(0); }
-.deck-drilldown-hint {
+.deck-drilldown-hint, .open-pill {
     display: inline-flex; align-items: center; gap: 3px;
-    color: var(--fg); font-size: 10px; font-weight: 700;
-    margin-left: 8px; vertical-align: middle;
-    padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
     background: var(--accent); color: white;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: filter 0.12s, transform 0.12s;
+}
+.deck-drilldown-hint {
+    margin-left: 8px; vertical-align: middle;
     opacity: 0; transform: translateX(-4px);
     transition: opacity 0.12s, transform 0.12s;
     pointer-events: none;
-    text-transform: uppercase; letter-spacing: 0.04em;
+}
+.open-pill:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    text-decoration: none;
 }
 /* Deck-perf filter panel — capped narrow so it doesn't sprawl on a
    wide viewport. The card-picker grid is allowed to break past the
@@ -808,14 +817,22 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 <script>
 // Theme toggle — persists in localStorage, overrides OS preference.
 // Runs before section nav so the initial paint uses the right theme.
+// Broadcasts to all embedded iframes so run details stay in sync.
 (function () {
     const STORAGE_KEY = "uma_it_theme";
+    function broadcastToIframes(theme) {
+        document.querySelectorAll("iframe.run-panel-frame").forEach(f => {
+            try { f.contentWindow.postMessage({type: "theme", value: theme}, "*"); }
+            catch (_) {}
+        });
+    }
     function apply(theme) {
         if (theme === "light" || theme === "dark") {
             document.documentElement.dataset.theme = theme;
         } else {
             delete document.documentElement.dataset.theme;
         }
+        broadcastToIframes(theme);
     }
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) apply(stored);
@@ -829,6 +846,16 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
             apply(next);
         });
     }
+    // Also sync every newly-loaded iframe to the current theme.
+    window.__syncIframeTheme = (iframe) => {
+        const theme = document.documentElement.dataset.theme || null;
+        const send = () => {
+            try { iframe.contentWindow.postMessage({type: "theme", value: theme}, "*"); }
+            catch (_) {}
+        };
+        if (iframe.contentDocument?.readyState === "complete") send();
+        else iframe.addEventListener("load", send, {once: true});
+    };
 })();
 
 // Section nav — swap active panel + accent scope. Also manages
@@ -1035,6 +1062,8 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         iframe.title = line1;
         panelEl.appendChild(iframe);
         runPanels.appendChild(panelEl);
+        // Sync the initial theme once the iframe finishes loading.
+        if (window.__syncIframeTheme) window.__syncIframeTheme(iframe);
 
         openRuns.set(filename, {label: line1, detail_href: row.detail_href, navEl, panelEl});
         activate(section);
@@ -1269,7 +1298,7 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.races_run)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
             <td class="num">${fmtNum(r.skill_hints_available)}</td>
-            <td>${r.detail_href ? `<a href="${r.detail_href}">Open ▸</a>` : "—"}</td>
+            <td>${r.detail_href ? `<a class="open-pill" href="${r.detail_href}">Open ▸</a>` : "—"}</td>
         </tr>
     `,
 });
