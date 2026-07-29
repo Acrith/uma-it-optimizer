@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .compat import OverallCompat, overall_from_lineage, parse_lineage
 from .lookups import (
     deck_summary,
     grade_icon_url,
@@ -72,6 +73,12 @@ class RunMetrics:
     # isn't persisted post-training; this is a heuristic from stats.
     inferred_preset: str      # e.g. 'Stamina' or 'Balanced?'
     inferred_preset_conf: str # 'high' / 'low'
+
+    # Parent lineage compat — only populated for runs captured by
+    # extractor v0.1.5+ (which dumps the two direct parents and their
+    # grandparents). ``None`` for older captures.
+    overall_compat: OverallCompat | None = None
+    lineage_raw: object = None  # LineageBundle | None (kept opaque here)
 
     @property
     def fans_per_race(self) -> int:
@@ -151,8 +158,30 @@ class RunMetrics:
                                    if self.rank_ceiling else None),
             "inferred_preset": self.inferred_preset,
             "inferred_preset_conf": self.inferred_preset_conf,
+            "compat_symbol": self.overall_compat.symbol if self.overall_compat else "—",
+            "compat_total": self.overall_compat.total_points if self.overall_compat else None,
+            "compat_rank": self.overall_compat.rank if self.overall_compat else 0,
+            "compat_missing": self.overall_compat is None,
+            "compat_tooltip": self._compat_tooltip(),
             "filename": self.filename,
         }
+
+    def _compat_tooltip(self) -> str:
+        if not self.overall_compat:
+            return ("Parent lineage not captured — this run was recorded by an "
+                    "extractor build prior to v0.1.5. IT runs cannot be re-captured "
+                    "after the fact, so compat is permanently unavailable for this run.")
+        lines = [
+            f"Overall {self.overall_compat.symbol} — {self.overall_compat.total_points} pts"
+            f"  (rank {self.overall_compat.rank}: 1=△ 2=○ 3=◎)",
+            "Breakdown (base + G1 overlap):",
+        ]
+        for p in self.overall_compat.pairs:
+            lines.append(
+                f"  {p.label}: base {p.base_points} + {p.g1_overlap_count}×G1 "
+                f"({p.g1_bonus}) = {p.total}"
+            )
+        return "\n".join(lines)
 
 
 def _deck_hash(card_ids: tuple[int, ...]) -> str:
@@ -217,6 +246,9 @@ def summarize(path: Path) -> RunMetrics:
         score_floor = score_ceiling = 0
         rank_floor = rank_ceiling = 0
 
+    lineage = parse_lineage(raw)
+    overall_compat = overall_from_lineage(lineage) if lineage else None
+
     return RunMetrics(
         filename=path.name,
         timestamp=m["ts"],
@@ -262,6 +294,8 @@ def summarize(path: Path) -> RunMetrics:
         inferred_preset_conf=(infer_preset(speed=speed, stamina=stamina, power=power,
                                             wiz=wiz, guts=guts)[1]
                                if score_ceiling else "—"),
+        overall_compat=overall_compat,
+        lineage_raw=lineage,
     )
 
 

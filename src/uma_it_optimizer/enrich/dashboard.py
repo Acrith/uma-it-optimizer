@@ -175,6 +175,22 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-decoration: underline dotted;
 }
 .deck-hash-link:hover { color: var(--accent); }
+/* Parent-compat cell: colored ◎/○/△ symbol + optional total-points hint */
+.compat-cell { white-space: nowrap; }
+.compat-symbol { font-size: 15px; font-weight: 700; margin-right: 4px; }
+.compat-symbol.compat-3 { color: #ff8a00; }  /* ◎ great — rainbow tier */
+.compat-symbol.compat-2 { color: #58a6ff; }  /* ○ good */
+.compat-symbol.compat-1 { color: #b96e6e; }  /* △ poor */
+.compat-symbol.compat-0 { color: var(--muted); font-weight: normal; }
+.compat-pts { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.compat-missing {
+    font-size: 10px; color: #b8860b;
+    background: rgba(184, 134, 11, 0.12);
+    padding: 2px 6px; border-radius: 3px;
+    border: 1px dashed rgba(184, 134, 11, 0.5);
+    white-space: nowrap;
+    cursor: help;
+}
 .deck-thumbs {
     display: inline-flex;
     gap: 3px;
@@ -280,6 +296,7 @@ __STATS_HTML__
             <th data-key="deck_hash"     data-type="text">Deck</th>
             <th data-key="score_ceiling" data-type="num" title="Estimated SS-grade score at knapsack-optimal SP spend">Score</th>
             <th data-key="letter_grade"  data-type="text" title="Letter grade range from rank tier">Grade</th>
+            <th data-key="compat_rank"   data-type="num" title="Parent lineage compatibility — ◎ / ○ / △ from succession_relation + G1 overlap. Hover for breakdown.">Compat</th>
             <th data-key="stat_sum"      data-type="num">5-Stat</th>
             <th data-key="speed"         data-type="num">Spd</th>
             <th data-key="stamina"       data-type="num">Sta</th>
@@ -439,7 +456,7 @@ function makeSortable({tableId, bodyId, colspan, data, defaultKey, defaultDir, r
 const runsCtrl = makeSortable({
     tableId: "runs",
     bodyId: "runs-body",
-    colspan: 20,
+    colspan: 21,
     data: DATA,
     defaultKey: "timestamp",
     defaultDir: -1,
@@ -459,6 +476,9 @@ const runsCtrl = makeSortable({
             </td>
             <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
             <td title="${r.rank_range_label}">${renderGradeBadges(r)}</td>
+            <td class="compat-cell" title="${r.compat_tooltip}">${r.compat_missing
+                ? `<span class="compat-missing">no data</span>`
+                : `<span class="compat-symbol compat-${r.compat_rank}">${r.compat_symbol}</span><span class="compat-pts">${r.compat_total}</span>`}</td>
             <td class="num">${fmtNum(r.stat_sum)}</td>
             <td class="num">${fmtNum(r.speed)}</td>
             <td class="num">${fmtNum(r.stamina)}</td>

@@ -340,6 +340,34 @@ td.thumb-cell {
 /* Blue diamonds, mirroring the in-game LB indicator */
 .lb-diamond-filled { fill: #6ab6ff; stroke: #2f6fc7; stroke-width: 1; }
 .lb-diamond-empty  { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 1; }
+
+/* Lineage / parent-compat panel */
+.lineage-panel { border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; background: var(--bg); }
+.lineage-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.lineage-header h2 { margin: 0; font-size: 16px; }
+.lineage-header .compat-big { font-size: 28px; font-weight: 700; line-height: 1; }
+.lineage-header .compat-big.compat-3 { color: #ff8a00; }
+.lineage-header .compat-big.compat-2 { color: #58a6ff; }
+.lineage-header .compat-big.compat-1 { color: #b96e6e; }
+.lineage-header .compat-total { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.lineage-tree { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.lineage-parent { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+.lineage-parent-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.lineage-parent-hdr .name { font-weight: 600; }
+.lineage-parent-hdr .rank { color: var(--muted); font-size: 12px; }
+.lineage-stats { color: var(--muted); font-size: 11px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.lineage-gp { display: flex; gap: 6px; margin-top: 6px; }
+.lineage-gp .gp { flex: 1; font-size: 11px; padding: 4px 6px; border: 1px dashed var(--border); border-radius: 4px; }
+.lineage-gp .gp .gp-name { display: block; }
+.lineage-gp .gp .gp-rank { color: var(--muted); }
+.compat-breakdown { font-size: 12px; }
+.compat-breakdown table { min-width: 0; }
+.compat-breakdown td { padding: 3px 8px; }
+.compat-breakdown .pair-label { color: var(--muted); }
+.no-lineage { color: var(--muted); font-size: 12px; margin: 4px 0 0 40px; }
+.no-lineage b { color: var(--fg); }
+.lineage-missing { border-style: dashed; background: color-mix(in srgb, #b8860b 6%, transparent); }
+.lineage-missing .compat-big.compat-0 { color: #b8860b; }
 </style>
 </head>
 <body>
@@ -354,6 +382,8 @@ __HEADER_STATS__
         </div>
     </div>
 </div>
+
+__LINEAGE_PANEL__
 
 <h2>Per-source stat contributions</h2>
 <table>
@@ -1123,6 +1153,8 @@ def render(d: RunDetail) -> str:
     )
     planner_js = PLANNER_JS.replace("__PLANNER_DATA__", planner_data_json)
 
+    lineage_panel = _render_lineage_panel(getattr(d, "lineage", None))
+
     return (
         DETAIL_HTML
         .replace("__TITLE__", f"{d.trainee_name} · {d.timestamp}")
@@ -1130,6 +1162,7 @@ def render(d: RunDetail) -> str:
         .replace("__HEADER__", header)
         .replace("__SUBTITLE__", subtitle)
         .replace("__HEADER_STATS__", header_stats)
+        .replace("__LINEAGE_PANEL__", lineage_panel)
         .replace("__CONTRIBUTIONS_ROWS__", "".join(contrib_rows_html))
         .replace("__HINT_ROWS__", "".join(hint_rows_html))
         .replace("__SCORE_TABLE__", score_table)
@@ -1139,3 +1172,97 @@ def render(d: RunDetail) -> str:
         .replace("__RACE_ROWS__", "".join(race_rows_html))
         .replace("__FACTOR_ROWS__", "".join(factor_rows_html))
     )
+
+
+def _render_lineage_panel(lineage: dict | None) -> str:
+    """Render the parent-compatibility panel from a RunDetail.lineage dict.
+
+    ``lineage`` shape: ``{"parents": [ParentSummary-as-dict, ...],
+    "overall": OverallCompat-as-dict}``. Returns an empty string (i.e. no
+    panel) for pre-v0.1.5 runs that don't carry parent data.
+    """
+    if not lineage:
+        return (
+            '<div class="lineage-panel lineage-missing">'
+            '<div class="lineage-header">'
+            '<span class="compat-big compat-0">?</span>'
+            '<h2>Parent lineage compatibility</h2>'
+            '</div>'
+            '<p class="no-lineage">'
+            'Parent data was not captured for this run. IT captures cannot be '
+            'redone after the fact, so this run\'s ancestry (and its ◎/○/△ '
+            'compat symbol) is permanently unavailable. Later captures made '
+            'with extractor <b>v0.1.5+</b> will include full lineage + '
+            'per-pair breakdown here.'
+            '</p></div>'
+        )
+    overall = lineage.get("overall") or {}
+    parents = lineage.get("parents") or []
+    if not parents or not overall:
+        return ""
+
+    symbol = overall.get("symbol", "?")
+    rank = overall.get("rank", 0)
+    total = overall.get("total_points", 0)
+    pairs = overall.get("pairs") or []
+
+    parts = [
+        '<div class="lineage-panel">',
+        '<div class="lineage-header">',
+        f'<span class="compat-big compat-{rank}">{symbol}</span>',
+        f'<h2>Parent lineage compatibility</h2>',
+        f'<span class="compat-total">{total} points  ·  '
+        f'thresholds ≤50 △ · 51–150 ○ · 151+ ◎</span>',
+        '</div>',
+        '<div class="lineage-tree">',
+    ]
+    for p in parents:
+        parts.append('<div class="lineage-parent">')
+        parts.append('<div class="lineage-parent-hdr">')
+        parts.append(f'<span class="name">{p.get("name","?")}</span>')
+        parts.append(f'<span class="rank">Rank {p.get("rank",0)}</span>')
+        parts.append('</div>')
+        parts.append(
+            '<div class="lineage-stats">'
+            f'Spd {p.get("speed",0):,} · '
+            f'Sta {p.get("stamina",0):,} · '
+            f'Pow {p.get("power",0):,} · '
+            f'Wiz {p.get("wiz",0):,} · '
+            f'Gts {p.get("guts",0):,}  ·  '
+            f'{p.get("fans",0):,} fans'
+            '</div>'
+        )
+        gps = p.get("grandparents") or []
+        if gps:
+            parts.append('<div class="lineage-gp">')
+            for gp_name, gp_rank in gps:
+                parts.append(
+                    f'<div class="gp">'
+                    f'<span class="gp-name">{gp_name}</span>'
+                    f'<span class="gp-rank">Rank {gp_rank}</span>'
+                    '</div>'
+                )
+            parts.append('</div>')
+        parts.append('</div>')  # /.lineage-parent
+    parts.append('</div>')  # /.lineage-tree
+
+    parts.extend([
+        '<div class="compat-breakdown">',
+        '<table><thead><tr>',
+        '<th>Pair</th><th class="num">Base</th>',
+        '<th class="num">Shared G1</th><th class="num">Bonus</th>',
+        '<th class="num">Total</th></tr></thead><tbody>',
+    ])
+    for p in pairs:
+        parts.append(
+            '<tr>'
+            f'<td class="pair-label">{p.get("label","")}</td>'
+            f'<td class="num">{p.get("base_points",0)}</td>'
+            f'<td class="num">{p.get("g1_overlap_count",0)}</td>'
+            f'<td class="num">+{p.get("g1_bonus",0)}</td>'
+            f'<td class="num">{p.get("total",0)}</td>'
+            '</tr>'
+        )
+    parts.append('</tbody></table></div>')
+    parts.append('</div>')  # /.lineage-panel
+    return "\n".join(parts)

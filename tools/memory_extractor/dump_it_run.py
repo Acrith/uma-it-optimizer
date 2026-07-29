@@ -96,6 +96,103 @@ setTimeout(() => {
       }
     }
 
+    // walk() clamps at depth 3 to keep the top-level dumps compact. For
+    // parent lineage we need to reach grandparent factors (nested 4-5 levels
+    // deep in TrainedCharaData → SuccessionCharaList → item → FactorDataArray).
+    // Cached derived fields are skipped by name to keep the payload lean.
+    const LINEAGE_SKIP_FIELDS = new Set([
+      '_sortedFactorList', '_sortedFactorProfileCardList',
+      '_factorListIncludingSuccession', '_sortedFactorListForProfileCard',
+      '_masterCharaData', '_masterCardRarityData', '_masterCardData',
+      '_favoriteData', '_cachedCreateTimeTimeStamp',
+      'IsSuccessionHistoryInitialized',
+      '<SuccessionHistoryList>k__BackingField',
+      '<TrainedCharaDataAccessor>k__BackingField',
+      '_nickNameIdArray',
+    ]);
+    function walkDeep(v, typeName, depth, maxDepth) {
+      if (v === null || v === undefined) return null;
+      if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') return v;
+      if (typeName === 'System.String') return v.content !== undefined ? v.content : String(v);
+      if (typeName === 'System.Int64' || typeName === 'System.UInt64') {
+        try { return v.toString(); } catch (e) { return String(v); }
+      }
+      const oi = tryDecodeOI(v);
+      if (oi !== null) return oi;
+      if (typeName && typeName.endsWith('[]')) {
+        const elemType = typeName.slice(0, -2);
+        const out = [];
+        let n = 0;
+        try { n = v.length; } catch (e) { return '<arr-len-err:' + e.message + '>'; }
+        for (let i = 0; i < n; i++) {
+          try { out.push(walkDeep(v.get(i), elemType, depth + 1, maxDepth)); }
+          catch (e) { out.push('<elem-err:' + e.message + '>'); }
+        }
+        return out;
+      }
+      if (depth < maxDepth && v.class) {
+        const out = {};
+        try {
+          v.class.fields.forEach(f => {
+            if (f.isStatic || f.isLiteral || f.isThreadStatic) return;
+            if (LINEAGE_SKIP_FIELDS.has(f.name)) return;
+            try { out[f.name] = walkDeep(v.field(f.name).value, f.type.name, depth + 1, maxDepth); }
+            catch (e) { out[f.name] = '<err>'; }
+          });
+        } catch (e) {}
+        return out;
+      }
+      return '<' + typeName + '>';
+    }
+
+    // Direct parents live in `Gallop.WorkTrainedCharaData.TrainedCharaData`,
+    // a NESTED class not accessible via image.class('...') — iterate the
+    // class list once and match by name.
+    let _tcdClassCache = null;
+    function findTcdClass() {
+      if (_tcdClassCache) return _tcdClassCache;
+      const it = mainAsm.classes;
+      for (let i = 0; i < it.length; i++) {
+        const cls = it[i];
+        let n; try { n = cls.type.name; } catch (e) { continue; }
+        if (n === 'Gallop.WorkTrainedCharaData.TrainedCharaData') {
+          _tcdClassCache = cls; return cls;
+        }
+      }
+      return null;
+    }
+    function decodeTcdId(t) {
+      try {
+        const w = t.field('_id').value;
+        if (typeof w === 'number') return w;
+        const v = tryDecodeOI(w); if (v !== null) return v;
+      } catch (e) {}
+      return null;
+    }
+
+    // Filter TrainedCharaData to the two direct parents referenced by
+    // SingleModeChara.succession_trained_chara_id_1 / _2. Walks each deep
+    // enough for grandparents (max depth 5).
+    function dumpParents(id1, id2) {
+      const tcd = findTcdClass();
+      if (!tcd) { send({type: 'dump_err', label: 'Parents', err: 'no TrainedCharaData class'}); return; }
+      try {
+        const insts = Il2Cpp.gc.choose(tcd);
+        const out = [];
+        const wanted = new Set([id1, id2].filter(x => typeof x === 'number' && x > 0));
+        for (let i = 0; i < insts.length && out.length < 2; i++) {
+          const t = insts[i];
+          const id = decodeTcdId(t);
+          if (id !== null && wanted.has(id)) {
+            out.push(walkDeep(t, 'Gallop.WorkTrainedCharaData.TrainedCharaData', 0, 5));
+          }
+        }
+        send({type: 'dump', label: 'Parents', count: out.length, data: out});
+      } catch (e) {
+        send({type: 'dump_err', label: 'Parents', err: e.message});
+      }
+    }
+
     // ── SingleModeChara probe ─────────────────────────────────────────
     // Enumerate all live instances, pick the one most likely to represent
     // the *completed* run: prefer highest fans, tie-break by chara_grade,
@@ -174,6 +271,8 @@ setTimeout(() => {
       dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo'), 'SuccessionFactorGainInfo');
       dumpAll(httpAsm.class('Gallop.SingleRaceHistory'), 'RaceHistory');
       dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory');
+      // Direct parents (+ nested grandparents) — needed for compat + lineage panel.
+      dumpParents(p.w.succession_trained_chara_id_1, p.w.succession_trained_chara_id_2);
       send({type: 'done'});
     }
     pollOnce();

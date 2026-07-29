@@ -16,6 +16,9 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from dataclasses import asdict
+
+from .compat import overall_from_lineage, parse_lineage
 from .lookups import (
     LETTER_GRADE_BY_RANK,
     RARITY_PREFIX_SUPPORT,
@@ -109,6 +112,11 @@ class RunDetail:
     # detail page to power the click-to-plan UI.
     planner: dict = field(default_factory=dict)
 
+    # Parent lineage (v0.1.5+ captures only). Shape:
+    # {"overall": {...OverallCompat...}, "parents": [ParentSummary, ...]}.
+    # Empty dict when the run predates the parent-capture feature.
+    lineage: dict = field(default_factory=dict)
+
     def as_dict(self) -> dict:
         return {
             "filename": self.filename,
@@ -131,6 +139,7 @@ class RunDetail:
             "score_summary": self.score_summary,
             "plan": self.plan,
             "planner": self.planner,
+            "lineage": self.lineage,
         }
 
 
@@ -324,7 +333,45 @@ def build(path: Path) -> RunDetail:
         score_summary=_score_summary(raw),
         plan=_plan_rows(raw),
         planner=_planner_data(raw),
+        lineage=_build_lineage(raw),
     )
+
+
+def _build_lineage(raw: dict) -> dict:
+    """Serialize parent lineage + compat into a plain dict for the
+    detail template. Returns an empty dict for pre-v0.1.5 captures."""
+    bundle = parse_lineage(raw)
+    if not bundle:
+        return {}
+    overall = overall_from_lineage(bundle)
+    if not overall:
+        return {}
+    parents = []
+    for ps in (bundle.p1_summary, bundle.p2_summary):
+        if not ps:
+            continue
+        parents.append({
+            "name": ps.name,
+            "chara_id": ps.chara_id,
+            "card_id": ps.card_id,
+            "rank": ps.rank,
+            "speed": ps.speed,
+            "stamina": ps.stamina,
+            "power": ps.power,
+            "guts": ps.guts,
+            "wiz": ps.wiz,
+            "fans": ps.fans,
+            "grandparents": [(name, rank) for (_c, _cd, name, rank) in ps.grandparents],
+        })
+    return {
+        "overall": {
+            "symbol": overall.symbol,
+            "rank": overall.rank,
+            "total_points": overall.total_points,
+            "pairs": [asdict(p) for p in overall.pairs],
+        },
+        "parents": parents,
+    }
 
 
 def _score_summary(raw: dict) -> dict:

@@ -299,6 +299,62 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "released_at": datetime.fromtimestamp(r["start_date"], tz=timezone.utc).date().isoformat(),
             }
 
+        # ── parent-compatibility tables ────────────────────────────────
+        # Base pair compat = sum of `succession_relation.relation_point` over
+        # the intersection of `succession_relation_member.relation_type` sets
+        # between two chara_ids. Verified against Special Week reference
+        # numbers (Narita Brian=37, Nice Nature=37, T.M. Opera O=35, etc.).
+        #
+        # Overall compat (◎/○/△) uses `succession_relation_rank` thresholds
+        # against the summed score across all lineage pairs + G1-race overlap
+        # bonuses. See enrich.compat for the pairing formula.
+        relation_points: dict[str, int] = {
+            str(rt): int(pts)
+            for (rt, pts) in con.execute(
+                "SELECT relation_type, relation_point FROM succession_relation")
+        }
+        chara_relations: dict[str, list[int]] = {}
+        for (rt, cid) in con.execute(
+            "SELECT relation_type, chara_id FROM succession_relation_member"):
+            chara_relations.setdefault(str(cid), []).append(int(rt))
+        compat_thresholds: list[dict] = [
+            {"rank": r["relation_rank"],
+             "min": r["rank_value_min"],
+             "max": r["rank_value_max"]}
+            for r in con.execute(
+                "SELECT relation_rank, rank_value_min, rank_value_max "
+                "FROM succession_relation_rank ORDER BY relation_rank")
+        ]
+
+        # ── win-saddle → race-instance expansion ───────────────────────
+        # Grandparents (SuccessionCharaData) don't carry per-run race history;
+        # only `_winSaddleIdArray`. Each saddle stands for up to 8
+        # race_instance_ids (Triple-Crown-style titles). We flatten each
+        # saddle to its set of race_ids so compat.py can intersect a
+        # grandparent's saddles with a trainee's races for the G1 overlap
+        # bonus. Direct parents use their full <SingleModeRaceResultArray>.
+        win_saddles: dict[str, dict] = {}
+        for r in con.execute(
+            "SELECT id, priority, group_id, win_saddle_type, "
+            "race_instance_id_1, race_instance_id_2, race_instance_id_3, "
+            "race_instance_id_4, race_instance_id_5, race_instance_id_6, "
+            "race_instance_id_7, race_instance_id_8 "
+            "FROM single_mode_wins_saddle"):
+            rids = [r[f"race_instance_id_{i}"] for i in range(1, 9)]
+            rids = [x for x in rids if x]
+            win_saddles[str(r["id"])] = {
+                "id": r["id"],
+                "priority": r["priority"],
+                "group_id": r["group_id"],
+                "win_saddle_type": r["win_saddle_type"],
+                "race_instance_ids": rids,
+            }
+        # race_instance_id → race_id (needed to go saddle → grade).
+        race_instances: dict[str, int] = {
+            str(r["id"]): r["race_id"]
+            for r in con.execute("SELECT id, race_id FROM race_instance")
+        }
+
         # ── rank thresholds (single_mode_rank) ─────────────────────────
         # Given a computed SS-grade score, look up the rank tier.
         # 98 rows, id=1 lowest, higher id = better rank. Letter-grade
@@ -332,6 +388,10 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                     "programs": len(programs),
                     "factors": len(factors),
                     "scenarios": len(scenarios),
+                    "relation_points": len(relation_points),
+                    "chara_relations": len(chara_relations),
+                    "win_saddles": len(win_saddles),
+                    "race_instances": len(race_instances),
                 },
             },
             "scenarios": scenarios,
@@ -343,6 +403,11 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             "races": races,
             "programs": programs,
             "factors": factors,
+            "relation_points": relation_points,
+            "chara_relations": chara_relations,
+            "compat_thresholds": compat_thresholds,
+            "win_saddles": win_saddles,
+            "race_instances": race_instances,
         }
         out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
         return result
