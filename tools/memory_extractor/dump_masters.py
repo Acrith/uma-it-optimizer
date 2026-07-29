@@ -51,6 +51,9 @@ TEXT_CAT = {
     "uma_name": 6,            # index = chara_id (e.g. 1032 -> "Agnes Tachyon")
     "skill_name": 47,         # index = skill_id (e.g. 200352 -> "Corner Recovery ○")
     "race_name": 33,          # index = race id  (e.g. 1001 -> "February Stakes")
+    "factor_name": 147,       # index = factor_id — authoritative game display
+                              # names (e.g. 2303 -> "Late Surger",
+                              # 2102102 -> "Ignited Spirit: Speed +").
 }
 
 # Scenario id -> Global display name. Derived from release-date + champion
@@ -107,6 +110,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         uma_names = _load_text_map(con, TEXT_CAT["uma_name"])
         skill_names = _load_text_map(con, TEXT_CAT["skill_name"])
         race_names = _load_text_map(con, TEXT_CAT["race_name"])
+        factor_names = _load_text_map(con, TEXT_CAT["factor_name"])
 
         # ── umas (chara_data) ──────────────────────────────────────────
         umas: dict[str, dict] = {}
@@ -283,6 +287,12 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "grade": r["grade"],
                 "factor_type": r["factor_type"],
                 "effect_group_id": r["effect_group_id"],
+                # Authoritative game display name — replaces the earlier
+                # composed-name logic which had aptitude
+                # distance/style mixed up and couldn't attach the +stat
+                # suffix to skill-inheritance factors like
+                # 'Ignited Spirit: Speed +'.
+                "display_name": factor_names.get(fid, ""),
                 "granted_skill_ids": granted_skill_ids,
                 "granted_skill_names": granted_skill_names,
                 "granted_stats": sorted(grant.get("stats") or []),

@@ -487,41 +487,50 @@ def _stars(rarity: int) -> str:
 
 
 def factor_name(factor_id: int) -> str:
-    """Compose a display name for a factor_id by looking up its type/group
-    in masters and formatting per-type. Returns a string like
-    'Speed ★★', 'Turf ★', 'Corner Recovery ○ ★★', 'Unique: Kitasan Black ★'.
-    Falls back to '?factor:<id>' if not resolvable."""
+    """Display name for a factor_id — uses the game's own text_data
+    category 147 (loaded into masters as ``factors.display_name``).
+
+    Preserves ★ counts from rarity. If the display name is absent
+    (factor missing from masters), falls back to the older composed
+    logic (kept for backwards-compat with older masters.json dumps
+    that didn't include display_name)."""
     m = load_masters()
     f = m.get("factors", {}).get(str(factor_id))
     if not f:
         return f"?factor:{factor_id}"
-    ftype = f.get("factor_type", 0)
-    group = f.get("group_id", 0)          # written as "group_id" in dump
     rarity = f.get("rarity", 1)
     stars = _stars(rarity)
+    name = f.get("display_name") or ""
+    if name:
+        return f"{name} {stars}"
+    return _compose_factor_name_legacy(f, factor_id, stars)
 
+
+def _compose_factor_name_legacy(f: dict, factor_id: int, stars: str) -> str:
+    """Fallback name composition — used only when a factor's
+    ``display_name`` is missing (older masters.json dumps predating the
+    category-147 pull). The composed aptitude labels here were
+    known-wrong (distance/style mixed up) and this path exists mainly
+    so old runs don't crash; regenerate masters.json to pick up the
+    game's real names."""
+    m = load_masters()
+    ftype = f.get("factor_type", 0)
+    group = f.get("group_id", 0)
     if ftype == 1:
-        name = FACTOR_STAT_NAMES.get(group, f"?stat:{group}")
-        return f"{name} {stars}"
+        return f"{FACTOR_STAT_NAMES.get(group, f'?stat:{group}')} {stars}"
     if ftype == 2:
-        name = FACTOR_APTITUDE_NAMES.get(group, f"?apt:{group}")
-        return f"{name} {stars}"
+        return f"{FACTOR_APTITUDE_NAMES.get(group, f'?apt:{group}')} {stars}"
     if ftype == 3:
-        # Unique-skill factor — group_id is a card_id (chara_id × 100 + variant)
         cards = m.get("uma_cards", {})
         card = cards.get(str(group))
         who = card.get("chara_name") if card else f"?card:{group}"
         return f"Unique: {who} {stars}"
     if ftype == 4:
-        # Skill factor — group_id is a skill's group_id; find the ○ variant name
         sid, name = skill_from_hint(group, 1)
-        # If lookup fails, try rarity 2 as fallback
         if not sid:
             sid, name = skill_from_hint(group, 2)
         return f"{name} {stars}"
     if ftype in (5, 6, 7):
-        # Greens can grant a skill hint, a stat pair, or BOTH. Show
-        # whatever the DB says the green actually contains.
         skills = f.get("granted_skill_names") or []
         stats = f.get("granted_stats") or []
         if skills and stats:
@@ -531,7 +540,7 @@ def factor_name(factor_id: int) -> str:
         if stats:
             return f"{'+'.join(stats)} {stars}"
         return f"Green ({group}) {stars}"
-    return f"Factor:{group}/{ftype} {stars}"
+    return f"?factor:{factor_id} {stars}"
 
 
 def factor_type_label(factor_id: int) -> str:
