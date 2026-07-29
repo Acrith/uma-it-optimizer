@@ -50,6 +50,91 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
 .stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase;
     letter-spacing: 0.05em; }
 .stat-value { font-size: 18px; font-weight: 600; }
+
+/* ── Facility-style stat panel ─────────────────────────────────────
+   Riff on the in-game stat readout: one card per training facility
+   with grade circle + value; SP on the far right. */
+.fac-panel {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.fac-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: var(--bg);
+    min-width: 0;
+}
+.fac-hdr {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+.fac-icon { font-size: 14px; line-height: 1; }
+.fac-label { font-weight: 600; }
+.fac-body { display: flex; align-items: baseline; gap: 6px; }
+.fac-value {
+    font-size: 22px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--fg);
+}
+.fac-card.fac-sp .fac-value { color: #9060d0; }
+.stat-cap { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+/* Grade circle — tier-colored. Grades map to buckets: g0=G, g1=F/E,
+   g2=D/C, g3=B/A, g4=S/SS/SS+, g5=UG/UG+. */
+.grade {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 26px; height: 26px; padding: 0 6px;
+    border-radius: 50%; font-weight: 800; font-size: 13px;
+    color: white;
+}
+.grade-g0 { background: #8a8a8a; }
+.grade-g1 { background: #9366cf; }   /* E/F — mid-purple */
+.grade-g2 { background: #4aa876; }   /* D/C — green */
+.grade-g3 { background: #3a95d9; }   /* B/A — blue */
+.grade-g4 { background: #ee8b34; }   /* S/SS/SS+ — orange */
+.grade-g5 { background: #d54a8a; }   /* UG/UG+ — pink */
+/* Per-facility card tint on the header bar */
+.fac-card.fac-speed   { border-top: 3px solid #3a7bff; }
+.fac-card.fac-stamina { border-top: 3px solid #e64545; }
+.fac-card.fac-power   { border-top: 3px solid #ff8f30; }
+.fac-card.fac-guts    { border-top: 3px solid #e94494; }
+.fac-card.fac-wisdom  { border-top: 3px solid #37b34a; }
+.fac-card.fac-sp      { border-top: 3px solid #9060d0; }
+
+.meta-strip {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    color: var(--muted); font-size: 12px;
+    padding: 4px 0 0;
+}
+.meta-strip b { color: var(--fg); font-weight: 600; }
+
+/* Sticky section nav — quick jumps to each section, mirrors the SP
+   planner's own sticky bar so scrolling long detail pages stays
+   navigable. */
+.section-nav {
+    position: sticky; top: 0;
+    z-index: 10;
+    display: flex; gap: 4px; flex-wrap: wrap;
+    padding: 8px 10px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    margin: 12px -24px 20px; padding-left: 24px; padding-right: 24px;
+    font-size: 12px;
+}
+.section-nav a {
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.section-nav a:hover { background: var(--row-alt); color: var(--fg); text-decoration: none; }
+.section-nav a.active { color: var(--accent); font-weight: 600; }
 table {
     width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px;
 }
@@ -136,7 +221,7 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 
 /* ── SP planner ─────────────────────────────────────────────────── */
 .planner-topbar {
-    position: sticky; top: 0;
+    position: sticky; top: 44px;    /* below the section-nav */
     display: flex; gap: 20px; align-items: center;
     padding: 10px 12px;
     background: var(--bg);
@@ -434,13 +519,22 @@ td.thumb-cell {
     <div class="header-body">
         <h1>__HEADER__</h1>
         <div class="subtitle">__SUBTITLE__</div>
-        <div class="stats">
 __HEADER_STATS__
-        </div>
     </div>
 </div>
 
-<h2>Per-source stat contributions</h2>
+<nav class="section-nav">
+    <a href="#contribs">Contributions</a>
+    <a href="#hints">Hints</a>
+    <a href="#score">Score</a>
+    <a href="#planner">Planner</a>
+    <a href="#plan">Optimal picks</a>
+    <a href="#races">Races</a>
+    <a href="#lineage">Lineage</a>
+    <a href="#factors">Factors</a>
+</nav>
+
+<h2 id="contribs">Per-source stat contributions</h2>
 <table class="contrib-table">
     <thead>
         <tr>
@@ -458,7 +552,7 @@ __HEADER_STATS__
     <tbody>__CONTRIBUTIONS_ROWS__</tbody>
 </table>
 
-<h2>Skill hints acquired <span class="subtle">— total levels across all sources</span></h2>
+<h2 id="hints">Skill hints acquired <span class="subtle">— total levels across all sources</span></h2>
 <table>
     <thead>
         <tr>
@@ -471,13 +565,13 @@ __HEADER_STATS__
     <tbody>__HINT_ROWS__</tbody>
 </table>
 
-<h2>Score breakdown <span class="subtle">— what the SS-grade estimator says</span></h2>
+<h2 id="score">Score breakdown <span class="subtle">— what the SS-grade estimator says</span></h2>
 __SCORE_TABLE__
 
-<h2>SP planner <span class="subtle">— click variants to plan your skill picks · budget updates live</span></h2>
+<h2 id="planner">SP planner <span class="subtle">— click variants to plan your skill picks · budget updates live</span></h2>
 <div id="planner-root">__PLANNER_HTML__</div>
 
-<h2>Knapsack-optimal picks <span class="subtle">— the auto-recommended plan</span></h2>
+<h2 id="plan">Knapsack-optimal picks <span class="subtle">— the auto-recommended plan</span></h2>
 <table>
     <thead>
         <tr>
@@ -490,7 +584,7 @@ __SCORE_TABLE__
     <tbody>__PLAN_ROWS__</tbody>
 </table>
 
-<h2>Race history <span class="subtle">— every race actually run, ordered by turn</span></h2>
+<h2 id="races">Race history <span class="subtle">— every race actually run, ordered by turn</span></h2>
 <table>
     <thead>
         <tr>
@@ -504,9 +598,9 @@ __SCORE_TABLE__
     <tbody>__RACE_ROWS__</tbody>
 </table>
 
-__LINEAGE_PANEL__
+<div id="lineage">__LINEAGE_PANEL__</div>
 
-<h2>Factors gained</h2>
+<h2 id="factors">Factors gained</h2>
 <table>
     <thead>
         <tr>
@@ -936,6 +1030,70 @@ def _stat_card(label: str, value: str) -> str:
             f'<span class="stat-value">{value}</span></div>')
 
 
+# In-game stat grades — 100-point windows starting from 100. Verified
+# against the community reference (Speed 409 = C, 237 = E, 1000+ = UG).
+_STAT_TIERS: list[tuple[int, str]] = [
+    (1100, "UG+"),
+    (1000, "UG"),
+    (900,  "SS+"),
+    (800,  "SS"),
+    (700,  "S"),
+    (600,  "A"),
+    (500,  "B"),
+    (400,  "C"),
+    (300,  "D"),
+    (200,  "E"),
+    (100,  "F"),
+    (0,    "G"),
+]
+
+
+def stat_grade(value: int) -> str:
+    """Grade letter for a raw stat value (0..1200+)."""
+    for threshold, letter in _STAT_TIERS:
+        if value >= threshold:
+            return letter
+    return "G"
+
+
+def _stat_facility_widget(
+    *, key: str, label: str, icon: str, value: int, cap: int,
+) -> str:
+    """One stat 'facility' badge — icon + grade circle + value/cap."""
+    grade = stat_grade(value)
+    # Map letter to a tier bucket for coloring (low / mid / high / max)
+    tier_class = {
+        "G": "g0", "F": "g1", "E": "g1",
+        "D": "g2", "C": "g2",
+        "B": "g3", "A": "g3",
+        "S": "g4", "SS": "g4", "SS+": "g4",
+        "UG": "g5", "UG+": "g5",
+    }.get(grade, "g0")
+    cap_str = f'<span class="stat-cap">/ {cap:,}</span>' if cap else ""
+    return (
+        f'<div class="fac-card fac-{key}">'
+        f'  <div class="fac-hdr"><span class="fac-icon">{icon}</span>'
+        f'<span class="fac-label">{label}</span></div>'
+        f'  <div class="fac-body">'
+        f'    <span class="grade grade-{tier_class}">{grade}</span>'
+        f'    <span class="fac-value">{value:,}</span>{cap_str}'
+        f'  </div>'
+        f'</div>'
+    )
+
+
+def _sp_widget(value: int) -> str:
+    return (
+        f'<div class="fac-card fac-sp">'
+        f'  <div class="fac-hdr"><span class="fac-icon">SP</span>'
+        f'<span class="fac-label">Skill Pts</span></div>'
+        f'  <div class="fac-body">'
+        f'    <span class="fac-value">{value:,}</span>'
+        f'  </div>'
+        f'</div>'
+    )
+
+
 def _skill_pill_html(*, name: str, icon_url: str | None, rarity: int = 1,
                      rate: int = 1, action: str = "buy") -> str:
     """Static (non-clickable) pill for the picks / hints tables.
@@ -998,14 +1156,33 @@ def render(d: RunDetail) -> str:
         for k in total_stats:
             total_stats[k] += c["gains"].get(k, 0)
 
-    header_stats = "".join([
-        _stat_card("5-stat sum", f"{sum(d.final_stats.values()):,}"),
-        _stat_card("Fans", f"{d.fans:,}"),
-        _stat_card("Unspent SP", f"{d.unspent_sp:,}"),
-        _stat_card("Races run", str(d.races_run)),
-        _stat_card("Motivation", str(d.motivation)),
-        _stat_card("Vital", f"{d.vital}/100"),
-    ])
+    # Facility-style stat panel (game convention: Speed, Stamina, Power,
+    # Guts, Wisdom, then SP). Icons kept as short text tags to avoid
+    # emoji-rendering variance across OSes.
+    fac_defs = [
+        ("speed",   "Speed",   "⚡"),
+        ("stamina", "Stamina", "♥"),
+        ("power",   "Power",   "💪"),
+        ("guts",    "Guts",    "🔥"),
+        ("wisdom",  "Wisdom",  "📖"),
+    ]
+    header_stats = '<div class="fac-panel">' + "".join(
+        _stat_facility_widget(
+            key=k, label=lbl, icon=ic,
+            value=int(d.final_stats.get(k if k != "wisdom" else "wiz", 0)),
+            cap=int(d.caps.get(k if k != "wisdom" else "wiz", 0)),
+        )
+        for (k, lbl, ic) in fac_defs
+    ) + _sp_widget(d.unspent_sp) + '</div>'
+    # Compact meta strip — quick numbers Motivation / Vital removed as
+    # they don't help decision-making post-run.
+    header_stats += (
+        '<div class="meta-strip">'
+        f'<span>5-stat sum <b>{sum(d.final_stats.values()):,}</b></span>'
+        f'<span>Fans <b>{d.fans:,}</b></span>'
+        f'<span>Races <b>{d.races_run}</b></span>'
+        '</div>'
+    )
 
     # Contribution rows — columns render in Speed/Stamina/Power/Guts/
     # Wisdom/SP order to match in-game facility layout. Zero values get
