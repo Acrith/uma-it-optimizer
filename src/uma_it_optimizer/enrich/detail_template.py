@@ -739,9 +739,9 @@ td.thumb-cell {
         <span class="brand-sub">Independent Training</span>
     </div>
     <nav class="side-nav">
-        <a href="dashboard.html#decks" target="_blank" data-section="decks"><span class="nav-dot"></span>Decks</a>
-        <a href="dashboard.html#runs" target="_blank" data-section="runs"><span class="nav-dot"></span>Runs</a>
-        <a href="#" data-section="detail" class="active"><span class="nav-dot"></span>__RUN_TAB_LABEL__</a>
+        <a href="dashboard.html#decks" target="_blank" rel="noopener" data-section="decks"><span class="nav-dot"></span>Decks</a>
+        <a href="dashboard.html#runs" target="_blank" rel="noopener" data-section="runs"><span class="nav-dot"></span>Runs</a>
+        <a href="#" data-section="detail" class="active" aria-current="page"><span class="nav-dot"></span>__RUN_TAB_LABEL__</a>
     </nav>
     <div class="side-quick">__SIDEBAR_STATS__</div>
 </aside>
@@ -837,6 +837,23 @@ __SCORE_TABLE__
 </main>
 </div>
 
+<script>
+// Force sidebar Decks/Runs to open in a new tab even when the browser
+// treats target=_blank as same-window (Firefox on file:// occasionally
+// falls back that way, some middle-click emulators strip target). The
+// active tab (self) is deliberately kept so users can spawn multiple
+// detail tabs and switch between them at the OS level.
+(function () {
+    document.querySelectorAll('.side-nav a[target="_blank"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+            // Let modified clicks (ctrl/cmd/middle) fall through to default.
+            if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+            e.preventDefault();
+            window.open(a.href, '_blank', 'noopener');
+        });
+    });
+})();
+</script>
 <script>
 __PLANNER_JS__
 </script>
