@@ -175,23 +175,67 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-decoration: underline dotted;
 }
 .deck-hash-link:hover { color: var(--accent); }
-/* Deck-perf filter controls */
+/* Deck-perf filter panel */
+.deck-filter-panel {
+    background: var(--row-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+}
 .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-.deck-controls input[type="search"] { max-width: 340px; min-width: 220px; flex: 1; }
-.deck-controls .toggle { color: var(--muted); font-size: 12px; }
-.deck-controls .toggle input { margin-right: 6px; }
-.chip-filter { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-.chip-filter-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.filter-row-actions { border-top: 1px dashed var(--border); padding-top: 8px; }
+.filter-label {
+    color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    min-width: 70px;
+}
+.filter-hint { color: var(--muted); font-size: 11px; font-style: italic; }
 .chip-set { display: flex; gap: 4px; flex-wrap: wrap; }
 .chip-set .filter-chip {
-    background: var(--row-alt); color: var(--muted);
+    background: var(--bg); color: var(--muted);
     border: 1px solid var(--border);
-    padding: 2px 8px; border-radius: 12px;
+    padding: 2px 10px; border-radius: 12px;
     font-size: 11px; cursor: pointer;
     user-select: none; transition: all 0.12s;
 }
 .chip-set .filter-chip:hover { color: var(--fg); border-color: var(--accent); }
 .chip-set .filter-chip.active {
+    background: var(--accent); color: white; border-color: var(--accent);
+}
+.chip-set .filter-chip.disabled {
+    opacity: 0.4; cursor: default;
+}
+.chip-set .filter-chip.disabled:hover {
+    color: var(--muted); border-color: var(--border);
+}
+
+.card-chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; flex: 1; }
+.card-chips .picked-card {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    padding: 2px 8px 2px 4px; border-radius: 4px;
+    font-size: 11px;
+}
+.card-chips .picked-card img {
+    height: 20px; width: 16px; object-fit: cover; border-radius: 2px;
+}
+.card-chips .picked-card .remove {
+    background: none; border: 0; color: var(--muted); cursor: pointer;
+    padding: 0 2px; font-size: 14px; line-height: 1;
+}
+.card-chips .picked-card .remove:hover { color: #d43f3f; }
+
+.pill-btn {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--accent); padding: 3px 10px; border-radius: 12px;
+    font: inherit; font-size: 11px; cursor: pointer;
+}
+.pill-btn:hover { border-color: var(--accent); }
+.pill-btn[aria-expanded="true"] {
     background: var(--accent); color: white; border-color: var(--accent);
 }
 .link-btn {
@@ -200,6 +244,49 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     cursor: pointer; text-decoration: underline dotted;
 }
 .link-btn:hover { text-decoration: underline; }
+.toggle { color: var(--muted); font-size: 12px; margin-left: auto; }
+.toggle input { margin-right: 4px; }
+
+.card-picker {
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 4px;
+}
+.card-picker-hdr { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.card-picker-hdr input[type="search"] { flex: 1; }
+.card-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+.pick-card {
+    position: relative; cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.1s;
+    padding: 3px;
+    text-align: center;
+}
+.pick-card:hover { border-color: var(--accent); }
+.pick-card.selected {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+}
+.pick-card img.pick-thumb {
+    width: 100%; height: auto; aspect-ratio: 32/42;
+    object-fit: cover; border-radius: 3px; display: block;
+}
+.pick-card .pick-name {
+    font-size: 10px; margin-top: 2px;
+    color: var(--fg);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pick-card.hidden { display: none; }
+
 .deck-footer {
     padding: 8px 12px; text-align: center;
     color: var(--muted); font-size: 11px;
@@ -285,17 +372,32 @@ __STATS_HTML__
 </div>
 
 <h2>Deck performance <span class="subtle">— completed runs only, click column to sort</span></h2>
-<div class="controls deck-controls">
-    <input type="search" id="deck-filter" placeholder="Filter decks (card name, trainee, scenario, hash…)">
-    <div class="chip-filter" id="deck-scenario-chips">
-        <span class="chip-filter-label">Scenario</span>
+<div class="deck-filter-panel">
+    <div class="filter-row">
+        <span class="filter-label">Cards</span>
+        <div class="card-chips" id="deck-card-chips">
+            <span class="filter-hint">none — click "+" to add a card filter</span>
+        </div>
+        <button class="pill-btn" id="deck-card-add-btn" aria-expanded="false">+ Add card</button>
+    </div>
+    <div class="filter-row">
+        <span class="filter-label">Scenario</span>
         <span class="chip-set" id="deck-scenario-set"></span>
     </div>
-    <button class="link-btn" id="deck-clear">Clear filters</button>
-    <label class="toggle">
-        <input type="checkbox" id="deck-expand">
-        Show all decks (default: top 10)
-    </label>
+    <div class="filter-row filter-row-actions">
+        <button class="link-btn" id="deck-clear">× Reset filters</button>
+        <label class="toggle">
+            <input type="checkbox" id="deck-expand">
+            Show all decks (default: top 10)
+        </label>
+    </div>
+    <div class="card-picker" id="deck-card-picker" hidden>
+        <div class="card-picker-hdr">
+            <input type="search" id="deck-card-search" placeholder="Search cards by name…">
+            <button class="link-btn" id="deck-card-close">Close</button>
+        </div>
+        <div class="card-picker-grid" id="deck-card-grid"></div>
+    </div>
 </div>
 <div class="table-wrap">
 <table id="decks">
@@ -580,34 +682,31 @@ document.addEventListener("contextmenu", (e) => {
 });
 
 // ── decks table ───────────────────────────────────────────────────
-// Deck filters — search matches deck cards / trainees / scenarios /
-// hash; scenario chips filter to runs matching ANY selected scenario;
-// expand toggle removes the top-10 cap. All decked so 'Clear filters'
-// really does snap you back to the default view.
+// Deck filters:
+//   - Card picker: multi-select from a card grid; decks must contain
+//     ALL selected cards (intersection).
+//   - Scenario chips: multi-select; deck must include at least one
+//     selected scenario. All 4 scenarios always available (chips for
+//     scenarios with no runs are shown disabled).
+//   - Top-N cap by default, expand toggle removes it.
 const DECK_TOP_N = 10;
-let deckFilterText = "";
+const ALL_SCENARIOS = ["URA Finale", "Unity Cup", "Our Grand Concert", "Trackblazer"];
+const deckPickedCards = new Set();  // card_id (int)
 const deckScenarioActive = new Set();
 let deckExpanded = false;
 
 function decksMatch(d) {
-    // Scenario chip filter — deck must include at least one active scenario
     if (deckScenarioActive.size > 0) {
         const dScens = new Set(d.scenarios || []);
         let hit = false;
         for (const s of deckScenarioActive) if (dScens.has(s)) { hit = true; break; }
         if (!hit) return false;
     }
-    // Text filter — checks card names, trainees, scenarios, hash
-    const q = deckFilterText.trim().toLowerCase();
-    if (!q) return true;
-    const hay = [
-        d.deck_hash,
-        d.trainees_label,
-        d.scenarios_label,
-        d.deck_summary,
-        (d.deck_cards || []).map(c => c.name).join(" "),
-    ].join(" ").toLowerCase();
-    return hay.includes(q);
+    if (deckPickedCards.size > 0) {
+        const deckCardIds = new Set((d.deck_cards || []).map(c => c.card_id));
+        for (const cid of deckPickedCards) if (!deckCardIds.has(cid)) return false;
+    }
+    return true;
 }
 
 const decksCtrl = makeSortable({
@@ -615,7 +714,7 @@ const decksCtrl = makeSortable({
     bodyId: "decks-body",
     colspan: 11,
     data: DECKS,
-    defaultKey: "best_fans",
+    defaultKey: "best_score",
     defaultDir: -1,
     filterFn: (d) => decksMatch(d),
     rowHtml: (d) => `
@@ -669,23 +768,119 @@ decksCtrl.apply = function () {
     decksFooter.innerHTML = parts.join(' · ');
 };
 
-// Populate scenario chips from unique deck scenarios
+// Scenario chips — always show all four; chips for scenarios that
+// don't appear in any deck are visually disabled but still labeled
+// so the filter menu is self-explanatory.
 const scenarioSet = document.getElementById("deck-scenario-set");
-const uniqueScenarios = Array.from(new Set(DECKS.flatMap(d => d.scenarios || []))).sort();
-scenarioSet.innerHTML = uniqueScenarios.map(s =>
-    `<button class="filter-chip" data-scenario="${s}">${s}</button>`
-).join("");
+const scenariosInData = new Set(DECKS.flatMap(d => d.scenarios || []));
+scenarioSet.innerHTML = ALL_SCENARIOS.map(s => {
+    const disabled = scenariosInData.has(s) ? "" : " disabled";
+    return `<button class="filter-chip${disabled}" data-scenario="${s}">${s}</button>`;
+}).join("");
 
-document.getElementById("deck-filter").addEventListener("input", e => {
-    deckFilterText = e.target.value;
+// Card picker — unique cards across all decks, sorted by frequency then name
+const cardPickerBtn = document.getElementById("deck-card-add-btn");
+const cardPicker = document.getElementById("deck-card-picker");
+const cardGrid = document.getElementById("deck-card-grid");
+const cardChipsBar = document.getElementById("deck-card-chips");
+const cardSearchInput = document.getElementById("deck-card-search");
+
+function buildCardCatalog() {
+    const seen = new Map();  // card_id -> {card_id, name, image_url, count}
+    for (const d of DECKS) {
+        for (const c of (d.deck_cards || [])) {
+            if (!c || !c.card_id) continue;
+            const key = c.card_id;
+            const prev = seen.get(key);
+            if (prev) prev.count++;
+            else seen.set(key, {
+                card_id: c.card_id,
+                name: c.name || `?card:${c.card_id}`,
+                image_url: c.image_url,
+                type_icon_url: c.type_icon_url,
+                count: 1,
+            });
+        }
+    }
+    return Array.from(seen.values()).sort((a, b) =>
+        b.count - a.count || a.name.localeCompare(b.name));
+}
+const CARD_CATALOG = buildCardCatalog();
+
+function renderCardGrid(filter = "") {
+    const q = filter.trim().toLowerCase();
+    cardGrid.innerHTML = CARD_CATALOG.map(c => {
+        const selected = deckPickedCards.has(c.card_id) ? " selected" : "";
+        const matches = !q || c.name.toLowerCase().includes(q);
+        const hidden = matches ? "" : " hidden";
+        return `<div class="pick-card${selected}${hidden}" data-card-id="${c.card_id}" title="${c.name} (in ${c.count} decks)">
+            ${c.image_url ? `<img class="pick-thumb" src="${c.image_url}" loading="lazy" onerror="this.style.visibility='hidden'">` : ''}
+            <div class="pick-name">${c.name}</div>
+        </div>`;
+    }).join("");
+}
+renderCardGrid();
+
+function renderCardChips() {
+    if (deckPickedCards.size === 0) {
+        cardChipsBar.innerHTML = '<span class="filter-hint">none — click "+" to add a card filter</span>';
+        return;
+    }
+    const chips = [];
+    for (const cid of deckPickedCards) {
+        const c = CARD_CATALOG.find(x => x.card_id === cid);
+        if (!c) continue;
+        chips.push(`<span class="picked-card">
+            ${c.image_url ? `<img src="${c.image_url}">` : ''}
+            <span>${c.name}</span>
+            <button class="remove" data-card-id="${cid}" title="Remove filter">×</button>
+        </span>`);
+    }
+    cardChipsBar.innerHTML = chips.join("");
+}
+renderCardChips();
+
+function openCardPicker(open) {
+    cardPicker.hidden = !open;
+    cardPickerBtn.setAttribute("aria-expanded", open);
+    if (open) {
+        cardSearchInput.value = "";
+        renderCardGrid();
+        cardSearchInput.focus();
+    }
+}
+cardPickerBtn.addEventListener("click", () => openCardPicker(cardPicker.hidden));
+document.getElementById("deck-card-close").addEventListener("click", () => openCardPicker(false));
+cardSearchInput.addEventListener("input", e => renderCardGrid(e.target.value));
+
+cardGrid.addEventListener("click", e => {
+    const card = e.target.closest(".pick-card");
+    if (!card) return;
+    const cid = Number(card.dataset.cardId);
+    if (deckPickedCards.has(cid)) deckPickedCards.delete(cid);
+    else deckPickedCards.add(cid);
+    card.classList.toggle("selected");
+    renderCardChips();
     decksCtrl.apply();
 });
+cardChipsBar.addEventListener("click", e => {
+    const rm = e.target.closest(".remove[data-card-id]");
+    if (!rm) return;
+    deckPickedCards.delete(Number(rm.dataset.cardId));
+    renderCardChips();
+    // Re-sync selected state in the (possibly still-open) grid
+    cardGrid.querySelectorAll(".pick-card.selected").forEach(el => {
+        if (!deckPickedCards.has(Number(el.dataset.cardId))) el.classList.remove("selected");
+    });
+    decksCtrl.apply();
+});
+
 document.getElementById("deck-expand").addEventListener("change", e => {
     deckExpanded = e.target.checked;
     decksCtrl.apply();
 });
 scenarioSet.addEventListener("click", e => {
-    const chip = e.target.closest(".filter-chip");
+    const chip = e.target.closest(".filter-chip:not(.disabled)");
     if (!chip) return;
     const s = chip.dataset.scenario;
     if (deckScenarioActive.has(s)) deckScenarioActive.delete(s);
@@ -694,10 +889,11 @@ scenarioSet.addEventListener("click", e => {
     decksCtrl.apply();
 });
 function clearDeckFilters() {
-    deckFilterText = "";
-    document.getElementById("deck-filter").value = "";
+    deckPickedCards.clear();
     deckScenarioActive.clear();
     scenarioSet.querySelectorAll(".filter-chip.active").forEach(c => c.classList.remove("active"));
+    cardGrid.querySelectorAll(".pick-card.selected").forEach(c => c.classList.remove("selected"));
+    renderCardChips();
     decksCtrl.apply();
 }
 document.getElementById("deck-clear").addEventListener("click", clearDeckFilters);
