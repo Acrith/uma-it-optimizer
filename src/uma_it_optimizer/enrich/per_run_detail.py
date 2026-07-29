@@ -339,21 +339,105 @@ def build(path: Path) -> RunDetail:
 
 def _build_lineage(raw: dict) -> dict:
     """Serialize parent lineage + compat into a plain dict for the
-    detail template. Returns an empty dict for pre-v0.1.5 captures."""
+    detail template. Returns an empty dict for pre-v0.1.5 captures.
+
+    Also emits per-ancestor factor inventories with a ``sparked`` flag
+    per factor — collapses this run's SuccessionFactorGainInfo into a
+    set of proc'd factor_ids and marks each parent/grandparent factor
+    accordingly. A factor being ``sparked=True`` means "this factor
+    proc'd this run and this ancestor was one of the possible sources"
+    — attribution can be ambiguous when multiple ancestors share the
+    same factor, which is exactly the point of the visualization
+    (multi-source factors have a higher aggregate proc rate).
+    """
     bundle = parse_lineage(raw)
     if not bundle:
         return {}
     overall = overall_from_lineage(bundle)
     if not overall:
         return {}
+
+    # Collect every factor_id that proc'd this run (across all years).
+    sparked: set[int] = set()
+    for year in raw.get("SuccessionFactorGainInfo", []) or []:
+        for f in year.get("<GainFactorInfoArray>k__BackingField", []) or []:
+            fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
+            if fid > 0:
+                sparked.add(fid)
+
+    def _factor_pills(raw_ancestor: dict) -> list[dict]:
+        """Sort + label a raw ancestor's <FactorDataArray> for display."""
+        agg: dict[int, dict] = {}
+        for f in raw_ancestor.get("<FactorDataArray>k__BackingField", []) or []:
+            if not isinstance(f, dict):
+                continue
+            fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
+            if fid == 0:
+                continue
+            agg.setdefault(fid, {
+                "factor_id": fid,
+                "name": factor_name(fid),
+                "type_label": factor_type_label(fid),
+                "level": int(f.get("<FactorLv>k__BackingField", 0) or 0),
+                "sparked": fid in sparked,
+            })
+        TYPE_ORDER = {"stat": 0, "aptitude": 1, "green": 2,
+                      "skill": 3, "unique": 4, "special": 5, "unknown": 9}
+        return sorted(
+            agg.values(),
+            # Sparked first, then by category, then name for stable order
+            key=lambda r: (
+                not r["sparked"],
+                TYPE_ORDER.get(r["type_label"], 9),
+                r["name"],
+            ),
+        )
+
+    def _grandparent_pills(raw_gp: dict) -> list[dict]:
+        return _factor_pills(raw_gp)
+
+    # Pair each parent-summary with its raw dict so we can pull the
+    # factor arrays. The extractor emits parents in id-order matching
+    # p1/p2, but we key by chara_id to be safe.
+    raw_parents = raw.get("Parents") or []
+    raw_by_chara: dict[int, dict] = {}
+    for rp in raw_parents:
+        if not isinstance(rp, dict):
+            continue
+        cid = int(rp.get("_cacheCharaId") or 0)
+        if cid:
+            raw_by_chara[cid] = rp
+
     parents = []
     for ps in (bundle.p1_summary, bundle.p2_summary):
         if not ps:
             continue
+        raw_p = raw_by_chara.get(ps.chara_id) or {}
+        # Grandparents come from the raw parent's SuccessionCharaList —
+        # position 10/20 only (11/12/21/22 are great-grandparents,
+        # out-of-scope per the compat doc).
+        scl = (raw_p.get("<SuccessionCharaList>k__BackingField") or {}).get("_items") or []
+        gp_dicts = []
+        for entry in scl:
+            if not isinstance(entry, dict):
+                continue
+            pos = int(entry.get("_positionId") or 0)
+            if pos not in (10, 20):
+                continue
+            gp_card = int(entry.get("<CardId>k__BackingField") or 0)
+            gp_dicts.append({
+                "name": uma_card_name(gp_card) if gp_card else f"?gp:{pos}",
+                "card_id": gp_card,
+                "portrait_url": uma_card_image_url(gp_card) if gp_card else None,
+                "rank": int(entry.get("_rank") or 0),
+                "factors": _grandparent_pills(entry),
+            })
+
         parents.append({
             "name": ps.name,
             "chara_id": ps.chara_id,
             "card_id": ps.card_id,
+            "portrait_url": uma_card_image_url(ps.card_id) if ps.card_id else None,
             "rank": ps.rank,
             "speed": ps.speed,
             "stamina": ps.stamina,
@@ -361,8 +445,10 @@ def _build_lineage(raw: dict) -> dict:
             "guts": ps.guts,
             "wiz": ps.wiz,
             "fans": ps.fans,
-            "grandparents": [(name, rank) for (_c, _cd, name, rank) in ps.grandparents],
+            "factors": _factor_pills(raw_p),
+            "grandparents": gp_dicts,
         })
+
     return {
         "overall": {
             "symbol": overall.symbol,
@@ -371,6 +457,7 @@ def _build_lineage(raw: dict) -> dict:
             "pairs": [asdict(p) for p in overall.pairs],
         },
         "parents": parents,
+        "sparked_count": len(sparked),
     }
 
 

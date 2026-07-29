@@ -343,7 +343,7 @@ td.thumb-cell {
 
 /* Lineage / parent-compat panel */
 .lineage-panel { border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; background: var(--bg); }
-.lineage-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.lineage-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .lineage-header h2 { margin: 0; font-size: 16px; }
 .lineage-header .compat-big { font-size: 28px; font-weight: 700; line-height: 1; }
 .lineage-header .compat-big.compat-3 { color: #ff8a00; }
@@ -353,14 +353,32 @@ td.thumb-cell {
 .lineage-tree { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .lineage-parent { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
 .lineage-parent-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.lineage-parent-hdr img.portrait { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--row-alt); }
 .lineage-parent-hdr .name { font-weight: 600; }
-.lineage-parent-hdr .rank { color: var(--muted); font-size: 12px; }
-.lineage-stats { color: var(--muted); font-size: 11px; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
-.lineage-gp { display: flex; gap: 6px; margin-top: 6px; }
-.lineage-gp .gp { flex: 1; font-size: 11px; padding: 4px 6px; border: 1px dashed var(--border); border-radius: 4px; }
-.lineage-gp .gp .gp-name { display: block; }
-.lineage-gp .gp .gp-rank { color: var(--muted); }
-.compat-breakdown { font-size: 12px; }
+.lineage-parent-hdr .rank { color: var(--muted); font-size: 12px; margin-left: auto; }
+.lineage-stats { color: var(--muted); font-size: 11px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.lineage-factors { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+/* Muted variant for factors that did NOT proc this run — same color
+   family but low opacity + no border so the sparked ones pop. */
+.lineage-factors .chip.not-sparked {
+    opacity: 0.35; filter: grayscale(0.5);
+}
+.lineage-factors .chip.sparked {
+    box-shadow: 0 0 0 1px currentColor inset, 0 0 6px rgba(255,138,0,0.35);
+    font-weight: 600;
+}
+.lineage-factors .sparked-glow { text-shadow: 0 0 4px rgba(255,138,0,0.6); }
+.factor-legend { color: var(--muted); font-size: 11px; margin: 6px 0 10px; }
+.factor-legend .chip { margin-right: 4px; padding: 1px 6px; font-size: 10px; }
+.lineage-gp-block { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); }
+.lineage-gp-block .gp-title { color: var(--muted); font-size: 11px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+.lineage-gp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.lineage-gp .gp { font-size: 11px; padding: 6px 8px; border: 1px dashed var(--border); border-radius: 4px; }
+.lineage-gp .gp-hdr { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.lineage-gp .gp-hdr img.portrait { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: var(--row-alt); }
+.lineage-gp .gp-hdr .gp-name { font-weight: 600; font-size: 11px; flex: 1; }
+.lineage-gp .gp-hdr .gp-rank { color: var(--muted); font-size: 10px; }
+.compat-breakdown { font-size: 12px; margin-top: 10px; }
 .compat-breakdown table { min-width: 0; }
 .compat-breakdown td { padding: 3px 8px; }
 .compat-breakdown .pair-label { color: var(--muted); }
@@ -382,8 +400,6 @@ __HEADER_STATS__
         </div>
     </div>
 </div>
-
-__LINEAGE_PANEL__
 
 <h2>Per-source stat contributions</h2>
 <table>
@@ -449,6 +465,8 @@ __SCORE_TABLE__
     </thead>
     <tbody>__RACE_ROWS__</tbody>
 </table>
+
+__LINEAGE_PANEL__
 
 <h2>Factors gained</h2>
 <table>
@@ -1205,20 +1223,36 @@ def _render_lineage_panel(lineage: dict | None) -> str:
     rank = overall.get("rank", 0)
     total = overall.get("total_points", 0)
     pairs = overall.get("pairs") or []
+    sparked_count = lineage.get("sparked_count", 0)
 
     parts = [
         '<div class="lineage-panel">',
         '<div class="lineage-header">',
         f'<span class="compat-big compat-{rank}">{symbol}</span>',
-        f'<h2>Parent lineage compatibility</h2>',
-        f'<span class="compat-total">{total} points  ·  '
-        f'thresholds ≤50 △ · 51–150 ○ · 151+ ◎</span>',
+        f'<h2>Parent lineage · spark potential</h2>',
+        f'<span class="compat-total">{total} pts · '
+        f'≤50 △ · 51–150 ○ · 151+ ◎  ·  {sparked_count} unique factors '
+        f'proc\'d this run</span>',
+        '</div>',
+        '<div class="factor-legend">'
+        '<span class="chip factor-stat sparked">sparked</span>'
+        '<span class="chip factor-stat not-sparked">did not spark</span>'
+        '  ·  All ancestor factors shown — sparked pills glow, '
+        'un-sparked are faded. A factor sparks if <b>any</b> ancestor '
+        'holding it proc\'d it this run.'
         '</div>',
         '<div class="lineage-tree">',
     ]
     for p in parents:
+        portrait = (
+            f'<img class="portrait" src="{p.get("portrait_url","")}" '
+            f'alt="{p.get("name","")}" loading="lazy" '
+            'onerror="this.style.display=\'none\'">'
+            if p.get("portrait_url") else ''
+        )
         parts.append('<div class="lineage-parent">')
         parts.append('<div class="lineage-parent-hdr">')
+        parts.append(portrait)
         parts.append(f'<span class="name">{p.get("name","?")}</span>')
         parts.append(f'<span class="rank">Rank {p.get("rank",0)}</span>')
         parts.append('</div>')
@@ -1232,17 +1266,29 @@ def _render_lineage_panel(lineage: dict | None) -> str:
             f'{p.get("fans",0):,} fans'
             '</div>'
         )
+        parts.append(_render_factor_pills(p.get("factors") or []))
         gps = p.get("grandparents") or []
         if gps:
+            parts.append('<div class="lineage-gp-block">')
+            parts.append('<div class="gp-title">grandparents</div>')
             parts.append('<div class="lineage-gp">')
-            for gp_name, gp_rank in gps:
-                parts.append(
-                    f'<div class="gp">'
-                    f'<span class="gp-name">{gp_name}</span>'
-                    f'<span class="gp-rank">Rank {gp_rank}</span>'
-                    '</div>'
+            for gp in gps:
+                gp_portrait = (
+                    f'<img class="portrait" src="{gp.get("portrait_url","")}" '
+                    f'alt="{gp.get("name","")}" loading="lazy" '
+                    'onerror="this.style.display=\'none\'">'
+                    if gp.get("portrait_url") else ''
                 )
-            parts.append('</div>')
+                parts.append('<div class="gp">')
+                parts.append('<div class="gp-hdr">')
+                parts.append(gp_portrait)
+                parts.append(f'<span class="gp-name">{gp.get("name","?")}</span>')
+                parts.append(f'<span class="gp-rank">Rank {gp.get("rank",0)}</span>')
+                parts.append('</div>')
+                parts.append(_render_factor_pills(gp.get("factors") or []))
+                parts.append('</div>')  # /.gp
+            parts.append('</div>')  # /.lineage-gp
+            parts.append('</div>')  # /.lineage-gp-block
         parts.append('</div>')  # /.lineage-parent
     parts.append('</div>')  # /.lineage-tree
 
@@ -1266,3 +1312,20 @@ def _render_lineage_panel(lineage: dict | None) -> str:
     parts.append('</tbody></table></div>')
     parts.append('</div>')  # /.lineage-panel
     return "\n".join(parts)
+
+
+def _render_factor_pills(factors: list[dict]) -> str:
+    """Compact factor-chip row for a parent or grandparent. Sparked
+    factors bubble to the front (already sorted upstream) and get a
+    subtle glow; un-sparked ones fade to background."""
+    if not factors:
+        return '<div class="lineage-factors"><span class="no-lineage">no factors</span></div>'
+    parts = ['<div class="lineage-factors">']
+    for f in factors:
+        cls = f'chip factor-{f.get("type_label","unknown")} '
+        cls += 'sparked' if f.get("sparked") else 'not-sparked'
+        title = (f'factor_id {f.get("factor_id","?")} · '
+                 f'{"proc\'d this run" if f.get("sparked") else "did not proc"}')
+        parts.append(f'<span class="{cls}" title="{title}">{f.get("name","?")}</span>')
+    parts.append('</div>')
+    return "".join(parts)

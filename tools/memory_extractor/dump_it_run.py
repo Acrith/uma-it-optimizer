@@ -184,7 +184,10 @@ setTimeout(() => {
           const t = insts[i];
           const id = decodeTcdId(t);
           if (id !== null && wanted.has(id)) {
-            out.push(walkDeep(t, 'Gallop.WorkTrainedCharaData.TrainedCharaData', 0, 5));
+            // depth 6 is the minimum that reaches grandparent FactorData
+            // scalar fields (TrainedCharaData → SuccessionCharaList →
+            // _items → SuccessionCharaData → FactorDataArray → FactorData).
+            out.push(walkDeep(t, 'Gallop.WorkTrainedCharaData.TrainedCharaData', 0, 6));
           }
         }
         send({type: 'dump', label: 'Parents', count: out.length, data: out});
