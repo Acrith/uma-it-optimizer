@@ -120,7 +120,7 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 
 .hint-group-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 10px;
 }
 .hint-group {
@@ -154,27 +154,69 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     margin-left: 3px;
 }
 .variant-list { display: flex; flex-wrap: wrap; gap: 5px; }
+/* Game-style skill pill: icon on left, name+cost on right. Background
+   gradient encodes tier — white (r=1), gold (r=2), unique (r>=4),
+   debuff/purple for removals. */
 .variant-btn {
-    display: inline-flex; flex-direction: column;
-    padding: 4px 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px 3px 3px;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--row-alt);
-    color: var(--fg);
+    border-radius: 18px;
+    background: linear-gradient(to right, #f0eef5 0%, #e0dae8 100%);
+    color: #333;
     font-size: 11px;
     cursor: pointer;
     text-align: left;
     font-family: inherit;
-    min-width: 66px;
+    min-width: 130px;
+    max-width: 220px;
+    overflow: hidden;
 }
-.variant-btn:hover { border-color: #58a6ff; }
+.variant-btn:hover { filter: brightness(1.05); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
 .variant-btn.selected {
-    background: #58a6ff;
-    color: white;
-    border-color: #2f6fc7;
+    outline: 2px solid #2f6fc7;
+    outline-offset: 1px;
 }
-.variant-btn.remove { color: #1e8a3a; border-color: #a4d9ba; }
-.variant-btn.remove.selected { background: #1e8a3a; color: white; border-color: #10662a; }
+.variant-btn img.skill-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: transparent;
+}
+.variant-btn-body { display: flex; flex-direction: column; overflow: hidden; }
+.variant-btn-name {
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
+}
+.variant-btn-nums {
+    font-size: 10px;
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Rarity tier gradients — match game/gametora pill colors */
+.variant-btn.tier-gold { background: linear-gradient(to right, #ffc754 0%, #ff9134 100%); color: #4a2600; }
+.variant-btn.tier-unique { background: linear-gradient(to right, #7fb3ff 0%, #5e8fff 100%); color: white; }
+.variant-btn.tier-white  { background: linear-gradient(to right, #f0eef5 0%, #e0dae8 100%); color: #333; }
+.variant-btn.negative-x { background: linear-gradient(to right, #d0b0ff 0%, #b090e0 100%); color: white; }
+.variant-btn.remove {
+    background: linear-gradient(to right, #a4d9ba 0%, #6bc38a 100%);
+    color: #10441e;
+    border-color: #6bc38a;
+}
+.variant-btn.remove.selected { outline-color: #10662a; }
+@media (prefers-color-scheme: dark) {
+    .variant-btn.tier-white  { color: #ddd; background: linear-gradient(to right, #3a3a4a 0%, #2e2e3d 100%); }
+    .variant-btn.tier-gold   { color: #2a1500; }
+    .variant-btn.negative-x  { color: white; }
+    .variant-btn.remove      { color: #dfffe6; background: linear-gradient(to right, #206040 0%, #185030 100%); }
+}
 
 .hint-group.dim { opacity: 0.35; }
 .hint-group.dim .variant-btn { cursor: default; }
@@ -761,12 +803,23 @@ PLANNER_JS = """
         const cls = ['variant-btn'];
         if (selected) cls.push('selected');
         if (v.action === 'remove') cls.push('remove');
+        else if (v.rate === -1) cls.push('negative-x');
+        else if (v.rarity >= 4) cls.push('tier-unique');
+        else if (v.rarity === 2) cls.push('tier-gold');
+        else cls.push('tier-white');
+        const iconHtml = v.icon_url
+            ? `<img class="skill-icon" src="${v.icon_url}" alt="" loading="lazy"
+                    onerror="this.style.visibility='hidden'">`
+            : '<span class="skill-icon" style="display:inline-block"></span>';
         return `
             <button class="${cls.join(' ')}"
                 data-skill="${v.skill_id}"
                 title="${v.name}">
-                <span class="variant-btn-label">${v.rate_label}</span>
-                <span class="variant-btn-nums">${v.sp_cost} SP · +${v.grade_value}</span>
+                ${iconHtml}
+                <span class="variant-btn-body">
+                    <span class="variant-btn-name">${v.rate_label} ${v.name}</span>
+                    <span class="variant-btn-nums">${v.sp_cost} SP · +${v.grade_value}</span>
+                </span>
             </button>
         `;
     }

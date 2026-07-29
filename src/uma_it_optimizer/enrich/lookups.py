@@ -220,8 +220,10 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
             condition_1=s.get("condition_1", ""),
             condition_2=s.get("condition_2", ""),
         )
+        sid_int = int(sid_str)
+        icon_id = s.get("icon_id")
         variants.append({
-            "skill_id": int(sid_str),
+            "skill_id": sid_int,
             "name": s.get("name", f"?skill:{sid_str}"),
             "rate": rate,
             "rate_label": GROUP_RATE_LABEL.get(rate, "?"),
@@ -232,6 +234,8 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
             "styles": cls["styles"],
             "distances": cls["distances"],
             "is_universal": cls["is_universal"],
+            "icon_url": (f"{GAMETORA_CDN}/skill_icons/utx_ico_skill_{icon_id}.png"
+                         if icon_id else None),
         })
     variants.sort(key=lambda v: (GROUP_RATE_RANK.get(v["rate"], 9), -v["grade_value"]))
     return variants
@@ -395,6 +399,19 @@ def race_result_ordinal(rank: int) -> str:
 
 
 GAMETORA_CDN = "https://gametora.com/images/umamusume"
+
+
+def skill_icon_url(skill_id: int) -> str | None:
+    """Gametora CDN URL for a skill's icon PNG (~1-2 KB). Returns None
+    if the skill isn't in our masters snapshot or has no icon_id."""
+    m = load_masters()
+    s = m.get("skills", {}).get(str(skill_id))
+    if not s:
+        return None
+    icon_id = s.get("icon_id")
+    if not icon_id:
+        return None
+    return f"{GAMETORA_CDN}/skill_icons/utx_ico_skill_{icon_id}.png"
 
 
 def support_card_image_url(card_id: int, *, size: str = "small") -> str:
