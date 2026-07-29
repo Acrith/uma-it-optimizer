@@ -185,6 +185,12 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 .lb-mini .filled { fill: #6ab6ff; stroke: #2f6fc7; stroke-width: 1; }
 .lb-mini .empty { fill: none; stroke: rgba(150,150,150,0.5); stroke-width: 1; }
 tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
+.grade-badge {
+    height: 22px;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+}
 </style>
 </head>
 <body>
@@ -267,6 +273,20 @@ function fmtNum(n) {
     if (n === null || n === undefined) return "";
     return typeof n === "number" ? n.toLocaleString() : n;
 }
+function renderGradeBadges(r) {
+    // Render floor and ceiling icons side-by-side with a '→' when they
+    // differ. Falls back to bold text for EX-tier grades where we have
+    // no icon URL.
+    const floor = r.grade_floor_letter, ceiling = r.grade_ceiling_letter;
+    const floorIcon = r.grade_floor_icon, ceilingIcon = r.grade_ceiling_icon;
+    if (!floor && !ceiling) return "—";
+    const badge = (letter, url) => url
+        ? `<img class="grade-badge" src="${url}" alt="${letter}" title="${letter}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${letter}'))">`
+        : `<strong>${letter}</strong>`;
+    if (floor === ceiling) return badge(floor, floorIcon);
+    return `${badge(floor, floorIcon)}<span style="color: var(--muted); margin: 0 3px;">→</span>${badge(ceiling, ceilingIcon)}`;
+}
+
 function renderDeckThumb(c) {
     if (!c || !c.image_url) return "";
     const crystals = c.limit_break != null
@@ -359,7 +379,7 @@ const runsCtrl = makeSortable({
                 <span class="mono" style="font-size: 10px; color: var(--muted); vertical-align: middle;">${r.deck_hash}</span>
             </td>
             <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
-            <td title="${r.rank_range_label}"><strong>${r.letter_grade}</strong></td>
+            <td title="${r.rank_range_label}">${renderGradeBadges(r)}</td>
             <td class="num">${fmtNum(r.stat_sum)}</td>
             <td class="num">${fmtNum(r.speed)}</td>
             <td class="num">${fmtNum(r.stamina)}</td>

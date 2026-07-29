@@ -275,6 +275,39 @@ LETTER_GRADE_BY_RANK = {
     17: "SS", 18: "SS+",
 }
 
+# Rank-badge icon URLs (20×20 PNGs of the actual game asset), sourced
+# from the community rating-calculator spreadsheet
+# https://docs.google.com/spreadsheets/d/1CtLcA7wn_bFC0C7nsSpUhFJGi5ahkMqCx6fIXSwTQQM
+# Ranks 19+ (Ug/Ue/Ex tier) fall back to text.
+GRADE_ICON_URL = {
+    "G":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xUwG5bt8j1dzva7Qd2yCMuVewvq3ga88A8GPa7y65oUOkmrh_ErAwunP7AXcWVx_ogmf3PD6tSKSTU0v9U14OiUz7IKPIi_dvXkPagesBaH4FaYBXAx_mg4hNu_w6ZopTbS=s100-w100-h20",
+    "G+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xXVdQbiLpASn0CE8DjTOT4cjgLeTOEkMHCig32ik48IjB8DTg62Vs0Zq8vdxNSkeVMcE9DuwhHJJDPds_5PhXn5zS6635fOgMJolX_DsveA3lZzOGqVgZ5IQgXbH3VJwq7gnQ=s100-w100-h20",
+    "F":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xXjN7eFMay9byuGl-WxQ8cs6Pv8hTV9cKysNJDQntW3vUMCF7QJcG1HNQRFS7ydTTorVJwKl7RqqAP7dfa2s9CPiBfnaX_GKv5cMgdElkCyDVFG81DWqpXk4oJtMmvxphmi1Q=s100-w100-h20",
+    "F+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xVkEW-VHgpUkYL0rvZKesQcWv5pTnA_TopMgPQuM5uk5Pe7kB7L-Shnf3ixL9VxMUuQEnZRTuYtDK0X_NxySa-FmfRZCqnCNuiYa6dO3bBIQEAXKqb3JPoOa7qBJFlQlOUDBg=s100-w100-h20",
+    "E":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xX-rOuxUh20FGnfVf3stoO9E3s56Evj1cUB1N4zRdMvwCuyMZRUyDJUSO4W34zYQ2aGiYrvDdbTfjZOPegzcylmWn9seJkQsIdyTUR0iNkXsvBf8Cfy0TvScldnfofZHwPvA=s100-w100-h20",
+    "E+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xX_KT0ge8CogBf7rNucPwCbifwgtGc13m2GuyHx_MzieOboJ3M_fSTn3Krfrnm-LotvMs59NhcSqudPvminkp3a_p_tIHr-mDERNyiQ-ksuwzm9BBR45I8Y8-1dMYgnMbGR=s100-w100-h20",
+    "D":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xVBAibJGv52rjg2eLqTc5axtK618N1V5AJCutWw0gvfIgrT90yo1aeJ5uFQjqW3hr3JmYePO5JdGlHbzYI5QeBTeMCeq8IJAhCr88Lqwp8CDu8UU3AgcsfKibnYcNIUpXcP=s100-w100-h20",
+    "D+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xWVtBsUf94P88swG1QTGU5bJN42cAbVyoVCghiHObYQLDJlnKHDtoK88qHPWSYaO9ADV7RHo6aq6YK9AJTKMyfKFWnZ33nSDtXZ9r6NKn88_1xRFVe7T76UtbbjlKnAuCg=s100-w100-h20",
+    "C":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xW2z3tixG62W_TGOtPY_1f5qWDq97IGC66EwbKbHrpmHDyHPuw8Yx_wy75zISKwWnInEgMFit-Hve7oCvwLkbwQ16uN4l0VyAjILK4CwAYAmtJf-lGLoHV2oHFm4dxH2Mpw1Q=s100-w100-h20",
+    "C+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xW5SiJ8Ajh7l-02_UfApjqdMelPvA4HVQbTxs0CU6KvvIh60kAHqexrwpp-4yMHKTRa_d2XuqQ_kESJexch2BIHvnJs9R4IxOI_giTsqbmnWhxR73fwvi6AjMMWX4ozXbqm4Q=s100-w100-h20",
+    "B":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xXH0fwlzhhvupDTVIXBMBHkF81JlRmHbVvuQJ9inIADXFTuHfwsyQ3CPkID5oggw7LJBDObYL6V3l2ps8YZqqnXrP8lqOCG9B6OTXG8NopJbk2HomoNM5_2WUjX_T0VFZ-9=s100-w100-h20",
+    "B+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xWDXG0LU4zmBwxS5CenxPnEGMu63IR5FGBOtAnK9LEaePTY_OVAkQcOU3tdiFS74wUu1JuX5lvyvuxZwLpo1Euq3G_Pu5oyXX74pzjp5hfokMmXiU0nr-DTHetZL4sbWNidVw=s100-w100-h20",
+    "A":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xW-V2W9N8S-TUdYvCtwULe3yat8L0vFBEr4hwNIzTccsM3X-EEaOetEQEmwbChXamPzD4lapj6hFFXy5E-pIOK11p_Qm63KS-AjUbnIXE6nUhj5L5pOGAvV3nd7nQ0HHEAoxQ=s100-w100-h20",
+    "A+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xXAKkPEW7XWNy0X9-V8rohtmsJ9plnt6x_MMHiM0qZ9adc1bk2I-zLAKbXM6bIWVlrCBaO9ybBpdwh12D0fmmcNfjb4x32omjYP87ejPEvAd7XlYAUqW7W4pp2Psv-wfPUpCg=s100-w100-h20",
+    "S":   "https://lh3.googleusercontent.com/docsubipk/AP9E6xUc9B-Fnx9gQ2eAHZOLS7PisyaXX4loYJcR8KX52MRMUalKOyaydcmrxFIqx2mRlLtrZ_3F4jRjfMsZKNSa0PlthD9P9L1hHBzbsPfMJPGtY-H5tvA3S1cD5_E3U4dxZUTffA=s100-w100-h20",
+    "S+":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xUDJe_UE9T7UbNBjxTwrNiDJYL2Oo3dXmFOb42NT4nddNre3kzYcGOIx2k2TTuEHPxXJlX0lezBGgVUsTkIgma5CTC_Ijl-OBgkYRHd3EYT52Ov7_yGC5qoS14NBwfQJ3OrTq4=s100-w100-h20",
+    "SS":  "https://lh3.googleusercontent.com/docsubipk/AP9E6xUXbxK6b-wiaozyibpycx4s0cIkteDURDmRTVnIJ2V6XfaVmhdcZ87vDq0FJtE-K3bqvEufvJRMZXAjXVRSXr9S64WoPbwy2Jsz6vZ_3h1ZF7FRDGmoBEBhUgSJveRjzm8QJvw=s100-w100-h20",
+    # SS+ URL from the spreadsheet appears to reuse the S+ image — kept as
+    # a placeholder; swap when a distinct SS+ badge surfaces.
+    "SS+": "https://lh3.googleusercontent.com/docsubipk/AP9E6xUDJe_UE9T7UbNBjxTwrNiDJYL2Oo3dXmFOb42NT4nddNre3kzYcGOIx2k2TTuEHPxXJlX0lezBGgVUsTkIgma5CTC_Ijl-OBgkYRHd3EYT52Ov7_yGC5qoS14NBwfQJ3OrTq4=s100-w100-h20",
+}
+
+
+def grade_icon_url(letter: str) -> str | None:
+    """Icon URL for a grade letter (G/F/E/D/C/B/A/S/SS with ± variants).
+    Ranks 19+ (EX tier) return None — caller should fall back to text."""
+    return GRADE_ICON_URL.get(letter)
+
 
 def letter_grade(rank: int) -> str:
     """Numeric rank (1..98) → letter grade string. Above rank 18 uses

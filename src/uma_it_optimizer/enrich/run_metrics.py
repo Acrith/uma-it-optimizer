@@ -8,6 +8,8 @@ from pathlib import Path
 
 from .lookups import (
     deck_summary,
+    grade_icon_url,
+    letter_grade,
     letter_grade_range,
     scenario_name,
     support_card_image_url,
@@ -133,6 +135,14 @@ class RunMetrics:
                                   if self.rank_ceiling else "—"),
             "letter_grade": (letter_grade_range(self.rank_floor, self.rank_ceiling)
                              if self.rank_ceiling else "—"),
+            "grade_floor_letter": (letter_grade(self.rank_floor)
+                                   if self.rank_floor else None),
+            "grade_ceiling_letter": (letter_grade(self.rank_ceiling)
+                                     if self.rank_ceiling else None),
+            "grade_floor_icon": (grade_icon_url(letter_grade(self.rank_floor))
+                                 if self.rank_floor else None),
+            "grade_ceiling_icon": (grade_icon_url(letter_grade(self.rank_ceiling))
+                                   if self.rank_ceiling else None),
             "filename": self.filename,
         }
 
