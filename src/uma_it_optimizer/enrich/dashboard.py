@@ -681,26 +681,20 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     vertical-align: middle;
     display: inline-block;
 }
-/* Grade badge icons are ucarecdn PNGs designed against a light card
-   surface. On dark backgrounds their soft cream halo reads as a
-   yellowed rectangle and the letters look muddy. A small saturation
-   bump + white drop-shadow makes them punch clearly. */
+/* Grade badge icons are ucarecdn PNGs drawn on a light cream card
+   which reads as a yellowed rectangle against a dark surface. The
+   classic invert(1) + hue-rotate(180deg) trick swaps the cream to
+   a dark card while preserving the letter's color (invert flips
+   luminance, hue-rotate flips it back), which sits cleanly against
+   the dark theme background. Light theme keeps them as-is. */
 :root[data-theme="dark"] .grade-badge,
-:root[data-theme="dark"] .planner-grade-badge,
-:root[data-theme="dark"] .fac-body img.grade-badge {
-    filter:
-        drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
-        drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
-        saturate(1.15) brightness(1.05);
+:root[data-theme="dark"] .planner-grade-badge {
+    filter: invert(1) hue-rotate(180deg);
 }
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .grade-badge,
-    :root:not([data-theme="light"]) .planner-grade-badge,
-    :root:not([data-theme="light"]) .fac-body img.grade-badge {
-        filter:
-            drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
-            drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
-            saturate(1.15) brightness(1.05);
+    :root:not([data-theme="light"]) .planner-grade-badge {
+        filter: invert(1) hue-rotate(180deg);
     }
 }
 .preset-badge {

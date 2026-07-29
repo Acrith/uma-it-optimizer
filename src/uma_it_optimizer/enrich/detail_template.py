@@ -209,24 +209,20 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     display: block;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
-/* Dark theme: nudge saturation + subtle glow so the light-card badges
-   don't read as yellowed rectangles on the dark surface. */
+/* Dark theme: invert(1) + hue-rotate(180deg) flips the cream card
+   background to dark while preserving the letter's hue, so the
+   badges look native on the dark surface instead of stamped
+   rectangles. */
 :root[data-theme="dark"] .fac-body img.grade-badge,
 :root[data-theme="dark"] .rank-badge img,
 :root[data-theme="dark"] .compat-big img {
-    filter:
-        drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
-        drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
-        saturate(1.15) brightness(1.05);
+    filter: invert(1) hue-rotate(180deg);
 }
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .fac-body img.grade-badge,
     :root:not([data-theme="light"]) .rank-badge img,
     :root:not([data-theme="light"]) .compat-big img {
-        filter:
-            drop-shadow(0 0 0.5px rgba(255, 255, 255, 0.6))
-            drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5))
-            saturate(1.15) brightness(1.05);
+        filter: invert(1) hue-rotate(180deg);
     }
 }
 /* Grade circle — tier-colored. Grades map to buckets: g0=G, g1=F/E,
