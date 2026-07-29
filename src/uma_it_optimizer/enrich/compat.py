@@ -161,14 +161,24 @@ def compute_overall(
 ) -> OverallCompat:
     """Compute overall compat score + symbol.
 
-    Pairs contributing (base compat + G1 race overlap):
-    - trainee ↔ p1
-    - trainee ↔ p2
-    - trainee ↔ each grandparent (if present)
-    - p1 ↔ p2  (post-2026-06-24 addition: parent-to-parent overlap now
-      counts — the base compat between parents is NOT part of the
-      documented sum, only the race overlap, so this pair's base_points
-      is added but small. We include it uniformly for transparency.)
+    Pair structure (per community/domain-expert consensus): grandparent
+    compat feeds through its parent — the trainee never pairs directly
+    with a grandparent. Six pairs total, plus a seventh for the
+    post-2026-06-24 parent↔parent race-overlap rule.
+
+    - trainee ↔ parent 1
+    - trainee ↔ parent 2
+    - parent 1 ↔ grandparent 1a
+    - parent 1 ↔ grandparent 1b
+    - parent 2 ↔ grandparent 2a
+    - parent 2 ↔ grandparent 2b
+    - parent 1 ↔ parent 2  (post-2026-06-24: shared G1 races now count)
+
+    Earlier drafts of this file paired the trainee directly against each
+    grandparent — that overcounts (a single ancestor line contributed via
+    two pairs) and produced compat totals ~30% high vs the in-game
+    ◎/○/△ symbol. If the in-game reading disagrees with the number we
+    compute here, that's the next thing to re-check.
     """
     pairs: list[PairScore] = []
 
@@ -184,14 +194,14 @@ def compute_overall(
 
     add_pair("trainee × parent 1", trainee, p1)
     add_pair("trainee × parent 2", trainee, p2)
-    for gp, lbl in (
-        (gp1a, "trainee × grandparent 1a"),
-        (gp1b, "trainee × grandparent 1b"),
-        (gp2a, "trainee × grandparent 2a"),
-        (gp2b, "trainee × grandparent 2b"),
+    for parent, gp, lbl in (
+        (p1, gp1a, "parent 1 × grandparent 1a"),
+        (p1, gp1b, "parent 1 × grandparent 1b"),
+        (p2, gp2a, "parent 2 × grandparent 2a"),
+        (p2, gp2b, "parent 2 × grandparent 2b"),
     ):
         if gp is not None:
-            add_pair(lbl, trainee, gp)
+            add_pair(lbl, parent, gp)
     add_pair("parent 1 × parent 2", p1, p2)
 
     total = sum(p.total for p in pairs)
