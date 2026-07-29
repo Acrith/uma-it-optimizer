@@ -74,6 +74,13 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     margin-bottom: 4px;
 }
 .fac-icon { font-size: 14px; line-height: 1; }
+.fac-icon-img { width: 18px; height: 18px; object-fit: contain; }
+.fac-icon-sp {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 18px;
+    background: #9060d0; color: white;
+    border-radius: 4px; font-size: 10px; font-weight: 700;
+}
 .fac-label { font-weight: 600; }
 .fac-body { display: flex; align-items: baseline; gap: 6px; }
 .fac-value {
@@ -91,12 +98,33 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     border-radius: 50%; font-weight: 800; font-size: 13px;
     color: white;
 }
-.grade-g0 { background: #8a8a8a; }
-.grade-g1 { background: #9366cf; }   /* E/F — mid-purple */
-.grade-g2 { background: #4aa876; }   /* D/C — green */
-.grade-g3 { background: #3a95d9; }   /* B/A — blue */
-.grade-g4 { background: #ee8b34; }   /* S/SS/SS+ — orange */
-.grade-g5 { background: #d54a8a; }   /* UG/UG+ — pink */
+/* Grade badge colors — match the in-game rank table.
+   Bases: G gray, F light purple, E dark purple, D indigo, C lime,
+   B pink, A orange, S gold, SS deep gold, U-series a rainbow. */
+.grade-G  { background: #9e9e9e; }
+.grade-F  { background: #b98be0; }
+.grade-E  { background: #8845c0; }
+.grade-D  { background: #5e4bcd; }
+.grade-C  { background: #7bbd45; }
+.grade-B  { background: #e6549a; }
+.grade-A  { background: #ee8b34; }
+.grade-S  { background: #f4c336; color: #4a3a00; }
+.grade-SS { background: #e59500; }
+/* U-series (>1200) uses a distinct gold/rainbow set */
+.grade-UG { background: linear-gradient(135deg, #ff8a00, #e6549a); }
+.grade-UF { background: linear-gradient(135deg, #e6549a, #8845c0); }
+.grade-UE { background: linear-gradient(135deg, #8845c0, #5e4bcd); }
+.grade-UD { background: linear-gradient(135deg, #5e4bcd, #3a7bff); }
+.grade-UC { background: linear-gradient(135deg, #3a7bff, #37b34a); }
+.grade-UB { background: linear-gradient(135deg, #37b34a, #7bbd45); }
+.grade-UA { background: linear-gradient(135deg, #7bbd45, #f4c336); color: #3a3a00; }
+.grade-US { background: linear-gradient(135deg, #f4c336, #ee8b34, #e6549a); color: #3a1a00; }
+/* '+' variant sharpens the badge — border + slight glow so G+ vs G reads at a glance */
+.grade.grade-plus {
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.35) inset, 0 0 4px rgba(255,138,0,0.35);
+}
+/* U-series get a wider badge to accommodate 2-3 chars */
+.grade.grade-u { min-width: 36px; padding: 0 8px; font-size: 12px; }
 /* Per-facility card tint on the header bar */
 .fac-card.fac-speed   { border-top: 3px solid #3a7bff; }
 .fac-card.fac-stamina { border-top: 3px solid #e64545; }
@@ -1030,52 +1058,102 @@ def _stat_card(label: str, value: str) -> str:
             f'<span class="stat-value">{value}</span></div>')
 
 
-# In-game stat grades — 100-point windows starting from 100. Verified
-# against the community reference (Speed 409 = C, 237 = E, 1000+ = UG).
-_STAT_TIERS: list[tuple[int, str]] = [
-    (1100, "UG+"),
-    (1000, "UG"),
-    (900,  "SS+"),
-    (800,  "SS"),
-    (700,  "S"),
-    (600,  "A"),
-    (500,  "B"),
-    (400,  "C"),
-    (300,  "D"),
-    (200,  "E"),
-    (100,  "F"),
-    (0,    "G"),
-]
+# In-game stat grades. Two regimes:
+#
+# 1) 1..1200 uses fine tiers with + variants at half-steps:
+#      G   1-50    G+  51-99
+#      F   100-149 F+  150-199
+#      E   200-249 E+  250-299
+#      D   300-349 D+  350-399
+#      C   400-499 C+  500-599
+#      B   600-699 B+  700-799
+#      A   800-899 A+  900-999
+#      S   1000-1049 S+  1050-1099
+#      SS  1100-1149 SS+ 1150-1200
+#
+# 2) 1201+ enters the U-series: alphabet drops 100 (UG=1201-1300,
+#    UF=1301-1400, ..., US=1901-2000); a trailing digit 1..9 refines
+#    each 100-window into 10-tens (base letter for 01-10, "1" for
+#    11-20, ..., "9" for 91-00). Reference image confirmed 2026-07-30.
+_LO_TIERS: tuple[tuple[int, str], ...] = (
+    (1150, "SS+"), (1100, "SS"),
+    (1050, "S+"),  (1000, "S"),
+    (900,  "A+"),  (800,  "A"),
+    (700,  "B+"),  (600,  "B"),
+    (500,  "C+"),  (400,  "C"),
+    (350,  "D+"),  (300,  "D"),
+    (250,  "E+"),  (200,  "E"),
+    (150,  "F+"),  (100,  "F"),
+    (51,   "G+"),  (1,    "G"),
+)
+_U_LETTERS = ("UG", "UF", "UE", "UD", "UC", "UB", "UA", "US")
 
 
 def stat_grade(value: int) -> str:
-    """Grade letter for a raw stat value (0..1200+)."""
-    for threshold, letter in _STAT_TIERS:
-        if value >= threshold:
-            return letter
-    return "G"
+    """Grade letter for a raw stat value (0..2000+)."""
+    if value <= 0:
+        return "G"
+    if value <= 1200:
+        for th, letter in _LO_TIERS:
+            if value >= th:
+                return letter
+        return "G"
+    over = value - 1200
+    letter_idx = min((over - 1) // 100, len(_U_LETTERS) - 1)
+    base = _U_LETTERS[letter_idx]
+    within_100 = (over - 1) % 100  # 0..99
+    if within_100 < 10:
+        return base
+    return f"{base}{within_100 // 10}"
+
+
+def _grade_base(letter: str) -> str:
+    """Strip trailing '+' or digit to get the base letter class."""
+    if letter.endswith("+"):
+        return letter[:-1]
+    if letter and letter[-1].isdigit():
+        return letter[:-1]
+    return letter
+
+
+# Support card TYPE (Wit) vs stat DISPLAY (Wisdom) — Global calls the
+# stat 'Wisdom' but the training icon is the wit graduation cap
+# (utx_ico_obtain_04). Same asset works for both.
+_STAT_ICON_INDEX = {
+    "speed":   0,  # boot
+    "stamina": 1,  # heart
+    "power":   2,  # bicep
+    "guts":    3,  # flame
+    "wisdom":  4,  # graduation cap
+}
+
+
+def _stat_icon_url(key: str) -> str:
+    """Game-asset URL for a stat facility icon (from gametora CDN,
+    same set as support-card training-focus icons)."""
+    idx = _STAT_ICON_INDEX.get(key, 0)
+    return f"https://gametora.com/images/umamusume/icons/utx_ico_obtain_0{idx}.png"
 
 
 def _stat_facility_widget(
-    *, key: str, label: str, icon: str, value: int, cap: int,
+    *, key: str, label: str, value: int, cap: int,
 ) -> str:
     """One stat 'facility' badge — icon + grade circle + value/cap."""
     grade = stat_grade(value)
-    # Map letter to a tier bucket for coloring (low / mid / high / max)
-    tier_class = {
-        "G": "g0", "F": "g1", "E": "g1",
-        "D": "g2", "C": "g2",
-        "B": "g3", "A": "g3",
-        "S": "g4", "SS": "g4", "SS+": "g4",
-        "UG": "g5", "UG+": "g5",
-    }.get(grade, "g0")
+    base = _grade_base(grade)
+    plus_cls = " grade-plus" if grade.endswith("+") else ""
+    u_cls = " grade-u" if base.startswith("U") else ""
     cap_str = f'<span class="stat-cap">/ {cap:,}</span>' if cap else ""
+    icon_url = _stat_icon_url(key)
     return (
         f'<div class="fac-card fac-{key}">'
-        f'  <div class="fac-hdr"><span class="fac-icon">{icon}</span>'
-        f'<span class="fac-label">{label}</span></div>'
+        f'  <div class="fac-hdr">'
+        f'    <img class="fac-icon-img" src="{icon_url}" alt="{label}"'
+        f' loading="lazy" onerror="this.style.display=\'none\'">'
+        f'    <span class="fac-label">{label}</span>'
+        f'  </div>'
         f'  <div class="fac-body">'
-        f'    <span class="grade grade-{tier_class}">{grade}</span>'
+        f'    <span class="grade grade-{base}{plus_cls}{u_cls}">{grade}</span>'
         f'    <span class="fac-value">{value:,}</span>{cap_str}'
         f'  </div>'
         f'</div>'
@@ -1085,8 +1163,10 @@ def _stat_facility_widget(
 def _sp_widget(value: int) -> str:
     return (
         f'<div class="fac-card fac-sp">'
-        f'  <div class="fac-hdr"><span class="fac-icon">SP</span>'
-        f'<span class="fac-label">Skill Pts</span></div>'
+        f'  <div class="fac-hdr">'
+        f'    <span class="fac-icon fac-icon-sp">SP</span>'
+        f'    <span class="fac-label">Skill Pts</span>'
+        f'  </div>'
         f'  <div class="fac-body">'
         f'    <span class="fac-value">{value:,}</span>'
         f'  </div>'
@@ -1160,19 +1240,19 @@ def render(d: RunDetail) -> str:
     # Guts, Wisdom, then SP). Icons kept as short text tags to avoid
     # emoji-rendering variance across OSes.
     fac_defs = [
-        ("speed",   "Speed",   "⚡"),
-        ("stamina", "Stamina", "♥"),
-        ("power",   "Power",   "💪"),
-        ("guts",    "Guts",    "🔥"),
-        ("wisdom",  "Wisdom",  "📖"),
+        ("speed",   "Speed"),
+        ("stamina", "Stamina"),
+        ("power",   "Power"),
+        ("guts",    "Guts"),
+        ("wisdom",  "Wisdom"),
     ]
     header_stats = '<div class="fac-panel">' + "".join(
         _stat_facility_widget(
-            key=k, label=lbl, icon=ic,
+            key=k, label=lbl,
             value=int(d.final_stats.get(k if k != "wisdom" else "wiz", 0)),
             cap=int(d.caps.get(k if k != "wisdom" else "wiz", 0)),
         )
-        for (k, lbl, ic) in fac_defs
+        for (k, lbl) in fac_defs
     ) + _sp_widget(d.unspent_sp) + '</div>'
     # Compact meta strip — quick numbers Motivation / Vital removed as
     # they don't help decision-making post-run.
