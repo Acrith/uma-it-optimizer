@@ -234,6 +234,17 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
 }
 .section-nav a:hover { background: var(--row-alt); color: var(--fg); text-decoration: none; }
 .section-nav a.active { color: var(--accent); font-weight: 600; }
+.section-nav .back-link {
+    color: var(--accent);
+    background: var(--row-alt);
+    font-weight: 600;
+    padding: 4px 12px;
+}
+.section-nav .nav-sep {
+    display: inline-block; width: 1px; height: 16px;
+    background: var(--border);
+    margin: 0 4px;
+}
 table {
     width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px;
 }
@@ -643,6 +654,8 @@ __HEADER_STATS__
 </div>
 
 <nav class="section-nav">
+    <a href="dashboard.html" class="back-link">← Dashboard</a>
+    <span class="nav-sep"></span>
     <a href="#contribs">Contributions</a>
     <a href="#hints">Hints</a>
     <a href="#score">Score</a>

@@ -175,6 +175,36 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-decoration: underline dotted;
 }
 .deck-hash-link:hover { color: var(--accent); }
+/* Deck-perf filter controls */
+.controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.deck-controls input[type="search"] { max-width: 340px; min-width: 220px; flex: 1; }
+.deck-controls .toggle { color: var(--muted); font-size: 12px; }
+.deck-controls .toggle input { margin-right: 6px; }
+.chip-filter { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.chip-filter-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.chip-set { display: flex; gap: 4px; flex-wrap: wrap; }
+.chip-set .filter-chip {
+    background: var(--row-alt); color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; cursor: pointer;
+    user-select: none; transition: all 0.12s;
+}
+.chip-set .filter-chip:hover { color: var(--fg); border-color: var(--accent); }
+.chip-set .filter-chip.active {
+    background: var(--accent); color: white; border-color: var(--accent);
+}
+.link-btn {
+    background: none; border: 0; padding: 2px 6px;
+    color: var(--accent); font: inherit; font-size: 12px;
+    cursor: pointer; text-decoration: underline dotted;
+}
+.link-btn:hover { text-decoration: underline; }
+.deck-footer {
+    padding: 8px 12px; text-align: center;
+    color: var(--muted); font-size: 11px;
+    border-top: 1px dashed var(--border);
+}
 /* Parent-compat cell: colored ◎/○/△ symbol + optional total-points hint */
 .compat-cell { white-space: nowrap; }
 .compat-symbol { font-size: 15px; font-weight: 700; margin-right: 4px; }
@@ -255,6 +285,18 @@ __STATS_HTML__
 </div>
 
 <h2>Deck performance <span class="subtle">— completed runs only, click column to sort</span></h2>
+<div class="controls deck-controls">
+    <input type="search" id="deck-filter" placeholder="Filter decks (card name, trainee, scenario, hash…)">
+    <div class="chip-filter" id="deck-scenario-chips">
+        <span class="chip-filter-label">Scenario</span>
+        <span class="chip-set" id="deck-scenario-set"></span>
+    </div>
+    <button class="link-btn" id="deck-clear">Clear filters</button>
+    <label class="toggle">
+        <input type="checkbox" id="deck-expand">
+        Show all decks (default: top 10)
+    </label>
+</div>
 <div class="table-wrap">
 <table id="decks">
     <thead>
@@ -262,6 +304,7 @@ __STATS_HTML__
             <th data-key="deck_hash"     data-type="text">Deck</th>
             <th data-key="type_label"    data-type="text">Types</th>
             <th data-key="trainees_label" data-type="text">Trainees</th>
+            <th data-key="scenarios_label" data-type="text">Scenarios</th>
             <th data-key="runs"          data-type="num">Runs</th>
             <th data-key="best_score"    data-type="num" title="Best planned score across runs of this deck">Best Score</th>
             <th data-key="avg_score"     data-type="num" title="Average planned score across runs of this deck">Avg Score</th>
@@ -273,6 +316,7 @@ __STATS_HTML__
     </thead>
     <tbody id="decks-body"></tbody>
 </table>
+<div class="deck-footer" id="deck-footer"></div>
 </div>
 
 <h2>All runs <span class="subtle">— per-capture detail</span></h2>
@@ -536,14 +580,44 @@ document.addEventListener("contextmenu", (e) => {
 });
 
 // ── decks table ───────────────────────────────────────────────────
+// Deck filters — search matches deck cards / trainees / scenarios /
+// hash; scenario chips filter to runs matching ANY selected scenario;
+// expand toggle removes the top-10 cap. All decked so 'Clear filters'
+// really does snap you back to the default view.
+const DECK_TOP_N = 10;
+let deckFilterText = "";
+const deckScenarioActive = new Set();
+let deckExpanded = false;
+
+function decksMatch(d) {
+    // Scenario chip filter — deck must include at least one active scenario
+    if (deckScenarioActive.size > 0) {
+        const dScens = new Set(d.scenarios || []);
+        let hit = false;
+        for (const s of deckScenarioActive) if (dScens.has(s)) { hit = true; break; }
+        if (!hit) return false;
+    }
+    // Text filter — checks card names, trainees, scenarios, hash
+    const q = deckFilterText.trim().toLowerCase();
+    if (!q) return true;
+    const hay = [
+        d.deck_hash,
+        d.trainees_label,
+        d.scenarios_label,
+        d.deck_summary,
+        (d.deck_cards || []).map(c => c.name).join(" "),
+    ].join(" ").toLowerCase();
+    return hay.includes(q);
+}
+
 const decksCtrl = makeSortable({
     tableId: "decks",
     bodyId: "decks-body",
-    colspan: 10,
+    colspan: 11,
     data: DECKS,
     defaultKey: "best_fans",
     defaultDir: -1,
-    filterFn: null,
+    filterFn: (d) => decksMatch(d),
     rowHtml: (d) => `
         <tr title="${d.deck_summary}">
             <td>
@@ -555,6 +629,7 @@ const decksCtrl = makeSortable({
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip type-${t}">${n}×${t}</span>`).join("")}</td>
             <td>${d.trainees_label}</td>
+            <td>${d.scenarios_label || "—"}</td>
             <td class="num">${d.runs}</td>
             <td class="num">${fmtNum(d.best_score)}</td>
             <td class="num">${fmtNum(d.avg_score)}</td>
@@ -564,6 +639,75 @@ const decksCtrl = makeSortable({
             <td class="num">${fmtNum(d.best_fans)}</td>
         </tr>
     `,
+});
+
+// Post-process the tbody after each apply: enforce top-N cap unless
+// user expanded, and populate the footer note. Runs on every apply()
+// via a MutationObserver-free approach — decksCtrl.apply calls into
+// a re-emit hook we override below.
+const decksBody = document.getElementById("decks-body");
+const decksFooter = document.getElementById("deck-footer");
+const origDeckApply = decksCtrl.apply;
+decksCtrl.apply = function () {
+    origDeckApply();
+    const rows = decksBody.querySelectorAll("tr");
+    const total = rows.length;
+    let visible = total;
+    if (!deckExpanded && total > DECK_TOP_N) {
+        rows.forEach((tr, i) => tr.style.display = i < DECK_TOP_N ? "" : "none");
+        visible = DECK_TOP_N;
+    } else {
+        rows.forEach(tr => tr.style.display = "");
+    }
+    // Footer: how many decks visible / total after filter (of overall)
+    const parts = [];
+    parts.push(`${visible} of ${total} decks`);
+    if (deckFilterText || deckScenarioActive.size > 0)
+        parts.push('<button class="link-btn" id="deck-clear-inline">Clear filters</button>');
+    if (!deckExpanded && total > DECK_TOP_N)
+        parts.push(`<button class="link-btn" id="deck-expand-inline">Show all ${total}</button>`);
+    decksFooter.innerHTML = parts.join(' · ');
+};
+
+// Populate scenario chips from unique deck scenarios
+const scenarioSet = document.getElementById("deck-scenario-set");
+const uniqueScenarios = Array.from(new Set(DECKS.flatMap(d => d.scenarios || []))).sort();
+scenarioSet.innerHTML = uniqueScenarios.map(s =>
+    `<button class="filter-chip" data-scenario="${s}">${s}</button>`
+).join("");
+
+document.getElementById("deck-filter").addEventListener("input", e => {
+    deckFilterText = e.target.value;
+    decksCtrl.apply();
+});
+document.getElementById("deck-expand").addEventListener("change", e => {
+    deckExpanded = e.target.checked;
+    decksCtrl.apply();
+});
+scenarioSet.addEventListener("click", e => {
+    const chip = e.target.closest(".filter-chip");
+    if (!chip) return;
+    const s = chip.dataset.scenario;
+    if (deckScenarioActive.has(s)) deckScenarioActive.delete(s);
+    else deckScenarioActive.add(s);
+    chip.classList.toggle("active");
+    decksCtrl.apply();
+});
+function clearDeckFilters() {
+    deckFilterText = "";
+    document.getElementById("deck-filter").value = "";
+    deckScenarioActive.clear();
+    scenarioSet.querySelectorAll(".filter-chip.active").forEach(c => c.classList.remove("active"));
+    decksCtrl.apply();
+}
+document.getElementById("deck-clear").addEventListener("click", clearDeckFilters);
+document.addEventListener("click", e => {
+    if (e.target.matches("#deck-clear-inline")) { clearDeckFilters(); }
+    if (e.target.matches("#deck-expand-inline")) {
+        deckExpanded = true;
+        document.getElementById("deck-expand").checked = true;
+        decksCtrl.apply();
+    }
 });
 
 runsCtrl.apply();
