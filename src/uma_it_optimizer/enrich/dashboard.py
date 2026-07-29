@@ -214,10 +214,25 @@ h1::before {
 }
 .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 13px; }
 
+/* Inactive panels stay in the DOM but positioned off-screen so
+   iframes inside them keep their scroll position (display:none can
+   reset iframe scrollY in some browsers). aria-hidden keeps screen
+   readers on the same page. */
 section.panel {
-    display: none;
+    position: absolute;
+    left: -99999px;
+    top: 0;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    visibility: hidden;
 }
-section.panel.active { display: block; }
+section.panel.active {
+    position: static;
+    left: auto; top: auto;
+    width: auto; height: auto;
+    overflow: visible;
+    visibility: visible;
+}
 /* Panel-scoped accent so headers, chips, links, badges all inherit */
 section.panel[data-section="decks"]     { --section-accent: var(--accent-decks); }
 section.panel[data-section="runs"]      { --section-accent: var(--accent-runs); }
@@ -781,19 +796,22 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
             if (!entry) return;
             const iframe = entry.panelEl.querySelector("iframe");
             const doRestore = () => {
-                try { iframe.contentWindow.scrollTo({top: target, behavior: "instant"}); }
+                try { iframe.contentWindow.scrollTo(0, target); }
                 catch (_) {}
             };
-            // If the iframe hasn't finished loading yet, wait one tick.
-            if (iframe.contentWindow && iframe.contentDocument?.readyState === "complete") {
-                doRestore();
+            // Defer to next frame so the panel's visibility toggle has
+            // committed before we scroll — some browsers ignore
+            // scrollTo on a still-invisible iframe.
+            const kick = () => requestAnimationFrame(() =>
+                requestAnimationFrame(doRestore));
+            if (iframe.contentDocument?.readyState === "complete") {
+                kick();
             } else {
-                iframe.addEventListener("load", doRestore, {once: true});
+                iframe.addEventListener("load", kick, {once: true});
             }
-            // Outer window always scrolls to top when a run tab is active.
-            window.scrollTo({top: 0, behavior: "instant"});
+            window.scrollTo(0, 0);
         } else {
-            window.scrollTo({top: target, behavior: "instant"});
+            window.scrollTo(0, target);
         }
     }
 
