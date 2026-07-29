@@ -390,6 +390,7 @@ td.thumb-cell {
 /* SP-cost hint-discount annotation on plan rows */
 .sp-hint { color: var(--muted); font-size: 10px; margin-left: 4px; }
 .sp-hint s { text-decoration: line-through; }
+</style>
 </head>
 <body>
 <div class="subtitle"><a href="dashboard.html">← All runs</a></div>
