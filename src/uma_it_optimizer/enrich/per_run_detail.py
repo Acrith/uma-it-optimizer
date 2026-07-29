@@ -600,7 +600,19 @@ def _planner_data(raw: dict) -> dict:
         "knapsack_selection": knapsack_ids,
         "rank_tiers": m.get("rank_tiers", []),
         "letter_grade_by_rank": LETTER_GRADE_BY_RANK,
+        # Static asset map — JS looks up a rank's letter, then this map
+        # for the ucarecdn.com icon URL. Keeps the planner topbar's
+        # 'Est. grade' as a real badge, matching the score table.
+        "grade_icons_by_letter": {
+            lt: url for lt, url in _grade_icon_map().items()
+        },
     }
+
+
+def _grade_icon_map() -> dict[str, str]:
+    """Inline the GRADE_ICON_URL dict for embedding into planner JSON."""
+    from .lookups import GRADE_ICON_URL
+    return dict(GRADE_ICON_URL)
 
 
 def _plan_rows(raw: dict) -> list[dict]:

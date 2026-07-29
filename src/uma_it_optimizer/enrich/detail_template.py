@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from .lookups import grade_icon_url
+from .lookups import grade_icon_url, letter_grade
 from .per_run_detail import RunDetail  # noqa: F401
 
 
@@ -179,6 +179,26 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     padding-left: 4px;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+/* Rank badges — inline letter icon + tiny 'rank N' hint underneath */
+.rank-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    line-height: 1;
+}
+.rank-badge img {
+    height: 22px; width: auto; object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+}
+.rank-badge .rank-num {
+    color: var(--muted); font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+.planner-grade { display: inline-flex; align-items: center; gap: 6px; }
+.planner-grade-badge {
+    height: 28px; width: auto; object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+    display: block;
+}
+
 .hint-empty {
     color: var(--muted); font-style: italic; padding: 20px;
     text-align: center; border: 1px dashed var(--border); border-radius: 6px;
@@ -896,6 +916,18 @@ PLANNER_JS = """
     function letterForRank(r) {
         return P.letter_grade_by_rank[r] || (r > 18 ? `EX+${r - 18}` : '?');
     }
+    function gradeBadgeHtml(rank) {
+        const letter = letterForRank(rank);
+        const icon = P.grade_icons_by_letter && P.grade_icons_by_letter[letter];
+        const numTag = `<span class="rank-num">rank ${rank}</span>`;
+        if (icon) {
+            return `<img class="planner-grade-badge" src="${icon}" alt="${letter}"
+                    title="rank ${rank}"
+                    onerror="this.replaceWith(document.createTextNode('${letter}'))">
+                    ${numTag}`;
+        }
+        return `<b>${letter}</b>${numTag}`;
+    }
 
     // ── render ────────────────────────────────────────────────────
     function groupMatchesFilter(g) {
@@ -970,8 +1002,8 @@ PLANNER_JS = """
                 </div>
                 <div class="planner-stat">
                     <span class="planner-stat-label">Est. grade</span>
-                    <span class="planner-stat-value">${letterForRank(rank)}
-                        <span style="font-size: 12px; color: var(--muted);">(rank ${rank})</span>
+                    <span class="planner-stat-value planner-grade">
+                        ${gradeBadgeHtml(rank)}
                     </span>
                 </div>
                 <div class="planner-actions">
@@ -1497,6 +1529,21 @@ def render(d: RunDetail) -> str:
     if ss:
         # Format helpers
         def fnum(n): return f"{n:,}" if isinstance(n, int) else str(n)
+
+        def rank_badge(rank: int) -> str:
+            """Render a rank as its letter grade + badge icon (falls
+            back to the letter text if the icon isn't in our set)."""
+            letter = letter_grade(rank)
+            icon = grade_icon_url(letter)
+            if icon:
+                return (f'<span class="rank-badge">'
+                        f'<img src="{icon}" alt="{letter}" title="rank {rank}" '
+                        f'loading="lazy" onerror="this.replaceWith('
+                        f'document.createTextNode(\'{letter}\'))">'
+                        f'<span class="rank-num">rank {rank}</span></span>')
+            return (f'<span class="rank-badge"><b>{letter}</b>'
+                    f'<span class="rank-num">rank {rank}</span></span>')
+
         score_table = (
             '<table>\n<thead><tr>'
             '<th>Component</th><th class="num">Score</th><th>Notes</th>'
@@ -1506,14 +1553,15 @@ def render(d: RunDetail) -> str:
             f'<tr><td>Owned skills</td><td class="num">{fnum(ss["owned_skill_score"])}</td>'
             f'<td>sum of grade_value for skills you already have</td></tr>'
             f'<tr class="total"><td>Floor (no more SP spent)</td>'
-            f'<td class="num">{fnum(ss["floor"])}</td><td>rank {ss["rank_floor"]}</td></tr>'
+            f'<td class="num">{fnum(ss["floor"])}</td>'
+            f'<td>{rank_badge(ss["rank_floor"])}</td></tr>'
             f'<tr><td>+ Optimal SP spend</td>'
             f'<td class="num">+{fnum(ss["planned_score"] - ss["floor"])}</td>'
             f'<td>{ss["sp_spent_in_plan"]}/{ss["unspent_sp"]} SP used '
             f'({len(d.plan)} skills)</td></tr>'
             f'<tr class="total"><td>Planned score (knapsack ceiling)</td>'
             f'<td class="num">{fnum(ss["planned_score"])}</td>'
-            f'<td>rank {ss["rank_planned"]}</td></tr>'
+            f'<td>{rank_badge(ss["rank_planned"])}</td></tr>'
             f'<tr><td>Naive ceiling (2.0×SP)</td>'
             f'<td class="num">{fnum(ss["naive_ceiling"])}</td>'
             f'<td>flat conversion, overstates by '
