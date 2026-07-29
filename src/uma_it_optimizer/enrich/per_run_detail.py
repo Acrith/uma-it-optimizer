@@ -27,6 +27,7 @@ from .lookups import (
     race_result_ordinal,
     scenario_name,
     skill_from_hint,
+    skill_icon_url,
     skill_rarity_label,
     support_card_image_url,
     support_card_name,
@@ -207,16 +208,21 @@ def build(path: Path) -> RunDetail:
     # Track which sources contributed each hint (best-effort — GainInfo
     # source order maps to Events/Inspiration/reverse-deck-cards).
     hint_agg: dict[int, dict] = {}
+    m = load_masters()
+    all_skills = m.get("skills", {})
     for gi_idx, gi in enumerate(gain_infos):
         source_label = _label_for_gain_source(gi_idx, sup_cards)
         for h in _hints(gi):
             sid, name = skill_from_hint(h["group_id"], h["rarity"])
             key = sid or (h["group_id"] * 1000 + h["rarity"])
+            skill_row = all_skills.get(str(sid), {})
             entry = hint_agg.setdefault(key, {
                 "skill_id": sid,
                 "name": name,
+                "icon_url": skill_icon_url(sid),
                 "group_id": h["group_id"],
-                "rarity": h["rarity"],
+                "rarity": h["rarity"],                        # hint tier (1=white, 2=gold)
+                "skill_rarity": skill_row.get("rarity", 1),   # skill tier (for pill styling)
                 "rarity_label": skill_rarity_label(h["rarity"]),
                 "total_level": 0,
                 "sources": [],
@@ -439,10 +445,10 @@ def _planner_data(raw: dict) -> dict:
 
 
 def _plan_rows(raw: dict) -> list[dict]:
-    """List of {skill_id, name, sp_cost, grade_value, value_per_sp,
-    group_id, rarity, is_gold_upgrade} for the knapsack's chosen skills.
-    Ordered so paired white+gold picks are adjacent — makes the
-    prerequisite relationship visible in the table."""
+    """List of {skill_id, name, icon_url, sp_cost, grade_value,
+    value_per_sp, group_id, rarity, is_gold_upgrade} for the knapsack's
+    chosen skills. Ordered so paired white+gold picks are adjacent —
+    makes the prerequisite relationship visible in the table."""
     try:
         est = estimate_from_run_json(raw)
     except (KeyError, IndexError, ValueError):
@@ -451,6 +457,7 @@ def _plan_rows(raw: dict) -> list[dict]:
         {
             "skill_id": p.skill_id,
             "name": p.name,
+            "icon_url": skill_icon_url(p.skill_id),
             "sp_cost": p.sp_cost,
             "grade_value": p.grade_value,
             "value_per_sp": round(p.value_per_sp, 2),

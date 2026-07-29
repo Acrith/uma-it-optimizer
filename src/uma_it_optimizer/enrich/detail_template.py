@@ -211,6 +211,8 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
     border-color: #6bc38a;
 }
 .variant-btn.remove.selected { outline-color: #10662a; }
+.variant-btn.inert { cursor: default; }
+.variant-btn.inert:hover { filter: none; box-shadow: none; }
 @media (prefers-color-scheme: dark) {
     .variant-btn.tier-white  { color: #ddd; background: linear-gradient(to right, #3a3a4a 0%, #2e2e3d 100%); }
     .variant-btn.tier-gold   { color: #2a1500; }
@@ -811,13 +813,20 @@ PLANNER_JS = """
             ? `<img class="skill-icon" src="${v.icon_url}" alt="" loading="lazy"
                     onerror="this.style.visibility='hidden'">`
             : '<span class="skill-icon" style="display:inline-block"></span>';
+        // Skill names already carry the ○/◎/× decorator when applicable
+        // (e.g. 'Corner Recovery ○', 'Firm Conditions ◎', 'Fall Runner ×').
+        // Skills with a single variant (e.g. 'Come What May', 'It's On!')
+        // have no decorator. So don't prefix with rate_label — it either
+        // duplicates or clutters. For removals we prepend a small 'Remove'
+        // marker since the name alone doesn't convey the action.
+        const namePrefix = v.action === 'remove' ? 'Remove ' : '';
         return `
             <button class="${cls.join(' ')}"
                 data-skill="${v.skill_id}"
                 title="${v.name}">
                 ${iconHtml}
                 <span class="variant-btn-body">
-                    <span class="variant-btn-name">${v.rate_label} ${v.name}</span>
+                    <span class="variant-btn-name">${namePrefix}${v.name}</span>
                     <span class="variant-btn-nums">${v.sp_cost} SP · +${v.grade_value}</span>
                 </span>
             </button>
@@ -833,6 +842,36 @@ PLANNER_JS = """
 def _stat_card(label: str, value: str) -> str:
     return (f'<div class="stat"><span class="stat-label">{label}</span>'
             f'<span class="stat-value">{value}</span></div>')
+
+
+def _skill_pill_html(*, name: str, icon_url: str | None, rarity: int = 1,
+                     rate: int = 1, action: str = "buy") -> str:
+    """Static (non-clickable) pill for the picks / hints tables.
+    Same visual language as the planner's variant buttons but marked
+    inert (no cursor / hover). Rarity → gradient like the planner."""
+    cls = ["variant-btn", "inert"]
+    if action == "remove":
+        cls.append("remove")
+    elif rate == -1:
+        cls.append("negative-x")
+    elif rarity >= 4:
+        cls.append("tier-unique")
+    elif rarity == 2:
+        cls.append("tier-gold")
+    else:
+        cls.append("tier-white")
+    icon = (
+        f'<img class="skill-icon" src="{icon_url}" alt="" loading="lazy" '
+        f'onerror="this.style.visibility=\'hidden\'">'
+        if icon_url else '<span class="skill-icon"></span>'
+    )
+    return (
+        f'<span class="{" ".join(cls)}" title="{name}">'
+        f'{icon}'
+        f'<span class="variant-btn-body">'
+        f'<span class="variant-btn-name">{name}</span>'
+        f'</span></span>'
+    )
 
 
 def _rarity_from_id(card_id: int) -> tuple[str, str]:
@@ -953,13 +992,18 @@ def render(d: RunDetail) -> str:
         f'</tr>'
     )
 
-    # Hint rows
+    # Hint rows — pill in the first cell. skill_rarity drives the pill
+    # tier (white/gold/unique), independent of the hint's rarity_label.
     hint_rows_html: list[str] = []
     for h in d.hints:
         sources_labels = ", ".join(sorted({s["source"] for s in h["sources"]}))
+        pill = _skill_pill_html(
+            name=h["name"], icon_url=h.get("icon_url"),
+            rarity=h.get("skill_rarity", 1),
+        )
         hint_rows_html.append(
             f'<tr>'
-            f'<td class="rarity-{h["rarity_label"]}">{h["name"]}</td>'
+            f'<td>{pill}</td>'
             f'<td class="rarity-{h["rarity_label"]}">{h["rarity_label"]}</td>'
             f'<td class="num">{h["total_level"]}</td>'
             f'<td>{sources_labels}</td>'
@@ -1037,20 +1081,24 @@ def render(d: RunDetail) -> str:
     else:
         score_table = '<p class="subtle">Score estimator produced no result for this capture.</p>'
 
-    # Plan rows — gold-upgrade rows are indented + prefixed with '└→'
-    # so their pairing with the preceding white is visually explicit.
+    # Plan rows — each skill rendered as an inert pill (icon + name)
+    # in the first cell. Gold-upgrade rows have a subtle indent + tint
+    # so pairing with the preceding white reads at a glance.
     plan_rows_html: list[str] = []
     for p in d.plan:
-        indent_prefix = ""
-        row_class = ""
+        pill = _skill_pill_html(
+            name=p["name"], icon_url=p.get("icon_url"),
+            rarity=p.get("rarity", 1),
+        )
+        indent = ""
+        row_style = ""
         if p.get("is_gold_upgrade"):
-            indent_prefix = ('<span style="color: var(--muted); '
-                             'font-family: ui-monospace; margin-right: 6px;">'
-                             '└→</span>')
-            row_class = ' style="background: color-mix(in srgb, #ffea54 6%, transparent);"'
+            indent = ('<span style="color: var(--muted); '
+                      'font-family: ui-monospace; margin-right: 6px;">└→</span>')
+            row_style = ' style="background: color-mix(in srgb, #ffea54 6%, transparent);"'
         plan_rows_html.append(
-            f'<tr{row_class}>'
-            f'<td>{indent_prefix}{p["name"]}</td>'
+            f'<tr{row_style}>'
+            f'<td>{indent}{pill}</td>'
             f'<td class="num">{p["sp_cost"]}</td>'
             f'<td class="num">{p["grade_value"]}</td>'
             f'<td class="num">{p["value_per_sp"]:.2f}</td>'
