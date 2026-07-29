@@ -175,7 +175,9 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-decoration: underline dotted;
 }
 .deck-hash-link:hover { color: var(--accent); }
-/* Deck-perf filter panel */
+/* Deck-perf filter panel — capped narrow so it doesn't sprawl on a
+   wide viewport. The card-picker grid is allowed to break past the
+   cap when open so more thumbnails fit at once. */
 .deck-filter-panel {
     background: var(--row-alt);
     border: 1px solid var(--border);
@@ -183,7 +185,9 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     padding: 10px 14px;
     margin-bottom: 12px;
     display: flex; flex-direction: column; gap: 8px;
+    max-width: 720px;
 }
+.deck-filter-panel .card-picker { max-width: none; }
 .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
 .filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .filter-row-actions { border-top: 1px dashed var(--border); padding-top: 8px; }
