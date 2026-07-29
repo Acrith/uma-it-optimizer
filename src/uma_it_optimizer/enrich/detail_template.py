@@ -140,6 +140,50 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
 .fac-card.fac-wisdom  { border-top: 3px solid #37b34a; }
 .fac-card.fac-sp      { border-top: 3px solid #9060d0; }
 
+/* Hint cards — 2 columns on standard viewports, auto-fills to more
+   or fewer on wider/narrower screens. Each card is a two-row unit:
+   pill + level badge on top, sources muted underneath. */
+.hint-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.hint-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    background: var(--bg);
+    min-width: 0;
+}
+.hint-main {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px;
+}
+.hint-main .skill-pill { flex: 1; min-width: 0; }
+.hint-lv {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 2px 8px;
+    background: var(--row-alt); color: var(--fg);
+    border-radius: 10px;
+    font-size: 11px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.hint-lv-max {
+    background: linear-gradient(135deg, #ff8a00, #d54a8a);
+    color: white;
+}
+.hint-sources {
+    color: var(--muted); font-size: 11px;
+    padding-left: 4px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.hint-empty {
+    color: var(--muted); font-style: italic; padding: 20px;
+    text-align: center; border: 1px dashed var(--border); border-radius: 6px;
+}
+
 .meta-strip {
     display: flex; gap: 20px; flex-wrap: wrap;
     color: var(--muted); font-size: 12px;
@@ -588,17 +632,7 @@ __HEADER_STATS__
 </table>
 
 <h2 id="hints">Skill hints acquired <span class="subtle">— total levels across all sources</span></h2>
-<table>
-    <thead>
-        <tr>
-            <th>Skill</th>
-            <th>Tier</th>
-            <th class="num">Total Lvl</th>
-            <th>Sources</th>
-        </tr>
-    </thead>
-    <tbody>__HINT_ROWS__</tbody>
-</table>
+<div class="hint-grid">__HINT_ROWS__</div>
 
 <h2 id="score">Score breakdown <span class="subtle">— what the SS-grade estimator says</span></h2>
 __SCORE_TABLE__
@@ -1385,8 +1419,10 @@ def render(d: RunDetail) -> str:
         f'</tr>'
     )
 
-    # Hint rows — pill in the first cell. skill_rarity drives the pill
-    # tier (white/gold/unique), independent of the hint's rarity_label.
+    # Hint cards — two-per-row grid (auto-fills wider). Tier column
+    # dropped: pill color/border already conveys white vs gold vs
+    # unique, so a separate tier label was pure redundancy. Sources
+    # sit under the pill in a muted line so each card stays scannable.
     hint_rows_html: list[str] = []
     for h in d.hints:
         sources_labels = ", ".join(sorted({s["source"] for s in h["sources"]}))
@@ -1394,16 +1430,20 @@ def render(d: RunDetail) -> str:
             name=h["name"], icon_url=h.get("icon_url"),
             rarity=h.get("skill_rarity", 1),
         )
+        lv_cls = "hint-lv"
+        if h["total_level"] >= 5:
+            lv_cls += " hint-lv-max"
         hint_rows_html.append(
-            f'<tr>'
-            f'<td>{pill}</td>'
-            f'<td class="rarity-{h["rarity_label"]}">{h["rarity_label"]}</td>'
-            f'<td class="num">{h["total_level"]}</td>'
-            f'<td>{sources_labels}</td>'
-            f'</tr>'
+            f'<div class="hint-card">'
+            f'  <div class="hint-main">{pill}'
+            f'    <span class="{lv_cls}" title="Total hint level across all sources">'
+            f'Lv {h["total_level"]}</span>'
+            f'  </div>'
+            f'  <div class="hint-sources">{sources_labels}</div>'
+            f'</div>'
         )
     if not hint_rows_html:
-        hint_rows_html.append('<tr><td colspan="4">No hints captured.</td></tr>')
+        hint_rows_html.append('<div class="hint-empty">No hints captured.</div>')
 
     # Race rows — highlight wins with a subtle green tint
     race_rows_html: list[str] = []
