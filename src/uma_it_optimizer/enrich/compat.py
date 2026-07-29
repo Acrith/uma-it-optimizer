@@ -166,34 +166,46 @@ def compute_overall(
     with a grandparent. Six pairs total, plus a seventh for the
     post-2026-06-24 parent↔parent race-overlap rule.
 
-    - trainee ↔ parent 1
-    - trainee ↔ parent 2
-    - parent 1 ↔ grandparent 1a
-    - parent 1 ↔ grandparent 1b
-    - parent 2 ↔ grandparent 2a
-    - parent 2 ↔ grandparent 2b
-    - parent 1 ↔ parent 2  (post-2026-06-24: shared G1 races now count)
+    - trainee ↔ parent 1                (base only — see race-overlap note)
+    - trainee ↔ parent 2                (base only)
+    - parent 1 ↔ grandparent 1a         (base + G1 overlap)
+    - parent 1 ↔ grandparent 1b         (base + G1 overlap)
+    - parent 2 ↔ grandparent 2a         (base + G1 overlap)
+    - parent 2 ↔ grandparent 2b         (base + G1 overlap)
+    - parent 1 ↔ parent 2               (base + G1 overlap)
 
-    Earlier drafts of this file paired the trainee directly against each
-    grandparent — that overcounts (a single ancestor line contributed via
-    two pairs) and produced compat totals ~30% high vs the in-game
-    ◎/○/△ symbol. If the in-game reading disagrees with the number we
-    compute here, that's the next thing to re-check.
+    **Race-overlap only applies to non-trainee pairs.** The compat
+    symbol that drives spark chance is what the game computes at run
+    START — when the trainee has zero races. Base compat still counts
+    for trainee↔parent pairs (chara-group intersection is a static
+    property of the two umas, independent of race history), but G1
+    overlap doesn't. Post-run captures include the trainee's race
+    history, but adding it here would compute a hypothetical post-hoc
+    number that never affected the run.
     """
     pairs: list[PairScore] = []
 
-    def add_pair(label: str, a: LineageMember, b: LineageMember):
+    def add_pair(label: str, a: LineageMember, b: LineageMember, *, count_overlap: bool):
         base = base_pair_score(a.chara_id, b.chara_id)
-        overlap = a.g1_race_ids & b.g1_race_ids
-        bonus = len(overlap) * G1_BONUS_PER_RACE
+        if count_overlap:
+            overlap = a.g1_race_ids & b.g1_race_ids
+            n_overlap = len(overlap)
+            bonus = n_overlap * G1_BONUS_PER_RACE
+        else:
+            n_overlap = 0
+            bonus = 0
         pairs.append(PairScore(
             label=label, a_name=a.name, b_name=b.name,
-            base_points=base, g1_overlap_count=len(overlap),
+            base_points=base, g1_overlap_count=n_overlap,
             g1_bonus=bonus, total=base + bonus,
         ))
 
-    add_pair("trainee × parent 1", trainee, p1)
-    add_pair("trainee × parent 2", trainee, p2)
+    # Trainee pairs: base only. The compat symbol the game shows at run
+    # start is computed BEFORE the trainee has raced, so their G1 race
+    # set is empty by definition at that moment.
+    add_pair("trainee × parent 1", trainee, p1, count_overlap=False)
+    add_pair("trainee × parent 2", trainee, p2, count_overlap=False)
+    # Non-trainee pairs: base + G1 overlap
     for parent, gp, lbl in (
         (p1, gp1a, "parent 1 × grandparent 1a"),
         (p1, gp1b, "parent 1 × grandparent 1b"),
@@ -201,8 +213,8 @@ def compute_overall(
         (p2, gp2b, "parent 2 × grandparent 2b"),
     ):
         if gp is not None:
-            add_pair(lbl, parent, gp)
-    add_pair("parent 1 × parent 2", p1, p2)
+            add_pair(lbl, parent, gp, count_overlap=True)
+    add_pair("parent 1 × parent 2", p1, p2, count_overlap=True)
 
     total = sum(p.total for p in pairs)
     rank = _threshold_rank(total)
