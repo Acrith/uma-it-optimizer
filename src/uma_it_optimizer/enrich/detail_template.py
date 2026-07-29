@@ -1516,34 +1516,18 @@ def render(d: RunDetail) -> str:
                 f'{f["name"]}{hits_badge}'
                 f'</span>'
             )
-        # Year 1 also carries pre-run aptitude affinity (parents'
-        # aptitude factors that get pre-baked into the trainee's
-        # aptitudes before turn 1). Render them alongside the year's
-        # sparks but flagged so they don't get read as year-1 procs.
-        preroll = y.get("preroll_aptitudes") or []
-        if preroll:
-            for f in preroll:
-                hits_badge = f' <b>{f["hits"]}×</b>' if f["hits"] > 1 else ""
-                chip_parts.append(
-                    f'<span class="chip factor-aptitude preroll" '
-                    f'title="Pre-run aptitude affinity — applied before '
-                    f'turn 1, not a spark. factor_id {f["factor_id"]}">'
-                    f'{f["name"]}{hits_badge}<sup>◈</sup></span>'
-                )
+        # Year-1 pre-run aptitude affinity is dropped entirely from
+        # display (see _build_lineage: aptitudes AND uniques in year 1
+        # aren't real sparks — aptitudes go pre-run, uniques are
+        # guaranteed auto-inherits from direct parents). The stored
+        # preroll list is available on the RunDetail dict if we want
+        # to surface it later, but it clutters the year-1 view without
+        # helping anyone plan.
         total_hits = sum(f["hits"] for f in y["factors"])
-        preroll_note = ""
-        if preroll:
-            n = sum(f["hits"] for f in preroll)
-            preroll_note = (
-                f'<div class="preroll-note">'
-                f'<sup>◈</sup> {n} pre-run aptitude affinity '
-                f'not counted in the total — applied before the run starts.'
-                f'</div>'
-            )
         factor_rows_html.append(
             f'<tr><td>Year {y["year"]}</td>'
             f'<td class="num">{total_hits}</td>'
-            f'<td>{"".join(chip_parts)}{preroll_note}</td></tr>'
+            f'<td>{"".join(chip_parts)}</td></tr>'
         )
     if not factor_rows_html:
         factor_rows_html.append('<tr><td colspan="3">No factors captured.</td></tr>')
