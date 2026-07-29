@@ -28,6 +28,7 @@ from .run_metrics import RunMetrics
 class DeckAggregate:
     deck_hash: str
     deck_card_ids: tuple[int, ...]
+    deck_limit_breaks: tuple[int, ...]   # per-card mode LB across the runs in this bucket
     deck_summary: str
     type_composition: dict[str, int]
     runs: int
@@ -54,9 +55,9 @@ class DeckAggregate:
                     "name": support_card_name(cid),
                     "image_url": support_card_image_url(cid),
                     "type_icon_url": support_card_type_icon_url(cid),
-                    "limit_break": None,
+                    "limit_break": lb,
                 }
-                for cid in self.deck_card_ids
+                for cid, lb in zip(self.deck_card_ids, self.deck_limit_breaks, strict=False)
             ],
             "type_composition": self.type_composition,
             "type_label": " / ".join(
@@ -92,6 +93,17 @@ def by_deck(runs: list[RunMetrics]) -> list[DeckAggregate]:
     for deck_hash, bucket in buckets.items():
         # deck_card_ids come from the first run (all runs in bucket share it by definition)
         deck_ids = bucket[0].deck_card_ids
+        # LB per card: take the mode across the runs in this bucket
+        # (most players don't change LB between runs of the same deck,
+        # so this is usually stable — mode handles the rare edge case
+        # where they levelled a card up mid-collection).
+        from collections import Counter
+        deck_lbs = tuple(
+            Counter(r.deck_limit_breaks[i] for r in bucket
+                    if i < len(r.deck_limit_breaks))
+                .most_common(1)[0][0]
+            for i in range(len(deck_ids))
+        )
         trainee_names = sorted({uma_card_name(r.trainee_card_id) for r in bucket})
         scen_names = sorted({scenario_name(r.scenario_id) for r in bucket})
         stats = [r.stat_sum for r in bucket]
@@ -101,6 +113,7 @@ def by_deck(runs: list[RunMetrics]) -> list[DeckAggregate]:
         out.append(DeckAggregate(
             deck_hash=deck_hash,
             deck_card_ids=deck_ids,
+            deck_limit_breaks=deck_lbs,
             deck_summary=deck_summary(deck_ids),
             type_composition=deck_type_composition(deck_ids),
             runs=len(bucket),

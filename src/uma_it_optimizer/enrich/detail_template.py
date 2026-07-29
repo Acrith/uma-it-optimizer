@@ -1023,20 +1023,26 @@ def render(d: RunDetail) -> str:
     if not race_rows_html:
         race_rows_html.append('<tr><td colspan="5">No races captured.</td></tr>')
 
-    # Factor rows — chips color-coded by category (stat/aptitude/skill/
-    # unique/green) so a whole year's factor mix reads at a glance,
-    # mirroring the uma.moe visual language.
+    # Factor rows — deduped per year with hit count. Each chip shows
+    # 'Name  Nx' when a factor procced multiple times. Chips grouped
+    # by category (stat → aptitude → green → skill → unique) so the
+    # whole year's mix reads coherently at a glance.
     factor_rows_html: list[str] = []
     for y in d.factors_by_year:
-        chips = "".join(
-            f'<span class="chip factor-{f["type_label"]}" '
-            f'title="factor_id {f["factor_id"]}">{f["name"]}</span>'
-            for f in y["factors"]
-        )
+        chip_parts = []
+        for f in y["factors"]:
+            hits_badge = f' <b>{f["hits"]}×</b>' if f["hits"] > 1 else ""
+            chip_parts.append(
+                f'<span class="chip factor-{f["type_label"]}" '
+                f'title="factor_id {f["factor_id"]} · hit {f["hits"]}x">'
+                f'{f["name"]}{hits_badge}'
+                f'</span>'
+            )
+        total_hits = sum(f["hits"] for f in y["factors"])
         factor_rows_html.append(
             f'<tr><td>Year {y["year"]}</td>'
-            f'<td class="num">{len(y["factors"])}</td>'
-            f'<td>{chips}</td></tr>'
+            f'<td class="num">{total_hits}</td>'
+            f'<td>{"".join(chip_parts)}</td></tr>'
         )
     if not factor_rows_html:
         factor_rows_html.append('<tr><td colspan="3">No factors captured.</td></tr>')

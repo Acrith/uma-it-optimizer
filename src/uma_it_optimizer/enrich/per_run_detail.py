@@ -236,18 +236,36 @@ def build(path: Path) -> RunDetail:
     )
 
     # ── Factors per year ─────────────────────────────────────────────
+    # Factor category display order — stat first (most common),
+    # then aptitude, then greens (which affect stat/skill), then
+    # skills, then uniques + specials last.
+    TYPE_ORDER = {"stat": 0, "aptitude": 1, "green": 2,
+                  "skill": 3, "unique": 4, "special": 5, "unknown": 9}
+
     factors_by_year: list[dict] = []
     for year_entry in raw.get("SuccessionFactorGainInfo", []) or []:
         year = int(year_entry.get("<Year>k__BackingField", 0) or 0)
-        factor_rows: list[dict] = []
+        # Dedup by factor_id and count hits. Sparks legitimately proc
+        # multiple times — a stat spark hit count is meaningful (see the
+        # uma.moe "3x Stamina" convention). Grouping lets those counts
+        # surface visibly instead of drowning in repeated chip rows.
+        agg: dict[int, dict] = {}
         for f in year_entry.get("<GainFactorInfoArray>k__BackingField", []) or []:
             fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
-            factor_rows.append({
+            if fid == 0:
+                continue
+            entry = agg.setdefault(fid, {
                 "factor_id": fid,
                 "name": factor_name(fid),
                 "type_label": factor_type_label(fid),
-                "level": int(f.get("<Level>k__BackingField", 0) or 0),
+                "hits": 0,
             })
+            entry["hits"] += 1
+        # Sort by category, then hits desc, then name for stable order
+        factor_rows = sorted(
+            agg.values(),
+            key=lambda r: (TYPE_ORDER.get(r["type_label"], 9), -r["hits"], r["name"]),
+        )
         factors_by_year.append({"year": year, "factors": factor_rows})
 
     # ── Race history ─────────────────────────────────────────────────

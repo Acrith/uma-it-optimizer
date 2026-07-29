@@ -354,12 +354,12 @@ def factor_name(factor_id: int) -> str:
             sid, name = skill_from_hint(group, 2)
         return f"{name} {stars}"
     if ftype in (5, 6, 7):
-        # Greens grant either a specific skill hint (dump encodes the
-        # skill name in granted_skill_names) or a stat/stat-pair bonus
-        # (granted_stats). Prefer the skill name if any; else combine
-        # stat names with '+'.
+        # Greens can grant a skill hint, a stat pair, or BOTH. Show
+        # whatever the DB says the green actually contains.
         skills = f.get("granted_skill_names") or []
         stats = f.get("granted_stats") or []
+        if skills and stats:
+            return f"{skills[0]} +{'/'.join(stats)} {stars}"
         if skills:
             return f"{skills[0]} {stars}"
         if stats:
