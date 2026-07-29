@@ -195,31 +195,35 @@ def classify_skill(name: str = "", condition_1: str = "",
     }
 
 
-HINT_DISCOUNT_PER_LEVEL = 0.10  # 10% off per hint level, capped at level 5
+# Non-linear discount schedule. Verified against a real capture
+# 2026-07 — lv1 10% / lv2 20% / lv3 30% / lv4 35% / lv5 40% (MAX).
+# Stored as integer percents (not floats) so 90 SP × 30% off comes
+# out to exactly 63 SP instead of 62 (which int(90 * 0.7) returns
+# because 0.7 in float is 0.69999…).
+_HINT_DISCOUNT_PCT_BY_LEVEL: tuple[int, ...] = (
+    0, 10, 20, 30, 35, 40,
+)
+HINT_MAX_LEVEL = len(_HINT_DISCOUNT_PCT_BY_LEVEL) - 1  # 5
 
 
 def hint_level_cap(level: int) -> int:
-    """Hint levels above 5 don't stack further. Match in-game behavior."""
+    """Clamp a hint level to the valid range [0, 5]."""
     if level < 0:
         return 0
-    return min(level, 5)
+    return min(level, HINT_MAX_LEVEL)
 
 
 def discounted_sp(base_sp: int, hint_level: int) -> int:
-    """Apply hint-level SP discount.
+    """Effective SP cost after applying the hint-level discount.
 
-    Formula (community-known, matches in-game "hint bonus" tooltip):
-        effective_sp = floor(base_sp × (1 − 0.10 × min(level, 5)))
-
-    - Level 0: no change
-    - Level 5+: 50% off (max discount)
-    - Never returns 0 for a positive base (min effective cost = 1 SP)
-    """
+    Uses integer percents from ``_HINT_DISCOUNT_PCT_BY_LEVEL`` so the
+    computation matches in-game numbers to the SP: 90 × 30% = 63
+    (previous float formula returned 62 due to 0.7's binary
+    representation). Minimum effective cost is 1 SP."""
     if base_sp <= 0 or hint_level <= 0:
         return int(base_sp)
-    level = hint_level_cap(hint_level)
-    reduced = base_sp * (10 - level) / 10.0
-    return max(1, int(reduced))
+    pct = _HINT_DISCOUNT_PCT_BY_LEVEL[hint_level_cap(hint_level)]
+    return max(1, (base_sp * (100 - pct)) // 100)
 
 
 def hint_group_variants(group_id: int, rarity: int | None = None,

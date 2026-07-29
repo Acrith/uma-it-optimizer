@@ -130,7 +130,9 @@ def _stat_score(stats: dict[str, int], caps: dict[str, int]) -> int:
 
 
 def _owned_skill_score(skill_ids: list[int]) -> int:
-    """Σ skill_data.grade_value for each owned skill."""
+    """Σ skill_data.grade_value for each owned skill (base only, no
+    aptitude bucketing). Kept for backwards-compat; prefer
+    ``_owned_skill_score_scoped`` which is aptitude-aware."""
     m = load_masters()
     skills = m.get("skills", {})
     total = 0
@@ -139,6 +141,126 @@ def _owned_skill_score(skill_ids: list[int]) -> int:
         if s:
             total += int(s.get("grade_value", 0) or 0)
     return total
+
+
+# ── Rating formula ────────────────────────────────────────────────────
+# The community rating formula (verified against UmaTools.calculator on
+# 2026-07 which returned exactly 13,664 for a real capture):
+#
+#   rating = stat_score + skill_score + unique_bonus
+#
+# where:
+#   stat_score  = Σ curve(stat) over 5 stats  (already implemented)
+#   skill_score = Σ effective_value(skill)
+#   unique_bonus = (170 if talent_level >= 3 else 120) × unique_skill_level
+#
+# effective_value applies two rules that base grade_value alone misses:
+#   1) Aptitude bucket. Skills whose condition_1 mentions
+#      running_style==N or distance_type==N get scaled by the trainee's
+#      aptitude for that role: S/A → ×1.10, B/C → ×0.90, D/E/F → ×0.80,
+#      G → ×0.70. Other skills use base grade_value.
+#   2) White subsumes / gold owns. When both a ○ (rar 1) and ◎ (rar 2)
+#      of the same group are owned, only the ◎'s value counts — the ○
+#      is a prerequisite but its own grade_value is not added.
+
+_APT_BUCKET_MULT = {
+    # proper_running_style_* / proper_distance_* / proper_ground_* are
+    # game ints 1..8 for G / F / E / D / C / B / A / S.
+    1: 0.70, 2: 0.70,          # G, F  → terrible
+    3: 0.80, 4: 0.80,          # E, D  → bad
+    5: 0.90, 6: 0.90,          # C, B  → average
+    7: 1.10, 8: 1.10,          # A, S  → good
+}
+_STYLE_MAP = {1: "nige", 2: "senko", 3: "sashi", 4: "oikomi"}
+_DIST_MAP = {1: "short", 2: "mile", 3: "middle", 4: "long"}
+
+
+def _apt_multiplier(condition_1: str, chara: dict) -> float:
+    """Return the aptitude multiplier for a skill's activation condition.
+    Non-aptitude skills return 1.0 (base value)."""
+    if not condition_1:
+        return 1.0
+    import re
+    m = re.search(r"running_style==(\d)", condition_1)
+    if m:
+        key = _STYLE_MAP.get(int(m.group(1)))
+        if key:
+            apt = int(chara.get(f"proper_running_style_{key}", 0) or 0)
+            return _APT_BUCKET_MULT.get(apt, 1.0)
+    m = re.search(r"distance_type==(\d)", condition_1)
+    if m:
+        key = _DIST_MAP.get(int(m.group(1)))
+        if key:
+            apt = int(chara.get(f"proper_distance_{key}", 0) or 0)
+            return _APT_BUCKET_MULT.get(apt, 1.0)
+    return 1.0
+
+
+def _effective_skill_value(skill_id: int, chara: dict, skills_master: dict) -> int:
+    """Base grade_value × aptitude bucket multiplier, rounded."""
+    s = skills_master.get(str(skill_id))
+    if not s:
+        return 0
+    base = int(s.get("grade_value", 0) or 0)
+    mult = _apt_multiplier(s.get("condition_1") or "", chara)
+    return round(base * mult)
+
+
+def _dedupe_gold_subsumes_white(skill_ids: list[int], skills_master: dict) -> list[int]:
+    """When both variants of the same skill group are present, drop the
+    lower one. Discriminator is ``group_rate`` (not ``rarity``): rate 1
+    is the ○ variant, rate 2 is the ◎ upgrade — for both auto-evolving
+    green/blue pairs (both rar=1, e.g. Pace Chaser Corners ○/◎) and
+    hint-bought gold upgrades (rar 1→2, e.g. Ramp Up → It's On!)."""
+    info = {}
+    for sid in skill_ids:
+        s = skills_master.get(str(sid))
+        if not s:
+            continue
+        info[sid] = (
+            int(s.get("group_id", 0) or 0),
+            int(s.get("group_rate", 1) or 1),
+        )
+    groups_with_gold = {g for (g, gr) in info.values() if gr == 2}
+    return [sid for sid in skill_ids
+            if not (info.get(sid, (0, 0))[0] in groups_with_gold
+                    and info.get(sid, (0, 0))[1] == 1)]
+
+
+def _owned_skill_score_scoped(chara: dict) -> int:
+    """Aptitude-aware owned-skill sum from the trainee's skill_array.
+
+    Excludes the unique skill (skill_array entries where level > 0)
+    since the unique's rating contribution is delivered separately by
+    ``_unique_bonus_from_chara`` — counting its base grade_value here
+    too would double-count."""
+    m = load_masters()
+    skills = m.get("skills", {})
+    sids = [
+        int(entry.get("skill_id", 0) or 0)
+        for entry in chara.get("skill_array", []) or []
+        if int(entry.get("level", 0) or 0) == 0  # skip uniques
+    ]
+    kept = _dedupe_gold_subsumes_white(sids, skills)
+    return sum(_effective_skill_value(sid, chara, skills) for sid in kept)
+
+
+def _unique_bonus_from_chara(chara: dict) -> int:
+    """Rating bonus contributed by the trainee's unique skill.
+
+    Formula (community-verified): the trainee's unique-skill level from
+    ``skill_array`` (typically 1..5), multiplied by 170 when their
+    talent_level is 3+ or 120 otherwise. Level 0 = no bonus."""
+    talent_level = int(chara.get("talent_level", 0) or 0)
+    unique_level = 0
+    for entry in chara.get("skill_array", []) or []:
+        lv = int(entry.get("level", 0) or 0)
+        if lv > unique_level:
+            unique_level = lv
+    if unique_level <= 0:
+        return 0
+    per_lvl = 170 if talent_level >= 3 else 120
+    return per_lvl * unique_level
 
 
 def optimal_purchase(
@@ -276,6 +398,8 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
 
     hint_lvls = hint_levels_from_raw(raw)
     owned = set(owned_skill_ids)
+    chara = (raw.get("SingleModeChara") or [{}])[0]
+    skills_master = load_masters().get("skills", {})
     groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
         raw_variants = hint_group_variants(gid, hint_level_by_skill=hint_lvls)
@@ -302,16 +426,24 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
         if not whites and not golds and not removals:
             continue
 
+        # Package values reflect the community-verified rating formula:
+        # aptitude buckets applied, and ◎ SUBSUMES ○ when both are bought
+        # (only the ◎'s effective value is counted, ○ is a prerequisite).
+        def _eff(v):
+            return _effective_skill_value(v["skill_id"], chara, skills_master)
+
         packages: list[dict] = [{"cost": 0, "value": 0, "skill_ids": ()}]
         for w in whites:
             packages.append({
-                "cost": w["sp_cost"], "value": w["grade_value"],
+                "cost": w["sp_cost"], "value": _eff(w),
                 "skill_ids": (w["skill_id"],),
             })
             for g in golds:
                 packages.append({
                     "cost": w["sp_cost"] + g["sp_cost"],
-                    "value": w["grade_value"] + g["grade_value"],
+                    # ◎ subsumes ○ — value = only the gold's effective
+                    # value (matches game / UmaTools calc).
+                    "value": _eff(g),
                     "skill_ids": (w["skill_id"], g["skill_id"]),
                 })
         # Each × removal is independent of buy decisions — but our multi-
@@ -335,6 +467,7 @@ def optimal_purchase_grouped(
     hint_group_options: list[dict],
     sp_budget: int,
     hint_level_by_skill: dict[int, int] | None = None,
+    chara: dict | None = None,
 ) -> tuple[list["SkillPurchase"], int, int]:
     """Multi-choice knapsack: pick at most one package per hint group,
     maximize Σ value subject to Σ cost ≤ budget.
@@ -376,24 +509,44 @@ def optimal_purchase_grouped(
     sp_used = sp_budget - w
 
     skills = load_masters().get("skills", {})
+    # For per-row display we still show each picked skill (both ○ and
+    # ◎ if the knapsack chose the paired package), but the value shown
+    # is the RATING contribution: base × aptitude bucket for the gold
+    # (which subsumes the white), and 0 for the white when its group's
+    # gold is also picked. The knapsack's total_value already reflects
+    # this rule; we mirror it here so per-row values sum to the same.
+    chara = chara or {}
+    picked_group_rates: dict[int, set[int]] = {}
+    for sid in chosen_sids:
+        s = skills.get(str(sid))
+        if not s:
+            continue
+        gid = int(s.get("group_id", 0) or 0)
+        gr = int(s.get("group_rate", 1) or 1)
+        picked_group_rates.setdefault(gid, set()).add(gr)
+
     plan: list[SkillPurchase] = []
     for sid in chosen_sids:
         s = skills.get(str(sid))
         if not s:
             continue
         base_cost = int(s.get("sp_cost") or 0)
-        # Reflect the same discount the knapsack used when picking this
-        # skill, so the plan row shows the actual purchase price.
         lv = (hint_level_by_skill or {}).get(sid, 0)
         cost = discounted_sp(base_cost, lv) if base_cost else 0
-        val = int(s.get("grade_value") or 0)
+        gid = int(s.get("group_id", 0) or 0)
+        gr = int(s.get("group_rate", 1) or 1)
+        # Rating contribution: 0 for a ○ (group_rate=1) whose upgrade
+        # ◎ (group_rate=2) is also in the plan (subsumed); otherwise
+        # effective_skill_value with the aptitude bucket applied.
+        upgrade_present = 2 in picked_group_rates.get(gid, set())
+        val = 0 if (gr == 1 and upgrade_present) else _effective_skill_value(sid, chara, skills)
         plan.append(SkillPurchase(
             skill_id=sid,
             name=s.get("name", f"?skill:{sid}"),
             sp_cost=cost,
             grade_value=val,
             value_per_sp=val / cost if cost else 0.0,
-            group_id=int(s.get("group_id", 0) or 0),
+            group_id=gid,
             rarity=int(s.get("rarity", 1) or 1),
         ))
     # Sort so paired picks are adjacent: whites before their golds within
@@ -477,21 +630,27 @@ def estimate_from_run_json(raw: dict) -> ScoreEstimate:
     )
 
     stat = _stat_score(stats, caps)
-    owned_val = _owned_skill_score(owned)
+    # Aptitude-aware owned-skill sum + unique-skill bonus (170/120 per
+    # unique-level based on talent_level). These two together with
+    # stat_score reproduce UmaTools' rating exactly for this account
+    # (verified 2026-07: 7902 + 5082 + 680 = 13,664 A+).
+    owned_val = _owned_skill_score_scoped(chara)
+    unique_bonus = _unique_bonus_from_chara(chara)
     sp_bonus = int(PT_SCORE_RATE_DEFAULT * unspent_sp)
-    floor = stat + owned_val
+    floor = stat + owned_val + unique_bonus
     naive_ceiling = floor + sp_bonus
 
     hint_groups_opts = _build_hint_group_options(raw, owned)
     hint_lvls = hint_levels_from_raw(raw)
     plan, plan_value, sp_used = optimal_purchase_grouped(
-        hint_groups_opts, unspent_sp, hint_level_by_skill=hint_lvls,
+        hint_groups_opts, unspent_sp,
+        hint_level_by_skill=hint_lvls, chara=chara,
     )
     planned_score = floor + plan_value
 
     return ScoreEstimate(
         stat_score=stat,
-        owned_skill_score=owned_val,
+        owned_skill_score=owned_val + unique_bonus,
         unspent_sp=unspent_sp,
         sp_ceiling_bonus=sp_bonus,
         floor=floor,
