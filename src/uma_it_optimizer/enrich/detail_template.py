@@ -65,22 +65,41 @@ tbody tr:nth-child(even) { background: var(--row-alt); }
 tbody tr.total { font-weight: 600; background: var(--row-alt); }
 tbody tr.total td { border-top: 2px solid var(--border); }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
-/* Contribution table — tighter layout for at-a-glance comparison */
-.contrib-table { font-size: 13px; }
-.contrib-table th, .contrib-table td { padding: 4px 8px; }
-.contrib-table th.col-thumb, .contrib-table td.thumb-cell { width: 44px; padding: 4px; }
-.contrib-table td.num { padding: 4px 10px; min-width: 44px; }
-.contrib-table .peak { font-weight: 700; color: var(--fg); }
-.contrib-table .peak::after { content: "★"; margin-left: 3px; color: #ff8a00; font-size: 9px; vertical-align: super; }
-.contrib-table tr.total { border-top: 2px solid var(--border); }
-.contrib-table tr.total td { padding-top: 6px; padding-bottom: 6px; }
-.contrib-table .source-cell { display: flex; align-items: center; gap: 6px; }
-.contrib-table .source-cell .chip { margin: 0; font-size: 10px; padding: 0px 5px; }
-.contrib-table td.thumb-cell .card-widget { width: 40px; height: 52px; }
-.contrib-table td.thumb-cell .card-widget-art { width: 40px; height: 52px; }
-.contrib-table td.thumb-cell .card-widget-rarity { width: 14px; top: 1px; left: 1px; }
-.contrib-table td.thumb-cell .card-widget-type { width: 12px; top: 1px; right: 1px; }
-.contrib-table td.thumb-cell .card-widget-crystals { transform: scale(0.7); transform-origin: bottom left; }
+/* Contribution table — column-tinted stats + bigger numbers so a row
+   scan gives you "how much Speed did I get, from where" without
+   having to eyeball across a sparse grid. */
+.contrib-table th, .contrib-table td { padding: 8px 10px; }
+.contrib-table th.col-thumb, .contrib-table td.thumb-cell { width: 76px; padding: 6px 8px; }
+.contrib-table td.num {
+    padding: 8px 12px;
+    min-width: 56px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fg);
+}
+.contrib-table td.num.zero { color: var(--muted); font-weight: 400; }
+.contrib-table tr.total { border-top: 2px solid var(--border); background: var(--row-alt); }
+.contrib-table tr.total td { padding-top: 10px; padding-bottom: 10px; font-weight: 700; }
+.contrib-table tr.total td.num { font-size: 16px; }
+.contrib-table .source-cell { display: flex; align-items: center; gap: 8px; }
+.contrib-table .source-cell .chip { margin: 0; font-size: 11px; padding: 1px 6px; }
+/* Column tints — the tint matches the training-focus color, so the eye
+   maps 'red column = stamina' without looking at the header each time.
+   Applied to <th> AND <td> in the same column via nth-of-type. */
+.contrib-table th.col-speed,   .contrib-table td:nth-of-type(3) { background: rgba(58, 123, 255, 0.08); }
+.contrib-table th.col-stamina, .contrib-table td:nth-of-type(4) { background: rgba(230, 69, 69, 0.08); }
+.contrib-table th.col-power,   .contrib-table td:nth-of-type(5) { background: rgba(255, 143, 48, 0.10); }
+.contrib-table th.col-guts,    .contrib-table td:nth-of-type(6) { background: rgba(233, 68, 148, 0.08); }
+.contrib-table th.col-wisdom,  .contrib-table td:nth-of-type(7) { background: rgba(55, 179, 74, 0.10); }
+.contrib-table th.col-sp,      .contrib-table td:nth-of-type(8) { background: rgba(150, 100, 220, 0.10); }
+@media (prefers-color-scheme: dark) {
+    .contrib-table th.col-speed,   .contrib-table td:nth-of-type(3) { background: rgba(58, 123, 255, 0.15); }
+    .contrib-table th.col-stamina, .contrib-table td:nth-of-type(4) { background: rgba(230, 69, 69, 0.15); }
+    .contrib-table th.col-power,   .contrib-table td:nth-of-type(5) { background: rgba(255, 143, 48, 0.15); }
+    .contrib-table th.col-guts,    .contrib-table td:nth-of-type(6) { background: rgba(233, 68, 148, 0.15); }
+    .contrib-table th.col-wisdom,  .contrib-table td:nth-of-type(7) { background: rgba(55, 179, 74, 0.15); }
+    .contrib-table th.col-sp,      .contrib-table td:nth-of-type(8) { background: rgba(150, 100, 220, 0.15); }
+}
 td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; }
 .chip {
     display: inline-block; padding: 1px 6px; border-radius: 3px;
@@ -421,18 +440,18 @@ __HEADER_STATS__
     </div>
 </div>
 
-<h2>Per-source stat contributions <span class="subtle">— bold = top contributor for that column</span></h2>
+<h2>Per-source stat contributions</h2>
 <table class="contrib-table">
     <thead>
         <tr>
             <th class="col-thumb"></th>
             <th>Source</th>
-            <th class="num">Spd</th>
-            <th class="num">Sta</th>
-            <th class="num">Pow</th>
-            <th class="num">Wiz</th>
-            <th class="num">Gts</th>
-            <th class="num">SP</th>
+            <th class="num col-speed">Speed</th>
+            <th class="num col-stamina">Stamina</th>
+            <th class="num col-power">Power</th>
+            <th class="num col-guts">Guts</th>
+            <th class="num col-wisdom">Wisdom</th>
+            <th class="num col-sp">SP</th>
             <th class="num">Hints</th>
         </tr>
     </thead>
@@ -988,22 +1007,13 @@ def render(d: RunDetail) -> str:
         _stat_card("Vital", f"{d.vital}/100"),
     ])
 
-    # Contribution rows — precompute per-column max so we can bold the
-    # top contributor per stat. Empty/zero values don't count as peaks.
-    stat_keys = ("speed", "stamina", "power", "wiz", "guts", "skill_pts")
-    peak_vals: dict[str, int] = {}
-    for c in d.contributions:
-        for k in stat_keys:
-            v = int(c["gains"].get(k, 0) or 0)
-            if v > peak_vals.get(k, 0):
-                peak_vals[k] = v
-    peak_hint = max((int(c.get("hint_count") or 0) for c in d.contributions), default=0)
-
-    def _num_cell(val: int, key: str) -> str:
+    # Contribution rows — columns render in Speed/Stamina/Power/Guts/
+    # Wisdom/SP order to match in-game facility layout. Zero values get
+    # a faded '—' so the eye can skip them.
+    def _num_cell(val: int) -> str:
         if not val:
-            return '<td class="num">—</td>'
-        cls = "num peak" if val == peak_vals.get(key) and val > 0 else "num"
-        return f'<td class="{cls}">{_fmt(val)}</td>'
+            return '<td class="num zero">—</td>'
+        return f'<td class="num">{_fmt(val)}</td>'
 
     contrib_rows_html: list[str] = []
     for c in d.contributions:
@@ -1051,20 +1061,20 @@ def render(d: RunDetail) -> str:
         else:
             lb_html = ""
         hint_val = int(c.get("hint_count") or 0)
-        hint_cls = "num peak" if hint_val == peak_hint and hint_val > 0 else "num"
-        hint_cell = f'<td class="{hint_cls}">{hint_val or "—"}</td>'
+        hint_cell = (f'<td class="num zero">—</td>'
+                     if not hint_val else f'<td class="num">{hint_val}</td>')
         contrib_rows_html.append(
             f'<tr>'
             f'<td class="thumb-cell">{lb_html}</td>'
             f'<td><span class="source-cell">'
             f'<span class="name">{c["card_name"]}</span>{type_chip}'
             f'</span></td>'
-            f'{_num_cell(int(g.get("speed",0) or 0), "speed")}'
-            f'{_num_cell(int(g.get("stamina",0) or 0), "stamina")}'
-            f'{_num_cell(int(g.get("power",0) or 0), "power")}'
-            f'{_num_cell(int(g.get("wiz",0) or 0), "wiz")}'
-            f'{_num_cell(int(g.get("guts",0) or 0), "guts")}'
-            f'{_num_cell(int(g.get("skill_pts",0) or 0), "skill_pts")}'
+            f'{_num_cell(int(g.get("speed",0) or 0))}'
+            f'{_num_cell(int(g.get("stamina",0) or 0))}'
+            f'{_num_cell(int(g.get("power",0) or 0))}'
+            f'{_num_cell(int(g.get("guts",0) or 0))}'
+            f'{_num_cell(int(g.get("wiz",0) or 0))}'
+            f'{_num_cell(int(g.get("skill_pts",0) or 0))}'
             f'{hint_cell}'
             f'</tr>'
         )
@@ -1078,8 +1088,8 @@ def render(d: RunDetail) -> str:
         f'<td class="num">{_fmt(total_stats["speed"])}</td>'
         f'<td class="num">{_fmt(total_stats["stamina"])}</td>'
         f'<td class="num">{_fmt(total_stats["power"])}</td>'
-        f'<td class="num">{_fmt(total_stats["wiz"])}</td>'
         f'<td class="num">{_fmt(total_stats["guts"])}</td>'
+        f'<td class="num">{_fmt(total_stats["wiz"])}</td>'
         f'<td class="num">{_fmt(total_sp)}</td>'
         f'<td class="num">{total_hints or "—"}</td>'
         f'</tr>'
@@ -1325,8 +1335,8 @@ def _render_lineage_panel(lineage: dict | None) -> str:
             f'Spd {p.get("speed",0):,} · '
             f'Sta {p.get("stamina",0):,} · '
             f'Pow {p.get("power",0):,} · '
-            f'Wiz {p.get("wiz",0):,} · '
-            f'Gts {p.get("guts",0):,}  ·  '
+            f'Gts {p.get("guts",0):,} · '
+            f'Wis {p.get("wiz",0):,}  ·  '
             f'{p.get("fans",0):,} fans'
             '</div>'
         )

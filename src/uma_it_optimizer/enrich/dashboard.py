@@ -301,8 +301,8 @@ __STATS_HTML__
             <th data-key="speed"         data-type="num">Spd</th>
             <th data-key="stamina"       data-type="num">Sta</th>
             <th data-key="power"         data-type="num">Pow</th>
-            <th data-key="wiz"           data-type="num">Wiz</th>
             <th data-key="guts"          data-type="num">Gts</th>
+            <th data-key="wiz"           data-type="num">Wis</th>
             <th data-key="unspent_sp"    data-type="num">SP</th>
             <th data-key="races_run"     data-type="num">Races</th>
             <th data-key="fans"          data-type="num">Fans</th>
@@ -483,8 +483,8 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.speed)}</td>
             <td class="num">${fmtNum(r.stamina)}</td>
             <td class="num">${fmtNum(r.power)}</td>
-            <td class="num">${fmtNum(r.wiz)}</td>
             <td class="num">${fmtNum(r.guts)}</td>
+            <td class="num">${fmtNum(r.wiz)}</td>
             <td class="num">${fmtNum(r.unspent_sp)}</td>
             <td class="num">${fmtNum(r.races_run)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
