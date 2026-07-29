@@ -281,6 +281,22 @@ def hint_group_variants(group_id: int, rarity: int | None = None,
     return variants
 
 
+def innate_skills_for_card(card_id: int) -> list[dict]:
+    """Skills always accessible to a trainee's card in the SP buy panel.
+    Each entry is ``{skill_id, need_rank}``; need_rank=0 = usable from
+    turn 1, higher values unlock as the trainee's career rank climbs.
+
+    Sourced from the `available_skill_set` master table via
+    `card_data.available_skill_set_id`. Returns [] if the card or its
+    skill set isn't in masters."""
+    m = load_masters()
+    card = (m.get("uma_cards") or {}).get(str(card_id)) or {}
+    ssid = card.get("available_skill_set_id")
+    if not ssid:
+        return []
+    return (m.get("innate_skills") or {}).get(str(ssid)) or []
+
+
 def hint_levels_from_raw(raw: dict) -> dict[int, int]:
     """Build ``{skill_id: total_hint_level}`` from a run's GainInfo blob.
 

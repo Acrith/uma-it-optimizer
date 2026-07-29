@@ -119,9 +119,16 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             umas[str(cid)] = {"id": cid, "name": uma_names.get(cid, f"?uma:{cid}")}
 
         # ── uma cards (card_data — one uma has multiple card variants) ─
+        # available_skill_set_id maps into `available_skill_set` table
+        # which lists the trainee's built-in skills — the ones that
+        # appear in the skill panel from turn 1 without needing a hint
+        # from support cards or events. Each row has a ``need_rank``
+        # (0 = always available, N = unlocks when trainee reaches
+        # career rank N).
         uma_cards: dict[str, dict] = {}
         for r in con.execute(
             "SELECT id, chara_id, default_rarity, running_style, "
+            "available_skill_set_id, "
             "talent_speed, talent_stamina, talent_pow, talent_guts, talent_wiz "
             "FROM card_data"
         ):
@@ -132,6 +139,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "chara_name": uma_names.get(r["chara_id"], f"?uma:{r['chara_id']}"),
                 "default_rarity": r["default_rarity"],
                 "running_style": r["running_style"],
+                "available_skill_set_id": r["available_skill_set_id"],
                 "talent_bonus": {
                     "speed": r["talent_speed"],
                     "stamina": r["talent_stamina"],
@@ -140,6 +148,22 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                     "wiz": r["talent_wiz"],
                 },
             }
+
+        # ── innate skill sets ──────────────────────────────────────────
+        # available_skill_set_id -> [(skill_id, need_rank), ...]. Each
+        # trainee starts a run with these skills already accessible in
+        # the buy-panel. Any hint proc'd during the run adds a level
+        # discount to the SAME skills; without a hint they cost full
+        # SP but they're still buyable from turn 1.
+        innate_skills: dict[str, list[dict]] = {}
+        for r in con.execute(
+            "SELECT available_skill_set_id, skill_id, need_rank "
+            "FROM available_skill_set ORDER BY available_skill_set_id, need_rank, skill_id"
+        ):
+            innate_skills.setdefault(str(r["available_skill_set_id"]), []).append({
+                "skill_id": r["skill_id"],
+                "need_rank": r["need_rank"],
+            })
 
         # ── support cards ──────────────────────────────────────────────
         # command_type maps to the training focus (1=Speed, 2=Stamina, etc.)
@@ -402,6 +426,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                     "chara_relations": len(chara_relations),
                     "win_saddles": len(win_saddles),
                     "race_instances": len(race_instances),
+                    "innate_skill_sets": len(innate_skills),
                 },
             },
             "scenarios": scenarios,
@@ -418,6 +443,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             "compat_thresholds": compat_thresholds,
             "win_saddles": win_saddles,
             "race_instances": race_instances,
+            "innate_skills": innate_skills,
         }
         out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
         return result

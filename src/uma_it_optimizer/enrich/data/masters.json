@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-07-29T12:27:27+00:00",
+    "generated_at": "2026-07-29T12:45:40+00:00",
     "source_mdb": "/mnt/c/Users/rafal.krawczak/AppData/LocalLow/Cygames/Umamusume/master/master.mdb",
     "source_size_bytes": 16224256,
     "source_mtime": "2026-07-28T10:23:19+00:00",
@@ -22,7 +22,8 @@
       "relation_points": 1616,
       "chara_relations": 74,
       "win_saddles": 181,
-      "race_instances": 1794
+      "race_instances": 1794,
+      "innate_skill_sets": 95
     }
   },
   "scenarios": {
@@ -932,6 +933,7 @@
       "chara_name": "Special Week",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 100101,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -946,6 +948,7 @@
       "chara_name": "Special Week",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 100102,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -960,6 +963,7 @@
       "chara_name": "Special Week",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 100103,
       "talent_bonus": {
         "speed": 10,
         "stamina": 10,
@@ -974,6 +978,7 @@
       "chara_name": "Silence Suzuka",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 100201,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -988,6 +993,7 @@
       "chara_name": "Tokai Teio",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 100301,
       "talent_bonus": {
         "speed": 20,
         "stamina": 10,
@@ -1002,6 +1008,7 @@
       "chara_name": "Tokai Teio",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 100302,
       "talent_bonus": {
         "speed": 10,
         "stamina": 10,
@@ -1016,6 +1023,7 @@
       "chara_name": "Maruzensky",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 100401,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1030,6 +1038,7 @@
       "chara_name": "Maruzensky",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 100402,
       "talent_bonus": {
         "speed": 15,
         "stamina": 0,
@@ -1044,6 +1053,7 @@
       "chara_name": "Fuji Kiseki",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 100501,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1058,6 +1068,7 @@
       "chara_name": "Fuji Kiseki",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 100502,
       "talent_bonus": {
         "speed": 8,
         "stamina": 0,
@@ -1072,6 +1083,7 @@
       "chara_name": "Oguri Cap",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 100601,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1086,6 +1098,7 @@
       "chara_name": "Oguri Cap",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 100602,
       "talent_bonus": {
         "speed": 15,
         "stamina": 15,
@@ -1100,6 +1113,7 @@
       "chara_name": "Gold Ship",
       "default_rarity": 2,
       "running_style": 4,
+      "available_skill_set_id": 100701,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1114,6 +1128,7 @@
       "chara_name": "Gold Ship",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 100702,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1128,6 +1143,7 @@
       "chara_name": "Vodka",
       "default_rarity": 2,
       "running_style": 3,
+      "available_skill_set_id": 100801,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1142,6 +1158,7 @@
       "chara_name": "Daiwa Scarlet",
       "default_rarity": 2,
       "running_style": 2,
+      "available_skill_set_id": 100901,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1156,6 +1173,7 @@
       "chara_name": "Taiki Shuttle",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101001,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1170,6 +1188,7 @@
       "chara_name": "Taiki Shuttle",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101002,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1184,6 +1203,7 @@
       "chara_name": "Grass Wonder",
       "default_rarity": 2,
       "running_style": 3,
+      "available_skill_set_id": 101101,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1198,6 +1218,7 @@
       "chara_name": "Grass Wonder",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 101102,
       "talent_bonus": {
         "speed": 0,
         "stamina": 15,
@@ -1212,6 +1233,7 @@
       "chara_name": "Hishi Amazon",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 101201,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1226,6 +1248,7 @@
       "chara_name": "Mejiro McQueen",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101301,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1240,6 +1263,7 @@
       "chara_name": "Mejiro McQueen",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101302,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1254,6 +1278,7 @@
       "chara_name": "Mejiro McQueen",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101303,
       "talent_bonus": {
         "speed": 8,
         "stamina": 8,
@@ -1268,6 +1293,7 @@
       "chara_name": "El Condor Pasa",
       "default_rarity": 2,
       "running_style": 2,
+      "available_skill_set_id": 101401,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1282,6 +1308,7 @@
       "chara_name": "El Condor Pasa",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 101402,
       "talent_bonus": {
         "speed": 15,
         "stamina": 0,
@@ -1296,6 +1323,7 @@
       "chara_name": "T.M. Opera O",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101501,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1310,6 +1338,7 @@
       "chara_name": "T.M. Opera O",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101502,
       "talent_bonus": {
         "speed": 14,
         "stamina": 8,
@@ -1324,6 +1353,7 @@
       "chara_name": "Narita Brian",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101601,
       "talent_bonus": {
         "speed": 10,
         "stamina": 20,
@@ -1338,6 +1368,7 @@
       "chara_name": "Symboli Rudolf",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101701,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1352,6 +1383,7 @@
       "chara_name": "Symboli Rudolf",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101702,
       "talent_bonus": {
         "speed": 8,
         "stamina": 14,
@@ -1366,6 +1398,7 @@
       "chara_name": "Air Groove",
       "default_rarity": 2,
       "running_style": 2,
+      "available_skill_set_id": 101801,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1380,6 +1413,7 @@
       "chara_name": "Air Groove",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 101802,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1394,6 +1428,7 @@
       "chara_name": "Agnes Digital",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 101901,
       "talent_bonus": {
         "speed": 8,
         "stamina": 8,
@@ -1408,6 +1443,7 @@
       "chara_name": "Seiun Sky",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 102001,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1422,6 +1458,7 @@
       "chara_name": "Seiun Sky",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 102002,
       "talent_bonus": {
         "speed": 8,
         "stamina": 0,
@@ -1436,6 +1473,7 @@
       "chara_name": "Tamamo Cross",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 102101,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1450,6 +1488,7 @@
       "chara_name": "Fine Motion",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102201,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1464,6 +1503,7 @@
       "chara_name": "Fine Motion",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102202,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1478,6 +1518,7 @@
       "chara_name": "Biwa Hayahide",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102301,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1492,6 +1533,7 @@
       "chara_name": "Biwa Hayahide",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102302,
       "talent_bonus": {
         "speed": 0,
         "stamina": 12,
@@ -1506,6 +1548,7 @@
       "chara_name": "Mayano Top Gun",
       "default_rarity": 2,
       "running_style": 1,
+      "available_skill_set_id": 102401,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1520,6 +1563,7 @@
       "chara_name": "Mayano Top Gun",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102402,
       "talent_bonus": {
         "speed": 10,
         "stamina": 10,
@@ -1534,6 +1578,7 @@
       "chara_name": "Manhattan Cafe",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 102501,
       "talent_bonus": {
         "speed": 0,
         "stamina": 30,
@@ -1548,6 +1593,7 @@
       "chara_name": "Mihono Bourbon",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 102601,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -1562,6 +1608,7 @@
       "chara_name": "Mihono Bourbon",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 102602,
       "talent_bonus": {
         "speed": 10,
         "stamina": 10,
@@ -1576,6 +1623,7 @@
       "chara_name": "Mejiro Ryan",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 102701,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1590,6 +1638,7 @@
       "chara_name": "Hishi Akebono",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 102801,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1604,6 +1653,7 @@
       "chara_name": "Rice Shower",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 103001,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1618,6 +1668,7 @@
       "chara_name": "Rice Shower",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 103002,
       "talent_bonus": {
         "speed": 0,
         "stamina": 15,
@@ -1632,6 +1683,7 @@
       "chara_name": "Ines Fujin",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 103101,
       "talent_bonus": {
         "speed": 15,
         "stamina": 0,
@@ -1646,6 +1698,7 @@
       "chara_name": "Agnes Tachyon",
       "default_rarity": 1,
       "running_style": 2,
+      "available_skill_set_id": 103201,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1660,6 +1713,7 @@
       "chara_name": "Admire Vega",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 103301,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1674,6 +1728,7 @@
       "chara_name": "Inari One",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 103401,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1688,6 +1743,7 @@
       "chara_name": "Winning Ticket",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 103501,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1702,6 +1758,7 @@
       "chara_name": "Winning Ticket",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 103502,
       "talent_bonus": {
         "speed": 8,
         "stamina": 0,
@@ -1716,6 +1773,7 @@
       "chara_name": "Air Shakur",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 103601,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1730,6 +1788,7 @@
       "chara_name": "Eishin Flash",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 103701,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1744,6 +1803,7 @@
       "chara_name": "Eishin Flash",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 103702,
       "talent_bonus": {
         "speed": 0,
         "stamina": 8,
@@ -1758,6 +1818,7 @@
       "chara_name": "Curren Chan",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 103801,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1772,6 +1833,7 @@
       "chara_name": "Curren Chan",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 103802,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1786,6 +1848,7 @@
       "chara_name": "Kawakami Princess",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 103901,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1800,6 +1863,7 @@
       "chara_name": "Gold City",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 104001,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1814,6 +1878,7 @@
       "chara_name": "Gold City",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 104002,
       "talent_bonus": {
         "speed": 8,
         "stamina": 0,
@@ -1828,6 +1893,7 @@
       "chara_name": "Sakura Bakushin O",
       "default_rarity": 1,
       "running_style": 2,
+      "available_skill_set_id": 104101,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1842,6 +1908,7 @@
       "chara_name": "Sweep Tosho",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 104401,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1856,6 +1923,7 @@
       "chara_name": "Super Creek",
       "default_rarity": 2,
       "running_style": 2,
+      "available_skill_set_id": 104501,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -1870,6 +1938,7 @@
       "chara_name": "Super Creek",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 104502,
       "talent_bonus": {
         "speed": 14,
         "stamina": 8,
@@ -1884,6 +1953,7 @@
       "chara_name": "Smart Falcon",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 104601,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1898,6 +1968,7 @@
       "chara_name": "Smart Falcon",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 104602,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -1912,6 +1983,7 @@
       "chara_name": "Tosen Jordan",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 104801,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1926,6 +1998,7 @@
       "chara_name": "Narita Taishin",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 105001,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -1940,6 +2013,7 @@
       "chara_name": "Narita Taishin",
       "default_rarity": 3,
       "running_style": 4,
+      "available_skill_set_id": 105002,
       "talent_bonus": {
         "speed": 0,
         "stamina": 8,
@@ -1954,6 +2028,7 @@
       "chara_name": "Nishino Flower",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 105101,
       "talent_bonus": {
         "speed": 15,
         "stamina": 0,
@@ -1968,6 +2043,7 @@
       "chara_name": "Haru Urara",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 105201,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1982,6 +2058,7 @@
       "chara_name": "Haru Urara",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 105202,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -1996,6 +2073,7 @@
       "chara_name": "Bamboo Memory",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 105301,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -2010,6 +2088,7 @@
       "chara_name": "Matikanefukukitaru",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 105601,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -2024,6 +2103,7 @@
       "chara_name": "Matikanefukukitaru",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 105602,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -2038,6 +2118,7 @@
       "chara_name": "Meisho Doto",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 105801,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -2052,6 +2133,7 @@
       "chara_name": "Mejiro Dober",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 105901,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -2066,6 +2148,7 @@
       "chara_name": "Mejiro Dober",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 105902,
       "talent_bonus": {
         "speed": 20,
         "stamina": 0,
@@ -2080,6 +2163,7 @@
       "chara_name": "Nice Nature",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 106001,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -2094,6 +2178,7 @@
       "chara_name": "Nice Nature",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 106002,
       "talent_bonus": {
         "speed": 0,
         "stamina": 10,
@@ -2108,6 +2193,7 @@
       "chara_name": "King Halo",
       "default_rarity": 1,
       "running_style": 3,
+      "available_skill_set_id": 106101,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -2122,6 +2208,7 @@
       "chara_name": "King Halo",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 106102,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -2136,6 +2223,7 @@
       "chara_name": "Matikanetannhauser",
       "default_rarity": 2,
       "running_style": 3,
+      "available_skill_set_id": 106201,
       "talent_bonus": {
         "speed": 0,
         "stamina": 20,
@@ -2150,6 +2238,7 @@
       "chara_name": "Mejiro Palmer",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 106401,
       "talent_bonus": {
         "speed": 10,
         "stamina": 10,
@@ -2164,6 +2253,7 @@
       "chara_name": "Satono Diamond",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 106701,
       "talent_bonus": {
         "speed": 0,
         "stamina": 15,
@@ -2178,6 +2268,7 @@
       "chara_name": "Kitasan Black",
       "default_rarity": 3,
       "running_style": 1,
+      "available_skill_set_id": 106801,
       "talent_bonus": {
         "speed": 20,
         "stamina": 10,
@@ -2192,6 +2283,7 @@
       "chara_name": "Sakura Chiyono O",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 106901,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -2206,6 +2298,7 @@
       "chara_name": "Mejiro Ardan",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 107101,
       "talent_bonus": {
         "speed": 10,
         "stamina": 0,
@@ -2220,6 +2313,7 @@
       "chara_name": "Yaeno Muteki",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 107201,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -2234,6 +2328,7 @@
       "chara_name": "Mejiro Bright",
       "default_rarity": 3,
       "running_style": 3,
+      "available_skill_set_id": 107401,
       "talent_bonus": {
         "speed": 0,
         "stamina": 14,
@@ -2248,6 +2343,7 @@
       "chara_name": "Copano Rickey",
       "default_rarity": 3,
       "running_style": 2,
+      "available_skill_set_id": 109801,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -2262,6 +2358,7 @@
       "chara_name": "Special Week",
       "default_rarity": 0,
       "running_style": 3,
+      "available_skill_set_id": 0,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -2276,6 +2373,7 @@
       "chara_name": "Grass Wonder",
       "default_rarity": 0,
       "running_style": 3,
+      "available_skill_set_id": 0,
       "talent_bonus": {
         "speed": 0,
         "stamina": 0,
@@ -57274,5 +57372,2857 @@
     "621411": 16411,
     "621412": 16412,
     "621413": 16413
+  },
+  "innate_skills": {
+    "100101": [
+      {
+        "skill_id": 200512,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200732,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200162,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201351,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200511,
+        "need_rank": 5
+      }
+    ],
+    "100102": [
+      {
+        "skill_id": 200462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200592,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200212,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200591,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201611,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200461,
+        "need_rank": 5
+      }
+    ],
+    "100103": [
+      {
+        "skill_id": 200332,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201212,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201172,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201211,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201182,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202061,
+        "need_rank": 5
+      }
+    ],
+    "100201": [
+      {
+        "skill_id": 200432,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200552,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200712,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200022,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200431,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200542,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200551,
+        "need_rank": 5
+      }
+    ],
+    "100301": [
+      {
+        "skill_id": 200452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201332,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200502,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201331,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201142,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201131,
+        "need_rank": 5
+      }
+    ],
+    "100302": [
+      {
+        "skill_id": 200452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201142,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200172,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200352,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201141,
+        "need_rank": 5
+      }
+    ],
+    "100401": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201052,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201062,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201051,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200432,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201061,
+        "need_rank": 5
+      }
+    ],
+    "100402": [
+      {
+        "skill_id": 200352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200682,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201282,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201571,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201281,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201082,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200681,
+        "need_rank": 5
+      }
+    ],
+    "100501": [
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200771,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201052,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201071,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201042,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 5
+      }
+    ],
+    "100502": [
+      {
+        "skill_id": 200582,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200771,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201042,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201332,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200772,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201902,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200581,
+        "need_rank": 5
+      }
+    ],
+    "100601": [
+      {
+        "skill_id": 200342,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201062,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200222,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201351,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200492,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200341,
+        "need_rank": 5
+      }
+    ],
+    "100602": [
+      {
+        "skill_id": 200752,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201621,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201422,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201351,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201571,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200751,
+        "need_rank": 5
+      }
+    ],
+    "100701": [
+      {
+        "skill_id": 201212,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201472,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201591,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201482,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201471,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200622,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201481,
+        "need_rank": 5
+      }
+    ],
+    "100702": [
+      {
+        "skill_id": 200752,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201482,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202102,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200751,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202032,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202101,
+        "need_rank": 5
+      }
+    ],
+    "100801": [
+      {
+        "skill_id": 200382,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200702,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200372,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200381,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201032,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200701,
+        "need_rank": 5
+      }
+    ],
+    "100901": [
+      {
+        "skill_id": 200282,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200721,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 5
+      }
+    ],
+    "101001": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201052,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200682,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201051,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201032,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200681,
+        "need_rank": 5
+      }
+    ],
+    "101002": [
+      {
+        "skill_id": 200162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200682,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201902,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201042,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200681,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201901,
+        "need_rank": 5
+      }
+    ],
+    "101101": [
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200871,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200512,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201151,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200592,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200601,
+        "need_rank": 5
+      }
+    ],
+    "101102": [
+      {
+        "skill_id": 200472,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201422,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200771,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200741,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201542,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201421,
+        "need_rank": 5
+      }
+    ],
+    "101201": [
+      {
+        "skill_id": 200502,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200632,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200732,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201452,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200731,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201462,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200631,
+        "need_rank": 5
+      }
+    ],
+    "101301": [
+      {
+        "skill_id": 200172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201192,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201182,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201191,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200561,
+        "need_rank": 5
+      }
+    ],
+    "101302": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200192,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200741,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200462,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200361,
+        "need_rank": 5
+      }
+    ],
+    "101303": [
+      {
+        "skill_id": 200432,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202192,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 202011,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202191,
+        "need_rank": 5
+      }
+    ],
+    "101401": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201122,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201312,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201121,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200561,
+        "need_rank": 5
+      }
+    ],
+    "101402": [
+      {
+        "skill_id": 200512,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200702,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200701,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201412,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200611,
+        "need_rank": 5
+      }
+    ],
+    "101501": [
+      {
+        "skill_id": 200142,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200362,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200581,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200721,
+        "need_rank": 5
+      }
+    ],
+    "101502": [
+      {
+        "skill_id": 200352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201312,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200252,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200351,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200202,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202011,
+        "need_rank": 5
+      }
+    ],
+    "101601": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200512,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200361,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201641,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200511,
+        "need_rank": 5
+      }
+    ],
+    "101701": [
+      {
+        "skill_id": 200332,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200891,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201151,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200331,
+        "need_rank": 5
+      }
+    ],
+    "101702": [
+      {
+        "skill_id": 200192,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200752,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201342,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200561,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201312,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200194,
+        "need_rank": 5
+      }
+    ],
+    "101801": [
+      {
+        "skill_id": 200502,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201372,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200941,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201371,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200931,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200501,
+        "need_rank": 5
+      }
+    ],
+    "101802": [
+      {
+        "skill_id": 200342,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201071,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200462,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200341,
+        "need_rank": 5
+      }
+    ],
+    "101901": [
+      {
+        "skill_id": 201382,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201591,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201682,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200162,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201592,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201681,
+        "need_rank": 5
+      }
+    ],
+    "102001": [
+      {
+        "skill_id": 200542,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200881,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201192,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201522,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201191,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201611,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200541,
+        "need_rank": 5
+      }
+    ],
+    "102002": [
+      {
+        "skill_id": 200172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200542,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200712,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201272,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200541,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200532,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201271,
+        "need_rank": 5
+      }
+    ],
+    "102101": [
+      {
+        "skill_id": 200592,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201611,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200591,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200642,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201612,
+        "need_rank": 5
+      }
+    ],
+    "102201": [
+      {
+        "skill_id": 200192,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201342,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200581,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200012,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201341,
+        "need_rank": 5
+      }
+    ],
+    "102202": [
+      {
+        "skill_id": 200152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201052,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201902,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201042,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201051,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200192,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201901,
+        "need_rank": 5
+      }
+    ],
+    "102301": [
+      {
+        "skill_id": 200162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200262,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200561,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200821,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200741,
+        "need_rank": 5
+      }
+    ],
+    "102302": [
+      {
+        "skill_id": 200512,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201202,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201201,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201312,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200511,
+        "need_rank": 5
+      }
+    ],
+    "102401": [
+      {
+        "skill_id": 200382,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201272,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200492,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200381,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200502,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200491,
+        "need_rank": 5
+      }
+    ],
+    "102402": [
+      {
+        "skill_id": 200352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201332,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200432,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201161,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200332,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200351,
+        "need_rank": 5
+      }
+    ],
+    "102501": [
+      {
+        "skill_id": 200232,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201222,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201422,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201581,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201421,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201202,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201221,
+        "need_rank": 5
+      }
+    ],
+    "102601": [
+      {
+        "skill_id": 200232,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200712,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201242,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200531,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201252,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200711,
+        "need_rank": 5
+      }
+    ],
+    "102602": [
+      {
+        "skill_id": 200432,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200542,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200762,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201522,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200541,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201601,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200431,
+        "need_rank": 5
+      }
+    ],
+    "102701": [
+      {
+        "skill_id": 200232,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200472,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200721,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200611,
+        "need_rank": 5
+      }
+    ],
+    "102801": [
+      {
+        "skill_id": 200212,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201002,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201362,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201001,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201012,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201351,
+        "need_rank": 5
+      }
+    ],
+    "103001": [
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200861,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201342,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201581,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201341,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200741,
+        "need_rank": 5
+      }
+    ],
+    "103002": [
+      {
+        "skill_id": 200562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200771,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200352,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200561,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200851,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200772,
+        "need_rank": 5
+      }
+    ],
+    "103101": [
+      {
+        "skill_id": 201282,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201651,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200032,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201281,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201082,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202131,
+        "need_rank": 5
+      }
+    ],
+    "103201": [
+      {
+        "skill_id": 200132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201151,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201112,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 5
+      }
+    ],
+    "103301": [
+      {
+        "skill_id": 200492,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201492,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200632,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201491,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200861,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200631,
+        "need_rank": 5
+      }
+    ],
+    "103401": [
+      {
+        "skill_id": 201452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201611,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202002,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200202,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201612,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200642,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202001,
+        "need_rank": 5
+      }
+    ],
+    "103501": [
+      {
+        "skill_id": 200152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200732,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201402,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200592,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201401,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201392,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200591,
+        "need_rank": 5
+      }
+    ],
+    "103502": [
+      {
+        "skill_id": 201412,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201702,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200592,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201411,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202152,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201701,
+        "need_rank": 5
+      }
+    ],
+    "103601": [
+      {
+        "skill_id": 200462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202102,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201492,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 202101,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201502,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201453,
+        "need_rank": 5
+      }
+    ],
+    "103701": [
+      {
+        "skill_id": 200502,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201542,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200512,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200501,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200432,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200511,
+        "need_rank": 5
+      }
+    ],
+    "103702": [
+      {
+        "skill_id": 200302,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200592,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201151,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201392,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201103,
+        "need_rank": 5
+      }
+    ],
+    "103801": [
+      {
+        "skill_id": 200462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201372,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201002,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201371,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201011,
+        "need_rank": 5
+      }
+    ],
+    "103802": [
+      {
+        "skill_id": 200851,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200652,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201011,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200651,
+        "need_rank": 5
+      }
+    ],
+    "103901": [
+      {
+        "skill_id": 200492,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201382,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200491,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200132,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200611,
+        "need_rank": 5
+      }
+    ],
+    "104001": [
+      {
+        "skill_id": 200052,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200692,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201651,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200691,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201062,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200601,
+        "need_rank": 5
+      }
+    ],
+    "104002": [
+      {
+        "skill_id": 200232,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201092,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201692,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201542,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201091,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201392,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201691,
+        "need_rank": 5
+      }
+    ],
+    "104101": [
+      {
+        "skill_id": 200652,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200841,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201312,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200982,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200651,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200992,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200981,
+        "need_rank": 5
+      }
+    ],
+    "104401": [
+      {
+        "skill_id": 200781,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201482,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202082,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201512,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201481,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200642,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201511,
+        "need_rank": 5
+      }
+    ],
+    "104501": [
+      {
+        "skill_id": 200352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200742,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201372,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200462,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201371,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200881,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200351,
+        "need_rank": 5
+      }
+    ],
+    "104502": [
+      {
+        "skill_id": 200332,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201352,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200331,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201161,
+        "need_rank": 5
+      }
+    ],
+    "104601": [
+      {
+        "skill_id": 200452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201522,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201672,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200162,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200451,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200952,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201671,
+        "need_rank": 5
+      }
+    ],
+    "104602": [
+      {
+        "skill_id": 201252,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201672,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202132,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202312,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201671,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202352,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202311,
+        "need_rank": 5
+      }
+    ],
+    "104801": [
+      {
+        "skill_id": 200302,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200601,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201702,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 5
+      }
+    ],
+    "105001": [
+      {
+        "skill_id": 200622,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201641,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200642,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200621,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201452,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200641,
+        "need_rank": 5
+      }
+    ],
+    "105002": [
+      {
+        "skill_id": 200492,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202082,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202382,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201552,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 202381,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201452,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202081,
+        "need_rank": 5
+      }
+    ],
+    "105101": [
+      {
+        "skill_id": 200362,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201062,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201342,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200652,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200361,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201392,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201341,
+        "need_rank": 5
+      }
+    ],
+    "105201": [
+      {
+        "skill_id": 200442,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200652,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201412,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200472,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200441,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200302,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200471,
+        "need_rank": 5
+      }
+    ],
+    "105202": [
+      {
+        "skill_id": 200452,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201402,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201621,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200451,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200242,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201401,
+        "need_rank": 5
+      }
+    ],
+    "105301": [
+      {
+        "skill_id": 200462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200972,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200611,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202122,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202111,
+        "need_rank": 5
+      }
+    ],
+    "105601": [
+      {
+        "skill_id": 201232,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201422,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201562,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201571,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201231,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200781,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201561,
+        "need_rank": 5
+      }
+    ],
+    "105602": [
+      {
+        "skill_id": 200012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201212,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200752,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201211,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200062,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200751,
+        "need_rank": 5
+      }
+    ],
+    "105801": [
+      {
+        "skill_id": 200472,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200142,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200581,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200861,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200471,
+        "need_rank": 5
+      }
+    ],
+    "105901": [
+      {
+        "skill_id": 200062,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201142,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201442,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201382,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201441,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200722,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200064,
+        "need_rank": 5
+      }
+    ],
+    "105902": [
+      {
+        "skill_id": 200062,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202082,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202122,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 202121,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202152,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202081,
+        "need_rank": 5
+      }
+    ],
+    "106001": [
+      {
+        "skill_id": 200122,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201162,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201442,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200911,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201161,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201422,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201441,
+        "need_rank": 5
+      }
+    ],
+    "106002": [
+      {
+        "skill_id": 200492,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201152,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201542,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202082,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201151,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200302,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200491,
+        "need_rank": 5
+      }
+    ],
+    "106101": [
+      {
+        "skill_id": 200262,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200672,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201432,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201142,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200671,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201072,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201431,
+        "need_rank": 5
+      }
+    ],
+    "106102": [
+      {
+        "skill_id": 200172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200612,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200672,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200692,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200611,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201382,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200174,
+        "need_rank": 5
+      }
+    ],
+    "106201": [
+      {
+        "skill_id": 200482,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200602,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201212,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201621,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200481,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200512,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201211,
+        "need_rank": 5
+      }
+    ],
+    "106401": [
+      {
+        "skill_id": 201192,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201242,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201661,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200532,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201662,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200302,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201191,
+        "need_rank": 5
+      }
+    ],
+    "106701": [
+      {
+        "skill_id": 200012,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201692,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202012,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 201691,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200152,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200014,
+        "need_rank": 5
+      }
+    ],
+    "106801": [
+      {
+        "skill_id": 200432,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201102,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200531,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201272,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201173,
+        "need_rank": 5
+      }
+    ],
+    "106901": [
+      {
+        "skill_id": 200172,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200582,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200342,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200581,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200174,
+        "need_rank": 5
+      }
+    ],
+    "107101": [
+      {
+        "skill_id": 200022,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200572,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201702,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200571,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201142,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 201701,
+        "need_rank": 5
+      }
+    ],
+    "107201": [
+      {
+        "skill_id": 200462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 200732,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201322,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202092,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200461,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 200342,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 200731,
+        "need_rank": 5
+      }
+    ],
+    "107401": [
+      {
+        "skill_id": 200472,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201462,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202072,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201212,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 200471,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 201222,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202071,
+        "need_rank": 5
+      }
+    ],
+    "109801": [
+      {
+        "skill_id": 201112,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 201532,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202262,
+        "need_rank": 0
+      },
+      {
+        "skill_id": 202332,
+        "need_rank": 2
+      },
+      {
+        "skill_id": 202261,
+        "need_rank": 3
+      },
+      {
+        "skill_id": 202252,
+        "need_rank": 4
+      },
+      {
+        "skill_id": 202331,
+        "need_rank": 5
+      }
+    ]
   }
 }

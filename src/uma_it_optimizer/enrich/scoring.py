@@ -36,6 +36,7 @@ from .lookups import (
     discounted_sp,
     hint_group_variants,
     hint_levels_from_raw,
+    innate_skills_for_card,
     load_masters,
     skill_from_hint,
 )
@@ -243,6 +244,35 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
     for _gid, rars in rarities_per_group.items():
         if 2 in rars:
             rars.add(1)  # gold-tier hint implicitly unlocks white
+
+    # The trainee's INNATE skills (available_skill_set entries with
+    # need_rank <= trainee_grade) also live in the skill panel from
+    # turn 1 — they can be bought at full base SP even without a hint.
+    # Merge them into the rarities-per-group map so the knapsack knows
+    # they exist. If a hint DID proc for one of them, it stays in
+    # rarities_per_group and gets the hint-level discount as usual.
+    skills_master = load_masters().get("skills", {})
+    try:
+        chara = raw.get("SingleModeChara", [{}])[0]
+        trainee_card_id = int(chara.get("card_id") or 0)
+        trainee_grade = int(chara.get("chara_grade") or 0)
+    except (KeyError, IndexError, ValueError):
+        trainee_card_id, trainee_grade = 0, 0
+    for entry in innate_skills_for_card(trainee_card_id):
+        if int(entry.get("need_rank") or 0) > trainee_grade:
+            continue
+        sid = int(entry.get("skill_id") or 0)
+        skill_row = skills_master.get(str(sid))
+        if not skill_row:
+            continue
+        gid = int(skill_row.get("group_id") or 0)
+        rar = int(skill_row.get("rarity") or 0)
+        if gid == 0:
+            continue
+        rarities_per_group[gid].add(rar)
+        # Golds implicitly unlock whites in the same group.
+        if rar == 2:
+            rarities_per_group[gid].add(1)
 
     hint_lvls = hint_levels_from_raw(raw)
     owned = set(owned_skill_ids)
