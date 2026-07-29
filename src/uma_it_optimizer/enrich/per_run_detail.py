@@ -357,16 +357,95 @@ def _build_lineage(raw: dict) -> dict:
     if not overall:
         return {}
 
-    # Collect every factor_id that proc'd this run (across all years).
-    sparked: set[int] = set()
-    for year in raw.get("SuccessionFactorGainInfo", []) or []:
+    # Count proc'd sparks per factor_id — but exclude year-1 UNIQUE
+    # sparks (type 3): the game auto-inherits both parents' uniques in
+    # year 1 as a guaranteed event, so those aren't 'real' sparks the
+    # player can influence. Highlighting them would just mark every
+    # unique factor sparked in every capture, dead-obvious noise.
+    from collections import Counter
+    m = load_masters()
+    factors_master = m.get("factors", {})
+    spark_hits: Counter[int] = Counter()
+    for year_idx, year in enumerate(raw.get("SuccessionFactorGainInfo", []) or []):
         for f in year.get("<GainFactorInfoArray>k__BackingField", []) or []:
             fid = int(f.get("<FactorId>k__BackingField", 0) or 0)
-            if fid > 0:
-                sparked.add(fid)
+            if fid <= 0:
+                continue
+            ftype = int((factors_master.get(str(fid)) or {}).get("factor_type", 0))
+            if year_idx == 0 and ftype == 3:
+                # Year-1 unique auto-inherit; not player-influenced.
+                continue
+            spark_hits[fid] += 1
 
-    def _factor_pills(raw_ancestor: dict) -> list[dict]:
-        """Sort + label a raw ancestor's <FactorDataArray> for display."""
+    # Attribute each spark to a specific ancestor, closest first, up to
+    # that ancestor's star capacity. Multiple ancestors CAN share the
+    # same factor; only crediting each spark once avoids the previous
+    # bug where a single spark lit up on every ancestor holding the
+    # factor. Priority order matches game roll probability (direct
+    # parents proc more often than grandparents).
+    def _factor_stars(fid: int) -> int:
+        return int((factors_master.get(str(fid)) or {}).get("rarity", 1))
+
+    # Prep ancestor slots keyed by priority. Each slot exposes its raw
+    # factor dict, and we fill an ``ancestor_credited: set[fid]`` per
+    # slot as we walk them.
+    raw_parents = raw.get("Parents") or []
+    raw_by_chara: dict[int, dict] = {}
+    for rp in raw_parents:
+        if not isinstance(rp, dict):
+            continue
+        cid = int(rp.get("_cacheCharaId") or 0)
+        if cid:
+            raw_by_chara[cid] = rp
+
+    # Slot order: p1, p2, then grandparents in position order.
+    slots: list[tuple[str, dict]] = []
+    slot_labels: dict[str, dict] = {}
+    for ps, key in ((bundle.p1_summary, "p1"), (bundle.p2_summary, "p2")):
+        if not ps:
+            continue
+        raw_p = raw_by_chara.get(ps.chara_id) or {}
+        slots.append((key, raw_p))
+        slot_labels[key] = {"summary": ps, "raw": raw_p}
+    # Add each parent's direct grandparents (positions 10, 20)
+    for parent_key in ("p1", "p2"):
+        info = slot_labels.get(parent_key)
+        if not info:
+            continue
+        scl = (info["raw"].get("<SuccessionCharaList>k__BackingField") or {}).get("_items") or []
+        for entry in scl:
+            if not isinstance(entry, dict):
+                continue
+            pos = int(entry.get("_positionId") or 0)
+            if pos not in (10, 20):
+                continue
+            gp_key = f"{parent_key}_gp{pos}"
+            slots.append((gp_key, entry))
+            slot_labels[gp_key] = {"raw": entry, "pos": pos, "parent_key": parent_key}
+
+    # Attribute — for each factor_id, walk slots and consume spark budget.
+    credited: dict[str, set[int]] = {key: set() for key, _ in slots}
+    remaining = dict(spark_hits)  # copy: consumed as we go
+    for slot_key, raw_ent in slots:
+        held_factors = {
+            int(f.get("<FactorId>k__BackingField", 0) or 0)
+            for f in raw_ent.get("<FactorDataArray>k__BackingField", []) or []
+            if isinstance(f, dict)
+        }
+        for fid in held_factors:
+            if fid <= 0 or remaining.get(fid, 0) <= 0:
+                continue
+            take = min(remaining[fid], _factor_stars(fid))
+            if take > 0:
+                credited[slot_key].add(fid)
+                remaining[fid] -= take
+
+    def _factor_pills(slot_key: str, raw_ancestor: dict) -> list[dict]:
+        """Sort + label a raw ancestor's <FactorDataArray> for display.
+        Sparked flag comes from the attribution pass — a factor is only
+        marked sparked on the specific slot that got credited for it,
+        not on every slot that happens to hold the same factor."""
+        credited_here = credited.get(slot_key, set())
         agg: dict[int, dict] = {}
         for f in raw_ancestor.get("<FactorDataArray>k__BackingField", []) or []:
             if not isinstance(f, dict):
@@ -379,7 +458,7 @@ def _build_lineage(raw: dict) -> dict:
                 "name": factor_name(fid),
                 "type_label": factor_type_label(fid),
                 "level": int(f.get("<FactorLv>k__BackingField", 0) or 0),
-                "sparked": fid in sparked,
+                "sparked": fid in credited_here,
             })
         TYPE_ORDER = {"stat": 0, "aptitude": 1, "green": 2,
                       "skill": 3, "unique": 4, "special": 5, "unknown": 9}
@@ -393,29 +472,13 @@ def _build_lineage(raw: dict) -> dict:
             ),
         )
 
-    def _grandparent_pills(raw_gp: dict) -> list[dict]:
-        return _factor_pills(raw_gp)
-
-    # Pair each parent-summary with its raw dict so we can pull the
-    # factor arrays. The extractor emits parents in id-order matching
-    # p1/p2, but we key by chara_id to be safe.
-    raw_parents = raw.get("Parents") or []
-    raw_by_chara: dict[int, dict] = {}
-    for rp in raw_parents:
-        if not isinstance(rp, dict):
-            continue
-        cid = int(rp.get("_cacheCharaId") or 0)
-        if cid:
-            raw_by_chara[cid] = rp
-
     parents = []
-    for ps in (bundle.p1_summary, bundle.p2_summary):
+    for ps, parent_key in ((bundle.p1_summary, "p1"), (bundle.p2_summary, "p2")):
         if not ps:
             continue
         raw_p = raw_by_chara.get(ps.chara_id) or {}
-        # Grandparents come from the raw parent's SuccessionCharaList —
-        # position 10/20 only (11/12/21/22 are great-grandparents,
-        # out-of-scope per the compat doc).
+        # Grandparents (positions 10 / 20 only — 11/12/21/22 are
+        # great-grandparents, out of scope per the compat doc).
         scl = (raw_p.get("<SuccessionCharaList>k__BackingField") or {}).get("_items") or []
         gp_dicts = []
         for entry in scl:
@@ -425,12 +488,13 @@ def _build_lineage(raw: dict) -> dict:
             if pos not in (10, 20):
                 continue
             gp_card = int(entry.get("<CardId>k__BackingField") or 0)
+            gp_key = f"{parent_key}_gp{pos}"
             gp_dicts.append({
                 "name": uma_card_name(gp_card) if gp_card else f"?gp:{pos}",
                 "card_id": gp_card,
                 "portrait_url": uma_card_image_url(gp_card) if gp_card else None,
                 "rank": int(entry.get("_rank") or 0),
-                "factors": _grandparent_pills(entry),
+                "factors": _factor_pills(gp_key, entry),
             })
 
         parents.append({
@@ -445,7 +509,7 @@ def _build_lineage(raw: dict) -> dict:
             "guts": ps.guts,
             "wiz": ps.wiz,
             "fans": ps.fans,
-            "factors": _factor_pills(raw_p),
+            "factors": _factor_pills(parent_key, raw_p),
             "grandparents": gp_dicts,
         })
 
@@ -457,7 +521,9 @@ def _build_lineage(raw: dict) -> dict:
             "pairs": [asdict(p) for p in overall.pairs],
         },
         "parents": parents,
-        "sparked_count": len(sparked),
+        # Count of DISTINCT factor_ids that sparked this run (excluding
+        # year-1 unique auto-inherits). Displayed in the panel header.
+        "sparked_count": len(spark_hits),
     }
 
 
