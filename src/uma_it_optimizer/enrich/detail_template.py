@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 
+from .lookups import grade_icon_url
 from .per_run_detail import RunDetail  # noqa: F401
 
 
@@ -90,6 +91,10 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
 }
 .fac-card.fac-sp .fac-value { color: #9060d0; }
 .stat-cap { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.fac-body img.grade-badge {
+    height: 28px; width: auto; object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+}
 /* Grade circle — tier-colored. Grades map to buckets: g0=G, g1=F/E,
    g2=D/C, g3=B/A, g4=S/SS/SS+, g5=UG/UG+. */
 .grade {
@@ -1086,11 +1091,16 @@ _LO_TIERS: tuple[tuple[int, str], ...] = (
     (150,  "F+"),  (100,  "F"),
     (51,   "G+"),  (1,    "G"),
 )
-_U_LETTERS = ("UG", "UF", "UE", "UD", "UC", "UB", "UA", "US")
+# U-series: second letter lower-case (matches the overall-rank icon
+# keys). Digits are rendered as superscripts.
+_U_LETTERS = ("Ug", "Uf", "Ue", "Ud", "Uc", "Ub", "Ua", "Us")
+_SUPERSCRIPT_DIGIT = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹")
 
 
 def stat_grade(value: int) -> str:
-    """Grade letter for a raw stat value (0..2000+)."""
+    """Stat grade in the same key format as ``lookups.GRADE_ICON_URL``
+    (G / G+ / ... / SS+ / Ug / Ug¹ / ... / Us⁹). Uses the reference
+    thresholds from the community rank table."""
     if value <= 0:
         return "G"
     if value <= 1200:
@@ -1104,14 +1114,14 @@ def stat_grade(value: int) -> str:
     within_100 = (over - 1) % 100  # 0..99
     if within_100 < 10:
         return base
-    return f"{base}{within_100 // 10}"
+    return base + str(within_100 // 10).translate(_SUPERSCRIPT_DIGIT)
 
 
 def _grade_base(letter: str) -> str:
-    """Strip trailing '+' or digit to get the base letter class."""
+    """Strip trailing '+' or superscript digit to get the base class."""
     if letter.endswith("+"):
         return letter[:-1]
-    if letter and letter[-1].isdigit():
+    if letter and letter[-1] in "⁰¹²³⁴⁵⁶⁷⁸⁹":
         return letter[:-1]
     return letter
 
@@ -1138,13 +1148,34 @@ def _stat_icon_url(key: str) -> str:
 def _stat_facility_widget(
     *, key: str, label: str, value: int, cap: int,
 ) -> str:
-    """One stat 'facility' badge — icon + grade circle + value/cap."""
+    """One stat 'facility' badge — icon + grade badge + value/cap.
+
+    Grade badges reuse the overall-uma-rank icon set (same visual
+    system, matches the community rank-table image reference). Falls
+    back to a styled text badge for tiers without a bundled icon URL
+    (U-series beyond Ue⁹ don't have icons yet)."""
     grade = stat_grade(value)
-    base = _grade_base(grade)
-    plus_cls = " grade-plus" if grade.endswith("+") else ""
-    u_cls = " grade-u" if base.startswith("U") else ""
     cap_str = f'<span class="stat-cap">/ {cap:,}</span>' if cap else ""
     icon_url = _stat_icon_url(key)
+
+    badge_icon = grade_icon_url(grade)
+    if badge_icon:
+        grade_html = (
+            f'<img class="grade-badge" src="{badge_icon}" alt="{grade}"'
+            f' title="{grade}" loading="lazy"'
+            f' onerror="this.replaceWith(document.createTextNode(\'{grade}\'))">'
+        )
+    else:
+        base = _grade_base(grade)
+        base_cls = base.replace("+", "").replace("¹","").replace("²","") \
+                       .replace("³","").replace("⁴","").replace("⁵","") \
+                       .replace("⁶","").replace("⁷","").replace("⁸","").replace("⁹","")
+        plus_cls = " grade-plus" if grade.endswith("+") else ""
+        u_cls = " grade-u" if base.startswith("U") else ""
+        grade_html = (
+            f'<span class="grade grade-{base_cls}{plus_cls}{u_cls}">'
+            f'{grade}</span>'
+        )
     return (
         f'<div class="fac-card fac-{key}">'
         f'  <div class="fac-hdr">'
@@ -1153,7 +1184,7 @@ def _stat_facility_widget(
         f'    <span class="fac-label">{label}</span>'
         f'  </div>'
         f'  <div class="fac-body">'
-        f'    <span class="grade grade-{base}{plus_cls}{u_cls}">{grade}</span>'
+        f'    {grade_html}'
         f'    <span class="fac-value">{value:,}</span>{cap_str}'
         f'  </div>'
         f'</div>'
