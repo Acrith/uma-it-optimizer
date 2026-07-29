@@ -52,6 +52,17 @@ body {
     grid-template-columns: 220px minmax(0, 1fr);
     min-height: 100vh;
 }
+/* Embed mode: hide the standalone shell so only the run content shows
+   when the page is loaded inside the dashboard's iframe. */
+body.embed-mode { min-height: auto; }
+body.embed-mode .sidebar { display: none; }
+body.embed-mode .app { grid-template-columns: 1fr; }
+body.embed-mode .main { padding: 16px 24px 32px; }
+body.embed-mode .section-nav {
+    position: static; margin: 8px 0 16px; padding: 0;
+    border-bottom: 1px solid var(--border);
+    background: none; backdrop-filter: none;
+}
 .sidebar {
     background: var(--bg-2);
     border-right: 1px solid var(--border);
@@ -732,6 +743,10 @@ td.thumb-cell {
 </style>
 </head>
 <body>
+<!-- Detail pages render standalone at file://…/detail_*.html but the
+     dashboard embeds them via iframe. Adding ?embed=1 to the URL hides
+     the shell so only the run's content shows inside the dashboard's
+     panel slot. -->
 <div class="app">
 <aside class="sidebar">
     <div class="sidebar-brand">
@@ -739,8 +754,8 @@ td.thumb-cell {
         <span class="brand-sub">Independent Training</span>
     </div>
     <nav class="side-nav">
-        <a href="dashboard.html#decks" target="_blank" rel="noopener" data-section="decks"><span class="nav-dot"></span>Decks</a>
-        <a href="dashboard.html#runs" target="_blank" rel="noopener" data-section="runs"><span class="nav-dot"></span>Runs</a>
+        <a href="dashboard.html#decks" data-section="decks"><span class="nav-dot"></span>Decks</a>
+        <a href="dashboard.html#runs" data-section="runs"><span class="nav-dot"></span>Runs</a>
         <a href="#" data-section="detail" class="active" aria-current="page"><span class="nav-dot"></span>__RUN_TAB_LABEL__</a>
     </nav>
     <div class="side-quick">__SIDEBAR_STATS__</div>
@@ -838,18 +853,22 @@ __SCORE_TABLE__
 </div>
 
 <script>
-// Force sidebar Decks/Runs to open in a new tab even when the browser
-// treats target=_blank as same-window (Firefox on file:// occasionally
-// falls back that way, some middle-click emulators strip target). The
-// active tab (self) is deliberately kept so users can spawn multiple
-// detail tabs and switch between them at the OS level.
+// Embed mode — when this page is loaded inside the dashboard's
+// iframe (?embed=1), collapse the shell so only the run content shows.
+// The dashboard supplies its own sidebar around us.
 (function () {
-    document.querySelectorAll('.side-nav a[target="_blank"]').forEach(a => {
+    if (location.search.includes('embed=1')) {
+        document.body.classList.add('embed-mode');
+    }
+    // When the standalone shell is visible, sidebar Decks / Runs links
+    // navigate back to the dashboard; message the parent instead when
+    // embedded (dashboard picks up the click via postMessage and
+    // switches its own active panel).
+    document.querySelectorAll('.side-nav a[data-section]').forEach(a => {
         a.addEventListener('click', (e) => {
-            // Let modified clicks (ctrl/cmd/middle) fall through to default.
-            if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+            if (!document.body.classList.contains('embed-mode')) return;
             e.preventDefault();
-            window.open(a.href, '_blank', 'noopener');
+            parent.postMessage({type: 'nav', section: a.dataset.section}, '*');
         });
     });
 })();

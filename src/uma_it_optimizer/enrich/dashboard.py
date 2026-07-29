@@ -119,6 +119,36 @@ body {
 .side-nav a[data-section="decks"] .nav-dot { color: var(--accent-decks); }
 .side-nav a[data-section="runs"] .nav-dot { color: var(--accent-runs); }
 .side-nav a[data-section="analytics"] .nav-dot { color: var(--accent-lineage); }
+.side-nav a[data-section^="run:"] .nav-dot { color: var(--accent-lineage); }
+.side-nav a.dynamic-tab {
+    display: flex; align-items: center; gap: 8px;
+    padding-right: 4px;
+}
+.side-nav a.dynamic-tab .tab-label {
+    flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-size: 12px;
+}
+.side-nav a.dynamic-tab .tab-close {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px;
+    background: none; border: 0; padding: 0; margin: 0;
+    color: var(--muted); cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px; line-height: 1;
+    flex-shrink: 0;
+}
+.side-nav a.dynamic-tab .tab-close:hover {
+    background: color-mix(in srgb, #d43f3f 20%, transparent);
+    color: #ff8080;
+}
+.run-panel-frame {
+    width: 100%;
+    min-height: calc(100vh - 48px);
+    border: 0;
+    display: block;
+    background: var(--bg);
+}
 .side-quick {
     margin-top: auto;
     padding: 12px;
@@ -527,6 +557,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     <nav class="side-nav" id="side-nav">
         <a href="#decks" data-section="decks" class="active"><span class="nav-dot"></span>Decks</a>
         <a href="#runs" data-section="runs"><span class="nav-dot"></span>Runs</a>
+        <div id="side-nav-runs"></div>
     </nav>
     <div class="side-quick" id="side-quick">__STATS_HTML__</div>
 </aside>
@@ -634,31 +665,133 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 </div>
 </div>
 </section>
+
+<div id="run-panels"></div>
 </main>
 </div>
 
 <script>
-// Section nav — swap active panel + accent scope; keep hash in sync so
-// deep-links (dashboard.html#runs) land on the right tab.
+// Section nav — swap active panel + accent scope. Also manages
+// dynamic run-detail tabs: opening a run adds a sidebar entry with an
+// × close button, clicking Decks/Runs doesn't close it, and multiple
+// runs can be open simultaneously.
 (function () {
     const nav = document.getElementById("side-nav");
+    const dynNav = document.getElementById("side-nav-runs");
+    const runPanels = document.getElementById("run-panels");
     if (!nav) return;
+
+    // openRuns: filename -> {label, detail_href, navEl, panelEl}
+    const openRuns = new Map();
+
     function activate(section) {
         nav.querySelectorAll("a").forEach(a => {
             a.classList.toggle("active", a.dataset.section === section);
         });
-        document.querySelectorAll("section.panel").forEach(p => {
+        // Static panels
+        document.querySelectorAll("main > section.panel").forEach(p => {
             p.classList.toggle("active", p.dataset.section === section);
         });
+        // Dynamic run panels
+        runPanels.querySelectorAll("section.panel").forEach(p => {
+            p.classList.toggle("active", p.dataset.section === section);
+        });
+        history.replaceState(null, "", "#" + section);
     }
+
+    function shortTs(ts) {
+        // 20260729T184907 → 07/29 18:49
+        if (/^\d{8}T\d{6}$/.test(ts)) {
+            return `${ts.slice(4,6)}/${ts.slice(6,8)} ${ts.slice(9,11)}:${ts.slice(11,13)}`;
+        }
+        return ts;
+    }
+
+    function openRun(row) {
+        const filename = row.filename;
+        if (openRuns.has(filename)) {
+            activate("run:" + filename);
+            return;
+        }
+        if (!row.detail_href) return;
+        const section = "run:" + filename;
+        const label = `${row.trainee_name} · ${shortTs(row.timestamp)}`;
+
+        // Sidebar entry — anchor with dynamic label + × button
+        const navEl = document.createElement("a");
+        navEl.href = "#" + section;
+        navEl.className = "dynamic-tab";
+        navEl.dataset.section = section;
+        navEl.innerHTML = `<span class="nav-dot"></span>
+            <span class="tab-label" title="${label}">${label}</span>
+            <button class="tab-close" title="Close this run" aria-label="Close">×</button>`;
+        dynNav.appendChild(navEl);
+
+        // Panel — iframe pointed at detail_XXX.html?embed=1
+        const panelEl = document.createElement("section");
+        panelEl.className = "panel";
+        panelEl.dataset.section = section;
+        const iframe = document.createElement("iframe");
+        iframe.className = "run-panel-frame";
+        iframe.src = row.detail_href + "?embed=1";
+        iframe.title = label;
+        panelEl.appendChild(iframe);
+        runPanels.appendChild(panelEl);
+
+        openRuns.set(filename, {label, detail_href: row.detail_href, navEl, panelEl});
+        activate(section);
+    }
+
+    function closeRun(filename) {
+        const entry = openRuns.get(filename);
+        if (!entry) return;
+        const wasActive = entry.navEl.classList.contains("active");
+        entry.navEl.remove();
+        entry.panelEl.remove();
+        openRuns.delete(filename);
+        if (wasActive) activate("runs");
+    }
+
+    // Nav click routing
     nav.addEventListener("click", (e) => {
+        const closeBtn = e.target.closest(".tab-close");
+        if (closeBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const tab = closeBtn.closest(".dynamic-tab");
+            const section = tab.dataset.section;
+            const filename = section.slice(4);  // strip "run:"
+            closeRun(filename);
+            return;
+        }
         const a = e.target.closest("a[data-section]");
         if (!a) return;
         e.preventDefault();
-        const section = a.dataset.section;
-        history.replaceState(null, "", "#" + section);
-        activate(section);
+        activate(a.dataset.section);
     });
+
+    // Delegated "Open ▸" click on any runs-table row — opens as an
+    // embedded tab rather than navigating away.
+    document.addEventListener("click", (e) => {
+        const link = e.target.closest("#runs a[href^='detail_']");
+        if (!link) return;
+        // Modified clicks fall through to browser default (new tab / window)
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        const href = link.getAttribute("href");
+        // Find the row's data by matching href back to DATA
+        const row = DATA.find(r => r.detail_href === href);
+        if (row) openRun(row);
+    });
+
+    // Message channel from embedded detail iframes: allow sidebar links
+    // inside the detail page to switch the outer dashboard's panel.
+    window.addEventListener("message", (e) => {
+        const msg = e.data;
+        if (!msg || msg.type !== "nav" || !msg.section) return;
+        activate(msg.section);
+    });
+
     const initial = (location.hash || "").replace(/^#/, "") || "decks";
     activate(initial);
 })();
@@ -838,7 +971,7 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.races_run)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
             <td class="num">${fmtNum(r.skill_hints_available)}</td>
-            <td>${r.detail_href ? `<a href="${r.detail_href}" target="_blank" rel="noopener">Open ▸</a>` : "—"}</td>
+            <td>${r.detail_href ? `<a href="${r.detail_href}">Open ▸</a>` : "—"}</td>
         </tr>
     `,
 });
