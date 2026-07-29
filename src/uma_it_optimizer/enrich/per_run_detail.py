@@ -526,9 +526,14 @@ def _planner_data(raw: dict) -> dict:
             rars.add(1)
 
     owned_set = set(owned_ids)
+    # Per-skill hint level, used to apply the in-game SP discount
+    # (10% per level up to 5). Without this, planner variants advertise
+    # the base sp_cost and the knapsack over-charges every pick.
+    from .lookups import hint_levels_from_raw
+    hint_lvls = hint_levels_from_raw(raw)
     hint_groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
-        raw_variants = hint_group_variants(gid)  # every variant in the group
+        raw_variants = hint_group_variants(gid, hint_level_by_skill=hint_lvls)
 
         planner_variants: list[dict] = []
         for v in raw_variants:
@@ -599,28 +604,37 @@ def _planner_data(raw: dict) -> dict:
 
 
 def _plan_rows(raw: dict) -> list[dict]:
-    """List of {skill_id, name, icon_url, sp_cost, grade_value,
-    value_per_sp, group_id, rarity, is_gold_upgrade} for the knapsack's
-    chosen skills. Ordered so paired white+gold picks are adjacent —
-    makes the prerequisite relationship visible in the table."""
+    """List of {skill_id, name, icon_url, sp_cost, base_sp_cost, hint_level,
+    grade_value, value_per_sp, group_id, rarity, is_gold_upgrade} for the
+    knapsack's chosen skills. Ordered so paired white+gold picks are
+    adjacent — makes the prerequisite relationship visible in the table."""
     try:
         est = estimate_from_run_json(raw)
     except (KeyError, IndexError, ValueError):
         return []
-    return [
-        {
+    from .lookups import hint_levels_from_raw
+    hint_lvls = hint_levels_from_raw(raw)
+    m = load_masters()
+    skills_master = m.get("skills", {})
+    out = []
+    for p in est.plan:
+        s = skills_master.get(str(p.skill_id), {})
+        base = int(s.get("sp_cost") or p.sp_cost)
+        lv = int(hint_lvls.get(p.skill_id, 0))
+        out.append({
             "skill_id": p.skill_id,
             "name": p.name,
             "icon_url": skill_icon_url(p.skill_id),
-            "sp_cost": p.sp_cost,
+            "sp_cost": p.sp_cost,          # discounted (what you pay)
+            "base_sp_cost": base,          # pre-discount
+            "hint_level": lv,
             "grade_value": p.grade_value,
             "value_per_sp": round(p.value_per_sp, 2),
             "group_id": p.group_id,
             "rarity": p.rarity,
             "is_gold_upgrade": p.rarity == 2,
-        }
-        for p in est.plan
-    ]
+        })
+    return out
 
 
 def _label_for_gain_source(gi_idx: int, sup_cards: list[dict]) -> str:

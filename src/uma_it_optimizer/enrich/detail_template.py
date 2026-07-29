@@ -386,7 +386,10 @@ td.thumb-cell {
 .no-lineage b { color: var(--fg); }
 .lineage-missing { border-style: dashed; background: color-mix(in srgb, #b8860b 6%, transparent); }
 .lineage-missing .compat-big.compat-0 { color: #b8860b; }
-</style>
+
+/* SP-cost hint-discount annotation on plan rows */
+.sp-hint { color: var(--muted); font-size: 10px; margin-left: 4px; }
+.sp-hint s { text-decoration: line-through; }
 </head>
 <body>
 <div class="subtitle"><a href="dashboard.html">← All runs</a></div>
@@ -863,14 +866,25 @@ PLANNER_JS = """
         // duplicates or clutters. For removals we prepend a small 'Remove'
         // marker since the name alone doesn't convey the action.
         const namePrefix = v.action === 'remove' ? 'Remove ' : '';
+        // Hint discount indicator: append 'lv N' + strikethrough base cost
+        // when a discount is active. Buttons stay narrow — full formula
+        // is in the tooltip.
+        const base = v.base_sp_cost || v.sp_cost;
+        const lv = v.hint_level || 0;
+        const spCell = (lv > 0 && base > v.sp_cost)
+            ? `${v.sp_cost} SP · <s style="opacity:.6;">${base}</s> · lv${lv}`
+            : `${v.sp_cost} SP`;
+        const tip = (lv > 0 && base > v.sp_cost)
+            ? `${v.name} — base ${base} SP → ${v.sp_cost} SP (hint Lv ${lv}, ${lv*10}% off)`
+            : v.name;
         return `
             <button class="${cls.join(' ')}"
                 data-skill="${v.skill_id}"
-                title="${v.name}">
+                title="${tip}">
                 ${iconHtml}
                 <span class="variant-btn-body">
                     <span class="variant-btn-name">${namePrefix}${v.name}</span>
-                    <span class="variant-btn-nums">${v.sp_cost} SP · +${v.grade_value}</span>
+                    <span class="variant-btn-nums">${spCell} · +${v.grade_value}</span>
                 </span>
             </button>
         `;
@@ -1148,10 +1162,24 @@ def render(d: RunDetail) -> str:
             indent = ('<span style="color: var(--muted); '
                       'font-family: ui-monospace; margin-right: 6px;">└→</span>')
             row_style = ' style="background: color-mix(in srgb, #ffea54 6%, transparent);"'
+        # SP cell shows discounted cost; if a hint level applied,
+        # add a subtle "was Nsp · hint Lv X" annotation so the
+        # discount is visible without extra columns.
+        base = int(p.get("base_sp_cost") or 0)
+        lv = int(p.get("hint_level") or 0)
+        cost = int(p.get("sp_cost") or 0)
+        if lv > 0 and base > cost:
+            sp_cell = (
+                f'{cost}<span class="sp-hint" title="Base {base} SP → '
+                f'{cost} SP (hint Lv {lv}, {lv*10}% off)">'
+                f' <s>{base}</s></span>'
+            )
+        else:
+            sp_cell = str(cost)
         plan_rows_html.append(
             f'<tr{row_style}>'
             f'<td>{indent}{pill}</td>'
-            f'<td class="num">{p["sp_cost"]}</td>'
+            f'<td class="num">{sp_cell}</td>'
             f'<td class="num">{p["grade_value"]}</td>'
             f'<td class="num">{p["value_per_sp"]:.2f}</td>'
             f'</tr>'

@@ -195,7 +195,35 @@ def classify_skill(name: str = "", condition_1: str = "",
     }
 
 
-def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
+HINT_DISCOUNT_PER_LEVEL = 0.10  # 10% off per hint level, capped at level 5
+
+
+def hint_level_cap(level: int) -> int:
+    """Hint levels above 5 don't stack further. Match in-game behavior."""
+    if level < 0:
+        return 0
+    return min(level, 5)
+
+
+def discounted_sp(base_sp: int, hint_level: int) -> int:
+    """Apply hint-level SP discount.
+
+    Formula (community-known, matches in-game "hint bonus" tooltip):
+        effective_sp = floor(base_sp × (1 − 0.10 × min(level, 5)))
+
+    - Level 0: no change
+    - Level 5+: 50% off (max discount)
+    - Never returns 0 for a positive base (min effective cost = 1 SP)
+    """
+    if base_sp <= 0 or hint_level <= 0:
+        return int(base_sp)
+    level = hint_level_cap(hint_level)
+    reduced = base_sp * (10 - level) / 10.0
+    return max(1, int(reduced))
+
+
+def hint_group_variants(group_id: int, rarity: int | None = None,
+                        hint_level_by_skill: dict[int, int] | None = None) -> list[dict]:
     """Return skill variants in a hint group as {skill_id, name, rate,
     rate_label, sp_cost, grade_value, value_per_sp}. Sorted best-first
     (◎ then ○ then alt then ×). Skills without an sp_cost are omitted.
@@ -225,15 +253,24 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
         )
         sid_int = int(sid_str)
         icon_id = s.get("icon_id")
+        base_cost = int(cost)
+        # Hint level → discount. Hint level is a per-skill accumulator
+        # (multiple hint events for the same skill stack); passing the
+        # map lets the planner and knapsack score with the actual
+        # purchase cost the player faces in-game.
+        hint_lv = hint_level_cap((hint_level_by_skill or {}).get(sid_int, 0))
+        eff_cost = discounted_sp(base_cost, hint_lv)
         variants.append({
             "skill_id": sid_int,
             "name": s.get("name", f"?skill:{sid_str}"),
             "rate": rate,
             "rate_label": GROUP_RATE_LABEL.get(rate, "?"),
             "rarity": int(s.get("rarity", 0) or 0),
-            "sp_cost": int(cost),
+            "sp_cost": eff_cost,          # discounted — used by planner/knapsack
+            "base_sp_cost": base_cost,    # pre-discount — for UI "was X, now Y"
+            "hint_level": hint_lv,        # 0..5 (capped)
             "grade_value": int(val),
-            "value_per_sp": round(val / cost, 2) if cost else 0.0,
+            "value_per_sp": round(val / eff_cost, 2) if eff_cost else 0.0,
             "styles": cls["styles"],
             "distances": cls["distances"],
             "is_universal": cls["is_universal"],
@@ -242,6 +279,38 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
         })
     variants.sort(key=lambda v: (GROUP_RATE_RANK.get(v["rate"], 9), -v["grade_value"]))
     return variants
+
+
+def hint_levels_from_raw(raw: dict) -> dict[int, int]:
+    """Build ``{skill_id: total_hint_level}`` from a run's GainInfo blob.
+
+    A SkillTip entry carries ``(group_id, rarity, level)``; the pair
+    (group_id, rarity) identifies a single purchasable skill, and
+    ``level`` is the amount ADDED by that hint event. Multiple events
+    for the same skill stack (capped at 5 by ``hint_level_cap``).
+    """
+    from collections import defaultdict
+    lvl_by_grouprar: dict[tuple[int, int], int] = defaultdict(int)
+    for gi in raw.get("GainInfo", []) or []:
+        for t in gi.get("<SkillTipsArray>k__BackingField", []) or []:
+            if not isinstance(t, dict):
+                continue
+            gid = int(t.get("group_id", 0) or 0)
+            rar = int(t.get("rarity", 0) or 0)
+            lv = int(t.get("level", 0) or 0)
+            if gid and lv > 0:
+                lvl_by_grouprar[(gid, rar)] += lv
+
+    # Resolve (group_id, rarity) -> skill_id via the skills master.
+    out: dict[int, int] = {}
+    if not lvl_by_grouprar:
+        return out
+    m = load_masters()
+    for sid_str, s in m.get("skills", {}).items():
+        key = (int(s.get("group_id", 0) or 0), int(s.get("rarity", 0) or 0))
+        if key in lvl_by_grouprar:
+            out[int(sid_str)] = hint_level_cap(lvl_by_grouprar[key])
+    return out
 
 
 # Skill rarity → readable tier badge. 1=white(common), 2=gold(rare),

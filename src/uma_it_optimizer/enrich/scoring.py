@@ -32,7 +32,13 @@ from dataclasses import dataclass
 from collections import defaultdict
 
 from .data.five_status_score import FIVE_STATUS_FINAL_SCORE
-from .lookups import hint_group_variants, load_masters, skill_from_hint
+from .lookups import (
+    discounted_sp,
+    hint_group_variants,
+    hint_levels_from_raw,
+    load_masters,
+    skill_from_hint,
+)
 
 
 PT_SCORE_RATE_DEFAULT = 2.0
@@ -238,10 +244,11 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
         if 2 in rars:
             rars.add(1)  # gold-tier hint implicitly unlocks white
 
+    hint_lvls = hint_levels_from_raw(raw)
     owned = set(owned_skill_ids)
     groups: list[dict] = []
     for gid, avail_rarities in rarities_per_group.items():
-        raw_variants = hint_group_variants(gid)
+        raw_variants = hint_group_variants(gid, hint_level_by_skill=hint_lvls)
         # Filter × 'buy' options — those can't be purchased from hints.
         # Owned × are exposed via separate removal packages below.
         variants = [v for v in raw_variants
@@ -297,6 +304,7 @@ def _build_hint_group_options(raw: dict, owned_skill_ids: list[int]) -> list[dic
 def optimal_purchase_grouped(
     hint_group_options: list[dict],
     sp_budget: int,
+    hint_level_by_skill: dict[int, int] | None = None,
 ) -> tuple[list["SkillPurchase"], int, int]:
     """Multi-choice knapsack: pick at most one package per hint group,
     maximize Σ value subject to Σ cost ≤ budget.
@@ -343,7 +351,11 @@ def optimal_purchase_grouped(
         s = skills.get(str(sid))
         if not s:
             continue
-        cost = int(s.get("sp_cost") or 0)
+        base_cost = int(s.get("sp_cost") or 0)
+        # Reflect the same discount the knapsack used when picking this
+        # skill, so the plan row shows the actual purchase price.
+        lv = (hint_level_by_skill or {}).get(sid, 0)
+        cost = discounted_sp(base_cost, lv) if base_cost else 0
         val = int(s.get("grade_value") or 0)
         plan.append(SkillPurchase(
             skill_id=sid,
@@ -441,7 +453,10 @@ def estimate_from_run_json(raw: dict) -> ScoreEstimate:
     naive_ceiling = floor + sp_bonus
 
     hint_groups_opts = _build_hint_group_options(raw, owned)
-    plan, plan_value, sp_used = optimal_purchase_grouped(hint_groups_opts, unspent_sp)
+    hint_lvls = hint_levels_from_raw(raw)
+    plan, plan_value, sp_used = optimal_purchase_grouped(
+        hint_groups_opts, unspent_sp, hint_level_by_skill=hint_lvls,
+    )
     planned_score = floor + plan_value
 
     return ScoreEstimate(
