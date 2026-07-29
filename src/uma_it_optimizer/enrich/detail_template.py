@@ -53,16 +53,19 @@ body {
     min-height: 100vh;
 }
 /* Embed mode: hide the standalone shell so only the run content shows
-   when the page is loaded inside the dashboard's iframe. */
+   when the page is loaded inside the dashboard's iframe. Section-nav
+   and planner topbar keep their sticky behavior (relative to the
+   iframe's own viewport). */
 body.embed-mode { min-height: auto; }
 body.embed-mode .sidebar { display: none; }
 body.embed-mode .app { grid-template-columns: 1fr; }
 body.embed-mode .main { padding: 16px 24px 32px; }
 body.embed-mode .section-nav {
-    position: static; margin: 8px 0 16px; padding: 0;
-    border-bottom: 1px solid var(--border);
-    background: none; backdrop-filter: none;
+    top: 0;
+    margin: 0 -24px 16px; padding: 8px 24px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
 }
+body.embed-mode .planner-topbar { top: 44px; }
 .sidebar {
     background: var(--bg-2);
     border-right: 1px solid var(--border);
@@ -452,19 +455,30 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 /* ── SP planner ─────────────────────────────────────────────────── */
 .planner-topbar {
     position: sticky; top: 44px;    /* below the section-nav */
-    display: flex; gap: 20px; align-items: center;
-    padding: 10px 12px;
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    padding: 8px 12px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
     margin-bottom: 12px;
     z-index: 5;
 }
-.planner-stat { display: flex; flex-direction: column; }
-.planner-stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
-.planner-stat-value { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.planner-stat { display: flex; flex-direction: column; min-width: 0; }
+.planner-stat-label {
+    color: var(--muted); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+}
+.planner-stat-value {
+    font-size: 15px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    display: inline-flex; align-items: center; gap: 4px;
+    white-space: nowrap;
+}
 .planner-stat-value.over-budget { color: #d43f3f; }
-.planner-actions { margin-left: auto; display: flex; gap: 8px; }
+.planner-actions {
+    margin-left: auto; display: flex; gap: 6px;
+    flex-shrink: 0;
+}
 .planner-btn {
     padding: 5px 12px;
     border: 1px solid var(--border);

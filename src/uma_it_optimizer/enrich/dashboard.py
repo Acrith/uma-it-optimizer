@@ -162,15 +162,32 @@ body {
 }
 .side-quick {
     margin-top: auto;
-    padding: 12px;
+    padding: 10px 12px;
     background: var(--bg-3);
     border-radius: var(--radius);
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column; gap: 4px;
     font-size: 11px;
+    min-width: 0;
 }
-.side-quick .stat { display: flex; flex-direction: row; justify-content: space-between; align-items: baseline; gap: 8px; }
-.side-quick .stat-label { color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 10px; }
-.side-quick .stat-value { color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; }
+.side-quick .stat {
+    display: flex; flex-direction: row;
+    justify-content: space-between; align-items: center;
+    gap: 8px;
+    min-width: 0;
+    line-height: 1.35;
+}
+.side-quick .stat-label {
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.04em; font-size: 9px;
+    flex-shrink: 0;
+}
+.side-quick .stat-value {
+    color: var(--fg); font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    min-width: 0; text-align: right;
+}
 
 .main {
     padding: 24px 32px 48px;
@@ -733,16 +750,56 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         }
     }
 
-    // Per-section scroll memory so switching between tabs restores
-    // exactly where you were (not just the page top).
+    // Per-section scroll memory. For static Decks/Runs we save the
+    // main window's scrollY; for run tabs we save the iframe's own
+    // scrollY (embedded pages scroll inside the iframe, not the outer
+    // window). Switching in either direction restores both — outer
+    // window position is per-section, iframe position is per-iframe.
     const scrollY = new Map();
     let currentSection = null;
 
+    function saveScroll(section) {
+        if (section === null) return;
+        if (section.startsWith("run:")) {
+            const filename = section.slice(4);
+            const entry = openRuns.get(filename);
+            if (entry) {
+                try {
+                    scrollY.set(section, entry.panelEl.querySelector("iframe").contentWindow.scrollY);
+                } catch (_) { /* cross-frame access sometimes fails */ }
+            }
+        } else {
+            scrollY.set(section, window.scrollY);
+        }
+    }
+
+    function restoreScroll(section) {
+        const target = scrollY.get(section) || 0;
+        if (section.startsWith("run:")) {
+            const filename = section.slice(4);
+            const entry = openRuns.get(filename);
+            if (!entry) return;
+            const iframe = entry.panelEl.querySelector("iframe");
+            const doRestore = () => {
+                try { iframe.contentWindow.scrollTo({top: target, behavior: "instant"}); }
+                catch (_) {}
+            };
+            // If the iframe hasn't finished loading yet, wait one tick.
+            if (iframe.contentWindow && iframe.contentDocument?.readyState === "complete") {
+                doRestore();
+            } else {
+                iframe.addEventListener("load", doRestore, {once: true});
+            }
+            // Outer window always scrolls to top when a run tab is active.
+            window.scrollTo({top: 0, behavior: "instant"});
+        } else {
+            window.scrollTo({top: target, behavior: "instant"});
+        }
+    }
+
     function activate(section) {
         // Save current scroll before swapping.
-        if (currentSection !== null) {
-            scrollY.set(currentSection, window.scrollY);
-        }
+        saveScroll(currentSection);
         nav.querySelectorAll("a").forEach(a => {
             a.classList.toggle("active", a.dataset.section === section);
         });
@@ -754,7 +811,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         runPanels.querySelectorAll("section.panel").forEach(p => {
             p.classList.toggle("active", p.dataset.section === section);
         });
-        currentSection = section;
+        // (currentSection updated below after restoreScroll)
         // Contextual side-quick swap: run tab active → this run's stats;
         // otherwise → dashboard aggregate stats.
         if (section.startsWith("run:")) {
@@ -765,8 +822,8 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
             restoreDashboardSidebarStats();
         }
         history.replaceState(null, "", "#" + section);
-        // Restore per-section scroll — 0 on first visit.
-        window.scrollTo({top: scrollY.get(section) || 0, behavior: "instant"});
+        currentSection = section;
+        restoreScroll(section);
     }
 
     function shortTs(ts) {
