@@ -424,28 +424,44 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 /* Whole deck row is clickable — drills into the All Runs table
    filtered to that deck. The hint chip clarifies the affordance so
    users don't hunt for the small hash link. */
-tr.deck-row { cursor: pointer; transition: background 0.12s; }
-tr.deck-row:hover { background: var(--hover) !important; }
-tr.deck-row:hover .deck-drilldown-hint { opacity: 1; transform: translateX(0); }
-.deck-drilldown-hint, .open-pill {
+tr.deck-row, tr.run-row { cursor: pointer; transition: background 0.12s; }
+tr.deck-row:hover, tr.run-row:hover { background: var(--hover) !important; }
+/* Open pill — one canonical style, one canonical placement (last
+   column, right-aligned), one canonical reveal (row hover). Applied
+   to both Decks and Runs tables so drill-down affordance reads
+   identically in both. */
+.open-pill {
     display: inline-flex; align-items: center; gap: 3px;
     font-size: 10px; font-weight: 700;
     padding: 3px 10px; border-radius: 10px;
     background: var(--accent); color: white;
     text-transform: uppercase; letter-spacing: 0.04em;
     text-decoration: none;
+    white-space: nowrap;
     transition: filter 0.12s, transform 0.12s;
-}
-.deck-drilldown-hint {
-    margin-left: 8px; vertical-align: middle;
-    opacity: 0; transform: translateX(-4px);
-    transition: opacity 0.12s, transform 0.12s;
-    pointer-events: none;
 }
 .open-pill:hover {
     filter: brightness(1.1);
     transform: translateY(-1px);
     text-decoration: none;
+}
+th.open-col, td.open-cell {
+    width: 1%;
+    text-align: right;
+    padding-right: 12px;
+}
+/* Only reveal the pill on row hover. Rows always keep the column
+   width so hovering doesn't shift other cells around. */
+tr.hover-open .open-pill {
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.12s, transform 0.12s;
+    pointer-events: none;
+}
+tr.hover-open:hover .open-pill {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
 }
 /* Deck-perf filter panel — capped narrow so it doesn't sprawl on a
    wide viewport. The card-picker grid is allowed to break past the
@@ -756,6 +772,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
             <th data-key="best_stat_sum" data-type="num">Best 5-Stat</th>
             <th data-key="avg_unspent_sp" data-type="num">Avg SP</th>
             <th data-key="best_fans"     data-type="num">Best Fans</th>
+            <th class="open-col"></th>
         </tr>
     </thead>
     <tbody id="decks-body"></tbody>
@@ -796,7 +813,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
             <th data-key="races_run"     data-type="num">Races</th>
             <th data-key="fans"          data-type="num">Fans</th>
             <th data-key="skill_hints_available" data-type="num">Hints</th>
-            <th data-key="timestamp"     data-type="text">Detail</th>
+            <th class="open-col"></th>
         </tr>
     </thead>
     <tbody id="runs-body"></tbody>
@@ -1092,17 +1109,21 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         activate(a.dataset.section);
     });
 
-    // Delegated "Open ▸" click on any runs-table row — opens as an
-    // embedded tab rather than navigating away.
+    // Delegated click on run rows — clicking anywhere on the row (not
+    // just the Open pill) opens the run as an embedded tab.
     document.addEventListener("click", (e) => {
-        const link = e.target.closest("#runs a[href^='detail_']");
-        if (!link) return;
-        // Modified clicks fall through to browser default (new tab / window)
-        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+        // Don't intercept clicks on interactive descendants that have
+        // their own handlers (deck-hash filter, preset badge, etc.)
+        if (e.target.closest("button, a, input, .deck-hash-link, .preset-badge")) return;
+        const rr = e.target.closest("tr.run-row[data-detail]");
+        if (!rr) return;
+        // Modified clicks fall through to browser default (open in new tab)
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) {
+            window.open(rr.dataset.detail, "_blank", "noopener");
+            return;
+        }
         e.preventDefault();
-        const href = link.getAttribute("href");
-        // Find the row's data by matching href back to DATA
-        const row = DATA.find(r => r.detail_href === href);
+        const row = DATA.find(r => r.filename === rr.dataset.filename);
         if (row) openRun(row);
     });
 
@@ -1266,7 +1287,7 @@ const runsCtrl = makeSortable({
     defaultDir: -1,
     filterFn: null,
     rowHtml: (r) => `
-        <tr title="${r.filename}\\n${r.deck_summary}">
+        <tr class="run-row hover-open" data-detail="${r.detail_href || ''}" data-filename="${r.filename}" title="${r.filename}&#10;${r.deck_summary}">
             <td>${fmtDate(r.timestamp)}</td>
             <td>${r.trainee_name}</td>
             <td>${r.scenario_name}</td>
@@ -1292,7 +1313,7 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.races_run)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
             <td class="num">${fmtNum(r.skill_hints_available)}</td>
-            <td>${r.detail_href ? `<a class="open-pill" href="${r.detail_href}">Open ▸</a>` : "—"}</td>
+            <td class="open-cell">${r.detail_href ? `<span class="open-pill">Open ▸</span>` : ""}</td>
         </tr>
     `,
 });
@@ -1390,19 +1411,18 @@ function decksMatch(d) {
 const decksCtrl = makeSortable({
     tableId: "decks",
     bodyId: "decks-body",
-    colspan: 11,
+    colspan: 12,
     data: DECKS,
     defaultKey: "best_score",
     defaultDir: -1,
     filterFn: (d) => decksMatch(d),
     rowHtml: (d) => `
-        <tr class="deck-row" data-deck="${d.deck_hash}" title="Click to view all runs of this deck (${d.deck_summary})">
+        <tr class="deck-row hover-open" data-deck="${d.deck_hash}" title="Click anywhere on the row to view all runs of this deck (${d.deck_summary})">
             <td>
                 <span class="deck-thumbs">
                     ${(d.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
                 <button class="deck-hash-link" data-deck="${d.deck_hash}" title="Filter All Runs to this deck">${d.deck_hash}</button>
-                <span class="deck-drilldown-hint">Open ▸</span>
             </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip type-${t}">${n}×${t}</span>`).join("")}</td>
@@ -1415,6 +1435,7 @@ const decksCtrl = makeSortable({
             <td class="num">${fmtNum(d.best_stat_sum)}</td>
             <td class="num">${fmtNum(d.avg_unspent_sp)}</td>
             <td class="num">${fmtNum(d.best_fans)}</td>
+            <td class="open-cell"><span class="open-pill">Open ▸</span></td>
         </tr>
     `,
 });
