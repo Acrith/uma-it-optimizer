@@ -18,29 +18,30 @@ BUNDLED_PATH = Path(__file__).parent / "data" / "masters.json"
 
 RARITY_PREFIX_SUPPORT = {1: "R", 2: "SR", 3: "SSR"}
 
-# support_card_data.command_id → training-focus type. Empirically verified
-# against ~15 known Global cards (Fine Motion=106=Wit, Marvelous Sunday=102
-# =Speed, Nice Nature/Winning Ticket/Mejiro Palmer=103=Stamina, etc.).
-# command_id=104 is unused in current Global build.
+# support_card_data.command_id → training-focus type. Verified against
+# known Global cards: Fine Motion (cmd 106) = Wit, Marvelous Sunday (cmd 102)
+# = Speed, Super Creek + Manhattan Cafe + Mayano Top Gun (all cmd 105) =
+# Stamina, Special Week SSR (cmd 103) = Guts, Kitasan Black SSR (cmd 101) =
+# Power, Tazuna/Light Hello (cmd 0) = Friend. command_id=104 unused on Global.
 SUPPORT_TYPE_BY_CMD = {
     0: "Friend",
     101: "Power",
     102: "Speed",
-    103: "Stamina",
-    105: "Guts",
+    103: "Guts",
+    105: "Stamina",
     106: "Wit",
 }
 
-# Same command_id → gametora's utx_ico_obtain_XX index. These are the
-# exact type icons the game uses (boot/heart/bicep/flame/grad-cap/smiley).
+# Same command_id → gametora's utx_ico_obtain_XX index. Game icons:
+# 0=boot(Speed), 1=heart(Stamina), 2=bicep(Power), 3=flame(Guts),
+# 4=grad-cap(Wit), 5=smiley(Friend), 6=multi-smiley(Group).
 SUPPORT_TYPE_ICON_INDEX = {
     0: 5,       # Friend (yellow smiley)
     101: 2,     # Power (bicep)
     102: 0,     # Speed (boot)
-    103: 1,     # Stamina (heart)
-    105: 3,     # Guts (flame)
+    103: 3,     # Guts (flame)
+    105: 1,     # Stamina (heart)
     106: 4,     # Wit (graduation cap)
-    # 6 = Group (multi-smiley) — no current command_id maps here on Global
 }
 
 
