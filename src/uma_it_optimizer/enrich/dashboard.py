@@ -681,22 +681,12 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     vertical-align: middle;
     display: inline-block;
 }
-/* Grade badge icons are ucarecdn PNGs drawn on a light cream card
-   which reads as a yellowed rectangle against a dark surface. The
-   classic invert(1) + hue-rotate(180deg) trick swaps the cream to
-   a dark card while preserving the letter's color (invert flips
-   luminance, hue-rotate flips it back), which sits cleanly against
-   the dark theme background. Light theme keeps them as-is. */
-:root[data-theme="dark"] .grade-badge,
-:root[data-theme="dark"] .planner-grade-badge {
-    filter: invert(1) hue-rotate(180deg);
-}
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .grade-badge,
-    :root:not([data-theme="light"]) .planner-grade-badge {
-        filter: invert(1) hue-rotate(180deg);
-    }
-}
+/* Grade badge PNGs are drawn on a soft cream card. Two attempts at
+   fixing the dark-mode look (drop-shadow, then invert+hue-rotate) both
+   made it worse than untouched — either fuzzy or the letters flipped
+   color. Left as-is on dark; they read a little "yellowed" but at
+   least the letters are the right hue. Revisit if we can source
+   theme-aware SVG replacements. */
 .preset-badge {
     display: inline-block;
     padding: 1px 6px;

@@ -209,22 +209,8 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     display: block;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
-/* Dark theme: invert(1) + hue-rotate(180deg) flips the cream card
-   background to dark while preserving the letter's hue, so the
-   badges look native on the dark surface instead of stamped
-   rectangles. */
-:root[data-theme="dark"] .fac-body img.grade-badge,
-:root[data-theme="dark"] .rank-badge img,
-:root[data-theme="dark"] .compat-big img {
-    filter: invert(1) hue-rotate(180deg);
-}
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .fac-body img.grade-badge,
-    :root:not([data-theme="light"]) .rank-badge img,
-    :root:not([data-theme="light"]) .compat-big img {
-        filter: invert(1) hue-rotate(180deg);
-    }
-}
+/* Grade badges kept as-is on dark theme — see dashboard.py for the
+   rationale (invert flipped letter colors, drop-shadow blurred). */
 /* Grade circle — tier-colored. Grades map to buckets: g0=G, g1=F/E,
    g2=D/C, g3=B/A, g4=S/SS/SS+, g5=UG/UG+. */
 .grade {
