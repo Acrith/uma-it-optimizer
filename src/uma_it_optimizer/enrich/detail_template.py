@@ -411,9 +411,93 @@ PLANNER_JS = """
 
     function selectKnapsack() {
         selection.clear();
-        for (const sid of (P.knapsack_selection || [])) selection.add(sid);
+        // Re-run knapsack against currently-visible groups so the plan
+        // reflects the active filter (e.g. Pace + Mile → optimum for that
+        // build). When no filter is active this reproduces the Python
+        // pre-computed selection.
+        const chosen = knapsackForActiveFilter();
+        for (const sid of chosen) selection.add(sid);
     }
     function selectNone() { selection.clear(); }
+
+    // Multi-choice knapsack, JS-side. Packages per group:
+    //   [do nothing, white_i, (white_i + gold_j)*, removal stacked on any]
+    // Only considers groups that match the current filter.
+    function knapsackForActiveFilter() {
+        const budget = P.budget | 0;
+        if (budget <= 0) return [];
+        const groupOptions = [];
+        for (const g of P.hint_groups) {
+            if (!groupMatchesFilter(g)) continue;
+            const whites = g.variants.filter(v =>
+                v.rarity === 1 && v.action !== 'remove' && v.grade_value > 0);
+            const golds = g.variants.filter(v =>
+                v.rarity === 2 && v.action !== 'remove');
+            const removals = g.variants.filter(v => v.action === 'remove');
+            if (!whites.length && !golds.length && !removals.length) continue;
+            const packages = [{cost: 0, value: 0, sids: []}];
+            for (const w of whites) {
+                packages.push({cost: w.sp_cost, value: w.grade_value, sids: [w.skill_id]});
+                for (const gd of golds) {
+                    packages.push({
+                        cost: w.sp_cost + gd.sp_cost,
+                        value: w.grade_value + gd.grade_value,
+                        sids: [w.skill_id, gd.skill_id],
+                    });
+                }
+            }
+            if (removals.length) {
+                const base = packages.slice();
+                for (const r of removals) {
+                    for (const b of base) {
+                        packages.push({
+                            cost: b.cost + r.sp_cost,
+                            value: b.value + r.grade_value,
+                            sids: b.sids.concat([r.skill_id]),
+                        });
+                    }
+                }
+            }
+            groupOptions.push(packages);
+        }
+        const n = groupOptions.length;
+        if (!n) return [];
+
+        // dp[i][w] flattened into one Int32Array per row for speed.
+        const dp = new Array(n + 1);
+        const choice = new Array(n + 1);
+        for (let i = 0; i <= n; i++) {
+            dp[i] = new Int32Array(budget + 1);
+            choice[i] = new Int32Array(budget + 1);
+        }
+        for (let i = 1; i <= n; i++) {
+            const pkgs = groupOptions[i - 1];
+            const prev = dp[i - 1];
+            const cur = dp[i];
+            const ch = choice[i];
+            for (let w = 0; w <= budget; w++) {
+                let bestV = prev[w];
+                let bestI = 0;
+                for (let pi = 0; pi < pkgs.length; pi++) {
+                    const p = pkgs[pi];
+                    if (p.cost <= w) {
+                        const v = prev[w - p.cost] + p.value;
+                        if (v > bestV) { bestV = v; bestI = pi; }
+                    }
+                }
+                cur[w] = bestV;
+                ch[w] = bestI;
+            }
+        }
+        const out = [];
+        let w = budget;
+        for (let i = n; i > 0; i--) {
+            const p = groupOptions[i - 1][choice[i][w]];
+            for (const sid of p.sids) out.push(sid);
+            w -= p.cost;
+        }
+        return out;
+    }
 
     // Locate which group + variant a skill_id belongs to.
     function findVariant(sid) {
