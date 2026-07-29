@@ -15,6 +15,8 @@ from dataclasses import dataclass, field
 from .lookups import (
     deck_summary,
     deck_type_composition,
+    grade_icon_url,
+    letter_grade,
     scenario_name,
     support_card_image_url,
     support_card_name,
@@ -40,6 +42,11 @@ class DeckAggregate:
     best_fans: int
     avg_unspent_sp: int
     avg_factors: float
+    avg_score: int                     # avg planned-score across the bucket
+    best_score: int
+    # Grade range (worst floor letter → best ceiling letter) across the bucket
+    worst_rank: int
+    best_rank: int
 
     def as_row(self) -> dict[str, object]:
         return {
@@ -76,6 +83,16 @@ class DeckAggregate:
             "best_fans": self.best_fans,
             "avg_unspent_sp": self.avg_unspent_sp,
             "avg_factors": round(self.avg_factors, 1),
+            "avg_score": self.avg_score,
+            "best_score": self.best_score,
+            "worst_rank": self.worst_rank,
+            "best_rank": self.best_rank,
+            "worst_grade_letter": letter_grade(self.worst_rank) if self.worst_rank else None,
+            "best_grade_letter": letter_grade(self.best_rank) if self.best_rank else None,
+            "worst_grade_icon": (grade_icon_url(letter_grade(self.worst_rank))
+                                 if self.worst_rank else None),
+            "best_grade_icon": (grade_icon_url(letter_grade(self.best_rank))
+                                if self.best_rank else None),
         }
 
 
@@ -110,6 +127,12 @@ def by_deck(runs: list[RunMetrics]) -> list[DeckAggregate]:
         fans = [r.fans for r in bucket]
         sp = [r.unspent_sp for r in bucket]
         factors = [r.factors_total for r in bucket]
+        # Score / grade — use the planned (knapsack ceiling) since that's
+        # the honest 'this deck's best-case outcome' number, and floor
+        # rank (worst grade) so the range shows how much SP-picking varies.
+        scores = [r.score_ceiling for r in bucket if r.score_ceiling]
+        rank_ceilings = [r.rank_ceiling for r in bucket if r.rank_ceiling]
+        rank_floors = [r.rank_floor for r in bucket if r.rank_floor]
         out.append(DeckAggregate(
             deck_hash=deck_hash,
             deck_card_ids=deck_ids,
@@ -125,6 +148,11 @@ def by_deck(runs: list[RunMetrics]) -> list[DeckAggregate]:
             best_fans=max(fans),
             avg_unspent_sp=int(statistics.mean(sp)),
             avg_factors=statistics.mean(factors),
+            avg_score=int(statistics.mean(scores)) if scores else 0,
+            best_score=max(scores) if scores else 0,
+            worst_rank=min(rank_floors) if rank_floors else 0,
+            best_rank=max(rank_ceilings) if rank_ceilings else 0,
         ))
-    out.sort(key=lambda a: (-a.runs, -a.best_fans))
+    # Sort by best_score desc so highest-ceiling decks lead
+    out.sort(key=lambda a: (-a.best_score, -a.runs))
     return out

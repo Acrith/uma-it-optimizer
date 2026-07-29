@@ -206,16 +206,16 @@ __STATS_HTML__
 <table id="decks">
     <thead>
         <tr>
-            <th data-key="deck_hash"     data-type="text">Deck#</th>
+            <th data-key="deck_hash"     data-type="text">Deck</th>
             <th data-key="type_label"    data-type="text">Types</th>
             <th data-key="trainees_label" data-type="text">Trainees</th>
             <th data-key="runs"          data-type="num">Runs</th>
-            <th data-key="avg_stat_sum"  data-type="num">Avg 5-Stat</th>
+            <th data-key="best_score"    data-type="num" title="Best planned score across runs of this deck">Best Score</th>
+            <th data-key="avg_score"     data-type="num" title="Average planned score across runs of this deck">Avg Score</th>
+            <th data-key="best_rank"     data-type="num" title="Grade range: worst floor → best ceiling across runs">Grade</th>
             <th data-key="best_stat_sum" data-type="num">Best 5-Stat</th>
-            <th data-key="avg_fans"      data-type="num">Avg Fans</th>
-            <th data-key="best_fans"     data-type="num">Best Fans</th>
             <th data-key="avg_unspent_sp" data-type="num">Avg SP</th>
-            <th data-key="avg_factors"   data-type="num">Avg Fac</th>
+            <th data-key="best_fans"     data-type="num">Best Fans</th>
         </tr>
     </thead>
     <tbody id="decks-body"></tbody>
@@ -273,6 +273,20 @@ function fmtNum(n) {
     if (n === null || n === undefined) return "";
     return typeof n === "number" ? n.toLocaleString() : n;
 }
+function renderDeckGradeRange(d) {
+    // Grade spread across the runs in this deck's bucket — worst floor
+    // to best ceiling. Shows how much the deck's outcome varies with
+    // SP-picking + trainee.
+    const lo = d.worst_grade_letter, hi = d.best_grade_letter;
+    const loIcon = d.worst_grade_icon, hiIcon = d.best_grade_icon;
+    if (!lo && !hi) return "—";
+    const badge = (letter, url) => url
+        ? `<img class="grade-badge" src="${url}" alt="${letter}" title="${letter}" loading="lazy" onerror="this.replaceWith(document.createTextNode('${letter}'))">`
+        : `<strong>${letter}</strong>`;
+    if (lo === hi) return badge(lo, loIcon);
+    return `${badge(lo, loIcon)}<span style="color: var(--muted); margin: 0 3px;">→</span>${badge(hi, hiIcon)}`;
+}
+
 function renderGradeBadges(r) {
     // Render floor and ceiling icons side-by-side with a '→' when they
     // differ. Falls back to bold text for EX-tier grades where we have
@@ -388,9 +402,7 @@ const runsCtrl = makeSortable({
             <td class="num">${fmtNum(r.guts)}</td>
             <td class="num">${fmtNum(r.unspent_sp)}</td>
             <td class="num">${fmtNum(r.races_run)}</td>
-            <td class="num">${fmtNum(r.fans_per_race)}</td>
             <td class="num">${fmtNum(r.fans)}</td>
-            <td class="num">${fmtNum(r.factors_total)}</td>
             <td class="num">${fmtNum(r.skill_hints_available)}</td>
             <td>${r.detail_href ? `<a href="${r.detail_href}">Open ▸</a>` : "—"}</td>
         </tr>
@@ -420,12 +432,12 @@ const decksCtrl = makeSortable({
                     .map(([t,n]) => `<span class="chip">${n}×${t}</span>`).join("")}</td>
             <td>${d.trainees_label}</td>
             <td class="num">${d.runs}</td>
-            <td class="num">${fmtNum(d.avg_stat_sum)}</td>
+            <td class="num">${fmtNum(d.best_score)}</td>
+            <td class="num">${fmtNum(d.avg_score)}</td>
+            <td>${renderDeckGradeRange(d)}</td>
             <td class="num">${fmtNum(d.best_stat_sum)}</td>
-            <td class="num">${fmtNum(d.avg_fans)}</td>
-            <td class="num">${fmtNum(d.best_fans)}</td>
             <td class="num">${fmtNum(d.avg_unspent_sp)}</td>
-            <td class="num">${d.avg_factors}</td>
+            <td class="num">${fmtNum(d.best_fans)}</td>
         </tr>
     `,
 });

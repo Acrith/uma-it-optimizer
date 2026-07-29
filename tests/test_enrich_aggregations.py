@@ -33,10 +33,10 @@ def test_by_deck_sort_order():
     runs = [r for r in summarize_directory(REAL_RUNS_DIR)
             if r.run_state == "completed"]
     aggs = by_deck(runs)
-    # sorted by (runs desc, best_fans desc) — most-used decks first
+    # sorted by (best_score desc, runs desc) — highest-ceiling decks first
     for prev, curr in zip(aggs, aggs[1:], strict=False):
-        assert (prev.runs > curr.runs) or (
-            prev.runs == curr.runs and prev.best_fans >= curr.best_fans
+        assert (prev.best_score > curr.best_score) or (
+            prev.best_score == curr.best_score and prev.runs >= curr.runs
         )
 
 
