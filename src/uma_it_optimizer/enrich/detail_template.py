@@ -83,7 +83,8 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
     border-radius: 4px; font-size: 10px; font-weight: 700;
 }
 .fac-label { font-weight: 600; }
-.fac-body { display: flex; align-items: baseline; gap: 6px; }
+.fac-body { display: flex; align-items: center; gap: 8px; }
+.fac-body .fac-value { line-height: 1; }
 .fac-value {
     font-size: 22px; font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -92,7 +93,8 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400;
 .fac-card.fac-sp .fac-value { color: #9060d0; }
 .stat-cap { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .fac-body img.grade-badge {
-    height: 28px; width: auto; object-fit: contain;
+    height: 30px; width: auto; object-fit: contain;
+    display: block;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
 /* Grade circle — tier-colored. Grades map to buckets: g0=G, g1=F/E,
