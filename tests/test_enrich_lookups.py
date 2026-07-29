@@ -89,9 +89,13 @@ def test_letter_grade_known_mappings():
     assert lookups.letter_grade(15) == "S"
     assert lookups.letter_grade(17) == "SS"
     assert lookups.letter_grade(18) == "SS+"
-    # Above 18 = EX+N
-    assert lookups.letter_grade(19) == "EX+1"
-    assert lookups.letter_grade(98) == "EX+80"
+    # Above SS+ enters the EX tier — Ug/Uf/Ue with unicode superscripts
+    assert lookups.letter_grade(19) == "Ug"
+    assert lookups.letter_grade(28) == "Ug⁹"
+    assert lookups.letter_grade(48) == "Ue⁹"
+    # Ranks 49+ are theoretical (game's rank table goes to 98) — safe
+    # EX+N fallback for anything unnamed.
+    assert lookups.letter_grade(98) == "EX+50"
 
 
 def test_letter_grade_range_same_and_different():

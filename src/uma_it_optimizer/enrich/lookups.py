@@ -273,6 +273,14 @@ LETTER_GRADE_BY_RANK = {
     13: "A",  14: "A+",
     15: "S",  16: "S+",
     17: "SS", 18: "SS+",
+    # EX tier — Ug (rank 19-28), Uf (29-38), Ue (39-48). Very rare
+    # in practice; only whales / perfect-play runs hit these.
+    19: "Ug",  20: "Ug¹", 21: "Ug²", 22: "Ug³", 23: "Ug⁴",
+    24: "Ug⁵", 25: "Ug⁶", 26: "Ug⁷", 27: "Ug⁸", 28: "Ug⁹",
+    29: "Uf",  30: "Uf¹", 31: "Uf²", 32: "Uf³", 33: "Uf⁴",
+    34: "Uf⁵", 35: "Uf⁶", 36: "Uf⁷", 37: "Uf⁸", 38: "Uf⁹",
+    39: "Ue",  40: "Ue¹", 41: "Ue²", 42: "Ue³", 43: "Ue⁴",
+    44: "Ue⁵", 45: "Ue⁶", 46: "Ue⁷", 47: "Ue⁸", 48: "Ue⁹",
 }
 
 # Rank-badge icon URLs (64×64 PNGs of the actual game asset). Sourced
@@ -300,6 +308,37 @@ GRADE_ICON_URL = {
     "S+":  "https://ucarecdn.com/1d62b8ec-99f0-46ee-ae08-0ea3e9d07fdd/S.png",
     "SS":  "https://ucarecdn.com/902b5f72-f9e3-4727-b8a3-6a859e3c395c/SS.png",
     "SS+": "https://ucarecdn.com/350624dc-889b-41d1-8dd5-ea23b66113a0/SS.png",
+    # EX tier — 30 sub-ranks across Ug, Uf, Ue prefixes.
+    "Ug":  "https://ucarecdn.com/6cf688d0-d852-418d-bb2d-5e695dd5a36e/UG.png",
+    "Ug¹": "https://ucarecdn.com/d60b208e-c6b8-4d0f-b6e6-9dc110ca4e0c/UG1.png",
+    "Ug²": "https://ucarecdn.com/25ca9dc6-fa97-4440-842e-0715b066be42/UG2.png",
+    "Ug³": "https://ucarecdn.com/ada20e59-4fd7-4468-a583-0985b3277629/UG3.png",
+    "Ug⁴": "https://ucarecdn.com/c10300ca-84d4-4340-814e-89ad0feae078/UG4.png",
+    "Ug⁵": "https://ucarecdn.com/d0970ada-c050-49a5-bbd4-80e62f825675/UG5.png",
+    "Ug⁶": "https://ucarecdn.com/532c5060-0a96-4652-ab4e-cb9d445d4d8f/UG6.png",
+    "Ug⁷": "https://ucarecdn.com/78821047-54db-43a4-ae37-92b63ff34d25/UG7.png",
+    "Ug⁸": "https://ucarecdn.com/009c0153-2d39-4364-94aa-4f9cf09b5f03/UG8.png",
+    "Ug⁹": "https://ucarecdn.com/29534564-4db3-4d45-ae34-57e2d17da050/UG9.png",
+    "Uf":  "https://ucarecdn.com/6c5c1914-c6e3-46b8-8ba6-a51c6304fb51/UF.png",
+    "Uf¹": "https://ucarecdn.com/26df385f-980d-40f1-98bc-d28fe52724dc/UF1.png",
+    "Uf²": "https://ucarecdn.com/bea6c2bb-10d4-45bb-8baa-c9952eccf1aa/UF2.png",
+    "Uf³": "https://ucarecdn.com/8c67cb62-0022-44b3-a912-f8cfba812ed2/UF3.png",
+    "Uf⁴": "https://ucarecdn.com/eab1ebad-c3ec-4182-9918-cdb475e0bf2b/UF4.png",
+    "Uf⁵": "https://ucarecdn.com/0f1e362b-818e-49a4-964d-321b138be737/UF5.png",
+    "Uf⁶": "https://ucarecdn.com/f8c4e5a3-415a-41ad-bbbf-c63213da69ce/UF6.png",
+    "Uf⁷": "https://ucarecdn.com/415af962-3bac-450b-bbc6-c505336105bc/UF7.png",
+    "Uf⁸": "https://ucarecdn.com/d9afe783-88bb-4c5c-b8d1-91b9ad9d68f8/UF8.png",
+    "Uf⁹": "https://ucarecdn.com/745b5e69-9a6c-444d-aa70-b2297b734d2b/UF9.png",
+    "Ue":  "https://ucarecdn.com/af1b3ff8-0006-4972-90db-470d88b44c3a/UE.png",
+    "Ue¹": "https://ucarecdn.com/3d0ed51f-566a-4335-8b2c-0d18a85ee966/UE1.png",
+    "Ue²": "https://ucarecdn.com/678e7603-334e-4df9-8213-296cf9e50b2c/UE2.png",
+    "Ue³": "https://ucarecdn.com/4f1db15c-937e-44bc-b5fb-bd538d8e2ffd/UE3.png",
+    "Ue⁴": "https://ucarecdn.com/ce266b9a-9498-4dbd-ad44-e61622bfe7e1/UE4.png",
+    "Ue⁵": "https://ucarecdn.com/e6856fd6-1ade-446c-94b9-c862fd9bafec/UE5.png",
+    "Ue⁶": "https://ucarecdn.com/2e17fefe-5537-4a8e-8416-ad274501f80d/UE6.png",
+    "Ue⁷": "https://ucarecdn.com/3a5225f2-1b5a-41b4-84f1-d68beeb2cf56/UE7.png",
+    "Ue⁸": "https://ucarecdn.com/cbd608d6-f5a8-41c0-9047-e509a3228da3/UE8.png",
+    "Ue⁹": "https://ucarecdn.com/95727d57-3cd1-40cc-8a41-4db4209f725a/UE9.png",
 }
 
 
@@ -310,13 +349,15 @@ def grade_icon_url(letter: str) -> str | None:
 
 
 def letter_grade(rank: int) -> str:
-    """Numeric rank (1..98) → letter grade string. Above rank 18 uses
-    'EX+N' (extreme end of the distribution)."""
+    """Numeric rank (1..98) → letter grade string. Ranks 1-48 are named
+    (G through Ue⁹ per the community rating tiers). Above rank 48 the
+    game's single_mode_rank table keeps going up to 98 but no player
+    ever hits those — return generic 'EX+N' as a safe fallback."""
     if rank <= 0:
         return "?"
     if rank in LETTER_GRADE_BY_RANK:
         return LETTER_GRADE_BY_RANK[rank]
-    return f"EX+{rank - 18}"
+    return f"EX+{rank - 48}"
 
 
 def letter_grade_range(rank_lo: int, rank_hi: int) -> str:
