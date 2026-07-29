@@ -210,6 +210,24 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
     vertical-align: middle;
     display: inline-block;
 }
+.preset-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    user-select: none;
+}
+.preset-badge:hover { filter: brightness(1.1); box-shadow: 0 0 0 1px var(--accent); }
+.preset-high { background: #ff8f30; color: white; }         /* inferred, high confidence */
+.preset-low  { background: var(--row-alt); color: var(--muted); font-style: italic; }
+.preset-override { background: #4f8fef; color: white; font-style: normal; }  /* player set */
+@media (prefers-color-scheme: dark) {
+    .preset-high { background: #d97010; }
+    .preset-override { background: #3672cc; }
+}
 </style>
 </head>
 <body>
@@ -258,6 +276,7 @@ __STATS_HTML__
             <th data-key="timestamp"     data-type="text">Date</th>
             <th data-key="trainee_name"  data-type="text">Trainee</th>
             <th data-key="scenario_name" data-type="text">Scenario</th>
+            <th data-key="inferred_preset" data-type="text" title="Heuristic guess at IT preset from stat pattern — Stamina is high-confidence when stamina > 850; everything else defaults to Balanced?">Preset</th>
             <th data-key="deck_hash"     data-type="text">Deck</th>
             <th data-key="score_ceiling" data-type="num" title="Estimated SS-grade score at knapsack-optimal SP spend">Score</th>
             <th data-key="letter_grade"  data-type="text" title="Letter grade range from rank tier">Grade</th>
@@ -292,6 +311,32 @@ function fmtNum(n) {
     if (n === null || n === undefined) return "";
     return typeof n === "number" ? n.toLocaleString() : n;
 }
+// Preset override state — persisted in localStorage keyed by run filename.
+// The extractor can't capture which preset the player picked, so we show
+// a heuristic guess and let the user correct it with a click. Overrides
+// survive page reloads and dashboard regenerations.
+const PRESET_OVERRIDE_KEY = "uma_it_preset_overrides_v1";
+const PRESET_CYCLE = ["Balanced", "Stamina", "Sprint", "Custom"];
+function loadPresetOverrides() {
+    try { return JSON.parse(localStorage.getItem(PRESET_OVERRIDE_KEY) || "{}"); }
+    catch { return {}; }
+}
+function savePresetOverride(filename, value) {
+    const all = loadPresetOverrides();
+    if (value === null) delete all[filename]; else all[filename] = value;
+    localStorage.setItem(PRESET_OVERRIDE_KEY, JSON.stringify(all));
+}
+function renderPresetBadge(r) {
+    const overrides = loadPresetOverrides();
+    const override = overrides[r.filename];
+    const shown = override || r.inferred_preset;
+    const cls = override ? "preset-override" : `preset-${r.inferred_preset_conf}`;
+    const title = override
+        ? `Set to '${override}' by you. Click to cycle (right-click to clear)`
+        : `Inferred '${r.inferred_preset}' (${r.inferred_preset_conf} confidence). Click to set correct preset`;
+    return `<span class="preset-badge ${cls}" data-preset-file="${r.filename}" title="${title}">${shown}</span>`;
+}
+
 function renderDeckGradeRange(d) {
     // Grade spread across the runs in this deck's bucket — worst floor
     // to best ceiling. Shows how much the deck's outcome varies with
@@ -405,6 +450,7 @@ const runsCtrl = makeSortable({
             <td>${fmtDate(r.timestamp)}</td>
             <td>${r.trainee_name}</td>
             <td>${r.scenario_name}</td>
+            <td>${renderPresetBadge(r)}</td>
             <td title="${r.deck_summary}">
                 <span class="deck-thumbs">
                     ${(r.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
@@ -442,6 +488,31 @@ document.addEventListener("click", (e) => {
     input.value = hash;
     runsCtrl.setFilter(hash);
     document.getElementById("runs").scrollIntoView({behavior: "smooth", block: "start"});
+});
+
+// Click a preset badge → cycle through Balanced → Stamina → Sprint →
+// Custom → (clear override). Right-click clears immediately.
+document.addEventListener("click", (e) => {
+    const badge = e.target.closest(".preset-badge[data-preset-file]");
+    if (!badge) return;
+    const filename = badge.dataset.presetFile;
+    const overrides = loadPresetOverrides();
+    const current = overrides[filename];
+    let next;
+    if (!current) next = PRESET_CYCLE[0];
+    else {
+        const i = PRESET_CYCLE.indexOf(current);
+        next = i === -1 || i === PRESET_CYCLE.length - 1 ? null : PRESET_CYCLE[i + 1];
+    }
+    savePresetOverride(filename, next);
+    runsCtrl.apply();
+});
+document.addEventListener("contextmenu", (e) => {
+    const badge = e.target.closest(".preset-badge[data-preset-file]");
+    if (!badge) return;
+    e.preventDefault();
+    savePresetOverride(badge.dataset.presetFile, null);
+    runsCtrl.apply();
 });
 
 // ── decks table ───────────────────────────────────────────────────

@@ -9,6 +9,7 @@ from pathlib import Path
 from .lookups import (
     deck_summary,
     grade_icon_url,
+    infer_preset,
     letter_grade,
     letter_grade_range,
     scenario_name,
@@ -66,6 +67,11 @@ class RunMetrics:
     score_ceiling: int        # if all unspent SP spent at default rate
     rank_floor: int           # numeric rank tier for floor score
     rank_ceiling: int         # numeric rank tier for ceiling score
+
+    # Inferred IT preset (Balanced/Stamina/Sprint). The preset itself
+    # isn't persisted post-training; this is a heuristic from stats.
+    inferred_preset: str      # e.g. 'Stamina' or 'Balanced?'
+    inferred_preset_conf: str # 'high' / 'low'
 
     @property
     def fans_per_race(self) -> int:
@@ -143,6 +149,8 @@ class RunMetrics:
                                  if self.rank_floor else None),
             "grade_ceiling_icon": (grade_icon_url(letter_grade(self.rank_ceiling))
                                    if self.rank_ceiling else None),
+            "inferred_preset": self.inferred_preset,
+            "inferred_preset_conf": self.inferred_preset_conf,
             "filename": self.filename,
         }
 
@@ -248,6 +256,12 @@ def summarize(path: Path) -> RunMetrics:
         score_ceiling=score_ceiling,
         rank_floor=rank_floor,
         rank_ceiling=rank_ceiling,
+        inferred_preset=(infer_preset(speed=speed, stamina=stamina, power=power,
+                                       wiz=wiz, guts=guts)[0]
+                          if score_ceiling else "—"),
+        inferred_preset_conf=(infer_preset(speed=speed, stamina=stamina, power=power,
+                                            wiz=wiz, guts=guts)[1]
+                               if score_ceiling else "—"),
     )
 
 

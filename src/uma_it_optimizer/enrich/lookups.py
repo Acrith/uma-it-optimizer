@@ -351,6 +351,26 @@ def grade_icon_url(letter: str) -> str | None:
     return GRADE_ICON_URL.get(letter)
 
 
+def infer_preset(*, speed: int, stamina: int, power: int,
+                 wiz: int, guts: int) -> tuple[str, str]:
+    """Heuristic guess at which IT preset the run used (Balanced /
+    Stamina / Sprint / etc.), based on final stats. The preset itself
+    isn't persisted anywhere in the completed-run state, so this is
+    inference-only. Returns (label, confidence).
+
+    Rule: Stamina preset pushes stamina notably higher than the other
+    presets. Empirically on this account: Stamina run ended at 989 vs
+    every other run 519-763 — a 226-point gap. Anything above ~850
+    is confidently 'Stamina'. Everything else defaults to 'Balanced',
+    but could also be Sprint or another non-stamina preset the game
+    ships. Sprint isn't reliably distinguishable from Balanced by
+    stats alone — both cap stamina around 600, they differ only in
+    the speed/power emphasis which is highly deck-dependent."""
+    if stamina >= 850:
+        return "Stamina", "high"
+    return "Balanced?", "low"
+
+
 def letter_grade(rank: int) -> str:
     """Numeric rank (1..98) → letter grade string. Ranks 1-48 are named
     (G through Ue⁹ per the community rating tiers). Above rank 48 the
