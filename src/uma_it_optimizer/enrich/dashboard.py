@@ -156,6 +156,25 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     margin-right: 4px;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
 }
+/* Type composition chips — colored to match the type icons (boot=Speed,
+   heart=Stamina, bicep=Power, flame=Guts, grad=Wit, smiley=Friend). */
+.chip.type-Speed   { background: #3a7bff; color: white; }
+.chip.type-Stamina { background: #e64545; color: white; }
+.chip.type-Power   { background: #ff8f30; color: white; }
+.chip.type-Guts    { background: #e94494; color: white; }
+.chip.type-Wit     { background: #37b34a; color: white; }
+.chip.type-Friend  { background: #f5c942; color: #6a4600; }
+.chip.type-Group   { background: #6bc38a; color: #10441e; }
+.chip.type-\?      { background: var(--row-alt); color: var(--muted); }
+/* Deck-hash link that jumps to the All Runs table filtered to that hash */
+.deck-hash-link {
+    background: none; border: 0; padding: 0;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10px; color: var(--muted);
+    cursor: pointer; vertical-align: middle;
+    text-decoration: underline dotted;
+}
+.deck-hash-link:hover { color: var(--accent); }
 .deck-thumbs {
     display: inline-flex;
     gap: 3px;
@@ -390,7 +409,7 @@ const runsCtrl = makeSortable({
                 <span class="deck-thumbs">
                     ${(r.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
-                <span class="mono" style="font-size: 10px; color: var(--muted); vertical-align: middle;">${r.deck_hash}</span>
+                <button class="deck-hash-link" data-deck="${r.deck_hash}" title="Filter All Runs to this deck">${r.deck_hash}</button>
             </td>
             <td class="num" title="${r.score_range_label}">${r.score_ceiling ? fmtNum(r.score_ceiling) : "—"}</td>
             <td title="${r.rank_range_label}">${renderGradeBadges(r)}</td>
@@ -411,6 +430,20 @@ const runsCtrl = makeSortable({
 document.getElementById("filter").addEventListener("input", e => runsCtrl.setFilter(e.target.value));
 document.getElementById("show-all").addEventListener("change", e => runsCtrl.setShowAll(e.target.checked));
 
+// Click any deck-hash button → set the All Runs filter to that hash
+// (auto-shows all runs of that deck in one place) + scroll the runs
+// table into view. Delegated on document so it works across both the
+// Deck Performance and All Runs tables + survives re-renders.
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".deck-hash-link");
+    if (!btn) return;
+    const hash = btn.dataset.deck;
+    const input = document.getElementById("filter");
+    input.value = hash;
+    runsCtrl.setFilter(hash);
+    document.getElementById("runs").scrollIntoView({behavior: "smooth", block: "start"});
+});
+
 // ── decks table ───────────────────────────────────────────────────
 const decksCtrl = makeSortable({
     tableId: "decks",
@@ -426,10 +459,10 @@ const decksCtrl = makeSortable({
                 <span class="deck-thumbs">
                     ${(d.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
-                <span class="mono" style="font-size: 10px; color: var(--muted); vertical-align: middle;">${d.deck_hash}</span>
+                <button class="deck-hash-link" data-deck="${d.deck_hash}" title="Filter All Runs to this deck">${d.deck_hash}</button>
             </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
-                    .map(([t,n]) => `<span class="chip">${n}×${t}</span>`).join("")}</td>
+                    .map(([t,n]) => `<span class="chip type-${t}">${n}×${t}</span>`).join("")}</td>
             <td>${d.trainees_label}</td>
             <td class="num">${d.runs}</td>
             <td class="num">${fmtNum(d.best_score)}</td>
