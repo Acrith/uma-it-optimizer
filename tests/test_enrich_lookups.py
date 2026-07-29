@@ -137,6 +137,45 @@ def test_factor_name_unknown_falls_back():
     assert lookups.factor_name(999999999) == "?factor:999999999"
 
 
+def test_classify_skill_by_style_keyword():
+    c = lookups.classify_skill("Front Runner Corners ○")
+    assert "Front" in c["styles"]
+    assert c["is_universal"] is False
+
+
+def test_classify_skill_by_distance_keyword():
+    c = lookups.classify_skill("Long Corners ○")
+    assert "Long" in c["distances"]
+    assert c["is_universal"] is False
+
+
+def test_classify_skill_combined_style_and_distance():
+    # 'Pace Chaser Corners' has style but no explicit distance
+    c = lookups.classify_skill("Pace Chaser Corners ◎")
+    assert "Pace" in c["styles"]
+    assert c["distances"] == []
+
+
+def test_classify_skill_universal_when_no_keyword():
+    c = lookups.classify_skill("Warning Shot!")
+    assert c["is_universal"] is True
+    assert c["styles"] == []
+    assert c["distances"] == []
+
+
+def test_classify_skill_empty_name():
+    c = lookups.classify_skill("")
+    assert c["is_universal"] is True
+
+
+def test_hint_group_variants_include_classification():
+    # Corner Recovery group — no style/distance keywords in that name
+    variants = lookups.hint_group_variants(20033)
+    assert variants
+    for v in variants:
+        assert "styles" in v and "distances" in v and "is_universal" in v
+
+
 def test_masters_bundled_snapshot_loads():
     """The bundled snapshot must have the expected top-level keys.
     Guards against a shipped-empty file or a schema drift."""

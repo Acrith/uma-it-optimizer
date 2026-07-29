@@ -155,6 +155,50 @@ GROUP_RATE_LABEL = {2: "◎", 1: "○", -1: "×", 3: "alt"}
 GROUP_RATE_RANK = {2: 0, 1: 1, 3: 2, -1: 3}   # display order: ◎ before ○ before alt before ×
 
 
+# ── skill classification (running style / distance) ─────────────────
+# Umamusume skill names carry the style + distance affinity directly
+# in their text. Community-standard mapping:
+#   Front (Nige)   → skills targeting the leader
+#   Pace  (Senko)  → skills targeting the second-place tier
+#   Late  (Sashi)  → skills targeting the mid-back
+#   End   (Oikomi) → skills targeting the tail
+#   Sprint / Mile / Medium / Long — distance-affinity skills.
+# Skills that match no keyword are 'Universal' (apply to any setup).
+
+_STYLE_KEYWORDS = {
+    "Front":  ("Front Runner", "Front Runners", "Nige"),
+    "Pace":   ("Pace Chaser", "Pace Chasers", "Senko"),
+    "Late":   ("Late Surger", "Late Surgers", "Sashi"),
+    "End":    ("End Closer", "End Closers", "Oikomi"),
+}
+_DISTANCE_KEYWORDS = {
+    "Sprint": ("Sprint",),
+    "Mile":   ("Mile",),
+    "Medium": ("Medium", "Middle"),
+    "Long":   ("Long",),
+}
+
+
+def classify_skill(name: str) -> dict:
+    """Name-based tags for style + distance affinity. Returns
+    {'styles': [...], 'distances': [...], 'is_universal': bool}.
+
+    A skill can carry multiple style tags (e.g. 'Late Surger and End
+    Closer Corners ○'). If no style/distance keyword matches, the skill
+    is marked universal — it applies regardless of trainee setup."""
+    if not name:
+        return {"styles": [], "distances": [], "is_universal": True}
+    styles = [s for s, kws in _STYLE_KEYWORDS.items()
+              if any(kw in name for kw in kws)]
+    distances = [d for d, kws in _DISTANCE_KEYWORDS.items()
+                 if any(kw in name for kw in kws)]
+    return {
+        "styles": styles,
+        "distances": distances,
+        "is_universal": not styles and not distances,
+    }
+
+
 def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
     """Return skill variants in a hint group as {skill_id, name, rate,
     rate_label, sp_cost, grade_value, value_per_sp}. Sorted best-first
@@ -178,6 +222,7 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
         if not cost or not val:
             continue
         rate = s.get("group_rate", 0)
+        cls = classify_skill(s.get("name", ""))
         variants.append({
             "skill_id": int(sid_str),
             "name": s.get("name", f"?skill:{sid_str}"),
@@ -187,6 +232,9 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
             "sp_cost": int(cost),
             "grade_value": int(val),
             "value_per_sp": round(val / cost, 2) if cost else 0.0,
+            "styles": cls["styles"],
+            "distances": cls["distances"],
+            "is_universal": cls["is_universal"],
         })
     variants.sort(key=lambda v: (GROUP_RATE_RANK.get(v["rate"], 9), -v["grade_value"]))
     return variants

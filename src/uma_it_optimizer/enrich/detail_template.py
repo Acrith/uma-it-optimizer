@@ -175,6 +175,47 @@ td.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12p
 }
 .variant-btn.remove { color: #1e8a3a; border-color: #a4d9ba; }
 .variant-btn.remove.selected { background: #1e8a3a; color: white; border-color: #10662a; }
+
+.hint-group.dim { opacity: 0.35; }
+.hint-group.dim .variant-btn { cursor: default; }
+.tag-chip {
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 600;
+    margin-left: 3px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+}
+.tag-style-Front  { background: #dceeff; color: #0a3a80; }
+.tag-style-Pace   { background: #e0dcff; color: #3a1a80; }
+.tag-style-Late   { background: #ffe0e0; color: #a02020; }
+.tag-style-End    { background: #ffe0f0; color: #a02060; }
+.tag-dist         { background: #e0f2e0; color: #206020; }
+@media (prefers-color-scheme: dark) {
+    .tag-style-Front  { background: #1a2540; color: #7fa7ff; }
+    .tag-style-Pace   { background: #2a1a40; color: #b09aff; }
+    .tag-style-Late   { background: #3d1a1a; color: #ff9090; }
+    .tag-style-End    { background: #3d1a2a; color: #ff9ac9; }
+    .tag-dist         { background: #1e3a25; color: #90d99f; }
+}
+
+.filter-bar {
+    display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+    padding: 8px 12px; margin-bottom: 10px;
+    border: 1px solid var(--border); border-radius: 5px;
+}
+.filter-group { display: flex; gap: 4px; align-items: center; }
+.filter-group-label { font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-right: 4px; }
+.filter-btn {
+    padding: 3px 10px; font-size: 11px; font-family: inherit;
+    background: var(--bg); color: var(--fg);
+    border: 1px solid var(--border); border-radius: 3px; cursor: pointer;
+}
+.filter-btn:hover { background: var(--hover); }
+.filter-btn.active { background: #58a6ff; color: white; border-color: #2f6fc7; }
 .variant-btn-label { font-weight: 700; }
 .variant-btn-name { opacity: 0.85; }
 .variant-btn-nums {
@@ -360,6 +401,14 @@ PLANNER_JS = """
     // group (they're separate purchases in-game).
     const selection = new Set();
 
+    // Filter state — which style/distance the trainee is optimized for.
+    // A hint group matches if any of its variants either (a) targets one
+    // of the selected styles/distances, or (b) is universal (applies to
+    // any setup). Non-matching groups get dimmed, not removed.
+    const filter = { styles: new Set(), distances: new Set() };
+    const STYLES = ['Front', 'Pace', 'Late', 'End'];
+    const DISTANCES = ['Sprint', 'Mile', 'Medium', 'Long'];
+
     function selectKnapsack() {
         selection.clear();
         for (const sid of (P.knapsack_selection || [])) selection.add(sid);
@@ -463,12 +512,47 @@ PLANNER_JS = """
     }
 
     // ── render ────────────────────────────────────────────────────
+    function groupMatchesFilter(g) {
+        if (filter.styles.size === 0 && filter.distances.size === 0) return true;
+        return g.variants.some(v => {
+            if (v.is_universal) return true;
+            const styleHit = filter.styles.size === 0
+                || (v.styles || []).some(s => filter.styles.has(s));
+            const distHit = filter.distances.size === 0
+                || (v.distances || []).some(d => filter.distances.has(d));
+            return styleHit && distHit;
+        });
+    }
     function render() {
         const { sp, value } = totals();
         const spLeft = P.budget - sp;
         const totalScore = P.floor_score + value;
         const rank = rankForScore(totalScore);
         const overBudget = sp > P.budget;
+
+        const filterBar = `
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <span class="filter-group-label">Style</span>
+                    ${STYLES.map(s =>
+                        `<button class="filter-btn ${filter.styles.has(s) ? 'active' : ''}"
+                            data-filter="style" data-val="${s}">${s}</button>`
+                    ).join('')}
+                </div>
+                <div class="filter-group">
+                    <span class="filter-group-label">Distance</span>
+                    ${DISTANCES.map(d =>
+                        `<button class="filter-btn ${filter.distances.has(d) ? 'active' : ''}"
+                            data-filter="distance" data-val="${d}">${d}</button>`
+                    ).join('')}
+                </div>
+                <span style="color: var(--muted); font-size: 11px;">
+                    ${filter.styles.size + filter.distances.size === 0
+                        ? 'Showing all groups. Click a tag to focus.'
+                        : 'Non-matching groups dimmed. Click again to unfilter.'}
+                </span>
+            </div>
+        `;
 
         root.innerHTML = `
             <div class="planner-topbar">
@@ -498,6 +582,7 @@ PLANNER_JS = """
                     <button class="planner-btn" data-action="clear">Clear all</button>
                 </div>
             </div>
+            ${filterBar}
             <div class="hint-group-list">
                 ${P.hint_groups.map(renderGroup).join('')}
             </div>
@@ -516,29 +601,46 @@ PLANNER_JS = """
                 render();
             });
         });
+        root.querySelectorAll('button[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const set = btn.dataset.filter === 'style'
+                    ? filter.styles : filter.distances;
+                const v = btn.dataset.val;
+                if (set.has(v)) set.delete(v);
+                else set.add(v);
+                render();
+            });
+        });
     }
 
     function renderGroup(g) {
-        // Three UI rows possible per group:
-        //  - Buy white (rarity=1, action=buy): ◎/○ variants of the same
-        //    base skill — mutually exclusive picks.
-        //  - Buy gold upgrade (rarity=2, action=buy): requires a white
-        //    picked as prereq; auto-selects a default white if you pick
-        //    gold alone.
-        //  - Remove × (action=remove): the × skill was auto-acquired
-        //    during the career; player pays sp_cost to cleanse it.
-        //    Independent of white/gold picks.
         const buyWhites = g.variants.filter(v => v.rarity === 1 && v.action !== 'remove');
         const buyGolds  = g.variants.filter(v => v.rarity === 2 && v.action !== 'remove');
         const removals  = g.variants.filter(v => v.action === 'remove');
         const hasSel = g.variants.some(v => selection.has(v.skill_id));
+        const dimmed = !groupMatchesFilter(g);
         const rows = [];
         if (buyWhites.length) rows.push(renderVariantRow(buyWhites, 'White', 'buy-white'));
         if (buyGolds.length)  rows.push(renderVariantRow(buyGolds, 'Gold upgrade', 'buy-gold'));
         if (removals.length)  rows.push(renderVariantRow(removals, 'Remove', 'remove'));
+
+        // Classification chips — use the "best" (positive) variant's tags
+        // since ○/◎/× of the same skill share classification.
+        const primary = g.variants.find(v => v.grade_value > 0) || g.variants[0];
+        const styleChips = (primary.styles || [])
+            .map(s => `<span class="tag-chip tag-style-${s}">${s}</span>`).join('');
+        const distChips = (primary.distances || [])
+            .map(d => `<span class="tag-chip tag-dist">${d}</span>`).join('');
+        const universalChip = primary.is_universal
+            ? '<span class="tag-chip" style="background: var(--row-alt); color: var(--muted);">Universal</span>'
+            : '';
+
         return `
-            <div class="hint-group ${hasSel ? 'has-selection' : ''}">
-                <div class="hint-group-title">${g.display_name}</div>
+            <div class="hint-group ${hasSel ? 'has-selection' : ''} ${dimmed ? 'dim' : ''}">
+                <div class="hint-group-title">
+                    ${g.display_name}
+                    ${styleChips}${distChips}${universalChip}
+                </div>
                 ${rows.join('')}
             </div>
         `;
