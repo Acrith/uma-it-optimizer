@@ -175,7 +175,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         for r in con.execute(
             """
             SELECT s.id, s.rarity, s.group_id, s.group_rate, s.skill_category,
-                   s.grade_value, s.disable_singlemode,
+                   s.grade_value, s.disable_singlemode, s.condition_1, s.condition_2,
                    n.need_skill_point
             FROM skill_data s
             LEFT JOIN single_mode_skill_need_point n ON n.id = s.id
@@ -192,6 +192,11 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "grade_value": r["grade_value"],
                 "sp_cost": r["need_skill_point"],  # None if not purchasable in IT
                 "singlemode_only_unique": bool(r["disable_singlemode"]),
+                # Activation predicates — used by the classifier to
+                # separate trainee-affinity skills (running_style==N,
+                # distance_type==N) from opponent/universal ones.
+                "condition_1": r["condition_1"] or "",
+                "condition_2": r["condition_2"] or "",
             }
 
         # ── races ──────────────────────────────────────────────────────

@@ -137,34 +137,42 @@ def test_factor_name_unknown_falls_back():
     assert lookups.factor_name(999999999) == "?factor:999999999"
 
 
-def test_classify_skill_by_style_keyword():
-    c = lookups.classify_skill("Front Runner Corners ○")
-    assert "Front" in c["styles"]
-    assert c["is_universal"] is False
-
-
-def test_classify_skill_by_distance_keyword():
-    c = lookups.classify_skill("Long Corners ○")
-    assert "Long" in c["distances"]
-    assert c["is_universal"] is False
-
-
-def test_classify_skill_combined_style_and_distance():
-    # 'Pace Chaser Corners' has style but no explicit distance
-    c = lookups.classify_skill("Pace Chaser Corners ◎")
-    assert "Pace" in c["styles"]
+def test_classify_skill_self_style_from_condition():
+    # 'Pace Chaser Corners ○' condition: running_style==2 & all_corner_random==1
+    c = lookups.classify_skill(condition_1="running_style==2&all_corner_random==1")
+    assert c["styles"] == ["Pace"]
     assert c["distances"] == []
 
 
-def test_classify_skill_universal_when_no_keyword():
-    c = lookups.classify_skill("Warning Shot!")
+def test_classify_skill_self_distance_from_condition():
+    # 'Long Corners ○' condition: distance_type==4 & all_corner_random==1
+    c = lookups.classify_skill(condition_1="distance_type==4&all_corner_random==1")
+    assert c["distances"] == ["Long"]
+
+
+def test_classify_skill_opponent_count_is_universal():
+    # 'Hesitant Pace Chasers': running_style_count_senko_otherself>=1
+    # — triggers off OPPONENT count, not trainee → universal.
+    c = lookups.classify_skill(
+        condition_1="running_style_count_senko_otherself>=1&phase_random==2",
+    )
     assert c["is_universal"] is True
     assert c["styles"] == []
-    assert c["distances"] == []
 
 
-def test_classify_skill_empty_name():
-    c = lookups.classify_skill("")
+def test_classify_skill_thunderbolt_step_is_medium():
+    # 'Thunderbolt Step': distance_type==3&phase_random==1
+    c = lookups.classify_skill(condition_1="distance_type==3&phase_random==1")
+    assert c["distances"] == ["Medium"]
+
+
+def test_classify_skill_always_condition_is_universal():
+    c = lookups.classify_skill(condition_1="always==1")
+    assert c["is_universal"] is True
+
+
+def test_classify_skill_empty_conditions():
+    c = lookups.classify_skill()
     assert c["is_universal"] is True
 
 

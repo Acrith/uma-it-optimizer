@@ -156,42 +156,35 @@ GROUP_RATE_RANK = {2: 0, 1: 1, 3: 2, -1: 3}   # display order: ◎ before ○ be
 
 
 # ── skill classification (running style / distance) ─────────────────
-# Umamusume skill names carry the style + distance affinity directly
-# in their text. Community-standard mapping:
-#   Front (Nige)   → skills targeting the leader
-#   Pace  (Senko)  → skills targeting the second-place tier
-#   Late  (Sashi)  → skills targeting the mid-back
-#   End   (Oikomi) → skills targeting the tail
-#   Sprint / Mile / Medium / Long — distance-affinity skills.
-# Skills that match no keyword are 'Universal' (apply to any setup).
+# Parses skill_data.condition_1 (SQL-ish predicate blob) to distinguish
+# TRAINEE-affinity skills from opponent-triggered or universal ones.
+#
+# Predicate legend (from decompilation of game logic):
+#   running_style==N        → TRAINEE'S own style (1=Front, 2=Pace, 3=Late, 4=End)
+#   distance_type==N        → TRAINEE'S target distance (1=Sprint, 2=Mile, 3=Medium, 4=Long)
+#   running_style_count_*_otherself>=N
+#   running_style_temptation_opponent_count_*  → OPPONENT setup — universal for trainee
+#
+# Name matching alone is unreliable — 'Hesitant Pace Chasers' triggers
+# off opponents' Pace count, not the trainee's own style. Only the
+# self-style/self-distance predicates should tag a skill.
+import re as _re
 
-_STYLE_KEYWORDS = {
-    "Front":  ("Front Runner", "Front Runners", "Nige"),
-    "Pace":   ("Pace Chaser", "Pace Chasers", "Senko"),
-    "Late":   ("Late Surger", "Late Surgers", "Sashi"),
-    "End":    ("End Closer", "End Closers", "Oikomi"),
-}
-_DISTANCE_KEYWORDS = {
-    "Sprint": ("Sprint",),
-    "Mile":   ("Mile",),
-    "Medium": ("Medium", "Middle"),
-    "Long":   ("Long",),
-}
+_RS_MAP = {1: "Front", 2: "Pace", 3: "Late", 4: "End"}
+_DT_MAP = {1: "Sprint", 2: "Mile", 3: "Medium", 4: "Long"}
+_RE_STYLE = _re.compile(r"(?<![_a-zA-Z])running_style==(\d)")
+_RE_DIST = _re.compile(r"distance_type==(\d)")
 
 
-def classify_skill(name: str) -> dict:
-    """Name-based tags for style + distance affinity. Returns
-    {'styles': [...], 'distances': [...], 'is_universal': bool}.
-
-    A skill can carry multiple style tags (e.g. 'Late Surger and End
-    Closer Corners ○'). If no style/distance keyword matches, the skill
-    is marked universal — it applies regardless of trainee setup."""
-    if not name:
-        return {"styles": [], "distances": [], "is_universal": True}
-    styles = [s for s, kws in _STYLE_KEYWORDS.items()
-              if any(kw in name for kw in kws)]
-    distances = [d for d, kws in _DISTANCE_KEYWORDS.items()
-                 if any(kw in name for kw in kws)]
+def classify_skill(name: str = "", condition_1: str = "",
+                   condition_2: str = "") -> dict:
+    """Return {'styles': [...], 'distances': [...], 'is_universal': bool}
+    for a skill, parsed from its activation conditions."""
+    conds = (condition_1 or "") + " " + (condition_2 or "")
+    styles = sorted({_RS_MAP[int(m)] for m in _RE_STYLE.findall(conds)
+                     if int(m) in _RS_MAP})
+    distances = sorted({_DT_MAP[int(m)] for m in _RE_DIST.findall(conds)
+                        if int(m) in _DT_MAP})
     return {
         "styles": styles,
         "distances": distances,
@@ -222,7 +215,11 @@ def hint_group_variants(group_id: int, rarity: int | None = None) -> list[dict]:
         if not cost or not val:
             continue
         rate = s.get("group_rate", 0)
-        cls = classify_skill(s.get("name", ""))
+        cls = classify_skill(
+            name=s.get("name", ""),
+            condition_1=s.get("condition_1", ""),
+            condition_2=s.get("condition_2", ""),
+        )
         variants.append({
             "skill_id": int(sid_str),
             "name": s.get("name", f"?skill:{sid_str}"),
