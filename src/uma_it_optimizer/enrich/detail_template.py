@@ -513,14 +513,25 @@ PLANNER_JS = """
 
     // ── render ────────────────────────────────────────────────────
     function groupMatchesFilter(g) {
+        // Mismatch-only filter: a variant is hidden only if it's
+        // *specifically for a different* style or distance than what
+        // you picked. A skill with no style tag (like Warning Shot) is
+        // style-agnostic and stays visible regardless of style filter —
+        // and vice versa for distance. So a Pace runner on Miles matches
+        // both Pace-only skills, Mile-only skills, Pace+Mile skills,
+        // and every universal skill; Sprint/Medium/Long-specific and
+        // Front/Late/End-specific skills dim.
         if (filter.styles.size === 0 && filter.distances.size === 0) return true;
         return g.variants.some(v => {
-            if (v.is_universal) return true;
-            const styleHit = filter.styles.size === 0
-                || (v.styles || []).some(s => filter.styles.has(s));
-            const distHit = filter.distances.size === 0
-                || (v.distances || []).some(d => filter.distances.has(d));
-            return styleHit && distHit;
+            const vStyles = v.styles || [];
+            const vDists = v.distances || [];
+            const styleOk = filter.styles.size === 0
+                || vStyles.length === 0
+                || vStyles.some(s => filter.styles.has(s));
+            const distOk = filter.distances.size === 0
+                || vDists.length === 0
+                || vDists.some(d => filter.distances.has(d));
+            return styleOk && distOk;
         });
     }
     function render() {
