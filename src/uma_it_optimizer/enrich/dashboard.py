@@ -18,41 +18,59 @@ HTML_TEMPLATE = """\
 <title>IT runs — dashboard</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-/* Dark theme is primary — light stays as an accessibility fallback.
-   Section-scoped accents so Decks / Runs / Analytics feel distinct. */
+/* Palette: dark-first, umaladder-inspired deep navy with warm pink
+   primary + gold secondary. Light mode kept as a first-class theme
+   with a proper neutral hover (not pink-on-pink). A data-theme attr
+   on <html> lets the toggle override the OS preference. */
 :root {
     color-scheme: dark light;
-    --bg: #0f1116;
-    --bg-2: #161922;
-    --bg-3: #1e2230;
-    --fg: #e7e9ee;
-    --muted: #8b93a7;
-    --border: #23283a;
-    --row-alt: #1a1e2a;
-    --hover: #22283a;
-    --accent: #ff5c9b;         /* pink primary — Uma brand-adjacent */
-    --accent-2: #ffb454;       /* gold */
-    --accent-decks: #ff5c9b;   /* pink */
-    --accent-runs: #58a6ff;    /* blue */
-    --accent-lineage: #37b34a; /* green */
-    --shadow: 0 4px 16px rgba(0,0,0,0.35);
-    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+    /* Dark (default) */
+    --bg: #10131c;
+    --bg-2: #171b28;
+    --bg-3: #202538;
+    --fg: #e8eaf2;
+    --muted: #8a90a6;
+    --border: #262c42;
+    --row-alt: #181c2a;
+    --hover: #232a42;
+    --accent: #ff5c9b;
+    --accent-2: #ffb454;
+    --accent-decks: #ff5c9b;
+    --accent-runs: #62b0ff;
+    --accent-lineage: #47c95c;
+    --shadow: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.55);
     --radius: 8px;
 }
 @media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f6f4f8;
+    :root:not([data-theme="dark"]) {
+        --bg: #f4f2f6;
         --bg-2: #ffffff;
         --bg-3: #ffffff;
         --fg: #1a1a1a;
         --muted: #666;
         --border: #e0dce6;
         --row-alt: #faf7fc;
-        --hover: #ffe1ee;
+        --hover: #edeaf3;       /* neutral gray-purple, not pink-on-pink */
         --accent: #e5307c;
         --shadow: 0 4px 16px rgba(0,0,0,0.08);
         --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
     }
+}
+/* Manual light override — takes precedence over system dark */
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f4f2f6;
+    --bg-2: #ffffff;
+    --bg-3: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --border: #e0dce6;
+    --row-alt: #faf7fc;
+    --hover: #edeaf3;
+    --accent: #e5307c;
+    --shadow: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
 }
 * { box-sizing: border-box; }
 body {
@@ -85,6 +103,24 @@ body {
 .sidebar-brand {
     display: flex; flex-direction: column; gap: 2px;
     padding: 0 6px;
+}
+.brand-row { display: flex; align-items: center; gap: 8px; }
+.theme-toggle {
+    margin-left: auto;
+    background: var(--bg-3); border: 1px solid var(--border);
+    color: var(--fg); cursor: pointer;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; padding: 0;
+    transition: all 0.15s;
+}
+.theme-toggle:hover { border-color: var(--accent); transform: scale(1.08); }
+.theme-toggle .theme-icon-light { display: none; }
+:root[data-theme="light"] .theme-toggle .theme-icon-light { display: inline; }
+:root[data-theme="light"] .theme-toggle .theme-icon-dark { display: none; }
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .theme-toggle .theme-icon-light { display: inline; }
+    :root:not([data-theme="dark"]) .theme-toggle .theme-icon-dark { display: none; }
 }
 .sidebar-brand .brand-mark {
     font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
@@ -385,19 +421,38 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-decoration: underline dotted;
 }
 .deck-hash-link:hover { color: var(--accent); }
+/* Whole deck row is clickable — drills into the All Runs table
+   filtered to that deck. The hint chip clarifies the affordance so
+   users don't hunt for the small hash link. */
+tr.deck-row { cursor: pointer; transition: background 0.12s; }
+tr.deck-row:hover { background: var(--hover) !important; }
+tr.deck-row:hover .deck-drilldown-hint { opacity: 1; transform: translateX(0); }
+.deck-drilldown-hint {
+    display: inline-flex; align-items: center; gap: 3px;
+    color: var(--fg); font-size: 10px; font-weight: 700;
+    margin-left: 8px; vertical-align: middle;
+    padding: 2px 8px; border-radius: 10px;
+    background: var(--accent); color: white;
+    opacity: 0; transform: translateX(-4px);
+    transition: opacity 0.12s, transform 0.12s;
+    pointer-events: none;
+    text-transform: uppercase; letter-spacing: 0.04em;
+}
 /* Deck-perf filter panel — capped narrow so it doesn't sprawl on a
    wide viewport. The card-picker grid is allowed to break past the
    cap when open so more thumbnails fit at once. */
 .deck-filter-panel {
-    background: var(--row-alt);
+    background: var(--bg-3);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 14px;
+    border-radius: 8px;
+    padding: 12px 16px;
     margin-bottom: 12px;
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column; gap: 10px;
     max-width: 720px;
+    box-shadow: var(--shadow);
 }
 .deck-filter-panel .card-picker { max-width: none; }
+.deck-filter-panel .filter-row + .filter-row-actions { border-top-color: var(--border); }
 .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
 .filter-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .filter-row-actions { border-top: 1px dashed var(--border); padding-top: 8px; }
@@ -406,24 +461,45 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     text-transform: uppercase; letter-spacing: 0.05em;
     min-width: 70px;
 }
-.filter-hint { color: var(--muted); font-size: 11px; font-style: italic; }
+.filter-hint {
+    color: var(--muted); font-size: 12px; font-style: italic;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.filter-hint::before {
+    content: "→"; color: var(--accent); font-weight: 700; font-style: normal;
+}
 .chip-set { display: flex; gap: 4px; flex-wrap: wrap; }
 .chip-set .filter-chip {
-    background: var(--bg); color: var(--muted);
+    background: var(--bg-2); color: var(--fg);
     border: 1px solid var(--border);
-    padding: 2px 10px; border-radius: 12px;
-    font-size: 11px; cursor: pointer;
-    user-select: none; transition: all 0.12s;
+    padding: 4px 12px; border-radius: 14px;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+    user-select: none; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 4px;
 }
-.chip-set .filter-chip:hover { color: var(--fg); border-color: var(--accent); }
+.chip-set .filter-chip::before {
+    content: ""; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border);
+    transition: background 0.15s;
+}
+.chip-set .filter-chip:hover {
+    color: var(--fg); border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg-2));
+}
 .chip-set .filter-chip.active {
     background: var(--accent); color: white; border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
 }
+.chip-set .filter-chip.active::before { background: white; }
 .chip-set .filter-chip.disabled {
-    opacity: 0.4; cursor: default;
+    opacity: 0.4; cursor: not-allowed;
+    background: var(--bg); border-style: dashed;
 }
+.chip-set .filter-chip.disabled::before { display: none; }
 .chip-set .filter-chip.disabled:hover {
     color: var(--muted); border-color: var(--border);
+    background: var(--bg);
 }
 
 .card-chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; flex: 1; }
@@ -444,13 +520,23 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 .card-chips .picked-card .remove:hover { color: #d43f3f; }
 
 .pill-btn {
-    background: var(--bg); border: 1px solid var(--border);
-    color: var(--accent); padding: 3px 10px; border-radius: 12px;
-    font: inherit; font-size: 11px; cursor: pointer;
+    background: var(--accent); border: 1px solid var(--accent);
+    color: white; padding: 6px 14px; border-radius: 14px;
+    font: inherit; font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: all 0.15s;
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 30%, transparent);
 }
-.pill-btn:hover { border-color: var(--accent); }
+.pill-btn:hover {
+    background: color-mix(in srgb, var(--accent) 85%, black);
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 45%, transparent);
+    transform: translateY(-1px);
+}
 .pill-btn[aria-expanded="true"] {
-    background: var(--accent); color: white; border-color: var(--accent);
+    background: var(--bg-2); color: var(--accent); border-color: var(--accent);
+    box-shadow: inset 0 0 0 2px var(--accent);
+    transform: none;
 }
 .link-btn {
     background: none; border: 0; padding: 2px 6px;
@@ -594,7 +680,13 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 <div class="app">
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <span class="brand-mark">uma-it-optimizer</span>
+        <div class="brand-row">
+            <span class="brand-mark">uma-it-optimizer</span>
+            <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+                <span class="theme-icon-dark">🌙</span>
+                <span class="theme-icon-light">☀️</span>
+            </button>
+        </div>
         <span class="brand-sub">Independent Training</span>
     </div>
     <nav class="side-nav" id="side-nav">
@@ -617,7 +709,7 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
         <div class="card-chips" id="deck-card-chips">
             <span class="filter-hint">none — click "+" to add a card filter</span>
         </div>
-        <button class="pill-btn" id="deck-card-add-btn" aria-expanded="false">+ Add card</button>
+        <button class="pill-btn" id="deck-card-add-btn" aria-expanded="false">＋ Add card</button>
     </div>
     <div class="filter-row">
         <span class="filter-label">Scenario</span>
@@ -714,6 +806,31 @@ tbody tr td:has(.deck-thumbs) { padding: 8px 10px; }
 </div>
 
 <script>
+// Theme toggle — persists in localStorage, overrides OS preference.
+// Runs before section nav so the initial paint uses the right theme.
+(function () {
+    const STORAGE_KEY = "uma_it_theme";
+    function apply(theme) {
+        if (theme === "light" || theme === "dark") {
+            document.documentElement.dataset.theme = theme;
+        } else {
+            delete document.documentElement.dataset.theme;
+        }
+    }
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) apply(stored);
+    const btn = document.getElementById("theme-toggle");
+    if (btn) {
+        btn.addEventListener("click", () => {
+            const current = document.documentElement.dataset.theme
+                || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+            const next = current === "dark" ? "light" : "dark";
+            localStorage.setItem(STORAGE_KEY, next);
+            apply(next);
+        });
+    }
+})();
+
 // Section nav — swap active panel + accent scope. Also manages
 // dynamic run-detail tabs: opening a run adds a sidebar entry with an
 // × close button, clicking Decks/Runs doesn't close it, and multiple
@@ -1159,18 +1276,40 @@ const runsCtrl = makeSortable({
 document.getElementById("filter").addEventListener("input", e => runsCtrl.setFilter(e.target.value));
 document.getElementById("show-all").addEventListener("change", e => runsCtrl.setShowAll(e.target.checked));
 
-// Click any deck-hash button → set the All Runs filter to that hash
-// (auto-shows all runs of that deck in one place) + scroll the runs
-// table into view. Delegated on document so it works across both the
-// Deck Performance and All Runs tables + survives re-renders.
-document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".deck-hash-link");
-    if (!btn) return;
-    const hash = btn.dataset.deck;
+// Deck drilldown — either the whole deck row OR the small hash pill
+// filters the All Runs table to that deck and switches to the Runs
+// section. Whole-row click is the primary affordance; the hash link
+// stays for muscle-memory.
+function drillIntoDeck(hash) {
     const input = document.getElementById("filter");
     input.value = hash;
     runsCtrl.setFilter(hash);
-    document.getElementById("runs").scrollIntoView({behavior: "smooth", block: "start"});
+    // If we're in the SPA layout, activate the Runs panel first so the
+    // filter is visible; then scroll the table into view.
+    const activateFn = document.getElementById("side-nav") ? "runs" : null;
+    if (activateFn) {
+        // Trigger the same nav flow as clicking the sidebar's Runs link
+        const runsLink = document.querySelector('#side-nav a[data-section="runs"]');
+        if (runsLink) runsLink.click();
+    }
+    // Delay scrollIntoView so panel activation + rAF for the outer
+    // window can settle first.
+    requestAnimationFrame(() => {
+        document.getElementById("runs").scrollIntoView({behavior: "smooth", block: "start"});
+    });
+}
+document.addEventListener("click", (e) => {
+    // Ignore clicks originating on the picker or interactive controls
+    if (e.target.closest("button, a, input, .card-picker, .filter-chip")) {
+        // …unless it's the deck-hash-link (a button we want to catch)
+        const link = e.target.closest(".deck-hash-link");
+        if (!link) return;
+        drillIntoDeck(link.dataset.deck);
+        return;
+    }
+    const row = e.target.closest("tr.deck-row[data-deck]");
+    if (!row) return;
+    drillIntoDeck(row.dataset.deck);
 });
 
 // Click a preset badge → cycle through Balanced → Stamina → Sprint →
@@ -1235,12 +1374,13 @@ const decksCtrl = makeSortable({
     defaultDir: -1,
     filterFn: (d) => decksMatch(d),
     rowHtml: (d) => `
-        <tr title="${d.deck_summary}">
+        <tr class="deck-row" data-deck="${d.deck_hash}" title="Click to view all runs of this deck (${d.deck_summary})">
             <td>
                 <span class="deck-thumbs">
                     ${(d.deck_cards||[]).map(c => renderDeckThumb(c)).join("")}
                 </span>
                 <button class="deck-hash-link" data-deck="${d.deck_hash}" title="Filter All Runs to this deck">${d.deck_hash}</button>
+                <span class="deck-drilldown-hint">Open runs ▸</span>
             </td>
             <td>${Object.entries(d.type_composition).sort((a,b)=>b[1]-a[1])
                     .map(([t,n]) => `<span class="chip type-${t}">${n}×${t}</span>`).join("")}</td>
