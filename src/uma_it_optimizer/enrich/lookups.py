@@ -19,14 +19,16 @@ BUNDLED_PATH = Path(__file__).parent / "data" / "masters.json"
 RARITY_PREFIX_SUPPORT = {1: "R", 2: "SR", 3: "SSR"}
 
 # support_card_data.command_id → training-focus type. Verified against
-# known Global cards: Fine Motion (cmd 106) = Wit, Marvelous Sunday (cmd 102)
-# = Speed, Super Creek + Manhattan Cafe + Mayano Top Gun (all cmd 105) =
-# Stamina, Special Week SSR (cmd 103) = Guts, Kitasan Black SSR (cmd 101) =
-# Power, Tazuna/Light Hello (cmd 0) = Friend. command_id=104 unused on Global.
+# known Global cards: Fine Motion (cmd 106) = Wit, Super Creek + Manhattan
+# Cafe + Mayano Top Gun (all cmd 105) = Stamina, Special Week SSR (cmd 103)
+# = Guts, Tazuna/Light Hello (cmd 0) = Friend. Speed/Power mapping (101/102)
+# also empirically verified on the dashboard — cards visually match icons
+# only with 101=Speed and 102=Power (initially had the reverse). command_id
+# =104 unused on Global.
 SUPPORT_TYPE_BY_CMD = {
     0: "Friend",
-    101: "Power",
-    102: "Speed",
+    101: "Speed",
+    102: "Power",
     103: "Guts",
     105: "Stamina",
     106: "Wit",
@@ -37,8 +39,8 @@ SUPPORT_TYPE_BY_CMD = {
 # 4=grad-cap(Wit), 5=smiley(Friend), 6=multi-smiley(Group).
 SUPPORT_TYPE_ICON_INDEX = {
     0: 5,       # Friend (yellow smiley)
-    101: 2,     # Power (bicep)
-    102: 0,     # Speed (boot)
+    101: 0,     # Speed (boot)
+    102: 2,     # Power (bicep)
     103: 3,     # Guts (flame)
     105: 1,     # Stamina (heart)
     106: 4,     # Wit (graduation cap)
