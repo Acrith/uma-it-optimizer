@@ -502,6 +502,16 @@ def factor_name(factor_id: int) -> str:
     stars = _stars(rarity)
     name = f.get("display_name") or ""
     if name:
+        # Green factors (type 5/6/7) get the granted-stat pair appended
+        # inline — the game name alone (e.g. 'Tenno Sho (Spring)') tells
+        # you the RACE but not what stat spark you get from it, and
+        # that's the number the player actually optimizes around.
+        # Skip type-4 skill factors — their names already carry the +stat
+        # suffix when relevant (e.g. 'Ignited Spirit: Speed +').
+        if f.get("factor_type") in (5, 6, 7):
+            stats = f.get("granted_stats") or []
+            if stats and not any(s in name for s in stats):
+                name = f"{name} +{'/'.join(stats)}"
         return f"{name} {stars}"
     return _compose_factor_name_legacy(f, factor_id, stars)
 
