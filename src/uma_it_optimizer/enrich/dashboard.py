@@ -251,12 +251,25 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
 .toggle { color: var(--muted); font-size: 12px; margin-left: auto; }
 .toggle input { margin-right: 4px; }
 
+/* Card picker floats above the page instead of pushing the deck
+   table down. Anchored top-right of the deck-filter-panel so it
+   lands under the '+ Add card' button. */
+.deck-filter-panel { position: relative; }
 .card-picker {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 20;
+    width: 640px;
+    max-width: 90vw;
     background: var(--bg);
     border: 1px solid var(--accent);
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 4px;
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+@media (prefers-color-scheme: dark) {
+    .card-picker { box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
 }
 .card-picker-hdr { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
 .card-picker-hdr input[type="search"] { flex: 1; }
@@ -264,7 +277,7 @@ h2 .subtle { color: var(--muted); font-size: 12px; font-weight: 400; text-transf
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
     gap: 8px;
-    max-height: 320px;
+    max-height: 360px;
     overflow-y: auto;
 }
 .pick-card {
@@ -853,9 +866,25 @@ function openCardPicker(open) {
         cardSearchInput.focus();
     }
 }
-cardPickerBtn.addEventListener("click", () => openCardPicker(cardPicker.hidden));
+cardPickerBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openCardPicker(cardPicker.hidden);
+});
 document.getElementById("deck-card-close").addEventListener("click", () => openCardPicker(false));
 cardSearchInput.addEventListener("input", e => renderCardGrid(e.target.value));
+
+// Dismiss picker on outside click / Escape. Clicks inside the picker
+// (grid, search box) stop propagation via the container, so filter
+// selection doesn't accidentally close the panel.
+cardPicker.addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("click", (e) => {
+    if (cardPicker.hidden) return;
+    if (e.target.closest("#deck-card-add-btn")) return;
+    openCardPicker(false);
+});
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !cardPicker.hidden) openCardPicker(false);
+});
 
 cardGrid.addEventListener("click", e => {
     const card = e.target.closest(".pick-card");
