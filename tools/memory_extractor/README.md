@@ -37,6 +37,33 @@ opt-in tool may let you publish specific runs to a companion
 community dashboard, but the recorder itself will always default to
 local-only.
 
+## For Linux players (Steam + Proton)
+
+Native-Linux frida can't attach to a wine-hosted Windows process (the
+Frida injector's bootstrapper SIGSEGVs on the mixed PE + ELF address
+space). The working path is: run the Windows `.exe` extractor **under
+wine, in the same Proton prefix as the game**. Frida-inside-wine
+attaches to another wine-hosted process natively.
+
+**One-time setup:**
+
+```bash
+git clone https://github.com/Acrith/uma-it-optimizer.git
+cd uma-it-optimizer/tools/memory_extractor
+./install_linux.sh        # downloads uma-it-extract.exe from latest release
+```
+
+**Every run** (with Uma running in Steam + at a Training Log screen):
+
+```bash
+python linux_launch.py    # picks up the game's Proton prefix + Proton's wine automatically
+```
+
+The launcher prints the resolved wine binary + prefix + exe paths
+before attaching so you can eyeball what got picked up. AppID
+defaults to `3224770` (Umamusume Global). Non-standard Steam library
+locations: pass `--prefix /path/to/pfx`. See `python linux_launch.py --help`.
+
 ## For developers
 
 **Run from source (Windows):**

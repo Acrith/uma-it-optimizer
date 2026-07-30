@@ -60,8 +60,10 @@ def find_extractor(explicit: str | None) -> Path:
     _die(
         f"{DEFAULT_EXE_NAME} not found next to this script or in the "
         "current directory.\n"
-        "  → Download it from https://github.com/Acrith/uma-it-optimizer"
-        "/releases and place it in " + str(here)
+        f"  → Run {here / 'install_linux.sh'} to fetch it automatically\n"
+        f"  → Or download manually from "
+        "https://github.com/Acrith/uma-it-optimizer/releases "
+        f"and drop it in {here}"
     )
 
 
