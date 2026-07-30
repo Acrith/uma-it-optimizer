@@ -285,12 +285,63 @@ setTimeout(() => {
 
 
 def _find_process_pid() -> int | None:
-    """Return the PID of a running game process, or None if not found."""
+    """Return the PID of a running game process, or None if not found.
+
+    Windows: frida reports the process's .exe name directly, so a
+    case-insensitive match on PROCESS_NAME works.
+
+    Linux (wine/proton): the game runs inside a wine loader Linux
+    process, and frida reports that loader's name (usually
+    ``wine64-preloader`` or ``wine``), NOT the .exe. The .exe name
+    lives only in the process cmdline. Fall back to a /proc scan
+    for that case."""
     import frida
     for proc in frida.get_local_device().enumerate_processes():
         if proc.name.lower() == PROCESS_NAME.lower():
             return proc.pid
+    if sys.platform.startswith("linux"):
+        return _find_wine_hosted_process_pid()
     return None
+
+
+def _find_wine_hosted_process_pid() -> int | None:
+    """Scan /proc for wine processes whose cmdline mentions the game
+    exe. wine typically executes the game as::
+
+        /path/to/wine64 UmamusumePrettyDerby.exe ...
+
+    so the exe name shows up in argv but not in the Linux process
+    name. There can be multiple wine helper processes running
+    (wineserver, services.exe, etc.); we return the one whose cmdline
+    argv contains the exe name AND is likely the game itself (not a
+    child helper that inherited the arg)."""
+    from pathlib import Path
+
+    exe_needle = PROCESS_NAME.lower().encode()
+    matches: list[int] = []
+    for entry in Path("/proc").iterdir():
+        if not entry.name.isdigit():
+            continue
+        try:
+            raw = (entry / "cmdline").read_bytes()
+        except (FileNotFoundError, PermissionError, ProcessLookupError):
+            continue
+        if exe_needle not in raw.lower():
+            continue
+        # cmdline is NUL-separated argv. Match on any arg == the exe
+        # (not just substring in the whole blob), to filter out
+        # unrelated processes that just happen to reference the path.
+        argv = [a for a in raw.split(b"\x00") if a]
+        for arg in argv:
+            tail = arg.rsplit(b"/", 1)[-1].rsplit(b"\\", 1)[-1]
+            if tail.lower() == exe_needle:
+                matches.append(int(entry.name))
+                break
+    if not matches:
+        return None
+    # If multiple, prefer the highest PID — wine parent processes fork
+    # the game as a child, so the child has a later PID than the loader.
+    return max(matches)
 
 
 def _wait_for_process() -> int:
@@ -314,6 +365,17 @@ def _wait_for_process() -> int:
         dot_count += 1
         time.sleep(WAIT_POLL_SECONDS)
     print(f"\n[X] Timed out after {WAIT_MAX_SECONDS}s waiting for the game. Aborting.")
+    if sys.platform.startswith("linux"):
+        # On Linux the game runs under wine — most 'game not found'
+        # cases are either (a) the wine process is running but frida
+        # can't attach because ptrace is locked down, or (b) frida
+        # sees the wine loader but the game exe never appears in any
+        # cmdline (e.g. game crashed early). Point users at both.
+        print("[!] Linux hint: make sure the game is actually running (check")
+        print("    `ps aux | grep -i umamusume`). If it is but this script")
+        print("    still can't see it, ptrace may be restricted — try:")
+        print("      sudo sysctl kernel.yama.ptrace_scope=0")
+        print("    (or add kernel.yama.ptrace_scope=0 to /etc/sysctl.d/).")
     sys.exit(2)
 
 
