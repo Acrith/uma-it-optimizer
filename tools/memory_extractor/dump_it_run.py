@@ -305,43 +305,74 @@ def _find_process_pid() -> int | None:
 
 
 def _find_wine_hosted_process_pid() -> int | None:
-    """Scan /proc for wine processes whose cmdline mentions the game
-    exe. wine typically executes the game as::
+    """Locate the wine/proton-hosted game process. Two strategies —
+    the game IS whichever process the SECOND strategy finds, but the
+    first is faster when it works:
 
-        /path/to/wine64 UmamusumePrettyDerby.exe ...
+    1. cmdline scan — matches processes whose argv contains an entry
+       whose basename equals the exe. Fast, but fails if the game
+       rewrote its own argv after launch (Unity/IL2CPP builds do this
+       on some setups — the wine wrapper processes retain the arg,
+       but the actual game process's /proc/pid/cmdline goes empty).
+    2. maps scan — matches processes whose memory map lists a file
+       ending in the exe name. The game .exe HAS to be mapped for
+       the process to be running, so this catches the case above.
 
-    so the exe name shows up in argv but not in the Linux process
-    name. There can be multiple wine helper processes running
-    (wineserver, services.exe, etc.); we return the one whose cmdline
-    argv contains the exe name AND is likely the game itself (not a
-    child helper that inherited the arg)."""
+    maps-scan hits win over cmdline-scan hits (a wine wrapper only
+    has the exe in its argv, never mapped into its address space, so
+    a maps hit unambiguously identifies the actual game process)."""
     from pathlib import Path
 
     exe_needle = PROCESS_NAME.lower().encode()
-    matches: list[int] = []
+    cmdline_matches: list[int] = []
+    maps_matches: list[int] = []
     for entry in Path("/proc").iterdir():
         if not entry.name.isdigit():
             continue
+        pid = int(entry.name)
+
+        # Strategy 1: cmdline
         try:
             raw = (entry / "cmdline").read_bytes()
         except (FileNotFoundError, PermissionError, ProcessLookupError):
+            raw = b""
+        if raw and exe_needle in raw.lower():
+            argv = [a for a in raw.split(b"\x00") if a]
+            for arg in argv:
+                tail = arg.rsplit(b"/", 1)[-1].rsplit(b"\\", 1)[-1]
+                if tail.lower() == exe_needle:
+                    cmdline_matches.append(pid)
+                    break
+
+        # Strategy 2: memory-mapped files (survives argv rewriting).
+        # /proc/pid/maps is line-per-mapping; last whitespace-separated
+        # field is the file path (if any). Match basename against exe.
+        try:
+            maps_raw = (entry / "maps").read_bytes()
+        except (FileNotFoundError, PermissionError, ProcessLookupError):
             continue
-        if exe_needle not in raw.lower():
+        if exe_needle not in maps_raw.lower():
             continue
-        # cmdline is NUL-separated argv. Match on any arg == the exe
-        # (not just substring in the whole blob), to filter out
-        # unrelated processes that just happen to reference the path.
-        argv = [a for a in raw.split(b"\x00") if a]
-        for arg in argv:
-            tail = arg.rsplit(b"/", 1)[-1].rsplit(b"\\", 1)[-1]
+        for line in maps_raw.splitlines():
+            # Only interested in lines whose last field is a path.
+            parts = line.rsplit(None, 1)
+            if len(parts) < 2:
+                continue
+            path = parts[-1]
+            tail = path.rsplit(b"/", 1)[-1].rsplit(b"\\", 1)[-1]
             if tail.lower() == exe_needle:
-                matches.append(int(entry.name))
+                maps_matches.append(pid)
                 break
-    if not matches:
-        return None
-    # If multiple, prefer the highest PID — wine parent processes fork
-    # the game as a child, so the child has a later PID than the loader.
-    return max(matches)
+
+    # Prefer maps hits — those are unambiguously the game (the exe
+    # is mapped into that process's address space). cmdline hits
+    # include wine wrappers (reaper, srt-bwrap, python3 proton, etc.)
+    # that only reference the exe in their argv without loading it.
+    if maps_matches:
+        return max(maps_matches)
+    if cmdline_matches:
+        return max(cmdline_matches)
+    return None
 
 
 def _wait_for_process() -> int:
