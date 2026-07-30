@@ -5,7 +5,9 @@ JSON file, so you can look back at what happened later or feed it into
 analysis tools. Reads what's on the Training Log screen — nothing
 more, nothing that changes the game.
 
-## For players
+## For players (Windows)
+
+Linux/Proton players: skip to the [Linux section](#for-linux-players-steam--proton) below.
 
 **Do this once per IT run:**
 
@@ -39,30 +41,90 @@ local-only.
 
 ## For Linux players (Steam + Proton)
 
-Native-Linux frida can't attach to a wine-hosted Windows process (the
-Frida injector's bootstrapper SIGSEGVs on the mixed PE + ELF address
-space). The working path is: run the Windows `.exe` extractor **under
-wine, in the same Proton prefix as the game**. Frida-inside-wine
-attaches to another wine-hosted process natively.
+Same one-JSON-per-run output as the Windows flow — just an extra
+command-line step because native-Linux Frida can't attach to a wine-
+hosted Windows process directly (see [why](#why-not-just-double-click-the-exe)
+if you're curious). The launcher runs the Windows extractor under
+your Proton prefix's wine, which Frida handles natively.
+
+**Prerequisites**
+- Uma Musume installed on Steam and launched at least once (Steam
+  creates the Proton prefix the launcher needs)
+- Python 3 (`python --version` — most distros have this out of the box)
+- `curl` or `wget` (used once to grab the extractor .exe)
 
 **One-time setup:**
 
 ```bash
 git clone https://github.com/Acrith/uma-it-optimizer.git
 cd uma-it-optimizer/tools/memory_extractor
-./install_linux.sh        # downloads uma-it-extract.exe from latest release
+./install_linux.sh
 ```
 
-**Every run** (with Uma running in Steam + at a Training Log screen):
+That downloads `uma-it-extract.exe` from the latest GitHub release and
+drops it next to the launcher. Rerun the script anytime you want to
+update the extractor to a newer release.
+
+**Every run:**
+
+1. Complete an IT run
+2. Reach the Training Log screen (before pressing OK — any tab is fine)
+3. In a terminal:
+   ```bash
+   cd path/to/uma-it-optimizer/tools/memory_extractor
+   python linux_launch.py
+   ```
+4. Wait a few seconds. JSON appears in `runs/` next to the launcher.
+
+The launcher auto-discovers the game's Proton prefix (Steam AppID
+`3224770` for Umamusume Global) and Proton's own `wine64` binary,
+prints what it picked up so you can eyeball, then attaches. Same
+"waits up to 5 minutes for you to reach a Training Log" behaviour as
+the Windows exe.
+
+**If the game's on a non-standard Steam library** (extra drive,
+Flatpak Steam in a weird spot, etc.) pass the prefix directly:
 
 ```bash
-python linux_launch.py    # picks up the game's Proton prefix + Proton's wine automatically
+python linux_launch.py --prefix /path/to/steamapps/compatdata/3224770/pfx
 ```
 
-The launcher prints the resolved wine binary + prefix + exe paths
-before attaching so you can eyeball what got picked up. AppID
-defaults to `3224770` (Umamusume Global). Non-standard Steam library
-locations: pass `--prefix /path/to/pfx`. See `python linux_launch.py --help`.
+See `python linux_launch.py --help` for all overrides (`--exe`,
+`--wine`, `--appid`).
+
+**Troubleshooting**
+
+- **"No Proton prefix found for AppID 3224770"** — you haven't run
+  the game through Steam+Proton yet, or Steam library is in a non-
+  standard location. Launch Uma once, then retry; if it still can't
+  find it, pass `--prefix`.
+- **"uma-it-extract.exe not found"** — rerun `./install_linux.sh`
+  (or grab the .exe from [Releases](https://github.com/Acrith/uma-it-optimizer/releases)
+  manually and drop it next to `linux_launch.py`).
+- **The game crashes after extraction completes** — sometimes
+  happens under wine and it's a Frida-in-wine flake; the JSON was
+  already captured before the crash. Relaunch and continue.
+- **"bootstrapper crashed with signal 11"** — this means you're
+  running native `dump_it_run.py` instead of the launcher. Use
+  `python linux_launch.py`; the native path doesn't work under
+  wine (that's why the launcher exists).
+
+**Cleanup**
+
+Nothing gets installed at system level — everything lives inside
+the cloned repo. To remove: `rm -rf uma-it-optimizer/`.
+
+**Why not just double-click the .exe?**
+
+Frida's native-Linux injector uses ptrace to write shellcode into
+the target's address space. Wine-hosted processes have Windows PE
+code and the Linux wine loader ELF sharing one address space, and
+the injector's bootstrapper SIGSEGVs when it hits the boundary.
+Running the extractor .exe UNDER wine sidesteps this — Frida-inside-
+wine treats another wine-hosted process as a native Windows target
+and injects the same way it does on real Windows. `linux_launch.py`
+is the small amount of Linux-side plumbing that makes that arrangement
+one-command.
 
 ## For developers
 

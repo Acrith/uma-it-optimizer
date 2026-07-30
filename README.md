@@ -19,10 +19,12 @@ explicitly upload.
 
 ## What's in the box today
 
-- **`tools/memory_extractor/`** — a Windows companion that saves your
-  currently-displayed Training Log to a JSON file. Double-click to run;
-  new file appears in a `runs/` folder next to the exe. See its
-  [README](tools/memory_extractor/README.md) for the player guide.
+- **`tools/memory_extractor/`** — a companion that saves your currently-
+  displayed Training Log to a JSON file. On Windows: double-click the
+  `.exe` and a new file appears in a `runs/` folder next to it. On
+  Linux (Steam + Proton): two commands (`./install_linux.sh` then
+  `python linux_launch.py`) and the same JSON lands in `runs/`. See
+  the [README](tools/memory_extractor/README.md) for both flows.
 - The Python package (`src/uma_it_optimizer/`) is an earlier
   screenshot-based reader kept as a fallback for players who can't run
   the memory extractor (mobile, non-Steam, etc.). Same output schema
