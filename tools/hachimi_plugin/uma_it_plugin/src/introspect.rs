@@ -23,13 +23,13 @@ use edge_sdk::api::Api;
 use edge_sdk::ffi::{
     Il2CppClass, Il2CppString, Il2CppTypeEnum, Il2CppTypeEnum_IL2CPP_TYPE_BOOLEAN,
     Il2CppTypeEnum_IL2CPP_TYPE_CHAR, Il2CppTypeEnum_IL2CPP_TYPE_CLASS,
-    Il2CppTypeEnum_IL2CPP_TYPE_I1, Il2CppTypeEnum_IL2CPP_TYPE_I2,
-    Il2CppTypeEnum_IL2CPP_TYPE_I4, Il2CppTypeEnum_IL2CPP_TYPE_I8,
-    Il2CppTypeEnum_IL2CPP_TYPE_R4, Il2CppTypeEnum_IL2CPP_TYPE_R8,
-    Il2CppTypeEnum_IL2CPP_TYPE_STRING, Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY,
-    Il2CppTypeEnum_IL2CPP_TYPE_U1, Il2CppTypeEnum_IL2CPP_TYPE_U2,
-    Il2CppTypeEnum_IL2CPP_TYPE_U4, Il2CppTypeEnum_IL2CPP_TYPE_U8,
-    Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE,
+    Il2CppTypeEnum_IL2CPP_TYPE_GENERICINST, Il2CppTypeEnum_IL2CPP_TYPE_I1,
+    Il2CppTypeEnum_IL2CPP_TYPE_I2, Il2CppTypeEnum_IL2CPP_TYPE_I4,
+    Il2CppTypeEnum_IL2CPP_TYPE_I8, Il2CppTypeEnum_IL2CPP_TYPE_R4,
+    Il2CppTypeEnum_IL2CPP_TYPE_R8, Il2CppTypeEnum_IL2CPP_TYPE_STRING,
+    Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY, Il2CppTypeEnum_IL2CPP_TYPE_U1,
+    Il2CppTypeEnum_IL2CPP_TYPE_U2, Il2CppTypeEnum_IL2CPP_TYPE_U4,
+    Il2CppTypeEnum_IL2CPP_TYPE_U8, Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE,
 };
 use log::{error, info};
 use once_cell::sync::OnceCell;
@@ -930,6 +930,45 @@ unsafe fn value_for_field(
             }
             walk_inline(container, use_off, struct_class, depth + 1)
         }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_GENERICINST => {
+            // Generic type instantiation (List<T>, Dictionary<K,V>,
+            // Nullable<T>, or generic value types). Resolve the
+            // underlying class from the type ptr, then dispatch on
+            // value-type-ness: reference generics (List) read as
+            // pointer + walk_object; value generics read inline.
+            //
+            // Blocking bug pre-fix: SuccessionCharaList
+            // (List<SuccessionCharaData>) is type=21 GENERICINST.
+            // Without this branch it fell through to the default
+            // and returned null — losing all grandparent lineage.
+            if f.type_ptr.is_null() {
+                return JsonValue::Null;
+            }
+            let generic_class = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if generic_class.is_null() {
+                return JsonValue::Null;
+            }
+            let is_value = (syms.il2cpp_class_is_valuetype)(generic_class);
+            if is_value {
+                // Inline generic value type (rare — Nullable<T>,
+                // KeyValuePair<K,V>, custom structs).
+                if depth + 1 >= MAX_JSON_DEPTH {
+                    return JsonValue::Null;
+                }
+                walk_inline(container, use_off, generic_class, depth + 1)
+            } else {
+                // Reference generic (List, Dictionary, etc.):
+                // read pointer + walk as object.
+                let ptr = read_ref(container, use_off);
+                if ptr.is_null() {
+                    return JsonValue::Null;
+                }
+                if depth + 1 >= MAX_JSON_DEPTH {
+                    return JsonValue::Null;
+                }
+                walk_object(ptr, depth + 1)
+            }
+        }
         x if x == Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY => {
             let ptr = read_ref(container, use_off);
             if ptr.is_null() {
@@ -1163,6 +1202,13 @@ unsafe fn render_nested_value(container: *mut c_void, f: &Field, inline: bool) -
         x if x == Il2CppTypeEnum_IL2CPP_TYPE_STRING => {
             let ptr = read_ref(container, use_off);
             if ptr.is_null() { "null".into() } else { format!("<str @ {:p}>", ptr) }
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_GENERICINST => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return "null (generic)".into();
+            }
+            format!("<generic @ {:p}>", ptr)
         }
         _ => format!("<t{}>", f.type_enum),
     }
