@@ -5,34 +5,37 @@ that captures Umamusume Independent Training runs directly from
 inside the game, without needing the separate `uma-it-extract.exe`
 tool.
 
-**Status: v0.0.5 — safe no-op fallback.** The plugin loads and
-attempts to hook `Gallop.ObscuredIdleSingleModeGainInfo::.ctor`,
-but first verifies the resolved ctor is declared on the class
-(not inherited from `System.Object`). If it's inherited, the
-plugin refuses to install and stays as a no-op — no game-perf
-impact, no log spam. Even if it does install, the "ctor fired"
-log is rate-limited to the first 3 hits per session.
+**Status: v0.0.6 — heap-scan proof of concept.** The plugin
+registers an "Extract IT Run" entry in Hachimi's in-game menu.
+When clicked, it walks the IL2CPP GC heap for live instances of
+`Gallop.ObscuredIdleSingleModeGainInfo` (the IT-specific data
+class the Frida extractor scans) and logs the count. Same
+signal as the extractor, without needing a separate .exe.
 
-Why the caution: v0.0.4 didn't check inheritance, hooked
-`Object::.ctor` by accident, and fired on every C# allocation
-in the game — 6,500/sec, 500k log lines/minute, 5fps. v0.0.5
-makes that class of mistake structurally impossible.
+Only counts for now — no field walking or upload. Those land in
+v0.0.7 and v0.0.8 respectively.
 
-Prior versions:
+Why manual trigger (menu click) over auto-detect:
+- A GC scan freezes all mutator threads for 20-80ms — never run
+  it per-frame
+- Auto-detecting Training Log open would require hooking specific
+  IL2CPP methods that Cygames renames across game updates
+- The heap-scan approach only depends on the data class name
+  (stable across builds), making the plugin dramatically more
+  update-resilient
+
+Prior versions took the hook-based path and hit that fragility
+head-on:
 - v0.0.1..v0.0.3: hooked `DialogTrainedCharacterDetail::CreateSetupParameter`
-  (Uma-ISC's older-build reference). Installed cleanly but fired
-  on the wrong dialog (Trained Umas viewer, not IT log).
-- v0.0.4: hooked `GainInfo::.ctor` with no inheritance check —
-  trampoline was `Object.ctor`, hosed framerate.
+  (Uma-ISC's older-build reference). Installed but fired on the
+  wrong dialog (Trained Umas viewer, not IT log).
+- v0.0.4: hooked `GainInfo::.ctor` — trampoline was `Object.ctor`,
+  6,500 fires/sec, 5fps game.
+- v0.0.5: added declared-on-class check → safe no-op (GainInfo
+  has no declared ctor to hook). Confirmed hook-based path is a
+  dead end.
 
-If v0.0.5 installs cleanly (declared ctor exists), we know we
-have a working trigger. If it declines (most likely — POCO data
-holders rarely declare their own default ctor), v0.0.6 will use
-a different mechanism — either add heap-scan symbols to the
-vendored edge-sdk, or hook a specific declared method identified
-via an IL2CPP dump.
-
-## For testers (v0.0.5)
+## For testers (v0.0.6)
 
 You need Hachimi-Edge already installed and working for
 translations. If translations don't work, this plugin won't work
@@ -56,57 +59,58 @@ either.
    otherwise only shows in the in-game debug console.
 4. Launch the game. Complete an IT run, reach the Training Log
    popup screen.
-5. Check Hachimi's log file (usually `hachimi.log` next to the
-   game exe). At plugin load, ONE of two things will happen:
+5. Launch the game. On plugin load you should see:
+   ```
+   [uma-it] plugin loaded (v0.0.6 heap-scan POC)
+   [uma-it] target class resolved: Gallop.ObscuredIdleSingleModeGainInfo @ 0x...
+   [uma-it] IL2CPP liveness API resolved (Unity 2021.2+ path)
+   [uma-it] setup complete — 'Extract IT Run' available in Hachimi menu
+   ```
+6. Open Hachimi's in-game menu (**F1** by default on PC). You
+   should see a new entry: **Extract IT Run**.
+7. To test the scan on an empty game state (Training Log NOT
+   open — e.g. from the home screen), click **Extract IT Run**.
+   Expect:
+   ```
+   [uma-it] starting heap scan for GainInfo instances (this pauses the game ~20-80ms)
+   [uma-it] scan complete: 0 GainInfo instances found in NNms
+   [uma-it] no instances — is the Training Log popup open? ...
+   ```
+   A visible ~50ms stutter on click is expected and normal.
+8. To test the scan on the target state: complete an IT, open
+   the **Training Log** popup, then open Hachimi menu → click
+   **Extract IT Run**. Expect:
+   ```
+   [uma-it] scan complete: N GainInfo instances found in NNms
+   ```
+   where N > 0. If N == 0 on the Training Log screen, that means
+   the class isn't populated there and we need to reconsider.
 
-   **Case A** — ctor is declared on the class, hook installs:
-   ```
-   [uma-it] plugin loaded
-   [uma-it] target method resolved at 0x... (argc=0)
-   [uma-it] hook installed; trampoline at 0x...
-   [uma-it] hook installed at init (game already up)
-   ```
-   Then on Training Log open, up to 3 lines like:
-   ```
-   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x... (log #1/3)
-   ...
-   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x... (log #3/3 — silencing further fires this session)
-   ```
-
-   **Case B** — ctor is inherited (most likely for POCOs):
-   ```
-   [uma-it] plugin loaded
-   [uma-it] target method resolved at 0x... (argc=0)
-   [uma-it] .ctor at argc=0 is inherited from a base class, NOT declared on ObscuredIdleSingleModeGainInfo. Refusing to install...
-   [uma-it] eager install declined; not registering fallback
-   ```
-   Plugin becomes a safe no-op. No game impact, no data captured.
-   We'll ship a v0.0.6 with a different trigger.
-
-6. **Report back** which case you saw. Case A means Phase 2 (walk
-   fields + POST) is next. Case B means we need to change the
-   trigger mechanism.
+9. **Report back** — the counts (empty vs Training Log), the
+   scan durations, and whether you saw any framerate weirdness
+   OTHER than the expected click-time stutter.
 
 ## Failure modes to watch for
 
 - **`Hachimi-Edge too old? Need VERSION >= 3`** — update Hachimi-Edge.
-- **`.ctor at argc=... is inherited from a base class`** — see
-  Case B above; expected, plugin is a safe no-op.
-- **`discovered argc=N but our hook is hardcoded to 0`** — the
-  class grew a non-default constructor. Plugin refuses to install
-  to avoid stack corruption. Share the log.
-- **`.ctor not found at any arg count 0..4`** — class was
-  refactored. Share the log; we'll dnSpy the new shape.
 - **`Gallop.ObscuredIdleSingleModeGainInfo class not found`** —
-  IL2CPP class was renamed (rare — stable across builds). Share
-  log.
+  IL2CPP class was renamed in a game update (rare — stable
+  across builds). Share log; we'll retarget.
+- **`il2cpp_resolve_symbol(...) returned null`** — Unity < 2021.2
+  or a stripped IL2CPP build. Share the specific symbol name in
+  the message; we may have to switch to the legacy liveness API.
+- **`gui_register_menu_item returned false`** — Hachimi's menu
+  system isn't ready at our init time. Plugin falls back to
+  registering via `game_initialized` — should work but if the
+  menu entry never appears, share the log.
+- **Menu entry appears but game freezes on click** — the
+  stop_gc_world / start_gc_world pair got unbalanced. Bug in
+  the plugin; report the log immediately (game will remain
+  frozen until killed).
 - **Plugin doesn't log at all** — Hachimi didn't load it. Check
   the DLL is in the right folder and appears in the top-level
   `load_libraries` array (not nested under `windows`) exactly as
   `uma_it_plugin.dll`.
-- **Massive log file + framerate crash** — this was the v0.0.4
-  bug. If you see this in v0.0.5+, the declared-on-class check
-  failed and it's a plugin bug worth reporting.
 
 ## For developers
 
