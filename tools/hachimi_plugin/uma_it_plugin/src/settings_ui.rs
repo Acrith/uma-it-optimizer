@@ -101,8 +101,9 @@ pub fn register(api: &Api) -> bool {
 }
 
 /// Hachimi's callback for the settings section. Called every frame
-/// the menu is open. Renders heading → URL edit → token edit → Save
-/// button → status line.
+/// the menu is open. Renders "Extract IT Run" button, separator,
+/// Token field + Save + status line — the whole plugin's UI in one
+/// visual group.
 extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
     let api = Api::get();
 
@@ -120,6 +121,36 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         let cfg = config::get();
         write_into_cstr_buf(&mut st.token_buf, &cfg.api_token);
         st.loaded_from_disk = true;
+    }
+
+    // "Extract IT Run" — the action button. Previously registered
+    // separately via gui_register_menu_item (put it under Hachimi's
+    // "Plugins" category, visually detached from the settings
+    // section). Moving it inside the section groups the whole
+    // plugin's UI under one visual header — one click here fires
+    // the same on_menu_click flow the old menu item did.
+    if let Some(button) = api.gui_ui_button {
+        let s = CString::new("Extract IT Run").unwrap();
+        let clicked = unsafe { button(ui, s.as_ptr()) };
+        if clicked {
+            // Release the settings mutex before running the extract,
+            // since the extract path calls back into settings_ui::
+            // set_status which needs to re-acquire it. Rust's std
+            // Mutex isn't re-entrant, so holding here would deadlock.
+            drop(st);
+            crate::run_extract_and_upload();
+            // Re-acquire so the rest of this frame's render can
+            // access UI state. If the poison recovery fails (extract
+            // thread panicked mid-mutation), skip the rest of the
+            // frame — next frame retries.
+            st = match STATE.lock() {
+                Ok(s) => s,
+                Err(_) => return,
+            };
+        }
+    }
+    if let Some(sep) = api.gui_ui_separator {
+        unsafe { sep(ui); }
     }
 
     // Absolute minimum UI: Token label + edit + Save. Everything

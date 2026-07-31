@@ -252,20 +252,12 @@ unsafe fn setup() -> Result<(), String> {
     // function (moved up so Parents registration could use
     // find_class_by_full_name).
 
-    // Register the menu item. Hachimi surfaces this in its in-game
-    // menu (F1 by default on PC). The callback fires on the game's
-    // GUI thread, which is what we want — GC scans need to run
-    // from an IL2CPP-attached thread.
-    let register_menu = api.gui_register_menu_item.ok_or(
-        "gui_register_menu_item missing from vtable — Hachimi-Edge too old?",
-    )?;
-    let label = CString::new("Extract IT Run").unwrap();
-    let ok = register_menu(label.as_ptr(), Some(on_menu_click), std::ptr::null_mut());
-    if !ok {
-        return Err(
-            "gui_register_menu_item returned false — menu likely not ready yet".into(),
-        );
-    }
+    // v1.0.0 registered "Extract IT Run" as a menu_item under
+    // Hachimi's "Plugins" category, visually separate from the
+    // settings section below. Users disliked that split — the button
+    // and the token config for the same feature lived in different
+    // panes. Moved into the settings section render callback (see
+    // settings_ui.rs) so everything is grouped in one visual block.
 
     // Persistent config for auto-upload. We need Hachimi's base dir
     // to know where to load/save the config file. Fine to init here
@@ -292,19 +284,17 @@ unsafe fn setup() -> Result<(), String> {
     Ok(())
 }
 
-/// Menu callback. Fires from Hachimi's GUI thread when the user
-/// clicks "Extract IT Run".
+/// The Extract IT Run action — heap-scan every target class,
+/// serialize to the extractor's JSON schema, write to disk, POST to
+/// /api/runs if configured. Called from the settings-section
+/// render callback when the "Extract IT Run" button is clicked
+/// (see settings_ui.rs). Was `on_menu_click` in v1.0.0 when the
+/// button lived as a top-level menu item under Hachimi's Plugins
+/// category.
 ///
-/// v0.0.9 pipeline: run heap scans (with log-based dump for
-/// visibility), build a JSON capture, write it to disk, then POST
-/// it to the API if the user has configured a token. Each step is
-/// surfaced via a Hachimi notification + the settings-panel status
-/// line so the user can see what happened without checking the log.
-///
-/// This is `extern "C"` (not `unsafe extern "C"`) because
-/// `GuiMenuCallback` in edge-sdk is defined that way. The scan
-/// itself is unsafe, but the callback wrapper isn't.
-extern "C" fn on_menu_click(_userdata: *mut c_void) {
+/// Runs on the game's GUI thread (Hachimi's imgui frame) — safe
+/// context for IL2CPP GC scans and blocking HTTP.
+pub(crate) fn run_extract_and_upload() {
     gc_scan::scan_and_log();
     let (filename, bytes) = match write_capture_to_disk() {
         Ok(pair) => pair,
