@@ -35,6 +35,11 @@ pub const DEFAULT_API_URL: &str = "https://training.umaladder.moe";
 pub struct Config {
     pub api_url: String,
     pub api_token: String,
+    /// If true, on a successful upload the plugin opens the run's
+    /// detail page in the user's default browser. Off by default —
+    /// popping a browser Alt-Tabs the user out of the game, which
+    /// some players won't want mid-session.
+    pub open_after_upload: bool,
 }
 
 impl Config {
@@ -138,22 +143,32 @@ pub fn set(mut new_cfg: Config) -> Result<(), String> {
 /// schema ever grows to more than a handful of fields, switch.
 fn parse_json(text: &str) -> Option<Config> {
     let mut cfg = Config::default();
+    let mut matched_anything = false;
     for line in text.lines() {
         let line = line.trim().trim_end_matches(',');
-        // Match `"key": "value"` — strip quotes on both sides.
-        let (raw_key, raw_val) = line.split_once(':')?;
+        // Match `"key": "value"` OR `"key": bool`. The value trim
+        // strategy handles both — booleans have no surrounding
+        // quotes, so trim_matches('"') on them is a no-op.
+        let (raw_key, raw_val) = match line.split_once(':') {
+            Some(pair) => pair,
+            None => continue,
+        };
         let key = raw_key.trim().trim_matches('"');
         let val = raw_val.trim().trim_matches('"').trim_end_matches(',').trim_matches('"');
         match key {
-            "api_url" => cfg.api_url = val.to_string(),
-            "api_token" => cfg.api_token = val.to_string(),
+            "api_url" => { cfg.api_url = val.to_string(); matched_anything = true; }
+            "api_token" => { cfg.api_token = val.to_string(); matched_anything = true; }
+            "open_after_upload" => {
+                cfg.open_after_upload = val.eq_ignore_ascii_case("true");
+                matched_anything = true;
+            }
             _ => {}
         }
     }
-    // Refuse to return a completely-empty config — that's a sign we
-    // matched nothing meaningful (garbage file, wrong format). Better
-    // to keep the built-in default URL than blank it out.
-    if cfg.api_url.is_empty() && cfg.api_token.is_empty() {
+    // Refuse to return if we matched no known keys — sign we're
+    // reading a garbage file, better to keep in-memory defaults
+    // (production URL, empty token, upload-then-stay-in-game).
+    if !matched_anything {
         return None;
     }
     if cfg.api_url.is_empty() {
@@ -165,11 +180,17 @@ fn parse_json(text: &str) -> Option<Config> {
 /// Emit `{"api_url": "...", "api_token": "..."}` with basic JSON
 /// escaping. Tokens shouldn't contain `"` or `\` but the URL
 /// theoretically could (path with a special char), so escape both.
+/// Emit `{"api_url": "...", "api_token": "...", "open_after_upload": bool}`.
+/// Deliberately one-field-per-line: the parser is line-based (splits
+/// on `\n` then `:`) so a hand-edit that collapses everything onto
+/// one line breaks parsing. If someone reformats this file, they
+/// need to keep the newlines. Documented in [`parse_json`] too.
 fn serialize_json(cfg: &Config) -> String {
     format!(
-        "{{\n  \"api_url\": \"{}\",\n  \"api_token\": \"{}\"\n}}\n",
+        "{{\n  \"api_url\": \"{}\",\n  \"api_token\": \"{}\",\n  \"open_after_upload\": {}\n}}\n",
         escape(&cfg.api_url),
-        escape(&cfg.api_token)
+        escape(&cfg.api_token),
+        if cfg.open_after_upload { "true" } else { "false" },
     )
 }
 

@@ -331,6 +331,15 @@ extern "C" fn on_menu_click(_userdata: *mut c_void) {
             info!("[uma-it] uploaded {} → {:?}", filename, url);
             notify(&format!("Uploaded {filename}"));
             settings_ui::set_status(format!("Last upload: OK ({filename})"));
+            // Opt-in browser hand-off. Off by default because Alt-
+            // tabbing out of a fullscreen game mid-session is
+            // disruptive; users who want the extractor-style "open
+            // page on upload" flip the checkbox in settings.
+            if cfg.open_after_upload {
+                if let Some(u) = url {
+                    open_url_in_browser(&u);
+                }
+            }
         }
         http::UploadOutcome::Duplicate => {
             info!("[uma-it] {} was a duplicate — server already has it", filename);
@@ -369,6 +378,31 @@ fn notify(text: &str) {
         if let Ok(cs) = CString::new(text) {
             unsafe { show(cs.as_ptr()); }
         }
+    }
+}
+
+/// Launch the system default browser at `url` on Windows via
+/// `cmd /C start "" <url>`. The empty `""` is start's window-title
+/// argument — required so start doesn't treat the URL itself as
+/// the title. We fire-and-forget; any failure just logs so a
+/// broken shell association doesn't cascade into a plugin crash.
+fn open_url_in_browser(url: &str) {
+    // Reject URLs with control chars or embedded shell metacharacters
+    // as a defence-in-depth measure. The server-emitted url in
+    // /api/runs's 201 response is a plain https URL under our own
+    // domain, so a hostile URL would only arise from a
+    // man-in-the-middle attack on the upload response — but there's
+    // no good reason ever to pass one of these into a shell start.
+    if url.chars().any(|c| c.is_control() || c == '"' || c == '&' || c == '|' || c == '^') {
+        error!("[uma-it] refusing to open URL with suspicious characters: {url:?}");
+        return;
+    }
+    match std::process::Command::new("cmd")
+        .args(["/C", "start", "", url])
+        .spawn()
+    {
+        Ok(_) => info!("[uma-it] opened {} in default browser", url),
+        Err(e) => error!("[uma-it] failed to launch browser for {}: {}", url, e),
     }
 }
 

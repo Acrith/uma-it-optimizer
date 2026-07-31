@@ -37,6 +37,11 @@ struct UiState {
     /// frames leave alone so the user's in-progress edits survive
     /// menu reopen.
     token_buf: [u8; TOKEN_BUF_CAP],
+    /// Checkbox: open the run's detail page in the browser after
+    /// a successful upload. imgui writes to this via *mut bool from
+    /// gui_ui_checkbox. Loaded from config on first render, written
+    /// back on Save.
+    open_after_upload: bool,
     /// Set on first render — we need Api available to load config,
     /// which requires setup() to have completed. Fine to lazily
     /// initialize inside render_section.
@@ -51,6 +56,7 @@ impl UiState {
     const fn new() -> Self {
         Self {
             token_buf: [0u8; TOKEN_BUF_CAP],
+            open_after_upload: false,
             loaded_from_disk: false,
             status_line: String::new(),
         }
@@ -115,11 +121,13 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
     // Lazy load-from-disk on first render. We can't do it in
     // register() because at that point config::init() may not have
     // been called yet if register runs before setup's config::init
-    // call — cheap to defer. Only the token is bound to a UI
-    // widget; the URL stays in the on-disk config unchanged.
+    // call — cheap to defer. Only the token + open-after-upload
+    // toggle are bound to UI widgets; the URL stays in the on-disk
+    // config unchanged (power-user override via the file).
     if !st.loaded_from_disk {
         let cfg = config::get();
         write_into_cstr_buf(&mut st.token_buf, &cfg.api_token);
+        st.open_after_upload = cfg.open_after_upload;
         st.loaded_from_disk = true;
     }
 
@@ -161,17 +169,29 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         }
     }
 
-    // Save button — updates ONLY api_token in the persisted
-    // config, keeping whatever api_url is already there (default,
-    // or a hand-edited dev override). Without this merge the URL
-    // would get blanked because url_buf is no longer bound to any
-    // UI widget.
+    // Post-upload action: browser-open toggle. Label kept short so
+    // it fits on one line inside the narrow menu — imgui checkbox
+    // labels don't wrap-stretch the way gui_ui_small does, so the
+    // main concern is horizontal width, not justified spacing.
+    if let Some(checkbox) = api.gui_ui_checkbox {
+        let s = CString::new("Open run after upload").unwrap();
+        unsafe {
+            checkbox(ui, s.as_ptr(), &mut st.open_after_upload as *mut bool);
+        }
+    }
+
+    // Save button — merges token + open-after-upload into the
+    // existing persisted config, keeping api_url intact (URL isn't
+    // bound to any UI widget; power users edit the file for a dev
+    // override). Without the merge, url_buf-less save would blank
+    // the URL.
     if let Some(button) = api.gui_ui_button {
         let s = CString::new("Save").unwrap();
         let clicked = unsafe { button(ui, s.as_ptr()) };
         if clicked {
             let mut new_cfg = config::get();
             new_cfg.api_token = st.token_as_string();
+            new_cfg.open_after_upload = st.open_after_upload;
             match config::set(new_cfg) {
                 Ok(()) => {
                     st.status_line = "Saved.".to_string();
