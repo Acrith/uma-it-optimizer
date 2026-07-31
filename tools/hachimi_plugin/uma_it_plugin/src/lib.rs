@@ -120,6 +120,17 @@ unsafe fn setup() -> Result<(), String> {
         .ok_or("il2cpp_get_class missing from vtable")?;
     let ns_gallop = CString::new("Gallop").unwrap();
 
+    // Resolve the GC + metadata symbols EARLY — the Parents
+    // registration below needs il2cpp_image_get_class,
+    // il2cpp_type_get_name, and il2cpp_free from these
+    // (find_class_by_full_name enumerates + matches type names).
+    // Historically these were resolved after target registration,
+    // which fine when all targets used il2cpp_get_class directly.
+    gc_scan::resolve(api)?;
+    info!("[uma-it] IL2CPP liveness API resolved (Unity 2021.2+ path)");
+    introspect::resolve(api)?;
+    info!("[uma-it] IL2CPP metadata API resolved (field enumeration + type-name lookup ready)");
+
     // Register every class the .exe extractor heap-scans
     // (dump_it_run.py:317-322 + dumpParents:150-192). Labels match
     // the extractor's JSON keys exactly — the web-app enrich
@@ -170,54 +181,52 @@ unsafe fn setup() -> Result<(), String> {
         resolved += 1;
     }
 
-    // Parents — TOP-LEVEL class with dot-in-namespace naming.
-    // Namespace `Gallop.WorkTrainedCharaData`, class name
-    // `TrainedCharaData`. NOT a nested class — despite the dot
-    // in the name suggesting one.
+    // Parents — enumerate img_main's classes and find the one
+    // whose flattened type name matches
+    // `"Gallop.WorkTrainedCharaData.TrainedCharaData"`. This
+    // matches what Frida's `image.classes` + `type.name` check
+    // does in the .exe extractor (dump_it_run.py:150-165).
     //
-    // Extractor's dumpParents finds this by iterating
-    // image.classes (top-level only, no nested-class recursion)
-    // and matching `type.name` == the full flattened name
-    // (dump_it_run.py:150-165, verified against frida-il2cpp-bridge
-    // lib/structs/image.ts).
-    //
-    // v0.0.8b used il2cpp_find_nested_class assuming truly nested
-    // — that returned a DIFFERENT Il2CppClass* (probably an inner
-    // private helper) whose live-instance set was 269 stale
-    // TrainedCharaData records, all with SuccessionCharaList=null.
-    // Same-session comparison with the .exe extractor proved the
-    // discrepancy: extractor found 2 objects (current parents,
-    // SCL populated), plugin's nested-class scan found 269 (all
-    // SCL null). Fixed by using il2cpp_get_class with the
-    // dot-separated namespace instead of find_nested_class.
-    let parents_ns = CString::new("Gallop.WorkTrainedCharaData").unwrap();
-    let parents_name = CString::new("TrainedCharaData").unwrap();
-    let parents_class = get_class(img_main, parents_ns.as_ptr(), parents_name.as_ptr());
-    if parents_class.is_null() {
-        error!(
-            "[uma-it] Gallop.WorkTrainedCharaData.TrainedCharaData not found — Parents scan disabled"
-        );
-    } else {
-        info!(
-            "[uma-it] target: [Parents] Gallop.WorkTrainedCharaData.TrainedCharaData @ {:p}",
-            parents_class
-        );
-        let display: &'static str = Box::leak(
-            "Gallop.WorkTrainedCharaData.TrainedCharaData"
-                .to_string()
-                .into_boxed_str(),
-        );
-        gc_scan::add_target(gc_scan::TargetClass {
-            label: "Parents",
-            display,
-            class: parents_class,
-            // Extractor filters by SMC.succession_trained_chara_id_1/_2
-            // then walks up to 2 matches. Simpler for plugin: walk
-            // all matches (should now be ~2), post-filter to
-            // succession IDs in write_capture_to_disk (v0.0.8c).
-            pick_by: None,
-        });
-        resolved += 1;
+    // History of getting this right:
+    // - v0.0.8b: il2cpp_find_nested_class assumed truly nested
+    //   → returned a private inner helper class whose live set
+    //   was 269 stale records, all with SCL=null.
+    // - v0.0.8d: il2cpp_get_class(image, "Gallop.WorkTrainedCharaData",
+    //   "TrainedCharaData") assumed dotted-namespace top-level
+    //   → returned NULL (class isn't registered under that name
+    //   in the get_class lookup table).
+    // - v0.0.8e (this): enumerate + match by full type name via
+    //   il2cpp_type_get_name, same algorithm Frida uses. Whichever
+    //   representation IL2CPP uses internally, this finds it.
+    match unsafe {
+        introspect::find_class_by_full_name(
+            img_main as *const _,
+            "Gallop.WorkTrainedCharaData.TrainedCharaData",
+        )
+    } {
+        Some(parents_class) => {
+            info!(
+                "[uma-it] target: [Parents] Gallop.WorkTrainedCharaData.TrainedCharaData @ {:p} (found via image.classes enumeration)",
+                parents_class
+            );
+            let display: &'static str = Box::leak(
+                "Gallop.WorkTrainedCharaData.TrainedCharaData"
+                    .to_string()
+                    .into_boxed_str(),
+            );
+            gc_scan::add_target(gc_scan::TargetClass {
+                label: "Parents",
+                display,
+                class: parents_class,
+                pick_by: None,
+            });
+            resolved += 1;
+        }
+        None => {
+            error!(
+                "[uma-it] Gallop.WorkTrainedCharaData.TrainedCharaData not found in img_main class iteration — Parents scan disabled"
+            );
+        }
     }
 
     if resolved == 0 {
@@ -225,17 +234,9 @@ unsafe fn setup() -> Result<(), String> {
     }
     info!("[uma-it] {}/7 target classes resolved for scanning", resolved);
 
-    // Resolve the eight IL2CPP GC symbols we use for heap scanning.
-    // Failure here means Unity < 2021.2 or a stripped IL2CPP build —
-    // neither expected for Umamusume Global as of the current build.
-    gc_scan::resolve(api)?;
-    info!("[uma-it] IL2CPP liveness API resolved (Unity 2021.2+ path)");
-
-    // Resolve field-introspection symbols (Il2Cpp metadata APIs)
-    // — used by v0.0.7's field walker to enumerate + read instance
-    // fields on matched objects.
-    introspect::resolve(api)?;
-    info!("[uma-it] IL2CPP metadata API resolved (field enumeration ready)");
+    // GC + metadata symbols already resolved earlier in this
+    // function (moved up so Parents registration could use
+    // find_class_by_full_name).
 
     // Register the menu item. Hachimi surfaces this in its in-game
     // menu (F1 by default on PC). The callback fires on the game's

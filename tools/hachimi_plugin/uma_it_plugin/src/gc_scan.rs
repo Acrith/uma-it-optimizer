@@ -342,6 +342,14 @@ static TARGET_CLASSES: OnceCell<Mutex<Vec<TargetClass>>> = OnceCell::new();
 // il2cpp APIs that take *mut Il2CppClass.
 unsafe impl Send for TargetClass {}
 
+/// Expose the resolved `il2cpp_free` for other modules (introspect)
+/// to release strings/buffers allocated by IL2CPP APIs like
+/// `il2cpp_type_get_name`. Returns None until `gc_scan::resolve()`
+/// has been called.
+pub fn get_il2cpp_free() -> Option<unsafe extern "C" fn(*mut std::ffi::c_void)> {
+    GC_SYMS.get().map(|s| s.il2cpp_free)
+}
+
 pub fn add_target(t: TargetClass) {
     let cell = TARGET_CLASSES.get_or_init(|| Mutex::new(Vec::new()));
     if let Ok(mut g) = cell.lock() {

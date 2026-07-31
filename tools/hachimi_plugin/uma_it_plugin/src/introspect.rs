@@ -76,6 +76,25 @@ pub struct MetaSymbols {
     /// value type → il2cpp_class_value_size; reference type → 8
     /// (pointer size on x64).
     pub il2cpp_class_is_valuetype: unsafe extern "C" fn(klass: *mut Il2CppClass) -> bool,
+    /// Number of classes registered in an image. Used together
+    /// with il2cpp_image_get_class to iterate — same approach
+    /// Frida's `image.classes` uses (frida-il2cpp-bridge
+    /// lib/structs/image.ts).
+    pub il2cpp_image_get_class_count: unsafe extern "C" fn(image: *const c_void) -> usize,
+    /// Fetches class at index i in the image's class array.
+    /// Returns nested classes too (indexed alongside top-level).
+    /// Together with class_get_type + type_get_name this is the
+    /// most reliable way to find a class by its Frida-style
+    /// flattened `type.name`.
+    pub il2cpp_image_get_class:
+        unsafe extern "C" fn(image: *const c_void, index: usize) -> *mut Il2CppClass,
+    /// Returns the Il2CppType* for a class. type_get_name(type)
+    /// gives the full flattened name (with nested-class dots).
+    pub il2cpp_class_get_type: unsafe extern "C" fn(klass: *mut Il2CppClass) -> Il2CppTypePtr,
+    /// Returns a fresh heap-allocated C string with the type's
+    /// full flattened name. Caller must `il2cpp_free` it via
+    /// the GC symbols API.
+    pub il2cpp_type_get_name: unsafe extern "C" fn(ty: Il2CppTypePtr) -> *mut i8,
 }
 
 static META_SYMS: OnceCell<MetaSymbols> = OnceCell::new();
@@ -141,6 +160,22 @@ pub unsafe fn resolve(api: &Api) -> Result<&'static MetaSymbols, String> {
         il2cpp_class_is_valuetype: sym!(
             "il2cpp_class_is_valuetype",
             unsafe extern "C" fn(*mut Il2CppClass) -> bool
+        ),
+        il2cpp_image_get_class_count: sym!(
+            "il2cpp_image_get_class_count",
+            unsafe extern "C" fn(*const c_void) -> usize
+        ),
+        il2cpp_image_get_class: sym!(
+            "il2cpp_image_get_class",
+            unsafe extern "C" fn(*const c_void, usize) -> *mut Il2CppClass
+        ),
+        il2cpp_class_get_type: sym!(
+            "il2cpp_class_get_type",
+            unsafe extern "C" fn(*mut Il2CppClass) -> Il2CppTypePtr
+        ),
+        il2cpp_type_get_name: sym!(
+            "il2cpp_type_get_name",
+            unsafe extern "C" fn(Il2CppTypePtr) -> *mut i8
         ),
     };
     let _ = META_SYMS.set(syms);
@@ -674,6 +709,64 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
         }
         _ => format!("<type_enum={}>", f.type_enum),
     }
+}
+
+/// Enumerate all classes in an IL2CPP image and return the one
+/// whose flattened type name matches `target_full_name` (e.g.
+/// `"Gallop.WorkTrainedCharaData.TrainedCharaData"`). Mirrors
+/// what Frida's `image.classes` iteration does for classes with
+/// dotted namespaces or nested-class flattening.
+///
+/// Returns None if no match. On success, both the outer type ptr
+/// and the flattened name string produced by
+/// `il2cpp_type_get_name` are freed via the resolved
+/// `il2cpp_free` (also passed here since it lives in the GC
+/// symbols module).
+///
+/// Uses il2cpp_free from the GC symbols cache since MetaSymbols
+/// doesn't include it — the free is only for the transient
+/// type-name strings we get back.
+///
+/// # Safety
+///
+/// `image` must be a valid Il2CppImage pointer from
+/// il2cpp_get_assembly_image. MetaSymbols must be resolved.
+pub unsafe fn find_class_by_full_name(
+    image: *const c_void,
+    target_full_name: &str,
+) -> Option<*mut Il2CppClass> {
+    let syms = META_SYMS.get()?;
+    let count = (syms.il2cpp_image_get_class_count)(image);
+    if count == 0 {
+        return None;
+    }
+    // Also need il2cpp_free from GC symbols to free the type-name
+    // strings that il2cpp_type_get_name allocates. Fetching via
+    // the crate::gc_scan module — a bit of a layering violation
+    // but keeps this reusable.
+    let free_fn = crate::gc_scan::get_il2cpp_free();
+    for i in 0..count {
+        let klass = (syms.il2cpp_image_get_class)(image, i);
+        if klass.is_null() {
+            continue;
+        }
+        let ty = (syms.il2cpp_class_get_type)(klass);
+        if ty.is_null() {
+            continue;
+        }
+        let name_ptr = (syms.il2cpp_type_get_name)(ty);
+        if name_ptr.is_null() {
+            continue;
+        }
+        let name = CStr::from_ptr(name_ptr).to_string_lossy().into_owned();
+        if let Some(free) = free_fn {
+            free(name_ptr as *mut c_void);
+        }
+        if name == target_full_name {
+            return Some(klass);
+        }
+    }
+    None
 }
 
 /// Pick the object from `matches` whose int32 field named
