@@ -121,22 +121,29 @@ unsafe fn setup() -> Result<(), String> {
     let ns_gallop = CString::new("Gallop").unwrap();
 
     // Register every class the .exe extractor heap-scans
-    // (dump_it_run.py:317-322). Each becomes a heap-scan target
-    // that runs on Extract IT Run menu click.
+    // (dump_it_run.py:317-322 + dumpParents:150-192). Labels match
+    // the extractor's JSON keys exactly — the web-app enrich
+    // modules read those specific keys, so any rename here breaks
+    // web-app compatibility.
     //
     // pick_by: for classes where the scan finds multiple template
     // instances but we only want the "real" one, pick the match
     // with the highest value at the given int32 field. Matches
     // the extractor's picker logic (dump_it_run.py:517).
     let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage, Option<&'static str>); 6] = [
-        ("GainInfo",             "ObscuredIdleSingleModeGainInfo",              img_main, None),
-        ("SupportCardGainInfo",  "ObscuredIdleSingleModeSupportCardGainInfo",   img_main, None),
-        ("FactorGainInfo",       "ObscuredIdleSingleModeSuccessionFactorGainInfo", img_main, None),
+        ("GainInfo",                     "ObscuredIdleSingleModeGainInfo",                   img_main, None),
+        ("SupportCardGainInfo",          "ObscuredIdleSingleModeSupportCardGainInfo",        img_main, None),
+        // v0.0.8a used "FactorGainInfo" here — extractor uses the
+        // full name "SuccessionFactorGainInfo" (dump_it_run.py:320),
+        // and run_metrics.py:245 reads that specific key. Renamed.
+        ("SuccessionFactorGainInfo",     "ObscuredIdleSingleModeSuccessionFactorGainInfo",   img_main, None),
         // v0.0.7f showed 3 SMC instances with the first being all-zeros
         // (template). Pick the one with highest fans — real gameplay data.
-        ("SingleModeChara",      "SingleModeChara",                             img_http, Some("fans")),
-        ("RaceHistory",          "SingleRaceHistory",                           img_http, None),
-        ("IdleRaceHistory",      "IdleSingleModeRaceHistory",                   img_http, None),
+        ("SingleModeChara",              "SingleModeChara",                                  img_http, Some("fans")),
+        ("RaceHistory",                  "SingleRaceHistory",                                img_http, None),
+        // v0.0.8a used "IdleRaceHistory" — extractor uses the full
+        // "IdleSingleModeRaceHistory" name (dump_it_run.py:322).
+        ("IdleSingleModeRaceHistory",    "IdleSingleModeRaceHistory",                        img_http, None),
     ];
     let mut resolved = 0;
     for (label, cls_name, image, pick_by) in targets {
@@ -151,7 +158,7 @@ unsafe fn setup() -> Result<(), String> {
         }
         info!("[uma-it] target: [{}] Gallop.{} @ {:p}", label, cls_name, klass);
         // display is the fully-qualified name for the "no matches" hint.
-        // Leaking the String is fine — 6 tiny allocations that live for
+        // Leaking the String is fine — 7 tiny allocations that live for
         // the process lifetime.
         let display: &'static str = Box::leak(format!("Gallop.{}", cls_name).into_boxed_str());
         gc_scan::add_target(gc_scan::TargetClass {
@@ -162,10 +169,53 @@ unsafe fn setup() -> Result<(), String> {
         });
         resolved += 1;
     }
+
+    // Parents — nested class Gallop.WorkTrainedCharaData/TrainedCharaData
+    // in the main assembly. Extractor's `dumpParents` uses this for
+    // direct-parent + grandparent lineage (dump_it_run.py:150-192).
+    // Without it: no factor compat scoring, no spark analysis, no
+    // inheritance UI in the web app (compat.py:301-386).
+    let outer_name = CString::new("WorkTrainedCharaData").unwrap();
+    let inner_name = CString::new("TrainedCharaData").unwrap();
+    let outer_class = get_class(img_main, ns_gallop.as_ptr(), outer_name.as_ptr());
+    if outer_class.is_null() {
+        error!(
+            "[uma-it] outer class Gallop.WorkTrainedCharaData not found — Parents scan disabled"
+        );
+    } else {
+        let find_nested = api.il2cpp_find_nested_class.ok_or(
+            "il2cpp_find_nested_class missing from vtable — Hachimi-Edge too old?",
+        )?;
+        let parents_class = find_nested(outer_class, inner_name.as_ptr());
+        if parents_class.is_null() {
+            error!(
+                "[uma-it] nested Gallop.WorkTrainedCharaData/TrainedCharaData not found — Parents scan disabled"
+            );
+        } else {
+            info!(
+                "[uma-it] target: [Parents] Gallop.WorkTrainedCharaData.TrainedCharaData (nested) @ {:p}",
+                parents_class
+            );
+            let display: &'static str =
+                Box::leak("Gallop.WorkTrainedCharaData.TrainedCharaData".to_string().into_boxed_str());
+            gc_scan::add_target(gc_scan::TargetClass {
+                label: "Parents",
+                display,
+                class: parents_class,
+                // Extractor filters by SMC.succession_trained_chara_id_1/_2
+                // then walks up to 2 matches. Simpler for plugin: walk
+                // all matches, let the web app filter by ID from the
+                // top-level SingleModeChara succession IDs.
+                pick_by: None,
+            });
+            resolved += 1;
+        }
+    }
+
     if resolved == 0 {
         return Err("no target classes resolved — either the game version is very off or the images aren't loaded".into());
     }
-    info!("[uma-it] {}/6 target classes resolved for scanning", resolved);
+    info!("[uma-it] {}/7 target classes resolved for scanning", resolved);
 
     // Resolve the eight IL2CPP GC symbols we use for heap scanning.
     // Failure here means Unity < 2021.2 or a stripped IL2CPP build —

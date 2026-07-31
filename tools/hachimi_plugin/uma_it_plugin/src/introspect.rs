@@ -727,10 +727,12 @@ unsafe fn cstr_or_empty(p: *const i8) -> String {
 // ── JSON walker ─────────────────────────────────────────────
 
 /// Depth budget for recursion into nested class refs. Keeps the
-/// output tractable and rules out cycles. The extractor uses
-/// depth=3 for its "walk" (dump_it_run.py:83) and 6 for
-/// "walkDeep" — we match "walk" here for the initial capture.
-const MAX_JSON_DEPTH: u32 = 4;
+/// output tractable and rules out cycles. The extractor's
+/// walkDeep uses depth 6 for parent lineage
+/// (dump_it_run.py:150-192) — we match that to capture grandparent
+/// factor arrays under Parents. v0.0.8a used 4 which was too
+/// shallow for inheritance lineage.
+const MAX_JSON_DEPTH: u32 = 6;
 
 /// Walk one Il2CppObject to a JsonValue::Object with entries for
 /// each declared instance field. Recurses into class refs and
@@ -754,21 +756,18 @@ unsafe fn walk_object(obj: *mut c_void, depth: u32) -> JsonValue {
     };
     let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
     for f in &fields {
-        entries.push((clean_field_name(&f.name), value_for_field(obj, f, depth, false)));
+        entries.push((f.name.clone(), value_for_field(obj, f, depth, false)));
     }
     JsonValue::Object(entries)
 }
 
-/// Strip C#'s auto-property backing-field decoration.
-/// `<Speed>k__BackingField` → `Speed`. Leaves other names alone.
-fn clean_field_name(raw: &str) -> String {
-    if let Some(rest) = raw.strip_prefix('<') {
-        if let Some(inner) = rest.strip_suffix(">k__BackingField") {
-            return inner.to_string();
-        }
-    }
-    raw.to_string()
-}
+// NOTE: v0.0.8a had a `clean_field_name` helper that stripped
+// `<Foo>k__BackingField` → `Foo`. Removed in v0.0.8b — the web
+// app's enrich modules read the RAW C# field names literally
+// (grep for `<GainInfo>k__BackingField`, `<Speed>k__BackingField`,
+// etc. in uma_it_web/enrich/compat.py, run_metrics.py, per_run_detail.py).
+// Stripping the decoration silently broke web-app compat.
+// Keep raw names to match the .exe extractor's output.
 
 /// Read a single field's value at `container + offset`, returning
 /// a JsonValue. Dispatches on `f.type_enum`. `inline=true` means
@@ -885,7 +884,7 @@ unsafe fn walk_inline(
     let base = (container as *const u8).offset(offset as isize) as *mut c_void;
     let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
     for f in &fields {
-        entries.push((clean_field_name(&f.name), value_for_field(base, f, depth, true)));
+        entries.push((f.name.clone(), value_for_field(base, f, depth, true)));
     }
     JsonValue::Object(entries)
 }
