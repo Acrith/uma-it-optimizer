@@ -63,6 +63,12 @@ pub struct MetaSymbols {
         unsafe extern "C" fn(ty: Il2CppTypePtr) -> *mut Il2CppClass,
     pub il2cpp_class_get_name: unsafe extern "C" fn(klass: *mut Il2CppClass) -> *const i8,
     pub il2cpp_class_get_namespace: unsafe extern "C" fn(klass: *mut Il2CppClass) -> *const i8,
+    /// Size in bytes of an instance of a value-type class (i.e.
+    /// the inline size, no Il2CppObject header). `out_align` is
+    /// optional (may be null) — we don't care about alignment.
+    /// For SZARRAY element striding of struct arrays.
+    pub il2cpp_class_value_size:
+        unsafe extern "C" fn(klass: *mut Il2CppClass, out_align: *mut u32) -> u32,
 }
 
 static META_SYMS: OnceCell<MetaSymbols> = OnceCell::new();
@@ -120,6 +126,10 @@ pub unsafe fn resolve(api: &Api) -> Result<&'static MetaSymbols, String> {
         il2cpp_class_get_namespace: sym!(
             "il2cpp_class_get_namespace",
             unsafe extern "C" fn(*mut Il2CppClass) -> *const i8
+        ),
+        il2cpp_class_value_size: sym!(
+            "il2cpp_class_value_size",
+            unsafe extern "C" fn(*mut Il2CppClass, *mut u32) -> u32
         ),
     };
     let _ = META_SYMS.set(syms);
@@ -583,10 +593,46 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
             //   +16  Il2CppArrayBounds* bounds — 8 bytes
             //   +24  il2cpp_array_size_t max_length — 8 bytes
             //   +32  first element
-            // The `max_length` field is what we want for count.
             let len_ptr = (ptr as *const u8).offset(24) as *const usize;
             let len = *len_ptr;
-            format!("<array len={} @ {:p}>", len, ptr)
+            if len == 0 {
+                return format!("[] (len=0) @ {:p}", ptr);
+            }
+            // Get element class from the array-field type ptr.
+            if f.type_ptr.is_null() {
+                return format!("<array len={} @ {:p} (no type ptr)>", len, ptr);
+            }
+            let elem_class = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if elem_class.is_null() {
+                return format!("<array len={} @ {:p} (no element class)>", len, ptr);
+            }
+            let elem_ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(elem_class));
+            let elem_name = cstr_or_empty((syms.il2cpp_class_get_name)(elem_class));
+            let elem_size = (syms.il2cpp_class_value_size)(elem_class, std::ptr::null_mut());
+            let data_start = (ptr as *const u8).offset(32);
+            // Walk up to 3 elements as a POC. v0.0.7e handles full
+            // enumeration into JSON.
+            let show = len.min(3);
+            let mut lines = vec![format!(
+                "[{}.{} × {} @ {:p}, elem_size={}]:",
+                elem_ns, elem_name, len, ptr, elem_size
+            )];
+            for i in 0..show {
+                let elem_ptr = data_start.offset((i * elem_size as usize) as isize) as *mut c_void;
+                // Try treating as obscured struct first (single int).
+                if let Some(v) = try_decode_inline_obscured_int(elem_ptr, 0, elem_class) {
+                    lines.push(format!("    [{}] = {} (obscured struct)", i, v));
+                } else {
+                    // Log first N bytes as hex for eyeballing.
+                    let take = (elem_size as usize).min(24);
+                    let bytes = std::slice::from_raw_parts(elem_ptr as *const u8, take);
+                    lines.push(format!("    [{}] @ {:p}, first_bytes={:02x?}", i, elem_ptr, bytes));
+                }
+            }
+            if len > show {
+                lines.push(format!("    ... {} more", len - show));
+            }
+            lines.join("\n")
         }
         _ => format!("<type_enum={}>", f.type_enum),
     }
