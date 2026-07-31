@@ -324,6 +324,12 @@ pub struct TargetClass {
     pub display: &'static str,
     /// The resolved Il2CppClass* — set exactly once at init.
     pub class: *mut Il2CppClass,
+    /// When multiple instances match, pick the one with the
+    /// highest value at this int32 field (offset resolved via
+    /// describe_fields). Matches the extractor's picker logic
+    /// (dump_it_run.py:517 "picking best by fans"). None → walk
+    /// only the first match.
+    pub pick_by: Option<&'static str>,
 }
 
 // Raw pointer inside can't be Send; wrap in a Mutex<Vec<>> anyway
@@ -391,8 +397,26 @@ pub fn scan_and_log() {
                     info!("[uma-it] [{}] no instances — {} not in memory right now", target.label, target.display);
                     continue;
                 }
-                info!("[uma-it] [{}] walking first match:", target.label);
-                unsafe { crate::introspect::dump_instance(res.matches[0]); }
+                let pick = match target.pick_by {
+                    Some(field_name) => {
+                        match crate::introspect::pick_best_by_int_field(&res.matches, field_name) {
+                            Some((ptr, val)) => {
+                                info!("[uma-it] [{}] picking best by {}={} (of {} matches):",
+                                    target.label, field_name, val, res.matches.len());
+                                ptr
+                            }
+                            None => {
+                                info!("[uma-it] [{}] pick_by field '{}' not found; walking first match:", target.label, field_name);
+                                res.matches[0]
+                            }
+                        }
+                    }
+                    None => {
+                        info!("[uma-it] [{}] walking first match:", target.label);
+                        res.matches[0]
+                    }
+                };
+                unsafe { crate::introspect::dump_instance(pick); }
             }
             Err(msg) => error!("[uma-it] [{}] scan failed: {msg}", target.label),
         }

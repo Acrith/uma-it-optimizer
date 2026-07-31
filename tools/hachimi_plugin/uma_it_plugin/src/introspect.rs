@@ -658,6 +658,46 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
     }
 }
 
+/// Pick the object from `matches` whose int32 field named
+/// `field_name` has the highest value. Returns `(ptr, value)` of
+/// the winner. Used by scan_and_log for classes like
+/// SingleModeChara where heap-scan finds multiple template
+/// instances and the extractor picks by fans (dump_it_run.py:517).
+///
+/// Assumes all matches share the same class (they do — they came
+/// from a scan filtered to one class). Resolves the field offset
+/// once from the first match's class.
+pub unsafe fn pick_best_by_int_field(
+    matches: &[*mut c_void],
+    field_name: &str,
+) -> Option<(*mut c_void, i32)> {
+    if matches.is_empty() {
+        return None;
+    }
+    let first = matches[0];
+    let klass = *(first as *const *mut Il2CppClass);
+    if klass.is_null() {
+        return None;
+    }
+    let fields = describe_fields(klass).ok()?;
+    let f = fields.iter().find(|f| f.name == field_name)?;
+    // Only int32 fields are candidates for pick-by (that's what
+    // the extractor uses for "fans" / "chara_grade").
+    if f.type_enum != edge_sdk::ffi::Il2CppTypeEnum_IL2CPP_TYPE_I4 {
+        return None;
+    }
+    let mut best = matches[0];
+    let mut best_val: i32 = *((best as *const u8).offset(f.offset as isize) as *const i32);
+    for &obj in &matches[1..] {
+        let val = *((obj as *const u8).offset(f.offset as isize) as *const i32);
+        if val > best_val {
+            best_val = val;
+            best = obj;
+        }
+    }
+    Some((best, best_val))
+}
+
 unsafe fn cstr_or_empty(p: *const i8) -> String {
     if p.is_null() {
         "".into()
@@ -667,8 +707,10 @@ unsafe fn cstr_or_empty(p: *const i8) -> String {
 }
 
 /// Render a single reference-typed array element as `{f1=v1, f2=v2, ...}`.
-/// Walks primitive fields on the element's class. For non-primitive
-/// fields (nested class/struct/array), logs a placeholder.
+/// Walks fields on the element's class, decoding primitives, obscured
+/// values (level 1, level 2, inline struct), and logging placeholders
+/// for nested arrays / class refs (recursion left to v0.0.8's JSON
+/// walker).
 ///
 /// `elem_ptr` is the dereferenced pointer to an Il2CppObject of
 /// `elem_class`. Field offsets on `elem_class` are OBJECT-relative
@@ -680,18 +722,15 @@ unsafe fn render_object_element(elem_ptr: *mut c_void, elem_class: *mut Il2CppCl
     };
     let mut parts = Vec::with_capacity(fields.len());
     for f in &fields {
-        if let Some(v) = read_primitive(elem_ptr, f.offset, f.type_enum) {
-            parts.push(format!("{}={}", f.name, v));
-        } else {
-            parts.push(format!("{}=<t{}>", f.name, f.type_enum));
-        }
+        parts.push(format!("{}={}", f.name, render_nested_value(elem_ptr, f, false)));
     }
     format!("{{{}}}", parts.join(", "))
 }
 
 /// Render a single value-typed array element (inline struct at
 /// `elem_ptr`, no header). Tries obscured-int shape first, else
-/// walks the struct's primitive fields with -16 offset adjust.
+/// walks the struct's fields with -16 offset adjust for value-type
+/// context.
 unsafe fn render_inline_element(elem_ptr: *mut c_void, elem_class: *mut Il2CppClass) -> String {
     if let Some(v) = try_decode_inline_obscured_int(elem_ptr, 0, elem_class) {
         return format!("{} (obscured struct)", v);
@@ -700,18 +739,82 @@ unsafe fn render_inline_element(elem_ptr: *mut c_void, elem_class: *mut Il2CppCl
         Ok(f) => f,
         Err(_) => return format!("<struct @ {:p} (fields?)>", elem_ptr),
     };
-    // For value-type fields, il2cpp_field_get_offset returns
-    // offsets biased by the Il2CppObject header (16). When reading
-    // inline (no header), subtract 16.
-    const HDR: i32 = 16;
     let mut parts = Vec::with_capacity(fields.len());
     for f in &fields {
-        let use_off = if f.offset >= HDR { f.offset - HDR } else { f.offset };
-        if let Some(v) = read_primitive(elem_ptr, use_off, f.type_enum) {
-            parts.push(format!("{}={}", f.name, v));
-        } else {
-            parts.push(format!("{}=<t{}>", f.name, f.type_enum));
-        }
+        parts.push(format!("{}={}", f.name, render_nested_value(elem_ptr, f, true)));
     }
     format!("{{{}}}", parts.join(", "))
+}
+
+/// Shared field renderer for nested contexts (inside array elements
+/// or nested class refs). Handles primitives, obscured shapes, and
+/// nested value-type structs. Does NOT recurse into nested class
+/// refs (would risk infinite loops or huge log volume) — logs the
+/// class name + ptr instead. v0.0.8 (JSON) will add depth-limited
+/// class-ref recursion.
+///
+/// `inline` = true when we're inside a value-type context (struct
+/// array element or the outer struct itself). Determines whether
+/// field offsets need the -16 header adjust.
+unsafe fn render_nested_value(container: *mut c_void, f: &Field, inline: bool) -> String {
+    const HDR: i32 = 16;
+    let use_off = if inline && f.offset >= HDR {
+        f.offset - HDR
+    } else {
+        f.offset
+    };
+    if let Some(v) = read_primitive(container, use_off, f.type_enum) {
+        return v;
+    }
+    let syms = match META_SYMS.get() {
+        Some(s) => s,
+        None => return format!("<t{}>", f.type_enum),
+    };
+    match f.type_enum {
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_CLASS => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return "null".into();
+            }
+            if let Some(v) = try_decode_obscured_int(ptr) {
+                return v.to_string();
+            }
+            if let Some(v) = try_decode_signed_int(ptr) {
+                return v.to_string();
+            }
+            let klass = *(ptr as *const *mut Il2CppClass);
+            if klass.is_null() {
+                return format!("<obj @ {:p}>", ptr);
+            }
+            let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
+            format!("<{} @ {:p}>", name, ptr)
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE => {
+            if f.type_ptr.is_null() {
+                return "<vt:null>".into();
+            }
+            let struct_class = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if struct_class.is_null() {
+                return "<vt:noclass>".into();
+            }
+            if let Some(v) = try_decode_inline_obscured_int(container, use_off, struct_class) {
+                return v.to_string();
+            }
+            let name = cstr_or_empty((syms.il2cpp_class_get_name)(struct_class));
+            format!("<struct {}>", name)
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return "null[]".into();
+            }
+            let len = *((ptr as *const u8).offset(24) as *const usize);
+            format!("[len={}]", len)
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_STRING => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() { "null".into() } else { format!("<str @ {:p}>", ptr) }
+        }
+        _ => format!("<t{}>", f.type_enum),
+    }
 }

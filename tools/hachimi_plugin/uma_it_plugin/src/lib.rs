@@ -122,16 +122,23 @@ unsafe fn setup() -> Result<(), String> {
     // Register every class the .exe extractor heap-scans
     // (dump_it_run.py:317-322). Each becomes a heap-scan target
     // that runs on Extract IT Run menu click.
-    let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage); 6] = [
-        ("GainInfo",             "ObscuredIdleSingleModeGainInfo",              img_main),
-        ("SupportCardGainInfo",  "ObscuredIdleSingleModeSupportCardGainInfo",   img_main),
-        ("FactorGainInfo",       "ObscuredIdleSingleModeSuccessionFactorGainInfo", img_main),
-        ("SingleModeChara",      "SingleModeChara",                             img_http),
-        ("RaceHistory",          "SingleRaceHistory",                           img_http),
-        ("IdleRaceHistory",      "IdleSingleModeRaceHistory",                   img_http),
+    //
+    // pick_by: for classes where the scan finds multiple template
+    // instances but we only want the "real" one, pick the match
+    // with the highest value at the given int32 field. Matches
+    // the extractor's picker logic (dump_it_run.py:517).
+    let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage, Option<&'static str>); 6] = [
+        ("GainInfo",             "ObscuredIdleSingleModeGainInfo",              img_main, None),
+        ("SupportCardGainInfo",  "ObscuredIdleSingleModeSupportCardGainInfo",   img_main, None),
+        ("FactorGainInfo",       "ObscuredIdleSingleModeSuccessionFactorGainInfo", img_main, None),
+        // v0.0.7f showed 3 SMC instances with the first being all-zeros
+        // (template). Pick the one with highest fans — real gameplay data.
+        ("SingleModeChara",      "SingleModeChara",                             img_http, Some("fans")),
+        ("RaceHistory",          "SingleRaceHistory",                           img_http, None),
+        ("IdleRaceHistory",      "IdleSingleModeRaceHistory",                   img_http, None),
     ];
     let mut resolved = 0;
-    for (label, cls_name, image) in targets {
+    for (label, cls_name, image, pick_by) in targets {
         let cname = CString::new(cls_name).unwrap();
         let klass = get_class(image, ns_gallop.as_ptr(), cname.as_ptr());
         if klass.is_null() {
@@ -150,6 +157,7 @@ unsafe fn setup() -> Result<(), String> {
             label,
             display,
             class: klass,
+            pick_by,
         });
         resolved += 1;
     }
