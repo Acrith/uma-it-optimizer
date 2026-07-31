@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = ["edge-sdk", "uma_it_plugin"]
+
+[workspace.package]
+edition = "2021"
+license = "GPL-3.0-or-later"
+
+[profile.release]
+# Smaller DLL, no debug info, LTO for a bit more shrink. Hachimi
+# users download this into their game folder — every KB helps.
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true

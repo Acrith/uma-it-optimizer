@@ -1,0 +1,18 @@
+[package]
+name = "uma_it_plugin"
+version = "0.0.1"
+edition = "2021"
+license = "GPL-3.0-or-later"
+description = "Hachimi-Edge plugin that captures Umamusume Independent Training runs."
+
+[lib]
+# cdylib = a Windows DLL exporting hachimi_init_v3. Name here becomes
+# the base filename (uma_it_plugin.dll); Hachimi finds it by that
+# name when the user adds it to windows.load_libraries.
+name = "uma_it_plugin"
+crate-type = ["cdylib"]
+
+[dependencies]
+edge-sdk = { path = "../edge-sdk" }
+log = "0.4"
+once_cell = "1.19"

@@ -1,0 +1,57 @@
+name: Build Hachimi plugin DLL
+
+# Tag pushes like hachimi-v0.0.1 → build on Windows and attach the
+# uma_it_plugin.dll to a Release with that tag. Testers only need
+# to visit the Releases page.
+#
+# Separate from the main .exe workflow (release-exe.yml) — different
+# artefact, different tag prefix, so a plugin fix doesn't force an
+# extractor version bump and vice versa.
+
+on:
+  push:
+    tags: ["hachimi-v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: tools/hachimi_plugin
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          # x86_64-pc-windows-msvc matches Umamusume's 64-bit build.
+          # Hachimi is 64-bit-only on Steam.
+          targets: x86_64-pc-windows-msvc
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tools/hachimi_plugin
+          # Cargo.lock isn't tracked yet; use a fresh cache per commit.
+          cache-on-failure: true
+
+      - name: Build DLL (release)
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - name: Upload artifact (for workflow_dispatch runs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uma_it_plugin
+          path: tools/hachimi_plugin/target/x86_64-pc-windows-msvc/release/uma_it_plugin.dll
+
+      - name: Attach DLL to Release (tag pushes only)
+        if: startsWith(github.ref, 'refs/tags/hachimi-v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tools/hachimi_plugin/target/x86_64-pc-windows-msvc/release/uma_it_plugin.dll
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
