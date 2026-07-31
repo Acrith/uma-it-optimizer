@@ -2,7 +2,7 @@
 name = "uma_it_plugin"
 version = "0.0.9"
 # Cargo version stays at 0.0.9 across v0.0.9a/v0.0.9b interims;
-# git tag tracks the release iteration.
+# git tag tracks the release iteration (see tags hachimi-v0.0.9a...).
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "Hachimi-Edge plugin that captures Umamusume Independent Training runs."

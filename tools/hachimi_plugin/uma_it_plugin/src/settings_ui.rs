@@ -128,21 +128,23 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         st.loaded_from_disk = true;
     }
 
-    // Heading
-    if let Some(heading) = api.gui_ui_heading {
-        let s = CString::new("IT Extractor auto-upload").unwrap();
-        unsafe { heading(ui, s.as_ptr()); }
-    }
+    // No heading — gui_ui_heading renders at page-title size which
+    // reads as visually broken inside a narrow menu section. The
+    // label "IT auto-upload" on the small hint below is enough to
+    // orient the user, and the URL/Token labels self-describe the
+    // fields. (Earlier v0.0.9 used gui_ui_heading and the text
+    // wrapped mid-word — see git log for the screenshot.)
 
-    // Small helper text
+    // One-line hint. Keep short — Hachimi's menu is narrow and any
+    // wrap looks messy.
     if let Some(small) = api.gui_ui_small {
-        let s = CString::new("Paste your token from training.umaladder.moe/settings/tokens").unwrap();
+        let s = CString::new("IT auto-upload — token: umaladder.moe/settings/tokens").unwrap();
         unsafe { small(ui, s.as_ptr()); }
     }
 
-    // URL label + edit
+    // URL row
     if let Some(label) = api.gui_ui_label {
-        let s = CString::new("API URL").unwrap();
+        let s = CString::new("URL").unwrap();
         unsafe { label(ui, s.as_ptr()); }
     }
     if let Some(edit) = api.gui_ui_text_edit_singleline {
@@ -155,9 +157,9 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         }
     }
 
-    // Token label + edit
+    // Token row
     if let Some(label) = api.gui_ui_label {
-        let s = CString::new("API token").unwrap();
+        let s = CString::new("Token").unwrap();
         unsafe { label(ui, s.as_ptr()); }
     }
     if let Some(edit) = api.gui_ui_text_edit_singleline {
@@ -181,7 +183,7 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
             };
             match config::set(new_cfg) {
                 Ok(()) => {
-                    st.status_line = "Saved. Uploads will use these settings.".to_string();
+                    st.status_line = "Saved.".to_string();
                     info!("[uma-it] settings saved via UI");
                 }
                 Err(msg) => {
@@ -192,11 +194,8 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         }
     }
 
-    if let Some(sep) = api.gui_ui_separator {
-        unsafe { sep(ui); }
-    }
-
-    // Status line — only render if we have something to show.
+    // Status line inline (no separator above — the section itself
+    // is already visually separated from other menu content).
     if !st.status_line.is_empty() {
         if let Some(small) = api.gui_ui_small {
             if let Ok(cs) = CString::new(st.status_line.as_str()) {

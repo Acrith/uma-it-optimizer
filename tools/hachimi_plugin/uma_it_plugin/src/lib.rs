@@ -514,7 +514,13 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), String> {
                     }
                     smc_walked = Some(walked.clone());
                 }
-                walked
+                // Wrap picked-single in a 1-element array so the
+                // output schema matches the .exe extractor's
+                // (`SingleModeChara: [{...}]`, not `SingleModeChara:
+                // {...}`). Server-side ingest validates this shape
+                // and rejects with HTTP 400 "SingleModeChara must be
+                // a non-empty list" if we emit a bare object.
+                JsonValue::Array(vec![walked])
             }
             None if target.label == "Parents" => {
                 // Filter to matches whose `_id` is in the succession
