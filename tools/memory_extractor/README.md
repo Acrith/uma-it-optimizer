@@ -34,10 +34,36 @@ directly (parent IDs, exact numeric IDs for cards / uma / skills — the
 same IDs the public gametora database uses, so cross-referencing later
 is easy).
 
-**Nothing is uploaded anywhere.** Everything stays local. A future
-opt-in tool may let you publish specific runs to a companion
-community dashboard, but the recorder itself will always default to
-local-only.
+**Nothing is uploaded by default.** Everything stays local unless you
+opt in to auto-upload (below). The recorder always writes the local
+JSON first — a failed upload can never cost you a run.
+
+## Auto-upload (optional)
+
+If you also want your runs to land on the community dashboard at
+[training.umaladder.moe](https://training.umaladder.moe) without
+drag-and-dropping each JSON, one-time setup:
+
+1. **Get a token.** Sign in on the dashboard, go to *API tokens*, click
+   *Issue new token*, copy the token string (starts with `ext_…`).
+2. **Create a config file.** In the same folder as `uma-it-extract.exe`
+   (or `dump_it_run.py` if running from source), make a file called
+   `uma-it-config.json`:
+   ```json
+   {
+     "api_url": "https://training.umaladder.moe",
+     "api_token": "ext_paste_your_token_here"
+   }
+   ```
+   (There's an `uma-it-config.example.json` shipped alongside — copy it
+   and fill in the token.)
+3. **Done.** Next time you run the extractor, after it writes the local
+   JSON it POSTs to `/api/runs` and prints the URL of your uploaded
+   run. Duplicate uploads are silently ignored server-side, so it's safe
+   to re-run the extractor on the same Training Log.
+
+To go back to local-only: delete `uma-it-config.json` or blank out
+`api_token`. The local `runs/` folder is unaffected either way.
 
 ## For Linux players (Steam + Proton)
 

@@ -1,2 +1,4 @@
 vendor/
 *.json
+# ...except the auto-upload config template — that's onboarding docs
+!uma-it-config.example.json

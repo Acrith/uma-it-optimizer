@@ -36,9 +36,11 @@ if getattr(sys, "frozen", False):
     BRIDGE_JS = Path(sys._MEIPASS) / "vendor" / "il2cpp_bridge.js"  # type: ignore[attr-defined]
 
 RUNS_DIR = BASE_DIR / "runs"
+CONFIG_PATH = BASE_DIR / "uma-it-config.json"
 PROCESS_NAME = "UmamusumePrettyDerby.exe"
 WAIT_POLL_SECONDS = 2.0
 WAIT_MAX_SECONDS = 300  # 5 min — plenty of time to launch + navigate
+UPLOAD_TIMEOUT_SECONDS = 30
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -515,6 +517,77 @@ def _looks_empty(result: dict) -> bool:
     return not (result.get("SingleModeChara") and len(result["SingleModeChara"]) > 0)
 
 
+def _load_upload_config() -> dict | None:
+    """Return the parsed uma-it-config.json sidecar if present and it
+    has an api_token; return None otherwise. Missing or empty config
+    means 'local-only mode' — extraction still runs, we just don't
+    auto-upload."""
+    if not CONFIG_PATH.exists():
+        return None
+    try:
+        cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"[!] Ignoring {CONFIG_PATH.name}: {e}")
+        return None
+    token = (cfg.get("api_token") or "").strip()
+    if not token:
+        return None
+    cfg.setdefault("api_url", "https://training.umaladder.moe")
+    cfg["api_token"] = token
+    cfg["api_url"] = cfg["api_url"].rstrip("/")
+    return cfg
+
+
+def _upload_run(json_path: Path, cfg: dict) -> None:
+    """POST the just-written run JSON to /api/runs with a bearer
+    token. Prints outcome; never raises — the local file always
+    lands, so a network hiccup can't cost the user a run. Uses
+    urllib from stdlib so PyInstaller doesn't have to bundle
+    requests."""
+    import urllib.error
+    import urllib.request
+
+    url = f"{cfg['api_url']}/api/runs"
+    body = json_path.read_bytes()
+    req = urllib.request.Request(
+        url,
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {cfg['api_token']}",
+            "X-Filename": json_path.name,
+            "Content-Type": "application/octet-stream",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=UPLOAD_TIMEOUT_SECONDS) as resp:
+            status = resp.status
+            payload = json.loads(resp.read().decode("utf-8") or "{}")
+    except urllib.error.HTTPError as e:
+        try:
+            msg = json.loads(e.read().decode("utf-8") or "{}")
+        except (json.JSONDecodeError, ValueError):
+            msg = {}
+        if e.code == 409:
+            # Server already had this run — silent-accept, not an error.
+            print(f"[i] Already uploaded ({msg.get('message', 'duplicate')})")
+            return
+        print(f"[!] Upload failed: HTTP {e.code} — {msg.get('error', e.reason)}")
+        if e.code == 401:
+            print(f"[!] Check api_token in {CONFIG_PATH.name}")
+        return
+    except urllib.error.URLError as e:
+        print(f"[!] Upload failed: {e.reason}")
+        print(f"[!] Local file is safe at {json_path.name}; retry later.")
+        return
+
+    if status == 201:
+        detail_url = payload.get("url", "(no url)")
+        print(f"[OK] Uploaded → {detail_url}")
+    else:
+        print(f"[!] Unexpected response: HTTP {status} {payload}")
+
+
 def main() -> int:
     print("=== IT-run extractor ===")
     print(f"Output folder: {RUNS_DIR}")
@@ -566,6 +639,12 @@ def main() -> int:
     print(f"    Trainee: card_id={smc.get('card_id')}, scenario={smc.get('scenario_id')}")
     print(f"    Support cards: {len(smc.get('support_card_array', []) or [])}")
     print(f"    Races run: {len(result.get('RaceHistory', []) or [])}")
+
+    # Optional auto-upload. Config sidecar is opt-in; local file always
+    # written first so a failed POST doesn't cost the user a run.
+    cfg = _load_upload_config()
+    if cfg:
+        _upload_run(out_path, cfg)
     return 0
 
 
