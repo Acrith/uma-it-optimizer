@@ -517,11 +517,77 @@ def _looks_empty(result: dict) -> bool:
     return not (result.get("SingleModeChara") and len(result["SingleModeChara"]) > 0)
 
 
+DEFAULT_API_URL = "https://training.umaladder.moe"
+TOKENS_PAGE_URL = f"{DEFAULT_API_URL}/settings/tokens"
+
+
+def _write_config(token: str, api_url: str = DEFAULT_API_URL) -> None:
+    """Persist the auto-upload config. Called from the first-run
+    bootstrap; users can also hand-edit the file later."""
+    CONFIG_PATH.write_text(
+        json.dumps({"api_url": api_url, "api_token": token}, indent=2),
+        encoding="utf-8",
+    )
+
+
+def _first_run_bootstrap() -> None:
+    """Interactive setup on first run — asks whether to enable auto-
+    upload and writes uma-it-config.json REGARDLESS of the answer so
+    we don't nag on future runs. Same shape as git's initial config
+    prompt: one time, then invisible."""
+    print()
+    print("──────────────────────────────────────────────")
+    print("  First-run setup")
+    print("──────────────────────────────────────────────")
+    print()
+    print("Auto-upload runs to the community dashboard at")
+    print(f"  {DEFAULT_API_URL}")
+    print()
+    print("This is optional. Local JSONs are always written to disk")
+    print("either way; auto-upload just also POSTs each new run to your")
+    print("account so you don't have to drag-and-drop them.")
+    print()
+    try:
+        ans = input("Enable auto-upload? [Y/n]: ").strip().lower()
+    except EOFError:
+        ans = "n"
+    token = ""
+    if ans in ("", "y", "yes"):
+        print()
+        print("Get your API token from:")
+        print(f"  {TOKENS_PAGE_URL}")
+        print("(Sign in with Discord first, then click 'Issue new token'")
+        print(" and copy the ext_... string.)")
+        print()
+        try:
+            raw = input("Paste your API token (or press Enter to skip for now): ").strip()
+        except EOFError:
+            raw = ""
+        if raw:
+            token = raw
+            print()
+            print("[OK] Auto-upload enabled.")
+        else:
+            print()
+            print(f"[i] Skipped. Add api_token to {CONFIG_PATH.name}")
+            print("    when you're ready — no need to re-run this setup.")
+    else:
+        print()
+        print(f"[i] Local-only mode. Edit {CONFIG_PATH.name} and paste a")
+        print("    token later if you change your mind.")
+
+    _write_config(token)
+    print()
+    print(f"[+] Saved {CONFIG_PATH.name}")
+    print("──────────────────────────────────────────────")
+    print()
+
+
 def _load_upload_config() -> dict | None:
-    """Return the parsed uma-it-config.json sidecar if present and it
-    has an api_token; return None otherwise. Missing or empty config
-    means 'local-only mode' — extraction still runs, we just don't
-    auto-upload."""
+    """Return the parsed uma-it-config.json sidecar if it has a token,
+    None otherwise. Config is expected to exist by the time this is
+    called — the first-run bootstrap writes it up front. Empty
+    api_token = user opted out (local-only)."""
     if not CONFIG_PATH.exists():
         return None
     try:
@@ -532,7 +598,7 @@ def _load_upload_config() -> dict | None:
     token = (cfg.get("api_token") or "").strip()
     if not token:
         return None
-    cfg.setdefault("api_url", "https://training.umaladder.moe")
+    cfg.setdefault("api_url", DEFAULT_API_URL)
     cfg["api_token"] = token
     cfg["api_url"] = cfg["api_url"].rstrip("/")
     return cfg
@@ -592,6 +658,12 @@ def main() -> int:
     print("=== IT-run extractor ===")
     print(f"Output folder: {RUNS_DIR}")
     print()
+
+    # First-run bootstrap: ask once about auto-upload, then never nag.
+    # Writes uma-it-config.json regardless of the answer (empty token
+    # = user opted out; local-only mode).
+    if not CONFIG_PATH.exists():
+        _first_run_bootstrap()
 
     if not BRIDGE_JS.exists():
         print(f"[X] Missing bridge bundle at {BRIDGE_JS}")

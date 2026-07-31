@@ -40,30 +40,36 @@ JSON first — a failed upload can never cost you a run.
 
 ## Auto-upload (optional)
 
-If you also want your runs to land on the community dashboard at
-[training.umaladder.moe](https://training.umaladder.moe) without
-drag-and-dropping each JSON, one-time setup:
+Your runs can auto-upload to the community dashboard at
+[training.umaladder.moe](https://training.umaladder.moe) so you don't
+have to drag-and-drop each JSON.
 
-1. **Get a token.** Sign in on the dashboard, go to *API tokens*, click
-   *Issue new token*, copy the token string (starts with `ext_…`).
-2. **Create a config file.** In the same folder as `uma-it-extract.exe`
-   (or `dump_it_run.py` if running from source), make a file called
-   `uma-it-config.json`:
-   ```json
-   {
-     "api_url": "https://training.umaladder.moe",
-     "api_token": "ext_paste_your_token_here"
-   }
-   ```
-   (There's an `uma-it-config.example.json` shipped alongside — copy it
-   and fill in the token.)
-3. **Done.** Next time you run the extractor, after it writes the local
-   JSON it POSTs to `/api/runs` and prints the URL of your uploaded
-   run. Duplicate uploads are silently ignored server-side, so it's safe
-   to re-run the extractor on the same Training Log.
+**Setup is interactive on first run.** The extractor prompts once:
 
-To go back to local-only: delete `uma-it-config.json` or blank out
-`api_token`. The local `runs/` folder is unaffected either way.
+```
+──────────────────────────────────────────────
+  First-run setup
+──────────────────────────────────────────────
+
+Auto-upload runs to the community dashboard at
+  https://training.umaladder.moe
+...
+Enable auto-upload? [Y/n]:
+```
+
+- Answer **Y** → it prints the token page URL, you sign in with Discord,
+  click *Issue new token*, paste the `ext_…` string, done. Every future
+  run auto-uploads.
+- Answer **n** (or paste an empty token) → local-only mode, no upload.
+  The extractor won't ask again.
+
+Either way, a `uma-it-config.json` gets written next to the exe so
+future runs know your choice. To change your mind later, open that file
+in Notepad and edit `api_token` (empty = disabled, filled = enabled).
+
+**Local JSONs are always written first**, before the upload. A failed
+POST can never cost you a run — the file is safe on disk. If the server
+already has a run (duplicate), it silently accepts and moves on.
 
 ## For Linux players (Steam + Proton)
 
