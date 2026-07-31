@@ -1,27 +1,31 @@
-//! uma-it Hachimi plugin — v0.0.4 (Phase 1: proof of concept).
+//! uma-it Hachimi plugin — v0.0.5 (Phase 1: safe no-op fallback).
 //!
 //! What this version does:
 //! - Loads via Hachimi-Edge's plugin loader (`hachimi_init_v3`)
-//! - Eagerly installs the hook in `init()` (Hachimi late-load fires
-//!   game_initialized before plugins load, so a callback would miss)
-//! - Falls back to registering `on_game_initialized` if the eager
-//!   install fails with the game not yet up (early-load path only)
-//! - Resolves + hooks `Gallop.ObscuredIdleSingleModeGainInfo::.ctor`
-//!   — the IT-specific data holder. The Frida extractor already
-//!   proves this class is the right signal: it heap-scans for live
-//!   instances, walks them, and dumps the run. edge-sdk doesn't
-//!   expose heap enumeration, so we catch the instances at
-//!   construction time instead — same signal, different trigger.
-//! - When the hook fires, logs `this` and returns. Phase 2 will
-//!   walk the fields (fans, stats, support cards, factors, races)
-//!   and POST to the API.
+//! - Attempts to hook `Gallop.ObscuredIdleSingleModeGainInfo::.ctor`
+//! - BEFORE installing, verifies the resolved `.ctor` is DECLARED
+//!   on the target class, not inherited from `System.Object`.
+//!   `il2cpp_get_method` walks the inheritance chain; if the class
+//!   doesn't declare its own default ctor, we pick up Object's,
+//!   which fires on every C# allocation in the game (~6.5k/sec in
+//!   v0.0.4 field test → 500k log lines/minute, 5fps game).
+//! - If the ctor is inherited: refuse to install, log the reason,
+//!   plugin becomes a safe no-op. No game-perf impact.
+//! - If the ctor is declared on the class (unlikely for a POCO
+//!   like GainInfo, but possible): install the hook and rate-limit
+//!   the fire log to the first 3 hits so we never spam even if
+//!   the class turns out to be constructed often.
 //!
-//! Prior versions (v0.0.1..v0.0.3) targeted
-//! `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter` on
-//! the assumption Uma-ISC's older-build reference matched our
-//! screen. Field test showed the hook installed but never fired on
-//! Training Log open — that dialog is the Trained Umas inheritance
-//! viewer, not the IT log we care about.
+//! Phase 1 is done as soon as the "declared on class" check
+//! answers cleanly (which it will for at least ONE class we
+//! target eventually). Phase 2 walks fields + POSTs to /api/runs.
+//!
+//! Prior versions:
+//! - v0.0.1..v0.0.3: hooked DialogTrainedCharacterDetail::CreateSetupParameter
+//!   (Uma-ISC's older-build reference) — installed cleanly but
+//!   fired on the wrong dialog (Trained Umas viewer, not IT log)
+//! - v0.0.4: hooked GainInfo::.ctor with no inheritance check —
+//!   trampoline was Object.ctor, hosed the game
 //!
 //! What it doesn't do yet (planned for Phase 2+):
 //! - Walk `TrainedCharaData` and extract the run's stats/deck/skills
@@ -33,16 +37,24 @@
 //! build before we invest in the data walk.
 
 use std::ffi::{c_void, CString};
-use std::sync::atomic::{AtomicPtr, Ordering};
+use std::sync::atomic::{AtomicPtr, AtomicU64, Ordering};
 
 use edge_sdk::api::Api;
+use edge_sdk::ffi::{Il2CppClass, MethodInfo};
 use log::{error, info};
 
-/// Trampoline for calling the original `CreateSetupParameter` after
-/// our hook body runs. Populated once by `install_hook`; the hook
-/// function reads it on every invocation and stays no-op if it's
-/// somehow null (which shouldn't happen after install).
+/// Trampoline for calling the original ctor after our hook body
+/// runs. Populated once by `install_hook`; the hook function reads
+/// it on every invocation and stays no-op if it's somehow null
+/// (which shouldn't happen after install).
 static TRAMPOLINE: AtomicPtr<c_void> = AtomicPtr::new(std::ptr::null_mut());
+
+/// Count of hook fires so far. Used to rate-limit the "fired" log
+/// line — never spam the log even if the hooked method turns out
+/// to be called more often than expected. First `FIRE_LOG_LIMIT`
+/// calls log; after that, silence.
+static FIRE_COUNT: AtomicU64 = AtomicU64::new(0);
+const FIRE_LOG_LIMIT: u64 = 3;
 
 edge_sdk::declare_plugin! {
     fn init() -> bool {
@@ -144,6 +156,9 @@ unsafe fn install_hook() -> Result<(), String> {
     }
 
     let method_name = CString::new(".ctor").unwrap();
+    let get_method = api
+        .il2cpp_get_method
+        .ok_or("il2cpp_get_method missing from vtable")?;
     let get_method_addr = api
         .il2cpp_get_method_addr
         .ok_or("il2cpp_get_method_addr missing from vtable")?;
@@ -151,17 +166,22 @@ unsafe fn install_hook() -> Result<(), String> {
     // have overloaded ctors; try 0 first (fast path) then 1..4 so
     // we still find *a* ctor if the class was refactored. The
     // EXPECTED_ARGC check below refuses to install on mismatch.
+    let mut method_info: *const MethodInfo = std::ptr::null();
     let mut method_addr: *mut c_void = std::ptr::null_mut();
     let mut hit_argc: i32 = -1;
     for argc in [0, 1, 2, 3, 4] {
-        let addr = get_method_addr(class as *mut _, method_name.as_ptr(), argc);
-        if !addr.is_null() {
-            method_addr = addr;
-            hit_argc = argc;
-            break;
+        let mi = get_method(class as *mut _, method_name.as_ptr(), argc);
+        if !mi.is_null() {
+            let addr = get_method_addr(class as *mut _, method_name.as_ptr(), argc);
+            if !addr.is_null() {
+                method_info = mi;
+                method_addr = addr;
+                hit_argc = argc;
+                break;
+            }
         }
     }
-    if method_addr.is_null() {
+    if method_addr.is_null() || method_info.is_null() {
         return Err(
             ".ctor not found at any arg count 0..4 on \
              ObscuredIdleSingleModeGainInfo — class refactored? Report \
@@ -173,6 +193,33 @@ unsafe fn install_hook() -> Result<(), String> {
         "[uma-it] target method resolved at {:p} (argc={})",
         method_addr, hit_argc
     );
+
+    // === CRITICAL: verify method is declared on the class ===
+    //
+    // `il2cpp_get_method` walks up the inheritance chain to find
+    // methods by name. `ObscuredIdleSingleModeGainInfo` is a POCO
+    // that inherits from `System.Object` — if it doesn't declare
+    // its own `.ctor(0)`, we get `Object::.ctor` back, which fires
+    // on every allocation in the game. v0.0.4 skipped this check
+    // and hosed the tester's framerate.
+    //
+    // Fix: enumerate methods declared ON the class via
+    // `il2cpp_class_get_methods` (iterator-style — the returned
+    // MethodInfo pointers are ONLY methods declared on this klass,
+    // no inheritance). If our resolved MethodInfo isn't in that
+    // set, we picked up an inherited one and MUST NOT hook.
+    if !method_declared_on_class(api, class, method_info)? {
+        error!(
+            "[uma-it] .ctor at argc={} is inherited from a base class, \
+             NOT declared on ObscuredIdleSingleModeGainInfo. Refusing \
+             to install — hooking an inherited default ctor fires on \
+             every allocation in the game (hosed framerate in v0.0.4). \
+             Plugin will be a safe no-op this session; v0.0.6 will use \
+             a different trigger mechanism.",
+            hit_argc
+        );
+        return Ok(());
+    }
 
     // Our hook function has a hardcoded 0-arg signature (just this).
     // If the resolved ctor takes params, calling the trampoline with
@@ -217,6 +264,41 @@ unsafe fn install_hook() -> Result<(), String> {
     Ok(())
 }
 
+/// Check whether `target` is declared ON `class`, as opposed to
+/// inherited from a base class. `il2cpp_class_get_methods` is an
+/// iterator that walks ONLY methods declared on this klass — no
+/// inheritance — so if `target`'s MethodInfo pointer appears in
+/// the iteration, it's declared here; otherwise it's inherited.
+///
+/// Safety: `target` must have come from `il2cpp_get_method` (or
+/// another edge-sdk API returning a live MethodInfo pointer) so
+/// pointer comparison is meaningful.
+unsafe fn method_declared_on_class(
+    api: &Api,
+    class: *mut Il2CppClass,
+    target: *const MethodInfo,
+) -> Result<bool, String> {
+    let get_methods = api
+        .il2cpp_class_get_methods
+        .ok_or("il2cpp_class_get_methods missing from vtable")?;
+
+    // Iterator: pass a null-initialized `*mut *mut c_void`; each
+    // call advances it and returns the next MethodInfo, or null
+    // when exhausted. Bounded to 4096 iterations as a paranoid
+    // runaway-loop backstop (any real class has <1000 methods).
+    let mut iter: *mut c_void = std::ptr::null_mut();
+    for _ in 0..4096 {
+        let mi = get_methods(class, &mut iter as *mut _);
+        if mi.is_null() {
+            return Ok(false);
+        }
+        if mi == target {
+            return Ok(true);
+        }
+    }
+    Err("il2cpp_class_get_methods exceeded 4096 iterations — API misuse?".into())
+}
+
 /// Our replacement for `ObscuredIdleSingleModeGainInfo::.ctor`.
 /// Runs FIRST when the game constructs a new instance, then we
 /// invoke the original ctor via the stored trampoline so the
@@ -228,9 +310,11 @@ unsafe fn install_hook() -> Result<(), String> {
 /// next. Phase 2 walks those fields *after* the trampoline
 /// returns (post-init), not from the hook body directly.
 ///
-/// For Phase 1 we just log that the ctor fired so we can confirm
-/// the trigger works on Training Log open. Phase 2+ moves the
-/// walk-and-POST logic in here.
+/// Rate-limited to `FIRE_LOG_LIMIT` log lines per plugin lifetime.
+/// Even with the inheritance check in `install_hook`, we never
+/// want to trust that a hooked method is called only rarely — one
+/// misidentified target would flood the log again. Log the count
+/// on the last allowed line so the tester knows to expect silence.
 unsafe extern "C" fn hook_gain_info_ctor(this: *mut c_void) {
     // Call the original ctor first so `this` is fully initialized
     // before we peek at anything. If TRAMPOLINE is somehow null
@@ -242,10 +326,31 @@ unsafe extern "C" fn hook_gain_info_ctor(this: *mut c_void) {
         let orig: unsafe extern "C" fn(*mut c_void) = std::mem::transmute(tramp);
         orig(this);
     } else {
-        error!("[uma-it] trampoline null — GainInfo may be uninitialized");
+        // Only log this once — it should never happen, but if it
+        // does on every fire that's another log-flood.
+        if FIRE_COUNT.load(Ordering::Relaxed) == 0 {
+            error!("[uma-it] trampoline null — GainInfo may be uninitialized");
+        }
     }
-    info!(
-        "[uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this={:p}",
-        this
-    );
+
+    let n = FIRE_COUNT.fetch_add(1, Ordering::Relaxed);
+    if n < FIRE_LOG_LIMIT {
+        if n + 1 == FIRE_LOG_LIMIT {
+            info!(
+                "[uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this={:p} \
+                 (log #{}/{} — silencing further fires this session)",
+                this,
+                n + 1,
+                FIRE_LOG_LIMIT
+            );
+        } else {
+            info!(
+                "[uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this={:p} \
+                 (log #{}/{})",
+                this,
+                n + 1,
+                FIRE_LOG_LIMIT
+            );
+        }
+    }
 }

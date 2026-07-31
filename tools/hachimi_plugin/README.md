@@ -5,22 +5,34 @@ that captures Umamusume Independent Training runs directly from
 inside the game, without needing the separate `uma-it-extract.exe`
 tool.
 
-**Status: v0.0.4 — proof of concept.** The plugin loads, hooks
-`Gallop.ObscuredIdleSingleModeGainInfo::.ctor` (the IT-specific
-data holder — same class the Frida extractor walks), and logs
-when a new instance is constructed. Doesn't yet walk the fields
-or upload — those land in v0.0.5+ once we've confirmed the ctor
-fires on Training Log open.
+**Status: v0.0.5 — safe no-op fallback.** The plugin loads and
+attempts to hook `Gallop.ObscuredIdleSingleModeGainInfo::.ctor`,
+but first verifies the resolved ctor is declared on the class
+(not inherited from `System.Object`). If it's inherited, the
+plugin refuses to install and stays as a no-op — no game-perf
+impact, no log spam. Even if it does install, the "ctor fired"
+log is rate-limited to the first 3 hits per session.
 
-Prior versions targeted `DialogTrainedCharacterDetail::CreateSetupParameter`
-on the assumption Uma-ISC's older-build reference matched our
-screen. Field test proved it doesn't — that dialog is the Trained
-Umas inheritance viewer, not the IT log. The Frida extractor never
-hooked any dialog: it heap-scans for live `GainInfo` instances
-instead. edge-sdk doesn't expose heap scan, so we catch instances
-at construction time — same signal, different trigger.
+Why the caution: v0.0.4 didn't check inheritance, hooked
+`Object::.ctor` by accident, and fired on every C# allocation
+in the game — 6,500/sec, 500k log lines/minute, 5fps. v0.0.5
+makes that class of mistake structurally impossible.
 
-## For testers (v0.0.4)
+Prior versions:
+- v0.0.1..v0.0.3: hooked `DialogTrainedCharacterDetail::CreateSetupParameter`
+  (Uma-ISC's older-build reference). Installed cleanly but fired
+  on the wrong dialog (Trained Umas viewer, not IT log).
+- v0.0.4: hooked `GainInfo::.ctor` with no inheritance check —
+  trampoline was `Object.ctor`, hosed framerate.
+
+If v0.0.5 installs cleanly (declared ctor exists), we know we
+have a working trigger. If it declines (most likely — POCO data
+holders rarely declare their own default ctor), v0.0.6 will use
+a different mechanism — either add heap-scan symbols to the
+vendored edge-sdk, or hook a specific declared method identified
+via an IL2CPP dump.
+
+## For testers (v0.0.5)
 
 You need Hachimi-Edge already installed and working for
 translations. If translations don't work, this plugin won't work
@@ -45,37 +57,56 @@ either.
 4. Launch the game. Complete an IT run, reach the Training Log
    popup screen.
 5. Check Hachimi's log file (usually `hachimi.log` next to the
-   game exe). At plugin load you should see:
+   game exe). At plugin load, ONE of two things will happen:
+
+   **Case A** — ctor is declared on the class, hook installs:
    ```
    [uma-it] plugin loaded
    [uma-it] target method resolved at 0x... (argc=0)
+   [uma-it] hook installed; trampoline at 0x...
    [uma-it] hook installed at init (game already up)
    ```
-   Then, when you complete an IT and open the Training Log popup,
-   one or more:
+   Then on Training Log open, up to 3 lines like:
    ```
-   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x...
+   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x... (log #1/3)
+   ...
+   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x... (log #3/3 — silencing further fires this session)
    ```
-6. **Report back** — if you see the ctor line on Training Log
-   open, we're good to build the data-walking Phase 2. If not,
-   share the log so we can diagnose.
+
+   **Case B** — ctor is inherited (most likely for POCOs):
+   ```
+   [uma-it] plugin loaded
+   [uma-it] target method resolved at 0x... (argc=0)
+   [uma-it] .ctor at argc=0 is inherited from a base class, NOT declared on ObscuredIdleSingleModeGainInfo. Refusing to install...
+   [uma-it] eager install declined; not registering fallback
+   ```
+   Plugin becomes a safe no-op. No game impact, no data captured.
+   We'll ship a v0.0.6 with a different trigger.
+
+6. **Report back** which case you saw. Case A means Phase 2 (walk
+   fields + POST) is next. Case B means we need to change the
+   trigger mechanism.
 
 ## Failure modes to watch for
 
 - **`Hachimi-Edge too old? Need VERSION >= 3`** — update Hachimi-Edge.
+- **`.ctor at argc=... is inherited from a base class`** — see
+  Case B above; expected, plugin is a safe no-op.
 - **`discovered argc=N but our hook is hardcoded to 0`** — the
-  class now has a non-default constructor. Plugin refuses to
-  install to avoid crashing the game. Share the log; we'll bump
-  the hook signature in a follow-up.
+  class grew a non-default constructor. Plugin refuses to install
+  to avoid stack corruption. Share the log.
 - **`.ctor not found at any arg count 0..4`** — class was
   refactored. Share the log; we'll dnSpy the new shape.
 - **`Gallop.ObscuredIdleSingleModeGainInfo class not found`** —
-  IL2CPP class was renamed in a game update (very rare — this
-  class has been stable across builds). Same story: share log.
+  IL2CPP class was renamed (rare — stable across builds). Share
+  log.
 - **Plugin doesn't log at all** — Hachimi didn't load it. Check
   the DLL is in the right folder and appears in the top-level
   `load_libraries` array (not nested under `windows`) exactly as
   `uma_it_plugin.dll`.
+- **Massive log file + framerate crash** — this was the v0.0.4
+  bug. If you see this in v0.0.5+, the declared-on-class check
+  failed and it's a plugin bug worth reporting.
 
 ## For developers
 
