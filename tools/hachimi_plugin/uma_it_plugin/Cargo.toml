@@ -1,7 +1,7 @@
 [package]
 name = "uma_it_plugin"
-version = "0.0.8"
-# Cargo version stays at 0.0.8 across v0.0.8a/v0.0.8b interims;
+version = "0.0.9"
+# Cargo version stays at 0.0.9 across v0.0.9a/v0.0.9b interims;
 # git tag tracks the release iteration.
 edition = "2021"
 license = "GPL-3.0-or-later"
@@ -18,3 +18,12 @@ crate-type = ["cdylib"]
 edge-sdk = { path = "../edge-sdk" }
 log = "0.4"
 once_cell = "1.19"
+# HTTP client for POST /api/runs. default-features off + tls only
+# keeps the DLL small — no cookies, no JSON parsing, no proxy code
+# we don't need. tls = rustls with webpki-roots (pure Rust, no
+# system OpenSSL dependency, cross-compiles cleanly to Windows).
+ureq = { version = "2.10", default-features = false, features = ["tls"] }
+# Second-granularity local time for filename timestamps
+# (YYYYMMDDTHHMMSS format matching the .exe extractor). std's
+# SystemTime gives us epoch seconds — chrono formats them.
+chrono = { version = "0.4", default-features = false, features = ["clock"] }

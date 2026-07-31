@@ -1,17 +1,28 @@
-//! uma-it Hachimi plugin — v0.0.7 (Phase 1: heap-scan + field walk POC).
+//! uma-it Hachimi plugin — v0.0.9 (auto-upload to /api/runs).
 //!
-//! Adds a Hachimi in-game menu entry ("Extract IT Run") that,
-//! when clicked, walks the IL2CPP GC heap for live instances of
-//! `Gallop.ObscuredIdleSingleModeGainInfo` — the same class the
-//! Frida extractor scans for. Instances only exist while the
-//! Training Log popup is open, so the count directly tells us
-//! whether the game state is "ready to capture."
+//! Adds a Hachimi in-game menu entry ("Extract IT Run") that walks
+//! the IL2CPP GC heap for live IT gameplay classes, serializes them
+//! to the same JSON schema the `.exe` Frida extractor emits, writes
+//! it to disk, and (if the user has pasted an API token via the
+//! Hachimi settings section) POSTs it to
+//! `training.umaladder.moe/api/runs`.
 //!
-//! This is a proof of concept — v0.0.6 only logs the count.
-//! v0.0.7 walks the instances' fields; v0.0.8 POSTs the run to
-//! /api/runs. Deliberately gated behind an explicit user click
-//! so the scan (20-80ms, freezes all mutator threads) never
-//! runs when the user doesn't expect it.
+//! **v0.0.9 changes vs v0.0.8f (full-parity JSON on disk):**
+//! - Extractor-style filename `<YYYYMMDDTHHMMSS>_scen<N>_uma<N>.json`
+//!   built from SMC's scenario_id + card_id (v0.0.8 used
+//!   `uma_it_capture_<epoch>.json` which the server's filename
+//!   validator rejects).
+//! - Config module (URL + token) persisted at
+//!   `<hachimi_base>/uma_it_plugin_config.json`, matching the
+//!   `.exe` extractor's config shape.
+//! - Settings section in Hachimi's menu for pasting the token
+//!   in-game — no file to edit externally.
+//! - HTTP POST after successful disk write, if configured.
+//!   Notifications surface success / dupe / error.
+//!
+//! Deliberately gated behind an explicit user click so the scan
+//! (20-80ms, freezes all mutator threads) never runs when the user
+//! doesn't expect it.
 //!
 //! Prior versions (dropped in v0.0.6):
 //! - v0.0.1..v0.0.3: hooked DialogTrainedCharacterDetail::CreateSetupParameter
@@ -35,13 +46,16 @@ use std::ffi::{c_void, CString};
 use edge_sdk::api::Api;
 use log::{error, info};
 
+mod config;
 mod gc_scan;
+mod http;
 mod introspect;
 mod json;
+mod settings_ui;
 
 edge_sdk::declare_plugin! {
     fn init() -> bool {
-        info!("[uma-it] plugin loaded (v0.0.6 heap-scan POC)");
+        info!("[uma-it] plugin loaded (v{})", env!("CARGO_PKG_VERSION"));
 
         // Try full init eagerly. On the late-load path (LoadLibraryW hook)
         // the game is already up when we arrive, so the assembly image and
@@ -252,22 +266,110 @@ unsafe fn setup() -> Result<(), String> {
             "gui_register_menu_item returned false — menu likely not ready yet".into(),
         );
     }
+
+    // Persistent config for auto-upload. We need Hachimi's base dir
+    // to know where to load/save the config file. Fine to init here
+    // (rather than lazily on first UI render) so the config is
+    // available for a POST attempt even if the user never opens the
+    // settings section this session.
+    let get_base_dir = api
+        .hachimi_get_base_dir
+        .ok_or("hachimi_get_base_dir missing from vtable — needed for config persistence")?;
+    let base_dir_ptr = get_base_dir();
+    if base_dir_ptr.is_null() {
+        return Err("hachimi_get_base_dir returned null during setup".into());
+    }
+    let base_dir_str = std::ffi::CStr::from_ptr(base_dir_ptr)
+        .to_string_lossy()
+        .into_owned();
+    config::init(std::path::Path::new(&base_dir_str));
+
+    // Settings section: URL + token inputs. Non-fatal if it fails
+    // to register (older Hachimi missing the API) — the plugin still
+    // works with an on-disk config the user edits by hand.
+    settings_ui::register(api);
+
     Ok(())
 }
 
 /// Menu callback. Fires from Hachimi's GUI thread when the user
 /// clicks "Extract IT Run".
 ///
-/// v0.0.8 pipeline: run heap scans (with log-based dump for
-/// visibility), then build a JSON capture and write it to disk.
+/// v0.0.9 pipeline: run heap scans (with log-based dump for
+/// visibility), build a JSON capture, write it to disk, then POST
+/// it to the API if the user has configured a token. Each step is
+/// surfaced via a Hachimi notification + the settings-panel status
+/// line so the user can see what happened without checking the log.
 ///
 /// This is `extern "C"` (not `unsafe extern "C"`) because
 /// `GuiMenuCallback` in edge-sdk is defined that way. The scan
 /// itself is unsafe, but the callback wrapper isn't.
 extern "C" fn on_menu_click(_userdata: *mut c_void) {
     gc_scan::scan_and_log();
-    if let Err(msg) = write_capture_to_disk() {
-        error!("[uma-it] failed to write capture file: {msg}");
+    let (filename, bytes) = match write_capture_to_disk() {
+        Ok(pair) => pair,
+        Err(msg) => {
+            error!("[uma-it] failed to write capture file: {msg}");
+            notify(&format!("Extract failed: {msg}"));
+            settings_ui::set_status(format!("Last extract: FAILED ({msg})"));
+            return;
+        }
+    };
+    notify(&format!("Saved capture: {filename}"));
+
+    // Upload — silently a no-op if the user hasn't configured a
+    // token. That's fine: the on-disk JSON is the fallback for a
+    // manual upload via the site's Upload page.
+    let cfg = config::get();
+    if !cfg.is_ready() {
+        settings_ui::set_status(format!(
+            "Last extract: {filename} (saved locally — set an API token to auto-upload)"
+        ));
+        return;
+    }
+    match http::upload_run(&cfg.api_url, &cfg.api_token, &filename, &bytes) {
+        http::UploadOutcome::Created { url } => {
+            info!("[uma-it] uploaded {} → {:?}", filename, url);
+            notify(&format!("Uploaded {filename}"));
+            settings_ui::set_status(format!("Last upload: OK ({filename})"));
+        }
+        http::UploadOutcome::Duplicate => {
+            info!("[uma-it] {} was a duplicate — server already has it", filename);
+            notify("Already uploaded (server has this run)");
+            settings_ui::set_status(format!("Last upload: DUPLICATE ({filename})"));
+        }
+        http::UploadOutcome::HttpError { code, body_snippet } => {
+            error!("[uma-it] upload {} failed: HTTP {} — {}", filename, code, body_snippet);
+            notify(&format!("Upload failed: HTTP {code}"));
+            settings_ui::set_status(format!(
+                "Last upload: HTTP {code} — check log ({filename})"
+            ));
+        }
+        http::UploadOutcome::Transport(msg) => {
+            error!("[uma-it] upload {} network error: {}", filename, msg);
+            notify(&format!("Upload failed: network — {msg}"));
+            settings_ui::set_status(format!("Last upload: NETWORK error ({filename})"));
+        }
+        http::UploadOutcome::NotConfigured => {
+            // is_ready() gated this branch; getting here means the
+            // config emptied between the check and the call. Treat
+            // as the same "saved locally" path.
+            settings_ui::set_status(format!(
+                "Last extract: {filename} (saved locally — token missing)"
+            ));
+        }
+    }
+}
+
+/// Show a toast via Hachimi if available. No-op if the API isn't
+/// resolvable (very old Hachimi) — the settings status line and
+/// the log still carry the message.
+fn notify(text: &str) {
+    let api = Api::get();
+    if let Some(show) = api.gui_show_notification {
+        if let Ok(cs) = CString::new(text) {
+            unsafe { show(cs.as_ptr()); }
+        }
     }
 }
 
@@ -276,34 +378,58 @@ extern "C" fn on_menu_click(_userdata: *mut c_void) {
 /// and non-zero, else None. Used to filter Parents down to the
 /// two direct-parent instances.
 fn extract_succession_ids(smc: &json::JsonValue) -> Option<[i64; 2]> {
-    let json::JsonValue::Object(entries) = smc else { return None; };
-    let mut id1: Option<i64> = None;
-    let mut id2: Option<i64> = None;
-    for (k, v) in entries {
-        if k == "succession_trained_chara_id_1" {
-            if let json::JsonValue::Int(i) = v {
-                id1 = Some(*i);
-            }
-        } else if k == "succession_trained_chara_id_2" {
-            if let json::JsonValue::Int(i) = v {
-                id2 = Some(*i);
-            }
-        }
-    }
-    match (id1, id2) {
-        (Some(a), Some(b)) if a > 0 && b > 0 => Some([a, b]),
-        _ => None,
+    let id1 = extract_int_field(smc, "succession_trained_chara_id_1")?;
+    let id2 = extract_int_field(smc, "succession_trained_chara_id_2")?;
+    if id1 > 0 && id2 > 0 {
+        Some([id1, id2])
+    } else {
+        None
     }
 }
 
-/// Re-scan every registered class and build a JSON capture, then
-/// write it to `<game>/hachimi/uma_it_capture.json`.
+/// Pull one named integer field from a walked Object value. Returns
+/// None if the value isn't an Object, the key isn't there, or its
+/// value isn't an Int. Small helper used to grab scenario_id /
+/// card_id from SMC for the extractor-style filename.
+fn extract_int_field(obj: &json::JsonValue, key: &str) -> Option<i64> {
+    let json::JsonValue::Object(entries) = obj else { return None; };
+    for (k, v) in entries {
+        if k == key {
+            if let json::JsonValue::Int(i) = v {
+                return Some(*i);
+            }
+        }
+    }
+    None
+}
+
+/// Build the extractor-compatible filename
+/// `<YYYYMMDDTHHMMSS>_scen<N>_uma<N>.json` from SMC's metadata.
+///
+/// Uses local time (not UTC) to match the `.exe` extractor's
+/// `_output_name()` which uses `datetime.now().strftime(...)` —
+/// keeps filenames consistent between the two capture paths so
+/// they sort together in a shared runs folder.
+///
+/// Returns None if SMC didn't yield the two required IDs; callers
+/// fall back to the epoch-based name and skip API upload (which
+/// would fail server-side filename validation anyway).
+fn extractor_filename(smc: &json::JsonValue) -> Option<String> {
+    let scenario_id = extract_int_field(smc, "scenario_id")?;
+    let card_id = extract_int_field(smc, "card_id")?;
+    let ts = chrono::Local::now().format("%Y%m%dT%H%M%S").to_string();
+    Some(format!("{ts}_scen{scenario_id}_uma{card_id}.json"))
+}
+
+/// Re-scan every registered class, build a JSON capture, write it
+/// to `<hachimi_base>\IT\<filename>.json`, and return (filename,
+/// bytes) so the caller can also POST it.
 ///
 /// This is a SECOND set of scans on top of gc_scan::scan_and_log's
 /// dumps. Doubles the click-to-file latency but keeps the log
 /// dump as a distinct debug artifact — we can drop the log-based
 /// dump later once the JSON is confirmed correct across builds.
-fn write_capture_to_disk() -> Result<(), String> {
+fn write_capture_to_disk() -> Result<(String, Vec<u8>), String> {
     use json::JsonValue;
     let api = Api::get();
     let get_base_dir = api
@@ -322,7 +448,14 @@ fn write_capture_to_disk() -> Result<(), String> {
         return Err("no target classes registered".into());
     }
     let mut root: Vec<(String, JsonValue)> = Vec::new();
-    root.push(("plugin_version".into(), JsonValue::string("hachimi-v0.0.8")));
+    root.push((
+        "plugin_version".into(),
+        JsonValue::string(concat!("hachimi-v", env!("CARGO_PKG_VERSION"))),
+    ));
+
+    // Stash the walked SMC — needed after the loop for the
+    // extractor-style filename (scenario_id + card_id come from it).
+    let mut smc_walked: Option<JsonValue> = None;
 
     // Two-pass build so we can filter Parents by SMC's succession
     // IDs: iterate SMC first, remember its two parent IDs, use
@@ -371,12 +504,15 @@ fn write_capture_to_disk() -> Result<(), String> {
                 let walked = unsafe { introspect::walk_to_json(picked) };
                 // If this is SingleModeChara (or any class with a
                 // picker), extract the two succession IDs so we
-                // can filter Parents.
+                // can filter Parents, AND stash the walked object
+                // so we can pull scenario_id + card_id after the
+                // loop for the extractor-style filename.
                 if target.label == "SingleModeChara" {
                     parent_id_filter = extract_succession_ids(&walked);
                     if let Some(ids) = parent_id_filter {
                         info!("[uma-it] parent-filter IDs from SMC: {} and {}", ids[0], ids[1]);
                     }
+                    smc_walked = Some(walked.clone());
                 }
                 walked
             }
@@ -425,20 +561,28 @@ fn write_capture_to_disk() -> Result<(), String> {
     root.push(("_scan_counts".into(), JsonValue::Object(per_class_counts)));
 
     let json = JsonValue::Object(root).to_pretty();
-    // Timestamped filename in a hachimi\IT\ subfolder so multiple
-    // captures don't overwrite each other and are all in one place.
-    // Uses UNIX seconds — sorts chronologically; users can rename
-    // to match the .exe extractor's YYYYMMDDT...json format if they
-    // want.
+    // Extractor-style filename `<local-ts>_scen<N>_uma<N>.json`
+    // built from SMC's scenario_id + card_id. Server-side filename
+    // validator rejects anything else, so if SMC didn't yield both
+    // IDs we fall back to an epoch-suffixed name and let the caller
+    // skip the API upload — the on-disk file is still recoverable
+    // via manual upload.
+    let filename = match smc_walked.as_ref().and_then(extractor_filename) {
+        Some(name) => name,
+        None => {
+            let epoch = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_secs())
+                .unwrap_or(0);
+            format!("uma_it_capture_{epoch}.json")
+        }
+    };
     let base = base_dir.trim_end_matches(['/', '\\']);
     let dir = format!("{}\\IT", base);
     std::fs::create_dir_all(&dir).map_err(|e| format!("create dir {}: {}", dir, e))?;
-    let epoch_secs = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.as_secs())
-        .unwrap_or(0);
-    let path = format!("{}\\uma_it_capture_{}.json", dir, epoch_secs);
-    std::fs::write(&path, &json).map_err(|e| format!("write {}: {}", path, e))?;
-    info!("[uma-it] wrote capture ({} bytes) to {}", json.len(), path);
-    Ok(())
+    let path = format!("{}\\{}", dir, filename);
+    let bytes = json.into_bytes();
+    std::fs::write(&path, &bytes).map_err(|e| format!("write {}: {}", path, e))?;
+    info!("[uma-it] wrote capture ({} bytes) to {}", bytes.len(), path);
+    Ok((filename, bytes))
 }

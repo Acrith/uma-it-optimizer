@@ -7,6 +7,7 @@
 
 use std::fmt::Write as _;
 
+#[derive(Clone)]
 pub enum JsonValue {
     Null,
     Bool(bool),
