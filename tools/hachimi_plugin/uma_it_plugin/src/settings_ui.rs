@@ -123,36 +123,6 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         st.loaded_from_disk = true;
     }
 
-    // "Extract IT Run" — the action button. Previously registered
-    // separately via gui_register_menu_item (put it under Hachimi's
-    // "Plugins" category, visually detached from the settings
-    // section). Moving it inside the section groups the whole
-    // plugin's UI under one visual header — one click here fires
-    // the same on_menu_click flow the old menu item did.
-    if let Some(button) = api.gui_ui_button {
-        let s = CString::new("Extract IT Run").unwrap();
-        let clicked = unsafe { button(ui, s.as_ptr()) };
-        if clicked {
-            // Release the settings mutex before running the extract,
-            // since the extract path calls back into settings_ui::
-            // set_status which needs to re-acquire it. Rust's std
-            // Mutex isn't re-entrant, so holding here would deadlock.
-            drop(st);
-            crate::run_extract_and_upload();
-            // Re-acquire so the rest of this frame's render can
-            // access UI state. If the poison recovery fails (extract
-            // thread panicked mid-mutation), skip the rest of the
-            // frame — next frame retries.
-            st = match STATE.lock() {
-                Ok(s) => s,
-                Err(_) => return,
-            };
-        }
-    }
-    if let Some(sep) = api.gui_ui_separator {
-        unsafe { sep(ui); }
-    }
-
     // Absolute minimum UI: Token label + edit + Save. Everything
     // else was cut based on testing:
     //
@@ -173,9 +143,12 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
     // (conditionally) a status line — everything a first-time user
     // needs to enable auto-upload.
 
-    // Token row
+    // Token row. Label is "IT Token" (not just "Token") so users
+    // running multiple plugins can tell which section belongs to
+    // this one at a glance — Hachimi menu sections don't carry
+    // their own titles.
     if let Some(label) = api.gui_ui_label {
-        let s = CString::new("Token").unwrap();
+        let s = CString::new("IT Token").unwrap();
         unsafe { label(ui, s.as_ptr()); }
     }
     if let Some(edit) = api.gui_ui_text_edit_singleline {
