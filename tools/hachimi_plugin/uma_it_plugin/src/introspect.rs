@@ -29,6 +29,7 @@ use edge_sdk::ffi::{
     Il2CppTypeEnum_IL2CPP_TYPE_STRING, Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY,
     Il2CppTypeEnum_IL2CPP_TYPE_U1, Il2CppTypeEnum_IL2CPP_TYPE_U2,
     Il2CppTypeEnum_IL2CPP_TYPE_U4, Il2CppTypeEnum_IL2CPP_TYPE_U8,
+    Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE,
 };
 use log::{error, info};
 use once_cell::sync::OnceCell;
@@ -55,6 +56,11 @@ pub struct MetaSymbols {
     pub il2cpp_field_get_offset: unsafe extern "C" fn(field: FieldInfoPtr) -> i32,
     pub il2cpp_field_get_flags: unsafe extern "C" fn(field: FieldInfoPtr) -> u32,
     pub il2cpp_type_get_type: unsafe extern "C" fn(ty: Il2CppTypePtr) -> Il2CppTypeEnum,
+    /// For VALUETYPE / CLASS / SZARRAY types, returns the class of
+    /// the value / referenced object / element. For SZARRAY it's
+    /// the element class, not the array class itself.
+    pub il2cpp_type_get_class_or_element_class:
+        unsafe extern "C" fn(ty: Il2CppTypePtr) -> *mut Il2CppClass,
     pub il2cpp_class_get_name: unsafe extern "C" fn(klass: *mut Il2CppClass) -> *const i8,
     pub il2cpp_class_get_namespace: unsafe extern "C" fn(klass: *mut Il2CppClass) -> *const i8,
 }
@@ -103,6 +109,10 @@ pub unsafe fn resolve(api: &Api) -> Result<&'static MetaSymbols, String> {
             "il2cpp_type_get_type",
             unsafe extern "C" fn(Il2CppTypePtr) -> Il2CppTypeEnum
         ),
+        il2cpp_type_get_class_or_element_class: sym!(
+            "il2cpp_type_get_class_or_element_class",
+            unsafe extern "C" fn(Il2CppTypePtr) -> *mut Il2CppClass
+        ),
         il2cpp_class_get_name: sym!(
             "il2cpp_class_get_name",
             unsafe extern "C" fn(*mut Il2CppClass) -> *const i8
@@ -130,8 +140,14 @@ const FIELD_ATTRIBUTE_LITERAL: u32 = 0x0040;
 pub struct Field {
     pub name: String,
     pub type_enum: Il2CppTypeEnum,
+    /// Raw type pointer. Kept so we can resolve the underlying
+    /// class for VALUETYPE / CLASS / SZARRAY fields via
+    /// `il2cpp_type_get_class_or_element_class`.
+    pub type_ptr: Il2CppTypePtr,
     /// Offset in bytes from the object pointer (including the
     /// 16-byte Il2CppObject header for reference types on x64).
+    /// For fields on a value-type class, this is offset from the
+    /// value data (no header).
     pub offset: i32,
 }
 
@@ -167,6 +183,7 @@ pub unsafe fn describe_fields(class: *mut Il2CppClass) -> Result<Vec<Field>, Str
         out.push(Field {
             name,
             type_enum,
+            type_ptr: ty,
             offset,
         });
     }
@@ -251,6 +268,82 @@ use std::sync::Mutex;
 /// because IL2CPP class pointers are stable for the process lifetime.
 static OBSCURED_CACHE: OnceCell<Mutex<Vec<(usize, (i32, i32))>>> = OnceCell::new();
 
+/// Cache of (klass-as-address, (sign_off, value_off)) for
+/// `ObscuredIdleSingleModeSignedInt` and any other two-level
+/// wrapper class we see with the `<Sign>`/`<Value>` shape.
+static SIGNED_CACHE: OnceCell<Mutex<Vec<(usize, (i32, i32))>>> = OnceCell::new();
+
+/// Try to decode an `ObscuredIdleSingleModeSignedInt` (or any
+/// object with a `<Sign>k__BackingField` + `<Value>k__BackingField`
+/// pair, both of which are ObscuredInt refs). Mirrors the
+/// extractor's second branch in `walk()` (dump_it_run.py:67).
+unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
+    if obj.is_null() {
+        return None;
+    }
+    let klass = *(obj as *const *mut Il2CppClass);
+    if klass.is_null() {
+        return None;
+    }
+    let (sign_off, val_off) = signed_offsets_for(klass)?;
+    let sign_ptr = *((obj as *const u8).offset(sign_off as isize) as *const *mut c_void);
+    let val_ptr = *((obj as *const u8).offset(val_off as isize) as *const *mut c_void);
+    let sign = try_decode_obscured_int(sign_ptr)?;
+    let val = try_decode_obscured_int(val_ptr)?;
+    Some(if sign < 0 { -val } else { val })
+}
+
+unsafe fn signed_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
+    let key_addr = klass as usize;
+    let cache = SIGNED_CACHE.get_or_init(|| Mutex::new(Vec::new()));
+    if let Ok(guard) = cache.lock() {
+        for (k, off) in guard.iter() {
+            if *k == key_addr {
+                return Some(*off);
+            }
+        }
+    }
+    let fields = describe_fields(klass).ok()?;
+    let mut sign = None;
+    let mut value = None;
+    for f in &fields {
+        if f.name == "<Sign>k__BackingField" {
+            sign = Some(f.offset);
+        } else if f.name == "<Value>k__BackingField" {
+            value = Some(f.offset);
+        }
+    }
+    if let (Some(s), Some(v)) = (sign, value) {
+        if let Ok(mut guard) = cache.lock() {
+            guard.push((key_addr, (s, v)));
+        }
+        Some((s, v))
+    } else {
+        None
+    }
+}
+
+/// Try to decode an inline value-type struct at `container + offset`
+/// as an ObscuredInt-shaped struct. `struct_class` is the struct's
+/// own class (obtained via `il2cpp_type_get_class_or_element_class`
+/// on the field's type). If the struct declares `hiddenValue` and
+/// `currentCryptoKey` i32 fields, we XOR them; otherwise None.
+///
+/// Field offsets on a value-type class are relative to the value
+/// data (no 16-byte Il2CppObject header) — so total read address
+/// is `container + field_offset + struct_field_offset`.
+unsafe fn try_decode_inline_obscured_int(
+    container: *mut c_void,
+    struct_offset: i32,
+    struct_class: *mut Il2CppClass,
+) -> Option<i32> {
+    let (hidden_off, key_off) = obscured_offsets_for(struct_class)?;
+    let base = (container as *const u8).offset(struct_offset as isize);
+    let hidden = *(base.offset(hidden_off as isize) as *const i32);
+    let key = *(base.offset(key_off as isize) as *const i32);
+    Some(hidden ^ key)
+}
+
 unsafe fn obscured_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
     let key_addr = klass as usize;
     let cache = OBSCURED_CACHE.get_or_init(|| Mutex::new(Vec::new()));
@@ -332,6 +425,7 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
     if let Some(s) = read_primitive(obj, f.offset, f.type_enum) {
         return s;
     }
+    let syms = META_SYMS.get().unwrap();
     match f.type_enum {
         x if x == Il2CppTypeEnum_IL2CPP_TYPE_STRING => {
             let ptr = read_ref(obj, f.offset);
@@ -342,21 +436,55 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
             if ptr.is_null() {
                 return "null".into();
             }
+            // Level 1: direct ObscuredInt (hiddenValue + currentCryptoKey).
             if let Some(v) = try_decode_obscured_int(ptr) {
                 return format!("{} (obscured)", v);
             }
+            // Level 2: ObscuredSignedInt (wraps two ObscuredInts as
+            // <Sign>k__BackingField + <Value>k__BackingField).
+            if let Some(v) = try_decode_signed_int(ptr) {
+                return format!("{} (obscured signed)", v);
+            }
+            // Unknown class: log the type and pointer.
             let klass = *(ptr as *const *mut Il2CppClass);
             if klass.is_null() {
                 return format!("<obj @ {:p} (no klass)>", ptr);
             }
-            let syms = META_SYMS.get().unwrap();
             let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
             let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
             format!("<{}.{} @ {:p}>", ns, name, ptr)
         }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE => {
+            // Inline value-type struct. Resolve its class from the
+            // field's type ptr, then try decoding as ObscuredInt.
+            if f.type_ptr.is_null() {
+                return "<valuetype: null type ptr>".into();
+            }
+            let struct_class = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if struct_class.is_null() {
+                return "<valuetype: no class>".into();
+            }
+            if let Some(v) = try_decode_inline_obscured_int(obj, f.offset, struct_class) {
+                return format!("{} (obscured struct)", v);
+            }
+            let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(struct_class));
+            let name = cstr_or_empty((syms.il2cpp_class_get_name)(struct_class));
+            format!("<struct {}.{}>", ns, name)
+        }
         x if x == Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY => {
             let ptr = read_ref(obj, f.offset);
-            if ptr.is_null() { "null[]".into() } else { format!("<array @ {:p}>", ptr) }
+            if ptr.is_null() {
+                return "null[]".into();
+            }
+            // Il2CppArray layout (x64):
+            //   +0   Il2CppObject header (klass + monitor) — 16 bytes
+            //   +16  Il2CppArrayBounds* bounds — 8 bytes
+            //   +24  il2cpp_array_size_t max_length — 8 bytes
+            //   +32  first element
+            // The `max_length` field is what we want for count.
+            let len_ptr = (ptr as *const u8).offset(24) as *const usize;
+            let len = *len_ptr;
+            format!("<array len={} @ {:p}>", len, ptr)
         }
         _ => format!("<type_enum={}>", f.type_enum),
     }
