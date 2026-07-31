@@ -1,6 +1,6 @@
 [project]
 name = "uma-it-optimizer"
-version = "0.1.6"
+version = "0.1.7"
 description = "Personal recorder and analyzer for Independent Training runs. Saves your farming outcomes to structured local data so you can figure out which setups actually work."
 readme = "README.md"
 requires-python = ">=3.13"
