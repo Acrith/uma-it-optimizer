@@ -5,7 +5,7 @@ that captures Umamusume Independent Training runs directly from
 inside the game, without needing the separate `uma-it-extract.exe`
 tool.
 
-**Status: v0.0.1 — proof of life.** The plugin loads, hooks the
+**Status: v0.0.1 — proof of concept.** The plugin loads, hooks the
 Training Log method, and logs when the hook fires. It doesn't yet
 walk the run data or upload — those land in v0.0.2+ once we've
 verified the hook fires reliably on the current game build.

@@ -1,4 +1,4 @@
-//! uma-it Hachimi plugin — v0.0.1 (Phase 1: proof-of-life).
+//! uma-it Hachimi plugin — v0.0.1 (Phase 1: proof of concept).
 //!
 //! What this version does:
 //! - Loads via Hachimi-Edge's plugin loader (`hachimi_init_v3`)
