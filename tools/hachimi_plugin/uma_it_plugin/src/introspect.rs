@@ -268,15 +268,21 @@ use std::sync::Mutex;
 /// because IL2CPP class pointers are stable for the process lifetime.
 static OBSCURED_CACHE: OnceCell<Mutex<Vec<(usize, (i32, i32))>>> = OnceCell::new();
 
-/// Cache of (klass-as-address, (sign_off, value_off)) for
-/// `ObscuredIdleSingleModeSignedInt` and any other two-level
-/// wrapper class we see with the `<Sign>`/`<Value>` shape.
-static SIGNED_CACHE: OnceCell<Mutex<Vec<(usize, (i32, i32))>>> = OnceCell::new();
-
 /// Try to decode an `ObscuredIdleSingleModeSignedInt` (or any
 /// object with a `<Sign>k__BackingField` + `<Value>k__BackingField`
-/// pair, both of which are ObscuredInt refs). Mirrors the
-/// extractor's second branch in `walk()` (dump_it_run.py:67).
+/// pair). Mirrors the extractor's second branch in `walk()`
+/// (dump_it_run.py:67).
+///
+/// v0.0.7a's version assumed both fields were CLASS refs (pointer
+/// to ObscuredInt heap object). That's wrong for
+/// `ObscuredIdleSingleModeInt` on the current build — it's a
+/// VALUETYPE struct, so the wrapper's `<Sign>`/`<Value>` fields
+/// are inline structs, not pointers. Reading struct bytes as a
+/// pointer and dereferencing crashed the game.
+///
+/// This version iterates the wrapper's fields, dispatches on each
+/// one's actual type (CLASS → deref + decode, VALUETYPE → decode
+/// inline), and short-circuits once both are found.
 unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
     if obj.is_null() {
         return None;
@@ -285,41 +291,59 @@ unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
     if klass.is_null() {
         return None;
     }
-    let (sign_off, val_off) = signed_offsets_for(klass)?;
-    let sign_ptr = *((obj as *const u8).offset(sign_off as isize) as *const *mut c_void);
-    let val_ptr = *((obj as *const u8).offset(val_off as isize) as *const *mut c_void);
-    let sign = try_decode_obscured_int(sign_ptr)?;
-    let val = try_decode_obscured_int(val_ptr)?;
-    Some(if sign < 0 { -val } else { val })
-}
-
-unsafe fn signed_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
-    let key_addr = klass as usize;
-    let cache = SIGNED_CACHE.get_or_init(|| Mutex::new(Vec::new()));
-    if let Ok(guard) = cache.lock() {
-        for (k, off) in guard.iter() {
-            if *k == key_addr {
-                return Some(*off);
-            }
-        }
-    }
     let fields = describe_fields(klass).ok()?;
     let mut sign = None;
     let mut value = None;
     for f in &fields {
-        if f.name == "<Sign>k__BackingField" {
-            sign = Some(f.offset);
-        } else if f.name == "<Value>k__BackingField" {
-            value = Some(f.offset);
+        let is_sign = f.name == "<Sign>k__BackingField";
+        let is_value = f.name == "<Value>k__BackingField";
+        if !is_sign && !is_value {
+            continue;
+        }
+        let decoded = decode_field_as_obscured(obj, f);
+        if is_sign {
+            sign = decoded;
+        } else {
+            value = decoded;
+        }
+        if sign.is_some() && value.is_some() {
+            break;
         }
     }
-    if let (Some(s), Some(v)) = (sign, value) {
-        if let Ok(mut guard) = cache.lock() {
-            guard.push((key_addr, (s, v)));
+    let (s, v) = (sign?, value?);
+    Some(if s < 0 { -v } else { v })
+}
+
+/// Decode a single field on `container` as an ObscuredInt-shaped
+/// value, dispatching on the field's actual type.
+///
+/// - CLASS: read pointer at container+offset, treat as
+///   Il2CppObject*, decode via `try_decode_obscured_int`
+/// - VALUETYPE: struct data lives inline at container+offset,
+///   decode via `try_decode_inline_obscured_int` using the
+///   struct's class from the field's type ptr
+/// - anything else: None
+unsafe fn decode_field_as_obscured(container: *mut c_void, f: &Field) -> Option<i32> {
+    match f.type_enum {
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_CLASS => {
+            let ptr = read_ref(container, f.offset);
+            if ptr.is_null() {
+                return None;
+            }
+            try_decode_obscured_int(ptr)
         }
-        Some((s, v))
-    } else {
-        None
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE => {
+            if f.type_ptr.is_null() {
+                return None;
+            }
+            let syms = META_SYMS.get()?;
+            let sc = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if sc.is_null() {
+                return None;
+            }
+            try_decode_inline_obscured_int(container, f.offset, sc)
+        }
+        _ => None,
     }
 }
 
