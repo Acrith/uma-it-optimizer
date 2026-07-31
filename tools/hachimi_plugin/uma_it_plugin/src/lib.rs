@@ -1,4 +1,4 @@
-//! uma-it Hachimi plugin — v0.0.6 (Phase 1: heap-scan POC).
+//! uma-it Hachimi plugin — v0.0.7 (Phase 1: heap-scan + field walk POC).
 //!
 //! Adds a Hachimi in-game menu entry ("Extract IT Run") that,
 //! when clicked, walks the IL2CPP GC heap for live instances of
@@ -36,6 +36,7 @@ use edge_sdk::api::Api;
 use log::{error, info};
 
 mod gc_scan;
+mod introspect;
 
 edge_sdk::declare_plugin! {
     fn init() -> bool {
@@ -124,6 +125,12 @@ unsafe fn setup() -> Result<(), String> {
     // neither expected for Umamusume Global as of the current build.
     gc_scan::resolve(api)?;
     info!("[uma-it] IL2CPP liveness API resolved (Unity 2021.2+ path)");
+
+    // Resolve field-introspection symbols (Il2Cpp metadata APIs)
+    // — used by v0.0.7's field walker to enumerate + read instance
+    // fields on matched GainInfo objects.
+    introspect::resolve(api)?;
+    info!("[uma-it] IL2CPP metadata API resolved (field enumeration ready)");
 
     // Register the menu item. Hachimi surfaces this in its in-game
     // menu (F1 by default on PC). The callback fires on the game's

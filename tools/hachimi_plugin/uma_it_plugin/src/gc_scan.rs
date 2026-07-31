@@ -353,7 +353,14 @@ pub fn scan_and_log() {
                      the IT result screen) and try again. GainInfo only exists in \
                      memory while one of those is visible."
                 );
+                return;
             }
+            // v0.0.7: walk the first matched instance's fields as
+            // proof of concept. If there are multiple matches, we
+            // only dump one — the JSON walker in v0.0.8 will handle
+            // all of them.
+            info!("[uma-it] walking first match as field-dump POC:");
+            unsafe { crate::introspect::dump_instance(res.matches[0]); }
         }
         Err(msg) => error!("[uma-it] scan failed: {msg}"),
     }
