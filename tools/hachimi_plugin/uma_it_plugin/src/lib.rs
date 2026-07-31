@@ -287,7 +287,19 @@ fn write_capture_to_disk() -> Result<(), String> {
     root.push(("_scan_counts".into(), JsonValue::Object(per_class_counts)));
 
     let json = JsonValue::Object(root).to_pretty();
-    let path = format!("{}\\uma_it_capture.json", base_dir.trim_end_matches(['/', '\\']));
+    // Timestamped filename in a hachimi\IT\ subfolder so multiple
+    // captures don't overwrite each other and are all in one place.
+    // Uses UNIX seconds — sorts chronologically; users can rename
+    // to match the .exe extractor's YYYYMMDDT...json format if they
+    // want.
+    let base = base_dir.trim_end_matches(['/', '\\']);
+    let dir = format!("{}\\IT", base);
+    std::fs::create_dir_all(&dir).map_err(|e| format!("create dir {}: {}", dir, e))?;
+    let epoch_secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    let path = format!("{}\\uma_it_capture_{}.json", dir, epoch_secs);
     std::fs::write(&path, &json).map_err(|e| format!("write {}: {}", path, e))?;
     info!("[uma-it] wrote capture ({} bytes) to {}", json.len(), path);
     Ok(())

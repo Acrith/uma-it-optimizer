@@ -282,12 +282,15 @@ pub unsafe fn try_decode_obscured_int(obscured_obj: *mut c_void) -> Option<i32> 
 
 use std::sync::Mutex;
 
-/// Cache of (klass-as-address, (hiddenValue_offset, currentCryptoKey_offset))
-/// for obscured-int classes we've seen. Uses `usize` (address) as the
-/// key rather than `*mut Il2CppClass` because raw pointers aren't `Send`
-/// — Vec<*mut _> can't live inside a Mutex. Comparing addresses works
+/// Cache of (klass-as-address, Option<(hiddenValue_offset, currentCryptoKey_offset)>)
+/// for obscured-int classes we've seen. `None` means "not obscured" —
+/// caching negative results too so we don't re-describe + re-log
+/// non-obscured classes on every field access.
+///
+/// Uses `usize` (address) as the key rather than `*mut Il2CppClass`
+/// because raw pointers aren't `Send`. Comparing addresses works
 /// because IL2CPP class pointers are stable for the process lifetime.
-static OBSCURED_CACHE: OnceCell<Mutex<Vec<(usize, (i32, i32))>>> = OnceCell::new();
+static OBSCURED_CACHE: OnceCell<Mutex<Vec<(usize, Option<(i32, i32)>)>>> = OnceCell::new();
 
 /// Try to decode an `ObscuredIdleSingleModeSignedInt` (or any
 /// object with a `<Sign>k__BackingField` + `<Value>k__BackingField`
@@ -344,7 +347,8 @@ unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
 
 /// Log the SignedInt wrapper's field layout the first time we see
 /// each such class. Uses a small dedupe set keyed by klass address
-/// so we don't spam per-instance.
+/// so we don't spam per-instance. In practice only fires for
+/// `ObscuredIdleSingleModeSignedInt` on Umamusume Global.
 static SIGNED_LOG_SEEN: OnceCell<Mutex<Vec<usize>>> = OnceCell::new();
 unsafe fn log_signed_layout_once(klass: *mut Il2CppClass, fields: &[Field]) {
     let key = klass as usize;
@@ -354,6 +358,14 @@ unsafe fn log_signed_layout_once(klass: *mut Il2CppClass, fields: &[Field]) {
             return;
         }
         g.push(key);
+    }
+    // Additional guard: only log for classes that actually look
+    // SignedInt-shaped (have <Sign>k__BackingField field). Otherwise
+    // this fires for every non-signed class we describe (like
+    // SingleRaceHistory) and floods the log.
+    let has_sign = fields.iter().any(|f| f.name == "<Sign>k__BackingField");
+    if !has_sign {
+        return;
     }
     if let Some(syms) = META_SYMS.get() {
         let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
@@ -447,38 +459,16 @@ unsafe fn try_decode_inline_obscured_int(
 unsafe fn obscured_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
     let key_addr = klass as usize;
     let cache = OBSCURED_CACHE.get_or_init(|| Mutex::new(Vec::new()));
-    // Fast path: cached.
+    // Fast path: cached (positive or negative).
     if let Ok(guard) = cache.lock() {
         for (k, off) in guard.iter() {
             if *k == key_addr {
-                return Some(*off);
+                return *off;
             }
         }
     }
     // Slow path: describe fields, find the two by name.
     let fields = describe_fields(klass).ok()?;
-
-    // First-time diagnostic: log the class's field layout so we can
-    // see whether il2cpp is returning header-adjusted offsets (16,
-    // 20, ...) or bare inline offsets (0, 4, ...). Informs whether
-    // try_decode_inline_obscured_int's -16 adjustment is right for
-    // this build. Only fires once per class per session (cache miss).
-    if let Some(syms) = META_SYMS.get() {
-        let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
-        let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
-        info!(
-            "[uma-it] first-encounter layout: {}.{} ({} fields):",
-            ns,
-            name,
-            fields.len()
-        );
-        for f in &fields {
-            info!(
-                "[uma-it]   field: {} @ offset={}, type={}",
-                f.name, f.offset, f.type_enum
-            );
-        }
-    }
 
     let mut hidden = None;
     let mut key = None;
@@ -489,14 +479,40 @@ unsafe fn obscured_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
             key = Some(f.offset);
         }
     }
-    if let (Some(h), Some(k)) = (hidden, key) {
-        if let Ok(mut guard) = cache.lock() {
-            guard.push((key_addr, (h, k)));
+    let result = match (hidden, key) {
+        (Some(h), Some(k)) => Some((h, k)),
+        _ => None,
+    };
+
+    // Diagnostic log: ONLY for classes that turn out to be obscured
+    // (positive match). Non-obscured classes would spam the log
+    // without adding info.
+    if result.is_some() {
+        if let Some(syms) = META_SYMS.get() {
+            let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
+            let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
+            info!(
+                "[uma-it] first-encounter obscured layout: {}.{} ({} fields):",
+                ns,
+                name,
+                fields.len()
+            );
+            for f in &fields {
+                info!(
+                    "[uma-it]   field: {} @ offset={}, type={}",
+                    f.name, f.offset, f.type_enum
+                );
+            }
         }
-        Some((h, k))
-    } else {
-        None
     }
+
+    // Cache both positive and negative results — non-obscured
+    // classes get re-visited many times per scan (SingleRaceHistory
+    // etc.), and we don't want to re-describe them every time.
+    if let Ok(mut guard) = cache.lock() {
+        guard.push((key_addr, result));
+    }
+    result
 }
 
 // ── Human-readable dump for one instance ──────────────────────
@@ -738,9 +754,20 @@ unsafe fn walk_object(obj: *mut c_void, depth: u32) -> JsonValue {
     };
     let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
     for f in &fields {
-        entries.push((f.name.clone(), value_for_field(obj, f, depth, false)));
+        entries.push((clean_field_name(&f.name), value_for_field(obj, f, depth, false)));
     }
     JsonValue::Object(entries)
+}
+
+/// Strip C#'s auto-property backing-field decoration.
+/// `<Speed>k__BackingField` → `Speed`. Leaves other names alone.
+fn clean_field_name(raw: &str) -> String {
+    if let Some(rest) = raw.strip_prefix('<') {
+        if let Some(inner) = rest.strip_suffix(">k__BackingField") {
+            return inner.to_string();
+        }
+    }
+    raw.to_string()
 }
 
 /// Read a single field's value at `container + offset`, returning
@@ -858,7 +885,7 @@ unsafe fn walk_inline(
     let base = (container as *const u8).offset(offset as isize) as *mut c_void;
     let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
     for f in &fields {
-        entries.push((f.name.clone(), value_for_field(base, f, depth, true)));
+        entries.push((clean_field_name(&f.name), value_for_field(base, f, depth, true)));
     }
     JsonValue::Object(entries)
 }

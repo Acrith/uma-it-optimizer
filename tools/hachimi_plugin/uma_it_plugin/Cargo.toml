@@ -1,6 +1,8 @@
 [package]
 name = "uma_it_plugin"
 version = "0.0.8"
+# Cargo version stays at 0.0.8 for the v0.0.8a interim; git tag
+# tracks the release iteration.
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "Hachimi-Edge plugin that captures Umamusume Independent Training runs."
