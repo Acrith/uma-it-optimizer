@@ -170,46 +170,54 @@ unsafe fn setup() -> Result<(), String> {
         resolved += 1;
     }
 
-    // Parents — nested class Gallop.WorkTrainedCharaData/TrainedCharaData
-    // in the main assembly. Extractor's `dumpParents` uses this for
-    // direct-parent + grandparent lineage (dump_it_run.py:150-192).
-    // Without it: no factor compat scoring, no spark analysis, no
-    // inheritance UI in the web app (compat.py:301-386).
-    let outer_name = CString::new("WorkTrainedCharaData").unwrap();
-    let inner_name = CString::new("TrainedCharaData").unwrap();
-    let outer_class = get_class(img_main, ns_gallop.as_ptr(), outer_name.as_ptr());
-    if outer_class.is_null() {
+    // Parents — TOP-LEVEL class with dot-in-namespace naming.
+    // Namespace `Gallop.WorkTrainedCharaData`, class name
+    // `TrainedCharaData`. NOT a nested class — despite the dot
+    // in the name suggesting one.
+    //
+    // Extractor's dumpParents finds this by iterating
+    // image.classes (top-level only, no nested-class recursion)
+    // and matching `type.name` == the full flattened name
+    // (dump_it_run.py:150-165, verified against frida-il2cpp-bridge
+    // lib/structs/image.ts).
+    //
+    // v0.0.8b used il2cpp_find_nested_class assuming truly nested
+    // — that returned a DIFFERENT Il2CppClass* (probably an inner
+    // private helper) whose live-instance set was 269 stale
+    // TrainedCharaData records, all with SuccessionCharaList=null.
+    // Same-session comparison with the .exe extractor proved the
+    // discrepancy: extractor found 2 objects (current parents,
+    // SCL populated), plugin's nested-class scan found 269 (all
+    // SCL null). Fixed by using il2cpp_get_class with the
+    // dot-separated namespace instead of find_nested_class.
+    let parents_ns = CString::new("Gallop.WorkTrainedCharaData").unwrap();
+    let parents_name = CString::new("TrainedCharaData").unwrap();
+    let parents_class = get_class(img_main, parents_ns.as_ptr(), parents_name.as_ptr());
+    if parents_class.is_null() {
         error!(
-            "[uma-it] outer class Gallop.WorkTrainedCharaData not found — Parents scan disabled"
+            "[uma-it] Gallop.WorkTrainedCharaData.TrainedCharaData not found — Parents scan disabled"
         );
     } else {
-        let find_nested = api.il2cpp_find_nested_class.ok_or(
-            "il2cpp_find_nested_class missing from vtable — Hachimi-Edge too old?",
-        )?;
-        let parents_class = find_nested(outer_class, inner_name.as_ptr());
-        if parents_class.is_null() {
-            error!(
-                "[uma-it] nested Gallop.WorkTrainedCharaData/TrainedCharaData not found — Parents scan disabled"
-            );
-        } else {
-            info!(
-                "[uma-it] target: [Parents] Gallop.WorkTrainedCharaData.TrainedCharaData (nested) @ {:p}",
-                parents_class
-            );
-            let display: &'static str =
-                Box::leak("Gallop.WorkTrainedCharaData.TrainedCharaData".to_string().into_boxed_str());
-            gc_scan::add_target(gc_scan::TargetClass {
-                label: "Parents",
-                display,
-                class: parents_class,
-                // Extractor filters by SMC.succession_trained_chara_id_1/_2
-                // then walks up to 2 matches. Simpler for plugin: walk
-                // all matches, let the web app filter by ID from the
-                // top-level SingleModeChara succession IDs.
-                pick_by: None,
-            });
-            resolved += 1;
-        }
+        info!(
+            "[uma-it] target: [Parents] Gallop.WorkTrainedCharaData.TrainedCharaData @ {:p}",
+            parents_class
+        );
+        let display: &'static str = Box::leak(
+            "Gallop.WorkTrainedCharaData.TrainedCharaData"
+                .to_string()
+                .into_boxed_str(),
+        );
+        gc_scan::add_target(gc_scan::TargetClass {
+            label: "Parents",
+            display,
+            class: parents_class,
+            // Extractor filters by SMC.succession_trained_chara_id_1/_2
+            // then walks up to 2 matches. Simpler for plugin: walk
+            // all matches (should now be ~2), post-filter to
+            // succession IDs in write_capture_to_disk (v0.0.8c).
+            pick_by: None,
+        });
+        resolved += 1;
     }
 
     if resolved == 0 {
