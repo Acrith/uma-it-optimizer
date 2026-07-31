@@ -262,6 +262,31 @@ extern "C" fn on_menu_click(_userdata: *mut c_void) {
     }
 }
 
+/// Extract `succession_trained_chara_id_1` and `_2` from a walked
+/// SingleModeChara JsonValue. Returns `[id1, id2]` if both present
+/// and non-zero, else None. Used to filter Parents down to the
+/// two direct-parent instances.
+fn extract_succession_ids(smc: &json::JsonValue) -> Option<[i64; 2]> {
+    let json::JsonValue::Object(entries) = smc else { return None; };
+    let mut id1: Option<i64> = None;
+    let mut id2: Option<i64> = None;
+    for (k, v) in entries {
+        if k == "succession_trained_chara_id_1" {
+            if let json::JsonValue::Int(i) = v {
+                id1 = Some(*i);
+            }
+        } else if k == "succession_trained_chara_id_2" {
+            if let json::JsonValue::Int(i) = v {
+                id2 = Some(*i);
+            }
+        }
+    }
+    match (id1, id2) {
+        (Some(a), Some(b)) if a > 0 && b > 0 => Some([a, b]),
+        _ => None,
+    }
+}
+
 /// Re-scan every registered class and build a JSON capture, then
 /// write it to `<game>/hachimi/uma_it_capture.json`.
 ///
@@ -290,7 +315,20 @@ fn write_capture_to_disk() -> Result<(), String> {
     let mut root: Vec<(String, JsonValue)> = Vec::new();
     root.push(("plugin_version".into(), JsonValue::string("hachimi-v0.0.8")));
 
+    // Two-pass build so we can filter Parents by SMC's succession
+    // IDs: iterate SMC first, remember its two parent IDs, use
+    // them to filter the Parents scan down from 269 heap instances
+    // to just the 2 direct parents (matches extractor behavior).
+    // Extractor filter: succession_trained_chara_id_1 / _2 →
+    // TrainedCharaData._id must match one.
+    let mut parent_id_filter: Option<[i64; 2]> = None;
+
     let mut per_class_counts: Vec<(String, JsonValue)> = Vec::new();
+    // Iterate in registration order — SingleModeChara is registered
+    // before Parents in setup(), so its succession IDs are
+    // available when we get to Parents. Not a hard guarantee; if
+    // this ever breaks, restructure into an explicit two-phase
+    // walk.
     for target in &targets {
         if target.class.is_null() {
             continue;
@@ -321,7 +359,48 @@ fn write_capture_to_disk() -> Result<(), String> {
                         .map(|(p, _)| p)
                         .unwrap_or(res.matches[0])
                 };
-                unsafe { introspect::walk_to_json(picked) }
+                let walked = unsafe { introspect::walk_to_json(picked) };
+                // If this is SingleModeChara (or any class with a
+                // picker), extract the two succession IDs so we
+                // can filter Parents.
+                if target.label == "SingleModeChara" {
+                    parent_id_filter = extract_succession_ids(&walked);
+                    if let Some(ids) = parent_id_filter {
+                        info!("[uma-it] parent-filter IDs from SMC: {} and {}", ids[0], ids[1]);
+                    }
+                }
+                walked
+            }
+            None if target.label == "Parents" => {
+                // Filter to matches whose `_id` is in the succession
+                // set. Walking still happens per match; filter after
+                // walk is fine (Parent walk is small — ~few KB each).
+                let filter = parent_id_filter;
+                let items: Vec<JsonValue> = res
+                    .matches
+                    .iter()
+                    .map(|&obj| unsafe { introspect::walk_to_json(obj) })
+                    .filter(|v| {
+                        let Some(ids) = filter else { return true; };
+                        // Extract _id from walked JsonValue::Object
+                        match v {
+                            JsonValue::Object(entries) => entries.iter().any(|(k, val)| {
+                                if k != "_id" { return false; }
+                                if let JsonValue::Int(i) = val {
+                                    return ids.contains(i);
+                                }
+                                false
+                            }),
+                            _ => false,
+                        }
+                    })
+                    .collect();
+                info!(
+                    "[uma-it] Parents filtered from {} → {} matching succession IDs",
+                    res.matches.len(),
+                    items.len()
+                );
+                JsonValue::Array(items)
             }
             None => {
                 let items: Vec<JsonValue> = res
