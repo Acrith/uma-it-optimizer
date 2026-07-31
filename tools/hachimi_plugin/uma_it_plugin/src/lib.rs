@@ -97,28 +97,66 @@ unsafe extern "C" fn on_game_initialized(_userdata: *mut c_void) {
 unsafe fn setup() -> Result<(), String> {
     let api = Api::get();
 
-    // Locate the umamusume assembly image + our target class.
-    let umamusume = CString::new("umamusume").unwrap();
+    // Locate the two assembly images we scan classes from.
+    // - `umamusume` holds the gameplay data classes (GainInfo etc.)
+    // - `umamusume.Http` holds the HTTP DTOs (SingleModeChara,
+    //   race histories) — same as what dump_it_run.py uses.
     let get_image = api
         .il2cpp_get_assembly_image
         .ok_or("il2cpp_get_assembly_image missing from vtable")?;
-    let image = get_image(umamusume.as_ptr());
-    if image.is_null() {
+    let umamusume = CString::new("umamusume").unwrap();
+    let umamusume_http = CString::new("umamusume.Http").unwrap();
+    let img_main = get_image(umamusume.as_ptr());
+    if img_main.is_null() {
         return Err("umamusume assembly image not loaded — game not fully up?".into());
     }
-    let ns = CString::new("Gallop").unwrap();
-    let cls_name = CString::new("ObscuredIdleSingleModeGainInfo").unwrap();
+    let img_http = get_image(umamusume_http.as_ptr());
+    if img_http.is_null() {
+        return Err("umamusume.Http assembly image not loaded — game not fully up?".into());
+    }
     let get_class = api
         .il2cpp_get_class
         .ok_or("il2cpp_get_class missing from vtable")?;
-    let class = get_class(image, ns.as_ptr(), cls_name.as_ptr());
-    if class.is_null() {
-        return Err(
-            "Gallop.ObscuredIdleSingleModeGainInfo class not found — game update?".into(),
-        );
+    let ns_gallop = CString::new("Gallop").unwrap();
+
+    // Register every class the .exe extractor heap-scans
+    // (dump_it_run.py:317-322). Each becomes a heap-scan target
+    // that runs on Extract IT Run menu click.
+    let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage); 6] = [
+        ("GainInfo",             "ObscuredIdleSingleModeGainInfo",              img_main),
+        ("SupportCardGainInfo",  "ObscuredIdleSingleModeSupportCardGainInfo",   img_main),
+        ("FactorGainInfo",       "ObscuredIdleSingleModeSuccessionFactorGainInfo", img_main),
+        ("SingleModeChara",      "SingleModeChara",                             img_http),
+        ("RaceHistory",          "SingleRaceHistory",                           img_http),
+        ("IdleRaceHistory",      "IdleSingleModeRaceHistory",                   img_http),
+    ];
+    let mut resolved = 0;
+    for (label, cls_name, image) in targets {
+        let cname = CString::new(cls_name).unwrap();
+        let klass = get_class(image, ns_gallop.as_ptr(), cname.as_ptr());
+        if klass.is_null() {
+            error!(
+                "[uma-it] class not resolved: Gallop.{} — skipping (game update?)",
+                cls_name
+            );
+            continue;
+        }
+        info!("[uma-it] target: [{}] Gallop.{} @ {:p}", label, cls_name, klass);
+        // display is the fully-qualified name for the "no matches" hint.
+        // Leaking the String is fine — 6 tiny allocations that live for
+        // the process lifetime.
+        let display: &'static str = Box::leak(format!("Gallop.{}", cls_name).into_boxed_str());
+        gc_scan::add_target(gc_scan::TargetClass {
+            label,
+            display,
+            class: klass,
+        });
+        resolved += 1;
     }
-    info!("[uma-it] target class resolved: Gallop.ObscuredIdleSingleModeGainInfo @ {:p}", class);
-    gc_scan::set_target_class(class);
+    if resolved == 0 {
+        return Err("no target classes resolved — either the game version is very off or the images aren't loaded".into());
+    }
+    info!("[uma-it] {}/6 target classes resolved for scanning", resolved);
 
     // Resolve the eight IL2CPP GC symbols we use for heap scanning.
     // Failure here means Unity < 2021.2 or a stripped IL2CPP build —
@@ -128,7 +166,7 @@ unsafe fn setup() -> Result<(), String> {
 
     // Resolve field-introspection symbols (Il2Cpp metadata APIs)
     // — used by v0.0.7's field walker to enumerate + read instance
-    // fields on matched GainInfo objects.
+    // fields on matched objects.
     introspect::resolve(api)?;
     info!("[uma-it] IL2CPP metadata API resolved (field enumeration ready)");
 

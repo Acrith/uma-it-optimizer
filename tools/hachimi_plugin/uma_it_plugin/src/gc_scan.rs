@@ -23,7 +23,7 @@
 //! `il2cpp_resolve_symbol` and cached in a `GcSymbols` struct.
 
 use std::ffi::{c_void, CString};
-use std::sync::atomic::{AtomicPtr, Ordering};
+use std::sync::Mutex;
 
 use edge_sdk::api::Api;
 use edge_sdk::ffi::Il2CppClass;
@@ -313,55 +313,89 @@ pub unsafe fn scan_class(class: *mut Il2CppClass) -> Result<ScanResult, String> 
 
 // ── Convenience wrapper ───────────────────────────────────────
 
-/// Global cache of the target class pointer, populated once at
-/// plugin init. Reads on scan are lock-free via AtomicPtr.
-static TARGET_CLASS: AtomicPtr<Il2CppClass> = AtomicPtr::new(std::ptr::null_mut());
-
-pub fn set_target_class(class: *mut Il2CppClass) {
-    TARGET_CLASS.store(class, Ordering::SeqCst);
+/// One class we scan on menu click. Populated at plugin init
+/// from `lib.rs::setup()` for all data classes the extractor
+/// heap-scans (dump_it_run.py:317-322).
+pub struct TargetClass {
+    /// Short label for logs — matches the extractor's JSON key
+    /// (e.g. "GainInfo", "SingleModeChara").
+    pub label: &'static str,
+    /// Fully-qualified class name for the "no matches" hint log.
+    pub display: &'static str,
+    /// The resolved Il2CppClass* — set exactly once at init.
+    pub class: *mut Il2CppClass,
 }
 
-pub fn get_target_class() -> *mut Il2CppClass {
-    TARGET_CLASS.load(Ordering::SeqCst)
+// Raw pointer inside can't be Send; wrap in a Mutex<Vec<>> anyway
+// because we set exactly once at init and read from a single
+// callback thread, so contention is impossible.
+static TARGET_CLASSES: OnceCell<Mutex<Vec<TargetClass>>> = OnceCell::new();
+// SAFETY: TargetClass is only accessed from the plugin's menu
+// callback (single-threaded) and set once at init. The raw ptr
+// inside is opaque to Rust — never dereferenced except by
+// il2cpp APIs that take *mut Il2CppClass.
+unsafe impl Send for TargetClass {}
+
+pub fn add_target(t: TargetClass) {
+    let cell = TARGET_CLASSES.get_or_init(|| Mutex::new(Vec::new()));
+    if let Ok(mut g) = cell.lock() {
+        g.push(t);
+    }
 }
 
-/// One-shot: run a scan for the previously-set target class and
-/// log the match count. Used by the menu-item callback in
-/// `lib.rs` — kept here so the whole scan lifecycle lives in one
-/// module.
+/// One-shot: iterate every registered target class, scan the
+/// heap for its live instances, and dump the first match of
+/// each. v0.0.7g refactors this to build a JSON tree and write
+/// it to a file instead of just logging.
 pub fn scan_and_log() {
-    let class = get_target_class();
-    if class.is_null() {
-        error!("[uma-it] scan requested but target class not set — plugin misconfigured");
+    let cell = match TARGET_CLASSES.get() {
+        Some(c) => c,
+        None => {
+            error!("[uma-it] no target classes registered — plugin misconfigured");
+            return;
+        }
+    };
+    let targets = match cell.lock() {
+        Ok(g) => g,
+        Err(_) => {
+            error!("[uma-it] target class list poisoned");
+            return;
+        }
+    };
+    if targets.is_empty() {
+        error!("[uma-it] target class list empty — nothing to scan");
         return;
     }
-    info!("[uma-it] starting heap scan for GainInfo instances (this pauses the game ~20-80ms)");
-    let start = std::time::Instant::now();
-    match unsafe { scan_class(class) } {
-        Ok(res) => {
-            let elapsed = start.elapsed();
-            info!(
-                "[uma-it] scan complete: {} GainInfo instances found in {}ms \
-                 ({} realloc_cb allocations)",
-                res.matches.len(),
-                elapsed.as_millis(),
-                res.allocs_count,
-            );
-            if res.matches.is_empty() {
-                info!(
-                    "[uma-it] no instances — open the Training Log popup (or view \
-                     the IT result screen) and try again. GainInfo only exists in \
-                     memory while one of those is visible."
-                );
-                return;
-            }
-            // v0.0.7: walk the first matched instance's fields as
-            // proof of concept. If there are multiple matches, we
-            // only dump one — the JSON walker in v0.0.8 will handle
-            // all of them.
-            info!("[uma-it] walking first match as field-dump POC:");
-            unsafe { crate::introspect::dump_instance(res.matches[0]); }
+    info!(
+        "[uma-it] starting heap scans for {} classes (each pauses the game ~20-80ms)",
+        targets.len()
+    );
+    let total_start = std::time::Instant::now();
+    for target in targets.iter() {
+        if target.class.is_null() {
+            info!("[uma-it] [{}] skipped — class was not resolved at init", target.label);
+            continue;
         }
-        Err(msg) => error!("[uma-it] scan failed: {msg}"),
+        let start = std::time::Instant::now();
+        match unsafe { scan_class(target.class) } {
+            Ok(res) => {
+                let elapsed = start.elapsed();
+                info!(
+                    "[uma-it] [{}] {} instances found in {}ms ({} realloc allocs)",
+                    target.label,
+                    res.matches.len(),
+                    elapsed.as_millis(),
+                    res.allocs_count,
+                );
+                if res.matches.is_empty() {
+                    info!("[uma-it] [{}] no instances — {} not in memory right now", target.label, target.display);
+                    continue;
+                }
+                info!("[uma-it] [{}] walking first match:", target.label);
+                unsafe { crate::introspect::dump_instance(res.matches[0]); }
+            }
+            Err(msg) => error!("[uma-it] [{}] scan failed: {msg}", target.label),
+        }
     }
+    info!("[uma-it] all scans done in {}ms total", total_start.elapsed().as_millis());
 }
