@@ -22,17 +22,16 @@ either.
 2. Drop it in the same folder as your Hachimi DLL (usually the
    Umamusume game folder next to `UmamusumePrettyDerby.exe`, where
    Hachimi's `dxgi.dll` lives).
-3. Open Hachimi's `config.json` and add `uma_it_plugin.dll` to the
-   `windows.load_libraries` array:
+3. Open Hachimi's `config.json` (usually in `<game folder>/hachimi/`)
+   and find the existing `load_libraries` field — it's a top-level
+   array, not nested under `windows`. Add our DLL to it:
    ```json
-   {
-     "windows": {
-       "load_libraries": ["uma_it_plugin.dll"]
-     }
-   }
+   "load_libraries": ["uma_it_plugin.dll"],
    ```
-   (If `windows.load_libraries` already has entries, just append
-   ours to the list.)
+   If the field already had entries, just add ours to the array.
+   Also flip `enable_file_logging` to `true` in the same file so
+   Hachimi writes a `hachimi.log` you can grep — plugin output
+   otherwise only shows in the in-game debug console.
 4. Launch the game. Complete an IT run, reach the Training Log
    popup screen.
 5. Check Hachimi's log file (usually `hachimi.log` next to the
