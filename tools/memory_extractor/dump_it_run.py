@@ -236,14 +236,23 @@ setTimeout(() => {
 
     // ── Poll loop ─────────────────────────────────────────────────────
     // Instead of dumping immediately (which is timing-sensitive — the
-    // wrong screen produces pre-training data), poll SingleModeChara
-    // until it looks like a completed career. Then do the full dump in
-    // one shot. Player can launch the extractor before navigating to
-    // the Training Log; it'll wait.
-    const MIN_FANS_FOR_VALID = 100;   // any completed IT has thousands
-    const MIN_GRADE_FOR_VALID = 2;    // 1 = fresh template, 10 = completed
+    // wrong screen produces pre-training data), poll until the game
+    // has actually rendered the Training Log. Then do the full dump
+    // in one shot. Player can launch the extractor before navigating
+    // to the Training Log; it'll wait.
+    //
+    // Two gates now:
+    //   1. SingleModeChara populated (fans + chara_grade above bare
+    //      minimums) — 'is there any career loaded'
+    //   2. Gallop.ObscuredIdleSingleModeGainInfo has >=1 instance —
+    //      the true 'is the Training Log rendered right now' signal.
+    //      Empty pre-Training-Log (verified across mid-race, main-uma,
+    //      and result screens), populated only when the Log is open.
+    const MIN_FANS_FOR_VALID = 100;
+    const MIN_GRADE_FOR_VALID = 2;
     const POLL_INTERVAL_MS = 3000;
     const MAX_POLLS = 100;            // 100 × 3s = 5 min
+    const gainInfoCls = mainAsm.class('Gallop.ObscuredIdleSingleModeGainInfo');
 
     let pollNum = 0;
     function pollOnce() {
@@ -266,7 +275,20 @@ setTimeout(() => {
         setTimeout(pollOnce, POLL_INTERVAL_MS);
         return;
       }
-      // Valid! Full extraction now.
+      // Gate 2: Training-Log-specific class has to exist. Prevents
+      // capturing a completed career while the player is elsewhere
+      // in the game (result screen after IT ends, main uma screen
+      // between careers, mid-race, etc.).
+      const gainInfoCount = gainInfoCls ? Il2Cpp.gc.choose(gainInfoCls).length : 0;
+      if (gainInfoCount === 0) {
+        send({type: 'poll', pollNum: pollNum, ok: false, reason: 'no_training_log',
+              fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum,
+              total_smc: probe.totalCount});
+        if (pollNum >= MAX_POLLS) { send({type: 'timeout'}); return; }
+        setTimeout(pollOnce, POLL_INTERVAL_MS);
+        return;
+      }
+      // Both gates cleared — Training Log is open, safe to dump.
       send({type: 'poll', pollNum: pollNum, ok: true,
             fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum});
       send({type: 'smc_diag', total: probe.totalCount, candidates: probe.candidates});
@@ -448,6 +470,11 @@ def _extract(pid: int) -> dict:
                       f"(fans={p.get('fans')} grade={p.get('chara_grade')} "
                       f"stat_sum={p.get('stat_sum')} instances={p.get('total_smc')}) "
                       f"— navigate to Training Log to trigger capture")
+            elif reason == "no_training_log":
+                print(f"    [poll #{n}] career loaded but Training Log not "
+                      f"open yet — waiting for the popup to render "
+                      f"(fans={p.get('fans')} grade={p.get('chara_grade')} "
+                      f"stat_sum={p.get('stat_sum')})")
         elif t == "dump":
             print(f"    {p['label']}: {p['count']} instance(s)")
             result[p["label"]] = p["data"]
