@@ -279,16 +279,38 @@ setTimeout(() => {
       // capturing a completed career while the player is elsewhere
       // in the game (result screen after IT ends, main uma screen
       // between careers, mid-race, etc.).
-      const gainInfoCount = gainInfoCls ? Il2Cpp.gc.choose(gainInfoCls).length : 0;
-      if (gainInfoCount === 0) {
-        send({type: 'poll', pollNum: pollNum, ok: false, reason: 'no_training_log',
-              fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum,
-              total_smc: probe.totalCount});
-        if (pollNum >= MAX_POLLS) { send({type: 'timeout'}); return; }
-        setTimeout(pollOnce, POLL_INTERVAL_MS);
-        return;
+      //
+      // Defensive: if the class lookup fails (future game update
+      // renames it), skip this gate and proceed with the loose fans
+      // + grade check. Prints a one-time warning so we know to
+      // investigate — better to sometimes over-capture than hang
+      // forever waiting for a class the game no longer has.
+      if (gainInfoCls) {
+        let gainInfoCount = 0;
+        try {
+          gainInfoCount = Il2Cpp.gc.choose(gainInfoCls).length;
+        } catch (e) {
+          send({type: 'poll', pollNum: pollNum, ok: false,
+                reason: 'training_log_probe_err', err: e.message});
+        }
+        if (gainInfoCount === 0) {
+          send({type: 'poll', pollNum: pollNum, ok: false, reason: 'no_training_log',
+                fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum,
+                total_smc: probe.totalCount});
+          if (pollNum >= MAX_POLLS) { send({type: 'timeout'}); return; }
+          setTimeout(pollOnce, POLL_INTERVAL_MS);
+          return;
+        }
+      } else {
+        // Class not found — game must have renamed it. Fall back to
+        // the loose fans+grade gate that got us this far. Warn once.
+        if (pollNum === 1) {
+          send({type: 'poll', pollNum: pollNum, ok: false,
+                reason: 'gain_info_cls_missing'});
+        }
       }
-      // Both gates cleared — Training Log is open, safe to dump.
+      // Gates cleared — Training Log is open (or fallback kicked in);
+      // safe to dump.
       send({type: 'poll', pollNum: pollNum, ok: true,
             fans: p.fans, chara_grade: p.charaGrade, stat_sum: p.statSum});
       send({type: 'smc_diag', total: probe.totalCount, candidates: probe.candidates});
@@ -475,6 +497,15 @@ def _extract(pid: int) -> dict:
                       f"open yet — waiting for the popup to render "
                       f"(fans={p.get('fans')} grade={p.get('chara_grade')} "
                       f"stat_sum={p.get('stat_sum')})")
+            elif reason == "training_log_probe_err":
+                print(f"    [!] Training Log class probe failed: {p.get('err')}")
+                print(f"    [!] Falling back to fans+grade gate.")
+            elif reason == "gain_info_cls_missing":
+                print(f"    [!] Gallop.ObscuredIdleSingleModeGainInfo not "
+                      f"found in game — game may have renamed it.")
+                print(f"    [!] Skipping Training-Log-open check; using "
+                      f"loose fans+grade gate instead. Report this so we "
+                      f"can update the class name.")
         elif t == "dump":
             print(f"    {p['label']}: {p['count']} instance(s)")
             result[p["label"]] = p["data"]
