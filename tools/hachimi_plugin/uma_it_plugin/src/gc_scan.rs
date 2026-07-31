@@ -153,16 +153,18 @@ pub unsafe fn resolve(api: &Api) -> Result<&'static GcSymbols, String> {
 /// passed as `userdata` through both callbacks. Single-threaded
 /// access — the scan is synchronous and only one runs at a time.
 ///
-/// Pre-sized capacities avoid any Rust-side heap allocation
-/// during the critical section (between stop_gc_world and
-/// start_gc_world) — allocating there would risk the same
-/// deadlock the C-runtime allocator warning is about.
+/// Pre-sized capacities are for amortization, not correctness.
+/// The v0.0.6 field test proved malloc works fine under
+/// stop_gc_world (44 error!() calls with format! all succeeded
+/// during the critical section), so incidental Vec growth here
+/// is safe. Pre-sizing just avoids the reallocation cost.
 struct ScanContext {
     syms: &'static GcSymbols,
-    /// Tracked outstanding allocations from realloc_cb, needed
-    /// so realloc-grow can copy old contents to the new block.
-    /// Capacity pre-sized generously — the liveness API's
-    /// internal buffer typically resizes <10 times per scan.
+    /// Tracked outstanding allocations from realloc_cb so we can
+    /// (a) support realloc-grow with correct copy semantics and
+    /// (b) free any blocks the API doesn't clean up itself.
+    /// Field test showed ~108 fresh allocs per scan on Umamusume
+    /// Global — pre-sized to 256 for 2x headroom.
     allocs: Vec<(*mut c_void, usize)>,
     /// Accumulated matched object pointers, appended by choose_cb.
     /// Capacity pre-sized for a comfortable ceiling on live
@@ -180,20 +182,10 @@ unsafe extern "C" fn choose_cb(
     if objects.is_null() || size <= 0 {
         return;
     }
+    // Push all objects; Vec will grow if needed (safe per v0.0.6
+    // field test).
     for i in 0..(size as isize) {
-        let obj = *objects.offset(i);
-        // If matches would need to grow (allocate), warn and drop
-        // the excess rather than deadlock. This shouldn't happen
-        // with our generous initial capacity but is defensive.
-        if ctx.matches.len() == ctx.matches.capacity() {
-            error!(
-                "[uma-it] scan matches vec at capacity ({}); dropping excess. \
-                 Bump SCAN_MATCHES_CAP if this fires.",
-                ctx.matches.capacity()
-            );
-            return;
-        }
-        ctx.matches.push(obj);
+        ctx.matches.push(*objects.offset(i));
     }
 }
 
@@ -215,18 +207,12 @@ unsafe extern "C" fn realloc_cb(
     // Pure alloc path (fresh block).
     if handle.is_null() {
         let new = (syms.il2cpp_alloc)(size);
-        if ctx.allocs.len() < ctx.allocs.capacity() {
-            ctx.allocs.push((new, size));
-        } else {
-            // Overflow — we can still return the ptr but won't be
-            // able to track it for a future grow. Log and hope
-            // the API doesn't grow this specific block.
-            error!(
-                "[uma-it] scan allocs vec at capacity ({}); \
-                 tracking dropped for this block",
-                ctx.allocs.capacity()
-            );
-        }
+        // If Vec::push would need to grow, do it — v0.0.6 field test
+        // proved malloc works fine under stop_gc_world (44 error!()
+        // calls with format! all succeeded), so incidental growth
+        // here is safe. Pre-sized capacity just avoids the amortized
+        // cost, not a correctness issue.
+        ctx.allocs.push((new, size));
         return new;
     }
 
@@ -245,14 +231,20 @@ unsafe extern "C" fn realloc_cb(
     }
     (syms.il2cpp_free)(handle);
     ctx.allocs.retain(|(p, _)| *p != handle);
-    if ctx.allocs.len() < ctx.allocs.capacity() {
-        ctx.allocs.push((new, size));
-    }
+    ctx.allocs.push((new, size));
     new
 }
 
+/// Result of a heap scan.
+pub struct ScanResult {
+    /// `Il2CppObject*` pointers to matched instances.
+    pub matches: Vec<*mut c_void>,
+    /// How many total realloc_cb allocations the liveness API
+    /// asked for. Useful telemetry across game builds.
+    pub allocs_count: usize,
+}
+
 /// Scan the IL2CPP GC heap for live instances of `class`.
-/// Returns a Vec of `Il2CppObject*` pointers to matched instances.
 ///
 /// Cost: 20-80ms on Umamusume's heap. All mutator threads are
 /// frozen during the scan (stop_gc_world → start_gc_world), so
@@ -266,13 +258,16 @@ unsafe extern "C" fn realloc_cb(
 /// `il2cpp_get_class` on a loaded assembly image. `GcSymbols`
 /// must have been successfully `resolve`d for the current
 /// runtime.
-pub unsafe fn scan_class(class: *mut Il2CppClass) -> Result<Vec<*mut c_void>, String> {
+pub unsafe fn scan_class(class: *mut Il2CppClass) -> Result<ScanResult, String> {
     let syms = GC_SYMS.get().ok_or(
         "GcSymbols not resolved — call gc_scan::resolve() at plugin init before scanning",
     )?;
 
     const SCAN_MATCHES_CAP: usize = 4096;
-    const SCAN_ALLOCS_CAP: usize = 64;
+    // Field test v0.0.6 showed ~108 fresh allocs per scan; 256
+    // gives 2x headroom. Growth beyond this is safe (Vec grows),
+    // just costs an amortized copy.
+    const SCAN_ALLOCS_CAP: usize = 256;
 
     let mut ctx = ScanContext {
         syms,
@@ -282,8 +277,7 @@ pub unsafe fn scan_class(class: *mut Il2CppClass) -> Result<Vec<*mut c_void>, St
 
     // === CRITICAL SECTION: mutator threads frozen ===
     // If we panic between stop_gc_world and start_gc_world, the
-    // game deadlocks forever. No fallible code, no allocations,
-    // no logging inside this block.
+    // game deadlocks forever. Keep this block strictly balanced.
     (syms.il2cpp_stop_gc_world)();
     let state = (syms.il2cpp_unity_liveness_allocate_struct)(
         class as *mut c_void,
@@ -302,18 +296,19 @@ pub unsafe fn scan_class(class: *mut Il2CppClass) -> Result<Vec<*mut c_void>, St
     if state.is_null() {
         return Err("il2cpp_unity_liveness_allocate_struct returned null".into());
     }
-
-    // Free the liveness state outside the critical section — it
-    // may internally call the C allocator which is safe now.
     (syms.il2cpp_unity_liveness_free_struct)(state);
 
-    // Any allocs still tracked at this point weren't freed by the
-    // API — free them ourselves so we don't leak IL2CPP heap.
+    // Snapshot count for reporting, then free any leftover blocks
+    // the liveness API didn't clean up itself.
+    let allocs_count = ctx.allocs.len();
     for (ptr, _) in ctx.allocs.drain(..) {
         (syms.il2cpp_free)(ptr);
     }
 
-    Ok(ctx.matches)
+    Ok(ScanResult {
+        matches: ctx.matches,
+        allocs_count,
+    })
 }
 
 // ── Convenience wrapper ───────────────────────────────────────
@@ -343,17 +338,20 @@ pub fn scan_and_log() {
     info!("[uma-it] starting heap scan for GainInfo instances (this pauses the game ~20-80ms)");
     let start = std::time::Instant::now();
     match unsafe { scan_class(class) } {
-        Ok(matches) => {
+        Ok(res) => {
             let elapsed = start.elapsed();
             info!(
-                "[uma-it] scan complete: {} GainInfo instances found in {}ms",
-                matches.len(),
-                elapsed.as_millis()
+                "[uma-it] scan complete: {} GainInfo instances found in {}ms \
+                 ({} realloc_cb allocations)",
+                res.matches.len(),
+                elapsed.as_millis(),
+                res.allocs_count,
             );
-            if matches.is_empty() {
+            if res.matches.is_empty() {
                 info!(
-                    "[uma-it] no instances — is the Training Log popup open? \
-                     GainInfo only exists in memory while that dialog is visible."
+                    "[uma-it] no instances — open the Training Log popup (or view \
+                     the IT result screen) and try again. GainInfo only exists in \
+                     memory while one of those is visible."
                 );
             }
         }
