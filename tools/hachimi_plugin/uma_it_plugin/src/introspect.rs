@@ -69,6 +69,11 @@ pub struct MetaSymbols {
     /// For SZARRAY element striding of struct arrays.
     pub il2cpp_class_value_size:
         unsafe extern "C" fn(klass: *mut Il2CppClass, out_align: *mut u32) -> u32,
+    /// True if the class is a value type (struct), false if it's
+    /// a reference type (class). Determines SZARRAY element stride:
+    /// value type → il2cpp_class_value_size; reference type → 8
+    /// (pointer size on x64).
+    pub il2cpp_class_is_valuetype: unsafe extern "C" fn(klass: *mut Il2CppClass) -> bool,
 }
 
 static META_SYMS: OnceCell<MetaSymbols> = OnceCell::new();
@@ -130,6 +135,10 @@ pub unsafe fn resolve(api: &Api) -> Result<&'static MetaSymbols, String> {
         il2cpp_class_value_size: sym!(
             "il2cpp_class_value_size",
             unsafe extern "C" fn(*mut Il2CppClass, *mut u32) -> u32
+        ),
+        il2cpp_class_is_valuetype: sym!(
+            "il2cpp_class_is_valuetype",
+            unsafe extern "C" fn(*mut Il2CppClass) -> bool
         ),
     };
     let _ = META_SYMS.set(syms);
@@ -608,26 +617,37 @@ unsafe fn render_field(obj: *mut c_void, f: &Field) -> String {
             }
             let elem_ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(elem_class));
             let elem_name = cstr_or_empty((syms.il2cpp_class_get_name)(elem_class));
-            let elem_size = (syms.il2cpp_class_value_size)(elem_class, std::ptr::null_mut());
+            let elem_is_value = (syms.il2cpp_class_is_valuetype)(elem_class);
+            // Stride depends on whether elements are inline (structs)
+            // or references (pointers to heap objects). v0.0.7d
+            // used il2cpp_class_value_size for both, which was
+            // wrong for reference-typed arrays (pointer stride is 8,
+            // but value_size returns the boxed instance size).
+            let stride: usize = if elem_is_value {
+                (syms.il2cpp_class_value_size)(elem_class, std::ptr::null_mut()) as usize
+            } else {
+                8 // pointer size on x64
+            };
             let data_start = (ptr as *const u8).offset(32);
-            // Walk up to 3 elements as a POC. v0.0.7e handles full
-            // enumeration into JSON.
-            let show = len.min(3);
+            let show = len.min(5);
+            let kind_marker = if elem_is_value { "struct" } else { "ref" };
             let mut lines = vec![format!(
-                "[{}.{} × {} @ {:p}, elem_size={}]:",
-                elem_ns, elem_name, len, ptr, elem_size
+                "[{}.{} × {} ({}) @ {:p}, stride={}]:",
+                elem_ns, elem_name, len, kind_marker, ptr, stride
             )];
             for i in 0..show {
-                let elem_ptr = data_start.offset((i * elem_size as usize) as isize) as *mut c_void;
-                // Try treating as obscured struct first (single int).
-                if let Some(v) = try_decode_inline_obscured_int(elem_ptr, 0, elem_class) {
-                    lines.push(format!("    [{}] = {} (obscured struct)", i, v));
+                let slot = data_start.offset((i * stride) as isize);
+                let rendered = if elem_is_value {
+                    render_inline_element(slot as *mut c_void, elem_class)
                 } else {
-                    // Log first N bytes as hex for eyeballing.
-                    let take = (elem_size as usize).min(24);
-                    let bytes = std::slice::from_raw_parts(elem_ptr as *const u8, take);
-                    lines.push(format!("    [{}] @ {:p}, first_bytes={:02x?}", i, elem_ptr, bytes));
-                }
+                    let elem_ptr = *(slot as *const *mut c_void);
+                    if elem_ptr.is_null() {
+                        "null".into()
+                    } else {
+                        render_object_element(elem_ptr, elem_class)
+                    }
+                };
+                lines.push(format!("    [{}] = {}", i, rendered));
             }
             if len > show {
                 lines.push(format!("    ... {} more", len - show));
@@ -644,4 +664,54 @@ unsafe fn cstr_or_empty(p: *const i8) -> String {
     } else {
         CStr::from_ptr(p).to_string_lossy().into_owned()
     }
+}
+
+/// Render a single reference-typed array element as `{f1=v1, f2=v2, ...}`.
+/// Walks primitive fields on the element's class. For non-primitive
+/// fields (nested class/struct/array), logs a placeholder.
+///
+/// `elem_ptr` is the dereferenced pointer to an Il2CppObject of
+/// `elem_class`. Field offsets on `elem_class` are OBJECT-relative
+/// (include the 16-byte header) since it's a reference type.
+unsafe fn render_object_element(elem_ptr: *mut c_void, elem_class: *mut Il2CppClass) -> String {
+    let fields = match describe_fields(elem_class) {
+        Ok(f) => f,
+        Err(_) => return format!("<obj @ {:p} (fields?)>", elem_ptr),
+    };
+    let mut parts = Vec::with_capacity(fields.len());
+    for f in &fields {
+        if let Some(v) = read_primitive(elem_ptr, f.offset, f.type_enum) {
+            parts.push(format!("{}={}", f.name, v));
+        } else {
+            parts.push(format!("{}=<t{}>", f.name, f.type_enum));
+        }
+    }
+    format!("{{{}}}", parts.join(", "))
+}
+
+/// Render a single value-typed array element (inline struct at
+/// `elem_ptr`, no header). Tries obscured-int shape first, else
+/// walks the struct's primitive fields with -16 offset adjust.
+unsafe fn render_inline_element(elem_ptr: *mut c_void, elem_class: *mut Il2CppClass) -> String {
+    if let Some(v) = try_decode_inline_obscured_int(elem_ptr, 0, elem_class) {
+        return format!("{} (obscured struct)", v);
+    }
+    let fields = match describe_fields(elem_class) {
+        Ok(f) => f,
+        Err(_) => return format!("<struct @ {:p} (fields?)>", elem_ptr),
+    };
+    // For value-type fields, il2cpp_field_get_offset returns
+    // offsets biased by the Il2CppObject header (16). When reading
+    // inline (no header), subtract 16.
+    const HDR: i32 = 16;
+    let mut parts = Vec::with_capacity(fields.len());
+    for f in &fields {
+        let use_off = if f.offset >= HDR { f.offset - HDR } else { f.offset };
+        if let Some(v) = read_primitive(elem_ptr, use_off, f.type_enum) {
+            parts.push(format!("{}={}", f.name, v));
+        } else {
+            parts.push(format!("{}=<t{}>", f.name, f.type_enum));
+        }
+    }
+    format!("{{{}}}", parts.join(", "))
 }
