@@ -1,8 +1,9 @@
 [package]
 name = "uma_it_plugin"
-version = "0.0.9"
-# Cargo version stays at 0.0.9 across v0.0.9a/v0.0.9b interims;
-# git tag tracks the release iteration (see tags hachimi-v0.0.9a...).
+version = "1.0.0"
+# v1.0.0: full extractor JSON parity + auto-upload + minimal
+# settings UI. From here on, semver: bump patch for fixes, minor
+# for additive features, major for breaking capture-schema changes.
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "Hachimi-Edge plugin that captures Umamusume Independent Training runs."

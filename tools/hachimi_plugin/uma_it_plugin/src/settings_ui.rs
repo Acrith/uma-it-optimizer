@@ -26,10 +26,9 @@ use once_cell::sync::Lazy;
 
 use crate::config;
 
-/// Text-edit buffer sizes. Chosen wide enough that any realistic
-/// API URL or token fits comfortably. Tokens from the site are
-/// 43-char URL-safe base64 currently; 128 gives room to grow.
-const URL_BUF_CAP: usize = 256;
+/// Token buffer size. Site tokens are ~43-char URL-safe base64
+/// currently; 128 gives room to grow. Only one edit field remains
+/// after v0.0.9b dropped the URL from the UI.
 const TOKEN_BUF_CAP: usize = 128;
 
 struct UiState {
@@ -37,7 +36,6 @@ struct UiState {
     /// C string. First frame loads from persisted config; subsequent
     /// frames leave alone so the user's in-progress edits survive
     /// menu reopen.
-    url_buf: [u8; URL_BUF_CAP],
     token_buf: [u8; TOKEN_BUF_CAP],
     /// Set on first render — we need Api available to load config,
     /// which requires setup() to have completed. Fine to lazily
@@ -52,7 +50,6 @@ struct UiState {
 impl UiState {
     const fn new() -> Self {
         Self {
-            url_buf: [0u8; URL_BUF_CAP],
             token_buf: [0u8; TOKEN_BUF_CAP],
             loaded_from_disk: false,
             status_line: String::new(),
@@ -61,9 +58,6 @@ impl UiState {
 
     /// Read what the user has typed as a Rust String, stopping at
     /// the first NUL. imgui always null-terminates on edit.
-    fn url_as_string(&self) -> String {
-        cstr_to_string(&self.url_buf)
-    }
     fn token_as_string(&self) -> String {
         cstr_to_string(&self.token_buf)
     }
@@ -120,42 +114,33 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
     // Lazy load-from-disk on first render. We can't do it in
     // register() because at that point config::init() may not have
     // been called yet if register runs before setup's config::init
-    // call — cheap to defer.
+    // call — cheap to defer. Only the token is bound to a UI
+    // widget; the URL stays in the on-disk config unchanged.
     if !st.loaded_from_disk {
         let cfg = config::get();
-        write_into_cstr_buf(&mut st.url_buf, &cfg.api_url);
         write_into_cstr_buf(&mut st.token_buf, &cfg.api_token);
         st.loaded_from_disk = true;
     }
 
-    // No heading — gui_ui_heading renders at page-title size which
-    // reads as visually broken inside a narrow menu section. The
-    // label "IT auto-upload" on the small hint below is enough to
-    // orient the user, and the URL/Token labels self-describe the
-    // fields. (Earlier v0.0.9 used gui_ui_heading and the text
-    // wrapped mid-word — see git log for the screenshot.)
-
-    // One-line hint. Keep short — Hachimi's menu is narrow and any
-    // wrap looks messy.
-    if let Some(small) = api.gui_ui_small {
-        let s = CString::new("IT auto-upload — token: umaladder.moe/settings/tokens").unwrap();
-        unsafe { small(ui, s.as_ptr()); }
-    }
-
-    // URL row
-    if let Some(label) = api.gui_ui_label {
-        let s = CString::new("URL").unwrap();
-        unsafe { label(ui, s.as_ptr()); }
-    }
-    if let Some(edit) = api.gui_ui_text_edit_singleline {
-        unsafe {
-            edit(
-                ui,
-                st.url_buf.as_mut_ptr() as *mut c_char,
-                URL_BUF_CAP,
-            );
-        }
-    }
+    // Absolute minimum UI: Token label + edit + Save. Everything
+    // else was cut based on testing:
+    //
+    // - gui_ui_heading (v0.0.9): renders at page-title size, wraps
+    //   mid-word in a narrow menu → dropped.
+    // - gui_ui_small hint text (v0.0.9a): Hachimi's small renders
+    //   with justified letter-spacing when the string wraps, so
+    //   the first line stretches to " I T   a u t o - u p l o a d "
+    //   — visually broken. Also the URL in the hint wasn't
+    //   clickable anyway → dropped.
+    // - URL field (v0.0.9a): the API endpoint is always the
+    //   production URL for community users. Power users running a
+    //   dev server can edit `uma_it_plugin_config.json` by hand.
+    //   Keeping it out of the UI removes two widgets and one label
+    //   → dropped.
+    //
+    // What's left: one text edit for the token, a Save button, and
+    // (conditionally) a status line — everything a first-time user
+    // needs to enable auto-upload.
 
     // Token row
     if let Some(label) = api.gui_ui_label {
@@ -172,15 +157,17 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         }
     }
 
-    // Save button
+    // Save button — updates ONLY api_token in the persisted
+    // config, keeping whatever api_url is already there (default,
+    // or a hand-edited dev override). Without this merge the URL
+    // would get blanked because url_buf is no longer bound to any
+    // UI widget.
     if let Some(button) = api.gui_ui_button {
         let s = CString::new("Save").unwrap();
         let clicked = unsafe { button(ui, s.as_ptr()) };
         if clicked {
-            let new_cfg = config::Config {
-                api_url: st.url_as_string(),
-                api_token: st.token_as_string(),
-            };
+            let mut new_cfg = config::get();
+            new_cfg.api_token = st.token_as_string();
             match config::set(new_cfg) {
                 Ok(()) => {
                     st.status_line = "Saved.".to_string();
@@ -194,12 +181,13 @@ extern "C" fn render_section(ui: *mut c_void, _userdata: *mut c_void) {
         }
     }
 
-    // Status line inline (no separator above — the section itself
-    // is already visually separated from other menu content).
+    // Status line, one-word/short-phrase only so it doesn't wrap
+    // and trigger the justified-stretch. Using gui_ui_label rather
+    // than gui_ui_small for the same reason.
     if !st.status_line.is_empty() {
-        if let Some(small) = api.gui_ui_small {
+        if let Some(label) = api.gui_ui_label {
             if let Ok(cs) = CString::new(st.status_line.as_str()) {
-                unsafe { small(ui, cs.as_ptr()); }
+                unsafe { label(ui, cs.as_ptr()); }
             }
         }
     }

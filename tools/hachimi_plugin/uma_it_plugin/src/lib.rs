@@ -1,4 +1,4 @@
-//! uma-it Hachimi plugin — v0.0.9 (auto-upload to /api/runs).
+//! uma-it Hachimi plugin — v1.0.0 (auto-upload to /api/runs).
 //!
 //! Adds a Hachimi in-game menu entry ("Extract IT Run") that walks
 //! the IL2CPP GC heap for live IT gameplay classes, serializes them
