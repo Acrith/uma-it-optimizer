@@ -1,116 +1,89 @@
-# uma-it Hachimi plugin
+# uma-it plugin
 
-A [Hachimi-Edge](https://github.com/kairusds/Hachimi-Edge) plugin
-that captures Umamusume Independent Training runs directly from
-inside the game, without needing the separate `uma-it-extract.exe`
-tool.
+Records the Independent Training run you just finished to a local JSON
+file, and (optionally) uploads it to
+[training.umaladder.moe](https://training.umaladder.moe) — same output
+schema as `uma-it-extract.exe`, but the trigger button lives inside the
+game menu instead of a separate program.
 
-**Status: v0.0.6 — heap-scan proof of concept.** The plugin
-registers an "Extract IT Run" entry in Hachimi's in-game menu.
-When clicked, it walks the IL2CPP GC heap for live instances of
-`Gallop.ObscuredIdleSingleModeGainInfo` (the IT-specific data
-class the Frida extractor scans) and logs the count. Same
-signal as the extractor, without needing a separate .exe.
+**Status: v1.0.2 — stable.** Full field-level parity with the `.exe`
+extractor: all seven data classes (gains, support-card gains, factor
+gains, chara, race history × 2, and the two direct parents with their
+grandparent lineage) are walked and serialized under the same JSON
+keys the web app already reads.
 
-Only counts for now — no field walking or upload. Those land in
-v0.0.7 and v0.0.8 respectively.
+Ships as a DLL plugin loaded by [Hachimi-Edge](https://github.com/kairusds/Hachimi-Edge),
+which is the platform users already have for translations. If Hachimi
+is set up for you, this plugin is one drop-in DLL plus one line of
+config.
 
-Why manual trigger (menu click) over auto-detect:
-- A GC scan freezes all mutator threads for 20-80ms — never run
-  it per-frame
-- Auto-detecting Training Log open would require hooking specific
-  IL2CPP methods that Cygames renames across game updates
-- The heap-scan approach only depends on the data class name
-  (stable across builds), making the plugin dramatically more
-  update-resilient
+## For players
 
-Prior versions took the hook-based path and hit that fragility
-head-on:
-- v0.0.1..v0.0.3: hooked `DialogTrainedCharacterDetail::CreateSetupParameter`
-  (Uma-ISC's older-build reference). Installed but fired on the
-  wrong dialog (Trained Umas viewer, not IT log).
-- v0.0.4: hooked `GainInfo::.ctor` — trampoline was `Object.ctor`,
-  6,500 fires/sec, 5fps game.
-- v0.0.5: added declared-on-class check → safe no-op (GainInfo
-  has no declared ctor to hook). Confirmed hook-based path is a
-  dead end.
-
-## For testers (v0.0.6)
-
-You need Hachimi-Edge already installed and working for
-translations. If translations don't work, this plugin won't work
-either.
+**One-time setup:**
 
 1. Download `uma_it_plugin.dll` from the
    [Releases page](https://github.com/Acrith/uma-it-optimizer/releases)
-   (look for a `hachimi-v*` tag).
-2. Drop it in the same folder as your Hachimi DLL (usually the
-   Umamusume game folder next to `UmamusumePrettyDerby.exe`, where
-   Hachimi's `dxgi.dll` lives).
-3. Open Hachimi's `config.json` (usually in `<game folder>/hachimi/`)
-   and find the existing `load_libraries` field — it's a top-level
-   array, not nested under `windows`. Add our DLL to it:
+   (look for a `hachimi-v*` tag; the newest one wins).
+2. Right-click → **Properties** → tick **Unblock** at the bottom of
+   the General tab → **OK**. (Windows blocks downloaded DLLs from
+   loading unless you allow them.)
+3. Drop the DLL in the game folder — same place your Hachimi DLL
+   lives.
+4. Open `<game folder>/hachimi/config.json` and add the DLL to the
+   top-level `load_libraries` array:
    ```json
    "load_libraries": ["uma_it_plugin.dll"],
    ```
-   If the field already had entries, just add ours to the array.
-   Also flip `enable_file_logging` to `true` in the same file so
-   Hachimi writes a `hachimi.log` you can grep — plugin output
-   otherwise only shows in the in-game debug console.
-4. Launch the game. Complete an IT run, reach the Training Log
-   popup screen.
-5. Launch the game. On plugin load you should see:
-   ```
-   [uma-it] plugin loaded (v0.0.6 heap-scan POC)
-   [uma-it] target class resolved: Gallop.ObscuredIdleSingleModeGainInfo @ 0x...
-   [uma-it] IL2CPP liveness API resolved (Unity 2021.2+ path)
-   [uma-it] setup complete — 'Extract IT Run' available in Hachimi menu
-   ```
-6. Open Hachimi's in-game menu (**F1** by default on PC). You
-   should see a new entry: **Extract IT Run**.
-7. To test the scan on an empty game state (Training Log NOT
-   open — e.g. from the home screen), click **Extract IT Run**.
-   Expect:
-   ```
-   [uma-it] starting heap scan for GainInfo instances (this pauses the game ~20-80ms)
-   [uma-it] scan complete: 0 GainInfo instances found in NNms
-   [uma-it] no instances — is the Training Log popup open? ...
-   ```
-   A visible ~50ms stutter on click is expected and normal.
-8. To test the scan on the target state: complete an IT, open
-   the **Training Log** popup, then open Hachimi menu → click
-   **Extract IT Run**. Expect:
-   ```
-   [uma-it] scan complete: N GainInfo instances found in NNms
-   ```
-   where N > 0. If N == 0 on the Training Log screen, that means
-   the class isn't populated there and we need to reconsider.
+   If the array already has entries, just add ours alongside them.
 
-9. **Report back** — the counts (empty vs Training Log), the
-   scan durations, and whether you saw any framerate weirdness
-   OTHER than the expected click-time stutter.
+**Every run:**
+
+1. Complete an IT run.
+2. Stay on the **Training Log** pop-up (the screen right after IT
+   finishes, before you press OK — any tab is fine).
+3. Open the Hachimi menu (**F1** on PC), click **Extract IT Run**
+   under the Plugins section.
+4. A brief (~50 ms) stutter on click is normal — that's the heap
+   scan.
+
+The run is saved to `<game folder>/hachimi/IT/` as
+`<timestamp>_scen<N>_uma<N>.json`. Filename matches the `.exe`
+extractor's convention so a shared runs folder sorts cleanly.
+
+## Auto-upload (optional)
+
+The Plugins section also exposes an **IT Token** field. Paste a token
+from [training.umaladder.moe/settings/tokens](https://training.umaladder.moe/settings/tokens)
+and click **Save**. Every future extract also POSTs the same JSON to
+`/api/runs`; a Hachimi toast reports success, duplicate, or failure.
+
+**The local file is always written first**, before the upload. A failed
+POST can never cost you a run — the JSON is safe on disk.
+
+Config persists at `<game folder>/hachimi/uma_it_plugin_config.json`
+in the same shape the `.exe` extractor uses (`api_url` + `api_token`),
+so you can share a token file between the two if you use both. The URL
+defaults to production; power users running a dev server can edit
+`api_url` by hand.
 
 ## Failure modes to watch for
 
-- **`Hachimi-Edge too old? Need VERSION >= 3`** — update Hachimi-Edge.
-- **`Gallop.ObscuredIdleSingleModeGainInfo class not found`** —
-  IL2CPP class was renamed in a game update (rare — stable
-  across builds). Share log; we'll retarget.
-- **`il2cpp_resolve_symbol(...) returned null`** — Unity < 2021.2
-  or a stripped IL2CPP build. Share the specific symbol name in
-  the message; we may have to switch to the legacy liveness API.
-- **`gui_register_menu_item returned false`** — Hachimi's menu
-  system isn't ready at our init time. Plugin falls back to
-  registering via `game_initialized` — should work but if the
-  menu entry never appears, share the log.
-- **Menu entry appears but game freezes on click** — the
-  stop_gc_world / start_gc_world pair got unbalanced. Bug in
-  the plugin; report the log immediately (game will remain
-  frozen until killed).
-- **Plugin doesn't log at all** — Hachimi didn't load it. Check
-  the DLL is in the right folder and appears in the top-level
-  `load_libraries` array (not nested under `windows`) exactly as
-  `uma_it_plugin.dll`.
+- **Plugin doesn't log at all** — Hachimi didn't load the DLL. Check
+  it's in the same folder as Hachimi's own DLL and that
+  `uma_it_plugin.dll` appears in the top-level `load_libraries`
+  array (not nested under `windows`).
+- **`Hachimi too old? Need VERSION >= 3`** — update your Hachimi
+  install.
+- **Menu entry missing** — Hachimi's menu system wasn't ready at our
+  init time. The plugin falls back to registering via
+  `game_initialized`, so this should self-heal on the next launch.
+- **Upload says HTTP 400 or 401** — token typo or the URL got
+  corrupted. Re-paste the token; if the URL was hand-edited, restore
+  it to `https://training.umaladder.moe` in the config file.
+- **Everything worked but nothing appears on the site** — verify the
+  Training Log pop-up was actually open when you clicked; the plugin
+  reads that screen and nothing else. Local JSON is your fallback:
+  upload it manually via the site's Upload page.
 
 ## For developers
 
@@ -127,15 +100,31 @@ cargo build --release --target x86_64-pc-windows-msvc
 **On Linux (cross-compile):**
 ```
 rustup target add x86_64-pc-windows-msvc
-# You'll need cargo-xwin or MinGW cross-toolchain; simplest is:
-cargo install cargo-xwin
+cargo install cargo-xwin       # first time only
 cd tools/hachimi_plugin
 cargo xwin build --release --target x86_64-pc-windows-msvc
 ```
 
-**Release cut:** tag the repo with `hachimi-v0.0.X`. GitHub Actions
-builds on `windows-latest` and attaches `uma_it_plugin.dll` to the
-release automatically.
+**Release cut:** tag the repo with `hachimi-v1.0.X`. GitHub Actions
+builds on `windows-latest`, attaches `uma_it_plugin.dll` to the
+release, and marks the release as *not-latest* so extractor releases
+keep the `/releases/latest/download/…` pointer.
+
+### Version history (brief)
+
+- v0.0.1..v0.0.5 — hook-based prototypes. All failed for different
+  reasons (wrong dialog, framerate collapse, unresolvable ctors).
+- v0.0.6 — pivoted to IL2CPP GC heap-scan. Counting live instances
+  of the IT data class, no field walking.
+- v0.0.7 — walked scalar fields to JSON.
+- v0.0.8 — extended walk to include support cards, race history,
+  factor gains, and both parents with their grandparent lineage.
+  Full field-level parity with the `.exe` extractor confirmed via
+  side-by-side comparison.
+- v0.0.9 — first HTTP POST to `/api/runs`, extractor-style
+  filename, external-file config.
+- v1.0.0..v1.0.2 — in-game settings section for the token, minimal
+  UI, single-section layout.
 
 ### Layout
 
@@ -149,7 +138,7 @@ tools/hachimi_plugin/
 │   └── src/{lib,api,entry,ffi,log}.rs
 └── uma_it_plugin/           # our cdylib
     ├── Cargo.toml
-    └── src/lib.rs
+    └── src/{lib,config,http,settings_ui,gc_scan,introspect,json}.rs
 ```
 
 ### License

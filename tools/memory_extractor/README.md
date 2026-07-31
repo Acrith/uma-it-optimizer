@@ -58,8 +58,8 @@ Enable auto-upload? [Y/n]:
 ```
 
 - Answer **Y** → it prints the token page URL, you sign in with Discord,
-  click *Issue new token*, paste the `ext_…` string, done. Every future
-  run auto-uploads.
+  click **Create token**, copy the string it shows and paste it into the
+  extractor. Every future run auto-uploads.
 - Answer **n** (or paste an empty token) → local-only mode, no upload.
   The extractor won't ask again.
 
@@ -80,7 +80,7 @@ if you're curious). The launcher runs the Windows extractor under
 your Proton prefix's wine, which Frida handles natively.
 
 **Prerequisites**
-- Uma Musume installed on Steam and launched at least once (Steam
+- UM:PD installed on Steam and launched at least once (Steam
   creates the Proton prefix the launcher needs)
 - Python 3 (`python --version` — most distros have this out of the box)
 - `curl` or `wget` (used once to grab the extractor .exe)
