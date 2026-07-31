@@ -1,8 +1,6 @@
 [package]
 name = "uma_it_plugin"
-version = "0.0.7"
-# v0.0.7b in git tag; keeping Cargo version at 0.0.7 since crate
-# version can't easily suffix without breaking semver expectations.
+version = "0.0.8"
 edition = "2021"
 license = "GPL-3.0-or-later"
 description = "Hachimi-Edge plugin that captures Umamusume Independent Training runs."

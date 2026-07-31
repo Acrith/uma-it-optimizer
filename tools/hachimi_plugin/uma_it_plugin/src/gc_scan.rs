@@ -349,6 +349,26 @@ pub fn add_target(t: TargetClass) {
     }
 }
 
+/// Snapshot of registered targets (label, display, class ptr,
+/// pick_by) for a caller that wants to iterate without holding
+/// the lock. Cheap — we clone the &'static str refs and the ptr.
+pub fn snapshot_targets() -> Vec<TargetClass> {
+    let Some(cell) = TARGET_CLASSES.get() else { return Vec::new(); };
+    let guard = match cell.lock() {
+        Ok(g) => g,
+        Err(_) => return Vec::new(),
+    };
+    guard
+        .iter()
+        .map(|t| TargetClass {
+            label: t.label,
+            display: t.display,
+            class: t.class,
+            pick_by: t.pick_by,
+        })
+        .collect()
+}
+
 /// One-shot: iterate every registered target class, scan the
 /// heap for its live instances, and dump the first match of
 /// each. v0.0.7g refactors this to build a JSON tree and write

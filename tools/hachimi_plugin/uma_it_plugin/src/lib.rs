@@ -37,6 +37,7 @@ use log::{error, info};
 
 mod gc_scan;
 mod introspect;
+mod json;
 
 edge_sdk::declare_plugin! {
     fn init() -> bool {
@@ -196,13 +197,98 @@ unsafe fn setup() -> Result<(), String> {
 }
 
 /// Menu callback. Fires from Hachimi's GUI thread when the user
-/// clicks "Extract IT Run". Runs a heap scan and logs the count.
-/// v0.0.7 will walk fields on each match and serialize; v0.0.8
-/// POSTs the run to /api/runs.
+/// clicks "Extract IT Run".
+///
+/// v0.0.8 pipeline: run heap scans (with log-based dump for
+/// visibility), then build a JSON capture and write it to disk.
 ///
 /// This is `extern "C"` (not `unsafe extern "C"`) because
 /// `GuiMenuCallback` in edge-sdk is defined that way. The scan
 /// itself is unsafe, but the callback wrapper isn't.
 extern "C" fn on_menu_click(_userdata: *mut c_void) {
     gc_scan::scan_and_log();
+    if let Err(msg) = write_capture_to_disk() {
+        error!("[uma-it] failed to write capture file: {msg}");
+    }
+}
+
+/// Re-scan every registered class and build a JSON capture, then
+/// write it to `<game>/hachimi/uma_it_capture.json`.
+///
+/// This is a SECOND set of scans on top of gc_scan::scan_and_log's
+/// dumps. Doubles the click-to-file latency but keeps the log
+/// dump as a distinct debug artifact — we can drop the log-based
+/// dump later once the JSON is confirmed correct across builds.
+fn write_capture_to_disk() -> Result<(), String> {
+    use json::JsonValue;
+    let api = Api::get();
+    let get_base_dir = api
+        .hachimi_get_base_dir
+        .ok_or("hachimi_get_base_dir missing from vtable")?;
+    let base_dir_ptr = unsafe { get_base_dir() };
+    if base_dir_ptr.is_null() {
+        return Err("hachimi_get_base_dir returned null".into());
+    }
+    let base_dir = unsafe { std::ffi::CStr::from_ptr(base_dir_ptr) }
+        .to_string_lossy()
+        .into_owned();
+
+    let targets = gc_scan::snapshot_targets();
+    if targets.is_empty() {
+        return Err("no target classes registered".into());
+    }
+    let mut root: Vec<(String, JsonValue)> = Vec::new();
+    root.push(("plugin_version".into(), JsonValue::string("hachimi-v0.0.8")));
+
+    let mut per_class_counts: Vec<(String, JsonValue)> = Vec::new();
+    for target in &targets {
+        if target.class.is_null() {
+            continue;
+        }
+        let scan = unsafe { gc_scan::scan_class(target.class) };
+        let res = match scan {
+            Ok(r) => r,
+            Err(msg) => {
+                error!("[uma-it] rescan for JSON failed on [{}]: {msg}", target.label);
+                continue;
+            }
+        };
+        per_class_counts.push((
+            target.label.to_string(),
+            JsonValue::Int(res.matches.len() as i64),
+        ));
+        if res.matches.is_empty() {
+            root.push((target.label.to_string(), JsonValue::Null));
+            continue;
+        }
+        // For classes with a picker (SingleModeChara), only emit
+        // the picked one as a single object. Others: emit array
+        // of all walked matches (matches the extractor's format).
+        let value = match target.pick_by {
+            Some(field_name) => {
+                let picked = unsafe {
+                    introspect::pick_best_by_int_field(&res.matches, field_name)
+                        .map(|(p, _)| p)
+                        .unwrap_or(res.matches[0])
+                };
+                unsafe { introspect::walk_to_json(picked) }
+            }
+            None => {
+                let items: Vec<JsonValue> = res
+                    .matches
+                    .iter()
+                    .map(|&obj| unsafe { introspect::walk_to_json(obj) })
+                    .collect();
+                JsonValue::Array(items)
+            }
+        };
+        root.push((target.label.to_string(), value));
+    }
+    root.push(("_scan_counts".into(), JsonValue::Object(per_class_counts)));
+
+    let json = JsonValue::Object(root).to_pretty();
+    let path = format!("{}\\uma_it_capture.json", base_dir.trim_end_matches(['/', '\\']));
+    std::fs::write(&path, &json).map_err(|e| format!("write {}: {}", path, e))?;
+    info!("[uma-it] wrote capture ({} bytes) to {}", json.len(), path);
+    Ok(())
 }

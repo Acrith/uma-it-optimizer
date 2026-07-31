@@ -21,7 +21,7 @@ use std::ffi::{c_void, CStr, CString};
 
 use edge_sdk::api::Api;
 use edge_sdk::ffi::{
-    Il2CppClass, Il2CppTypeEnum, Il2CppTypeEnum_IL2CPP_TYPE_BOOLEAN,
+    Il2CppClass, Il2CppString, Il2CppTypeEnum, Il2CppTypeEnum_IL2CPP_TYPE_BOOLEAN,
     Il2CppTypeEnum_IL2CPP_TYPE_CHAR, Il2CppTypeEnum_IL2CPP_TYPE_CLASS,
     Il2CppTypeEnum_IL2CPP_TYPE_I1, Il2CppTypeEnum_IL2CPP_TYPE_I2,
     Il2CppTypeEnum_IL2CPP_TYPE_I4, Il2CppTypeEnum_IL2CPP_TYPE_I8,
@@ -33,6 +33,8 @@ use edge_sdk::ffi::{
 };
 use log::{error, info};
 use once_cell::sync::OnceCell;
+
+use crate::json::JsonValue;
 
 // ── Resolved metadata-inspection symbols ──────────────────────
 
@@ -704,6 +706,234 @@ unsafe fn cstr_or_empty(p: *const i8) -> String {
     } else {
         CStr::from_ptr(p).to_string_lossy().into_owned()
     }
+}
+
+// ── JSON walker ─────────────────────────────────────────────
+
+/// Depth budget for recursion into nested class refs. Keeps the
+/// output tractable and rules out cycles. The extractor uses
+/// depth=3 for its "walk" (dump_it_run.py:83) and 6 for
+/// "walkDeep" — we match "walk" here for the initial capture.
+const MAX_JSON_DEPTH: u32 = 4;
+
+/// Walk one Il2CppObject to a JsonValue::Object with entries for
+/// each declared instance field. Recurses into class refs and
+/// value-type structs up to `MAX_JSON_DEPTH` (short-circuits with
+/// null past that).
+pub unsafe fn walk_to_json(obj: *mut c_void) -> JsonValue {
+    walk_object(obj, 0)
+}
+
+unsafe fn walk_object(obj: *mut c_void, depth: u32) -> JsonValue {
+    if obj.is_null() {
+        return JsonValue::Null;
+    }
+    let klass = *(obj as *const *mut Il2CppClass);
+    if klass.is_null() {
+        return JsonValue::Null;
+    }
+    let fields = match describe_fields(klass) {
+        Ok(f) => f,
+        Err(_) => return JsonValue::Null,
+    };
+    let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
+    for f in &fields {
+        entries.push((f.name.clone(), value_for_field(obj, f, depth, false)));
+    }
+    JsonValue::Object(entries)
+}
+
+/// Read a single field's value at `container + offset`, returning
+/// a JsonValue. Dispatches on `f.type_enum`. `inline=true` means
+/// container is inline struct data (no header) — apply -16 offset
+/// adjust for value-type fields (matches try_decode_inline_obscured_int).
+unsafe fn value_for_field(
+    container: *mut c_void,
+    f: &Field,
+    depth: u32,
+    inline: bool,
+) -> JsonValue {
+    const HDR: i32 = 16;
+    let use_off = if inline && f.offset >= HDR {
+        f.offset - HDR
+    } else {
+        f.offset
+    };
+    // Primitive scalars.
+    if let Some(v) = value_primitive_json(container, use_off, f.type_enum) {
+        return v;
+    }
+    let syms = match META_SYMS.get() {
+        Some(s) => s,
+        None => return JsonValue::Null,
+    };
+    match f.type_enum {
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_STRING => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return JsonValue::Null;
+            }
+            match decode_string(ptr as *mut Il2CppString) {
+                Some(s) => JsonValue::string(s),
+                None => JsonValue::Null,
+            }
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_CLASS => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return JsonValue::Null;
+            }
+            if let Some(v) = try_decode_obscured_int(ptr) {
+                return JsonValue::Int(v as i64);
+            }
+            if let Some(v) = try_decode_signed_int(ptr) {
+                return JsonValue::Int(v as i64);
+            }
+            if depth + 1 >= MAX_JSON_DEPTH {
+                return JsonValue::Null;
+            }
+            walk_object(ptr, depth + 1)
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_VALUETYPE => {
+            if f.type_ptr.is_null() {
+                return JsonValue::Null;
+            }
+            let struct_class = (syms.il2cpp_type_get_class_or_element_class)(f.type_ptr);
+            if struct_class.is_null() {
+                return JsonValue::Null;
+            }
+            if let Some(v) = try_decode_inline_obscured_int(container, use_off, struct_class) {
+                return JsonValue::Int(v as i64);
+            }
+            // Non-obscured value type: walk its fields inline.
+            if depth + 1 >= MAX_JSON_DEPTH {
+                return JsonValue::Null;
+            }
+            walk_inline(container, use_off, struct_class, depth + 1)
+        }
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_SZARRAY => {
+            let ptr = read_ref(container, use_off);
+            if ptr.is_null() {
+                return JsonValue::Array(Vec::new());
+            }
+            walk_array(ptr, f.type_ptr, depth + 1)
+        }
+        _ => JsonValue::Null,
+    }
+}
+
+unsafe fn value_primitive_json(obj: *mut c_void, offset: i32, type_enum: Il2CppTypeEnum) -> Option<JsonValue> {
+    let base = obj as *const u8;
+    let at = base.offset(offset as isize);
+    match type_enum {
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_BOOLEAN => Some(JsonValue::Bool(*(at as *const u8) != 0)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_I1 => Some(JsonValue::Int(*(at as *const i8) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_U1 => Some(JsonValue::Int(*(at as *const u8) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_I2 => Some(JsonValue::Int(*(at as *const i16) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_U2 => Some(JsonValue::Int(*(at as *const u16) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_I4 => Some(JsonValue::Int(*(at as *const i32) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_U4 => Some(JsonValue::Int(*(at as *const u32) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_I8 => Some(JsonValue::Int(*(at as *const i64))),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_U8 => Some(JsonValue::Int(*(at as *const u64) as i64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_R4 => Some(JsonValue::Float(*(at as *const f32) as f64)),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_R8 => Some(JsonValue::Float(*(at as *const f64))),
+        x if x == Il2CppTypeEnum_IL2CPP_TYPE_CHAR => Some(JsonValue::Int(*(at as *const u16) as i64)),
+        _ => None,
+    }
+}
+
+/// Walk inline value-type struct data starting at `container + offset`
+/// (no Il2CppObject header). Emits {name: value} for each declared
+/// field, with -16 offset adjust for value-type field metadata.
+unsafe fn walk_inline(
+    container: *mut c_void,
+    offset: i32,
+    struct_class: *mut Il2CppClass,
+    depth: u32,
+) -> JsonValue {
+    let fields = match describe_fields(struct_class) {
+        Ok(f) => f,
+        Err(_) => return JsonValue::Null,
+    };
+    let base = (container as *const u8).offset(offset as isize) as *mut c_void;
+    let mut entries: Vec<(String, JsonValue)> = Vec::with_capacity(fields.len());
+    for f in &fields {
+        entries.push((f.name.clone(), value_for_field(base, f, depth, true)));
+    }
+    JsonValue::Object(entries)
+}
+
+/// Walk a SZARRAY. `array_ptr` points at the Il2CppArray header.
+/// `array_type_ptr` is the field's type ptr (used to get element class).
+unsafe fn walk_array(
+    array_ptr: *mut c_void,
+    array_type_ptr: *const c_void,
+    depth: u32,
+) -> JsonValue {
+    let syms = match META_SYMS.get() {
+        Some(s) => s,
+        None => return JsonValue::Null,
+    };
+    let len = *((array_ptr as *const u8).offset(24) as *const usize);
+    if len == 0 {
+        return JsonValue::Array(Vec::new());
+    }
+    if array_type_ptr.is_null() {
+        return JsonValue::Null;
+    }
+    let elem_class = (syms.il2cpp_type_get_class_or_element_class)(array_type_ptr);
+    if elem_class.is_null() {
+        return JsonValue::Null;
+    }
+    let is_value = (syms.il2cpp_class_is_valuetype)(elem_class);
+    let stride: usize = if is_value {
+        (syms.il2cpp_class_value_size)(elem_class, std::ptr::null_mut()) as usize
+    } else {
+        8 // pointer
+    };
+    let data_start = (array_ptr as *const u8).offset(32);
+    // Cap array walk to keep JSON payload manageable and avoid
+    // pathological cases (500-element inner arrays × 40 top-level).
+    const MAX_ARRAY_ELEMS: usize = 200;
+    let take = len.min(MAX_ARRAY_ELEMS);
+    let mut items: Vec<JsonValue> = Vec::with_capacity(take);
+    for i in 0..take {
+        let slot = data_start.offset((i * stride) as isize);
+        let item = if is_value {
+            walk_inline(slot as *mut c_void, 0, elem_class, depth)
+        } else {
+            let elem_ptr = *(slot as *const *mut c_void);
+            if depth + 1 >= MAX_JSON_DEPTH {
+                JsonValue::Null
+            } else {
+                walk_object(elem_ptr, depth + 1)
+            }
+        };
+        items.push(item);
+    }
+    JsonValue::Array(items)
+}
+
+/// Decode an Il2CppString to a Rust String via edge-sdk's
+/// il2cpp_string_length + il2cpp_string_chars helpers. Returns None
+/// if the API isn't in the vtable (very unlikely on current Hachimi).
+unsafe fn decode_string(s: *mut Il2CppString) -> Option<String> {
+    if s.is_null() {
+        return None;
+    }
+    let api = Api::get();
+    let string_len = api.il2cpp_string_length?;
+    let string_chars = api.il2cpp_string_chars?;
+    let len = string_len(s);
+    if len < 0 {
+        return None;
+    }
+    let chars = string_chars(s);
+    if chars.is_null() {
+        return None;
+    }
+    let slice = std::slice::from_raw_parts(chars, len as usize);
+    Some(String::from_utf16_lossy(slice))
 }
 
 /// Render a single reference-typed array element as `{f1=v1, f2=v2, ...}`.
