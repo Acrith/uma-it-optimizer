@@ -53,5 +53,14 @@ jobs:
         with:
           files: tools/hachimi_plugin/target/x86_64-pc-windows-msvc/release/uma_it_plugin.dll
           generate_release_notes: true
+          # make_latest: false so a plugin tag push doesn't steal the
+          # "latest release" pointer from the .exe extractor. The
+          # extractor's install_linux.sh downloads via
+          # /releases/latest/download/uma-it-extract.exe — that URL
+          # 404s if the latest release is a plugin (only ships .dll).
+          # Regression happened once during v1.0.x plugin work;
+          # gating it here retroactively covers all future plugin
+          # tags.
+          make_latest: "false"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
