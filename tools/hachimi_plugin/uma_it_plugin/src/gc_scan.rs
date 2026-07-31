@@ -399,7 +399,13 @@ pub fn scan_and_log() {
                 }
                 let pick = match target.pick_by {
                     Some(field_name) => {
-                        match crate::introspect::pick_best_by_int_field(&res.matches, field_name) {
+                        // Safety: matches come from a well-formed
+                        // scan of the class we set at init; all
+                        // pointers are live IL2CPP objects of the
+                        // right shape for describe_fields + i32 read.
+                        match unsafe {
+                            crate::introspect::pick_best_by_int_field(&res.matches, field_name)
+                        } {
                             Some((ptr, val)) => {
                                 info!("[uma-it] [{}] picking best by {}={} (of {} matches):",
                                     target.label, field_name, val, res.matches.len());
