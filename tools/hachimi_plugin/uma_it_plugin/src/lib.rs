@@ -1,13 +1,18 @@
-//! uma-it Hachimi plugin — v0.0.1 (Phase 1: proof of concept).
+//! uma-it Hachimi plugin — v0.0.3 (Phase 1: proof of concept).
 //!
 //! What this version does:
 //! - Loads via Hachimi-Edge's plugin loader (`hachimi_init_v3`)
-//! - Registers `on_game_initialized` callback
-//! - In the callback, resolves + hooks
-//!   `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter` (5 args)
-//! - When the hook fires, logs the invocation with the `is_single_mode`
-//!   / `is_follow` argument values, then calls the original method
-//!   via the trampoline so game behaviour is unchanged.
+//! - Eagerly installs the hook in `init()` (Hachimi late-load fires
+//!   game_initialized before plugins load, so a callback would miss)
+//! - Falls back to registering `on_game_initialized` if the eager
+//!   install fails with the game not yet up (early-load path only)
+//! - Resolves + hooks
+//!   `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter`
+//!   (3 args + this on the current Global build; Uma-ISC's older
+//!   reference was 5 args — game update dropped 2 params since)
+//! - When the hook fires, logs the invocation with the three raw
+//!   argument values as hex, then calls the original method via
+//!   the trampoline so game behaviour is unchanged.
 //!
 //! What it doesn't do yet (planned for Phase 2+):
 //! - Walk `TrainedCharaData` and extract the run's stats/deck/skills
@@ -42,7 +47,18 @@ edge_sdk::declare_plugin! {
         // loaded yet (which happens on proxy-load paths).
         match unsafe { install_hook() } {
             Ok(()) => {
-                info!("[uma-it] hook installed at init (game already up)");
+                // install_hook returns Ok both when it actually
+                // installed AND when it deliberately skipped (argc
+                // mismatch). Distinguish by whether TRAMPOLINE got
+                // populated.
+                if !TRAMPOLINE.load(Ordering::SeqCst).is_null() {
+                    info!("[uma-it] hook installed at init (game already up)");
+                } else {
+                    // Skipped for safety — don't register the fallback
+                    // callback either; it would fail the same way and
+                    // spam the log.
+                    info!("[uma-it] eager install declined; not registering fallback");
+                }
                 return true;
             }
             Err(msg) => {
@@ -113,14 +129,15 @@ unsafe fn install_hook() -> Result<(), String> {
     let get_method_addr = api
         .il2cpp_get_method_addr
         .ok_or("il2cpp_get_method_addr missing from vtable")?;
-    // Uma-ISC's hook was 5 args on an older Global build; v0.0.2 field
-    // test showed CreateSetupParameter(5) returns null on the current
-    // build. Try common arg counts and log which one hits so we know
-    // the ground truth for future refs. Range covers realistic
-    // deltas: original 5, ±2 for added/dropped params.
+    // Uma-ISC's hook was 5 args on an older Global build; v0.0.2a
+    // field test discovered current Global has 3 args. Try 3 first
+    // (fast path on the known-current build), fall back to nearby
+    // counts so a future game update doesn't silently disable us —
+    // we'll refuse to install if the discovered count doesn't match
+    // our hook signature (see EXPECTED_ARGC check below).
     let mut method_addr: *mut c_void = std::ptr::null_mut();
     let mut hit_argc: i32 = -1;
-    for argc in [5, 4, 6, 3, 7, 2, 8] {
+    for argc in [3, 4, 5, 2, 6, 7, 1, 8] {
         let addr = get_method_addr(class as *mut _, method_name.as_ptr(), argc);
         if !addr.is_null() {
             method_addr = addr;
@@ -130,7 +147,7 @@ unsafe fn install_hook() -> Result<(), String> {
     }
     if method_addr.is_null() {
         return Err(
-            "CreateSetupParameter not found at any arg count 2..8 — method \
+            "CreateSetupParameter not found at any arg count 1..8 — method \
              renamed? Report the log so we can dnSpy the current signature."
                 .into(),
         );
@@ -140,14 +157,13 @@ unsafe fn install_hook() -> Result<(), String> {
         method_addr, hit_argc
     );
 
-    // Our hook_create_setup_parameter function has a hardcoded 5-arg
-    // signature (this + 5 params matching Uma-ISC's reference).
-    // If the actual method takes a different arg count, installing
-    // the hook would corrupt the stack when the game calls it and
-    // crash. Only install when the counts match; otherwise log the
-    // mismatch loudly so we know to rebuild with the right signature
-    // in the next version.
-    const EXPECTED_ARGC: i32 = 5;
+    // Our hook_create_setup_parameter function has a hardcoded 3-arg
+    // signature (this + 3 opaque params). If the actual method takes
+    // a different arg count, installing the hook would corrupt the
+    // stack when the game calls it and crash. Only install when the
+    // counts match; otherwise log the mismatch loudly so we know to
+    // rebuild with the right signature in the next version.
+    const EXPECTED_ARGC: i32 = 3;
     if hit_argc != EXPECTED_ARGC {
         error!(
             "[uma-it] discovered argc={} but our hook is hardcoded to {}. \
@@ -190,24 +206,30 @@ unsafe fn install_hook() -> Result<(), String> {
 /// game calls the method, then we invoke the original via the
 /// stored trampoline so game state stays consistent.
 ///
-/// Signature: this + 5 args (TrainedCharaData ptr, trainer_name ptr,
-/// on_change_partner delegate ptr, is_single_mode bool, is_follow
-/// bool). Return type is void per Uma-ISC's usage — this is a setup
-/// helper that mutates the dialog, not one that returns anything.
+/// Signature: this + 3 opaque args. Current Global build resolves
+/// with argc=3 (see install_hook), but we don't yet know which of
+/// the three is `TrainedCharaData` vs bool/string/delegate. Using
+/// `usize` for all three because on x64 Windows ABI all four params
+/// go in registers (RCX/RDX/R8/R9) and every candidate type
+/// (pointer, bool, int) fits in a register — so opaque
+/// pass-through can never corrupt the stack regardless of which
+/// arg is what.
 ///
-/// Phase 1 body just logs. Phase 2 will walk `chara_data` and
-/// serialize to JSON.
+/// Return type is void per Uma-ISC's older-build reference. If the
+/// current build returns something, MinHook's trampoline will still
+/// pass it through untouched — we just don't observe it.
+///
+/// Phase 1 body just logs the raw arg values. Once we identify
+/// which arg is `TrainedCharaData`, v0.0.4+ walks it and serializes.
 unsafe extern "C" fn hook_create_setup_parameter(
     this: *mut c_void,
-    chara_data: *mut c_void,
-    trainer_name: *mut c_void,
-    on_change_partner: *mut c_void,
-    is_single_mode: bool,
-    is_follow: bool,
+    arg1: usize,
+    arg2: usize,
+    arg3: usize,
 ) {
     info!(
-        "[uma-it] CreateSetupParameter fired: is_single_mode={} is_follow={} chara_data={:p}",
-        is_single_mode, is_follow, chara_data
+        "[uma-it] CreateSetupParameter fired: this={:p} arg1={:#x} arg2={:#x} arg3={:#x}",
+        this, arg1, arg2, arg3
     );
     // Always call the original after our peek — never break game
     // behaviour. If TRAMPOLINE is somehow null (shouldn't happen
@@ -218,8 +240,7 @@ unsafe extern "C" fn hook_create_setup_parameter(
         error!("[uma-it] trampoline null — game dialog may not render");
         return;
     }
-    let orig: unsafe extern "C" fn(
-        *mut c_void, *mut c_void, *mut c_void, *mut c_void, bool, bool,
-    ) = std::mem::transmute(tramp);
-    orig(this, chara_data, trainer_name, on_change_partner, is_single_mode, is_follow);
+    let orig: unsafe extern "C" fn(*mut c_void, usize, usize, usize) =
+        std::mem::transmute(tramp);
+    orig(this, arg1, arg2, arg3);
 }

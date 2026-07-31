@@ -5,12 +5,14 @@ that captures Umamusume Independent Training runs directly from
 inside the game, without needing the separate `uma-it-extract.exe`
 tool.
 
-**Status: v0.0.1 — proof of concept.** The plugin loads, hooks the
-Training Log method, and logs when the hook fires. It doesn't yet
-walk the run data or upload — those land in v0.0.2+ once we've
-verified the hook fires reliably on the current game build.
+**Status: v0.0.3 — proof of concept.** The plugin loads, resolves
++ hooks the Training Log setup method (`CreateSetupParameter`, 3
+args on current Global — Uma-ISC's older-build reference had 5 but
+the game update dropped 2 params), and logs when the hook fires.
+It doesn't yet walk the run data or upload — those land in v0.0.4+
+once we've verified the hook fires reliably.
 
-## For testers (v0.0.1)
+## For testers (v0.0.3)
 
 You need Hachimi-Edge already installed and working for
 translations. If translations don't work, this plugin won't work
@@ -37,29 +39,33 @@ either.
 5. Check Hachimi's log file (usually `hachimi.log` next to the
    game exe). You should see lines like:
    ```
-   [uma-it] plugin loaded, waiting for game_initialized to install hooks
-   [uma-it] game initialized — installing DialogTrainedCharacterDetail hook
-   [uma-it] target method resolved at 0x...
-   [uma-it] hook installed; trampoline at 0x...
-   [uma-it] CreateSetupParameter fired: is_single_mode=true is_follow=false chara_data=0x...
+   [uma-it] plugin loaded
+   [uma-it] target method resolved at 0x... (argc=3)
+   [uma-it] hook installed at init (game already up)
+   [uma-it] CreateSetupParameter fired: this=0x... arg1=0x... arg2=0x... arg3=0x...
    ```
-6. **Report back** — if you see `is_single_mode=true` on the
-   Training Log open, we're good to build the data-walking Phase 2.
-   If not, share the log so we can diagnose (usually a game update
-   changed the method arg count or a class name).
+6. **Report back** — if you see the `CreateSetupParameter fired`
+   line on Training Log open, we're good to build the data-walking
+   Phase 2. If not, share the log so we can diagnose (usually a
+   game update changed the method arg count or a class name).
 
 ## Failure modes to watch for
 
 - **`Hachimi-Edge too old? Need VERSION >= 3`** — update Hachimi-Edge.
-- **`CreateSetupParameter(5) not found — arg count changed?`** —
-  game update touched the method signature. Share the log; we'll
-  bump the arg count in a v0.0.1a.
+- **`discovered argc=N but our hook is hardcoded to 3`** — game
+  update changed the method signature again. Plugin deliberately
+  refuses to install to avoid crashing the game. Share the log;
+  we'll bump the hook signature in a follow-up release.
+- **`CreateSetupParameter not found at any arg count 1..8`** —
+  method was renamed. Share the log; we'll dnSpy the current
+  signature.
 - **`Gallop.DialogTrainedCharacterDetail class not found`** —
   IL2CPP class was renamed in a game update. Same story: share log,
   we'll update.
 - **Plugin doesn't log at all** — Hachimi didn't load it. Check
-  the DLL is in the right folder and appears in
-  `windows.load_libraries` exactly as `uma_it_plugin.dll`.
+  the DLL is in the right folder and appears in the top-level
+  `load_libraries` array (not nested under `windows`) exactly as
+  `uma_it_plugin.dll`.
 
 ## For developers
 
