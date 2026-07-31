@@ -5,14 +5,22 @@ that captures Umamusume Independent Training runs directly from
 inside the game, without needing the separate `uma-it-extract.exe`
 tool.
 
-**Status: v0.0.3 — proof of concept.** The plugin loads, resolves
-+ hooks the Training Log setup method (`CreateSetupParameter`, 3
-args on current Global — Uma-ISC's older-build reference had 5 but
-the game update dropped 2 params), and logs when the hook fires.
-It doesn't yet walk the run data or upload — those land in v0.0.4+
-once we've verified the hook fires reliably.
+**Status: v0.0.4 — proof of concept.** The plugin loads, hooks
+`Gallop.ObscuredIdleSingleModeGainInfo::.ctor` (the IT-specific
+data holder — same class the Frida extractor walks), and logs
+when a new instance is constructed. Doesn't yet walk the fields
+or upload — those land in v0.0.5+ once we've confirmed the ctor
+fires on Training Log open.
 
-## For testers (v0.0.3)
+Prior versions targeted `DialogTrainedCharacterDetail::CreateSetupParameter`
+on the assumption Uma-ISC's older-build reference matched our
+screen. Field test proved it doesn't — that dialog is the Trained
+Umas inheritance viewer, not the IT log. The Frida extractor never
+hooked any dialog: it heap-scans for live `GainInfo` instances
+instead. edge-sdk doesn't expose heap scan, so we catch instances
+at construction time — same signal, different trigger.
+
+## For testers (v0.0.4)
 
 You need Hachimi-Edge already installed and working for
 translations. If translations don't work, this plugin won't work
@@ -37,31 +45,33 @@ either.
 4. Launch the game. Complete an IT run, reach the Training Log
    popup screen.
 5. Check Hachimi's log file (usually `hachimi.log` next to the
-   game exe). You should see lines like:
+   game exe). At plugin load you should see:
    ```
    [uma-it] plugin loaded
-   [uma-it] target method resolved at 0x... (argc=3)
+   [uma-it] target method resolved at 0x... (argc=0)
    [uma-it] hook installed at init (game already up)
-   [uma-it] CreateSetupParameter fired: this=0x... arg1=0x... arg2=0x... arg3=0x...
    ```
-6. **Report back** — if you see the `CreateSetupParameter fired`
-   line on Training Log open, we're good to build the data-walking
-   Phase 2. If not, share the log so we can diagnose (usually a
-   game update changed the method arg count or a class name).
+   Then, when you complete an IT and open the Training Log popup,
+   one or more:
+   ```
+   [uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this=0x...
+   ```
+6. **Report back** — if you see the ctor line on Training Log
+   open, we're good to build the data-walking Phase 2. If not,
+   share the log so we can diagnose.
 
 ## Failure modes to watch for
 
 - **`Hachimi-Edge too old? Need VERSION >= 3`** — update Hachimi-Edge.
-- **`discovered argc=N but our hook is hardcoded to 3`** — game
-  update changed the method signature again. Plugin deliberately
-  refuses to install to avoid crashing the game. Share the log;
-  we'll bump the hook signature in a follow-up release.
-- **`CreateSetupParameter not found at any arg count 1..8`** —
-  method was renamed. Share the log; we'll dnSpy the current
-  signature.
-- **`Gallop.DialogTrainedCharacterDetail class not found`** —
-  IL2CPP class was renamed in a game update. Same story: share log,
-  we'll update.
+- **`discovered argc=N but our hook is hardcoded to 0`** — the
+  class now has a non-default constructor. Plugin refuses to
+  install to avoid crashing the game. Share the log; we'll bump
+  the hook signature in a follow-up.
+- **`.ctor not found at any arg count 0..4`** — class was
+  refactored. Share the log; we'll dnSpy the new shape.
+- **`Gallop.ObscuredIdleSingleModeGainInfo class not found`** —
+  IL2CPP class was renamed in a game update (very rare — this
+  class has been stable across builds). Same story: share log.
 - **Plugin doesn't log at all** — Hachimi didn't load it. Check
   the DLL is in the right folder and appears in the top-level
   `load_libraries` array (not nested under `windows`) exactly as

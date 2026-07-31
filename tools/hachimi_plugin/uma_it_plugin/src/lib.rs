@@ -1,4 +1,4 @@
-//! uma-it Hachimi plugin — v0.0.3 (Phase 1: proof of concept).
+//! uma-it Hachimi plugin — v0.0.4 (Phase 1: proof of concept).
 //!
 //! What this version does:
 //! - Loads via Hachimi-Edge's plugin loader (`hachimi_init_v3`)
@@ -6,13 +6,22 @@
 //!   game_initialized before plugins load, so a callback would miss)
 //! - Falls back to registering `on_game_initialized` if the eager
 //!   install fails with the game not yet up (early-load path only)
-//! - Resolves + hooks
-//!   `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter`
-//!   (3 args + this on the current Global build; Uma-ISC's older
-//!   reference was 5 args — game update dropped 2 params since)
-//! - When the hook fires, logs the invocation with the three raw
-//!   argument values as hex, then calls the original method via
-//!   the trampoline so game behaviour is unchanged.
+//! - Resolves + hooks `Gallop.ObscuredIdleSingleModeGainInfo::.ctor`
+//!   — the IT-specific data holder. The Frida extractor already
+//!   proves this class is the right signal: it heap-scans for live
+//!   instances, walks them, and dumps the run. edge-sdk doesn't
+//!   expose heap enumeration, so we catch the instances at
+//!   construction time instead — same signal, different trigger.
+//! - When the hook fires, logs `this` and returns. Phase 2 will
+//!   walk the fields (fans, stats, support cards, factors, races)
+//!   and POST to the API.
+//!
+//! Prior versions (v0.0.1..v0.0.3) targeted
+//! `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter` on
+//! the assumption Uma-ISC's older-build reference matched our
+//! screen. Field test showed the hook installed but never fired on
+//! Training Log open — that dialog is the Trained Umas inheritance
+//! viewer, not the IT log we care about.
 //!
 //! What it doesn't do yet (planned for Phase 2+):
 //! - Walk `TrainedCharaData` and extract the run's stats/deck/skills
@@ -91,11 +100,18 @@ unsafe extern "C" fn on_game_initialized(_userdata: *mut c_void) {
     }
 }
 
-/// Resolve `Gallop.DialogTrainedCharacterDetail::CreateSetupParameter`
-/// in the loaded `umamusume` assembly and install our hook. Bails
-/// out with a diagnostic string on any resolution failure — makes
-/// game-version drift show up as a specific log line rather than a
-/// silent no-op.
+/// Resolve `Gallop.ObscuredIdleSingleModeGainInfo::.ctor` in the
+/// loaded `umamusume` assembly and install our hook. Bails out
+/// with a diagnostic string on any resolution failure — makes
+/// game-version drift show up as a specific log line rather than
+/// a silent no-op.
+///
+/// Why this class: the Frida extractor
+/// (`tools/memory_extractor/dump_it_run.py:255`) proves
+/// `ObscuredIdleSingleModeGainInfo` only exists in memory while
+/// the IT Training Log dialog is open. Catching its constructor
+/// gives us the same trigger without needing heap enumeration
+/// (which edge-sdk doesn't expose).
 unsafe fn install_hook() -> Result<(), String> {
     // Idempotent: if the trampoline is already set, a prior install
     // succeeded (probably the eager path did the work and the
@@ -116,28 +132,28 @@ unsafe fn install_hook() -> Result<(), String> {
     }
 
     let ns = CString::new("Gallop").unwrap();
-    let cls_name = CString::new("DialogTrainedCharacterDetail").unwrap();
+    let cls_name = CString::new("ObscuredIdleSingleModeGainInfo").unwrap();
     let get_class = api
         .il2cpp_get_class
         .ok_or("il2cpp_get_class missing from vtable")?;
     let class = get_class(image, ns.as_ptr(), cls_name.as_ptr());
     if class.is_null() {
-        return Err("Gallop.DialogTrainedCharacterDetail class not found — game update?".into());
+        return Err(
+            "Gallop.ObscuredIdleSingleModeGainInfo class not found — game update?".into(),
+        );
     }
 
-    let method_name = CString::new("CreateSetupParameter").unwrap();
+    let method_name = CString::new(".ctor").unwrap();
     let get_method_addr = api
         .il2cpp_get_method_addr
         .ok_or("il2cpp_get_method_addr missing from vtable")?;
-    // Uma-ISC's hook was 5 args on an older Global build; v0.0.2a
-    // field test discovered current Global has 3 args. Try 3 first
-    // (fast path on the known-current build), fall back to nearby
-    // counts so a future game update doesn't silently disable us —
-    // we'll refuse to install if the discovered count doesn't match
-    // our hook signature (see EXPECTED_ARGC check below).
+    // Default C# constructor is argc=0 (just `this`). Some classes
+    // have overloaded ctors; try 0 first (fast path) then 1..4 so
+    // we still find *a* ctor if the class was refactored. The
+    // EXPECTED_ARGC check below refuses to install on mismatch.
     let mut method_addr: *mut c_void = std::ptr::null_mut();
     let mut hit_argc: i32 = -1;
-    for argc in [3, 4, 5, 2, 6, 7, 1, 8] {
+    for argc in [0, 1, 2, 3, 4] {
         let addr = get_method_addr(class as *mut _, method_name.as_ptr(), argc);
         if !addr.is_null() {
             method_addr = addr;
@@ -147,8 +163,9 @@ unsafe fn install_hook() -> Result<(), String> {
     }
     if method_addr.is_null() {
         return Err(
-            "CreateSetupParameter not found at any arg count 1..8 — method \
-             renamed? Report the log so we can dnSpy the current signature."
+            ".ctor not found at any arg count 0..4 on \
+             ObscuredIdleSingleModeGainInfo — class refactored? Report \
+             the log so we can dnSpy the current shape."
                 .into(),
         );
     }
@@ -157,13 +174,11 @@ unsafe fn install_hook() -> Result<(), String> {
         method_addr, hit_argc
     );
 
-    // Our hook_create_setup_parameter function has a hardcoded 3-arg
-    // signature (this + 3 opaque params). If the actual method takes
-    // a different arg count, installing the hook would corrupt the
-    // stack when the game calls it and crash. Only install when the
-    // counts match; otherwise log the mismatch loudly so we know to
-    // rebuild with the right signature in the next version.
-    const EXPECTED_ARGC: i32 = 3;
+    // Our hook function has a hardcoded 0-arg signature (just this).
+    // If the resolved ctor takes params, calling the trampoline with
+    // our signature would corrupt the stack. Refuse the install
+    // (log loudly) so a future game version doesn't silently crash.
+    const EXPECTED_ARGC: i32 = 0;
     if hit_argc != EXPECTED_ARGC {
         error!(
             "[uma-it] discovered argc={} but our hook is hardcoded to {}. \
@@ -192,7 +207,7 @@ unsafe fn install_hook() -> Result<(), String> {
     let trampoline = interceptor_hook(
         interceptor,
         method_addr,
-        hook_create_setup_parameter as *mut c_void,
+        hook_gain_info_ctor as *mut c_void,
     );
     if trampoline.is_null() {
         return Err("interceptor_hook returned null — hook install failed".into());
@@ -202,45 +217,35 @@ unsafe fn install_hook() -> Result<(), String> {
     Ok(())
 }
 
-/// Our replacement for `CreateSetupParameter`. Runs FIRST when the
-/// game calls the method, then we invoke the original via the
-/// stored trampoline so game state stays consistent.
+/// Our replacement for `ObscuredIdleSingleModeGainInfo::.ctor`.
+/// Runs FIRST when the game constructs a new instance, then we
+/// invoke the original ctor via the stored trampoline so the
+/// object is properly initialized before anything else touches it.
 ///
-/// Signature: this + 3 opaque args. Current Global build resolves
-/// with argc=3 (see install_hook), but we don't yet know which of
-/// the three is `TrainedCharaData` vs bool/string/delegate. Using
-/// `usize` for all three because on x64 Windows ABI all four params
-/// go in registers (RCX/RDX/R8/R9) and every candidate type
-/// (pointer, bool, int) fits in a register — so opaque
-/// pass-through can never corrupt the stack regardless of which
-/// arg is what.
+/// Signature: just `this` (default 0-arg C# ctor). `this` at ctor
+/// entry points at freshly-allocated but uninitialized memory;
+/// the fields are populated by the original ctor body we call
+/// next. Phase 2 walks those fields *after* the trampoline
+/// returns (post-init), not from the hook body directly.
 ///
-/// Return type is void per Uma-ISC's older-build reference. If the
-/// current build returns something, MinHook's trampoline will still
-/// pass it through untouched — we just don't observe it.
-///
-/// Phase 1 body just logs the raw arg values. Once we identify
-/// which arg is `TrainedCharaData`, v0.0.4+ walks it and serializes.
-unsafe extern "C" fn hook_create_setup_parameter(
-    this: *mut c_void,
-    arg1: usize,
-    arg2: usize,
-    arg3: usize,
-) {
-    info!(
-        "[uma-it] CreateSetupParameter fired: this={:p} arg1={:#x} arg2={:#x} arg3={:#x}",
-        this, arg1, arg2, arg3
-    );
-    // Always call the original after our peek — never break game
-    // behaviour. If TRAMPOLINE is somehow null (shouldn't happen
-    // post-install), we skip the call and log the miss; the game
-    // will render a broken dialog but at least won't crash.
+/// For Phase 1 we just log that the ctor fired so we can confirm
+/// the trigger works on Training Log open. Phase 2+ moves the
+/// walk-and-POST logic in here.
+unsafe extern "C" fn hook_gain_info_ctor(this: *mut c_void) {
+    // Call the original ctor first so `this` is fully initialized
+    // before we peek at anything. If TRAMPOLINE is somehow null
+    // (shouldn't happen post-install), we skip the call — the game
+    // will end up with an uninitialized object, but at least won't
+    // crash immediately from a signature mismatch.
     let tramp = TRAMPOLINE.load(Ordering::SeqCst);
-    if tramp.is_null() {
-        error!("[uma-it] trampoline null — game dialog may not render");
-        return;
+    if !tramp.is_null() {
+        let orig: unsafe extern "C" fn(*mut c_void) = std::mem::transmute(tramp);
+        orig(this);
+    } else {
+        error!("[uma-it] trampoline null — GainInfo may be uninitialized");
     }
-    let orig: unsafe extern "C" fn(*mut c_void, usize, usize, usize) =
-        std::mem::transmute(tramp);
-    orig(this, arg1, arg2, arg3);
+    info!(
+        "[uma-it] ObscuredIdleSingleModeGainInfo::.ctor fired: this={:p}",
+        this
+    );
 }
