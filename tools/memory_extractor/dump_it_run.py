@@ -650,8 +650,38 @@ def _upload_run(json_path: Path, cfg: dict) -> None:
     if status == 201:
         detail_url = payload.get("url", "(no url)")
         print(f"[OK] Uploaded → {detail_url}")
+        # Open the run in the browser so the user sees the result
+        # without hunting for the URL. Best-effort; swallow failures
+        # (no display, headless, etc.).
+        if detail_url and detail_url != "(no url)":
+            try:
+                import webbrowser
+                webbrowser.open(detail_url)
+            except Exception:
+                pass
     else:
         print(f"[!] Unexpected response: HTTP {status} {payload}")
+
+
+def _looks_completed(result: dict) -> tuple[bool, str]:
+    """Best-effort check that the walked data is a COMPLETED IT run,
+    not a mid-scenario snapshot caught outside the Training Log.
+
+    Same signals the server-side run_state uses: >=6 races run and
+    at least one factor gained. Fans/stat sanity is skipped here
+    because those pile up mid-scenario and were what let bogus
+    captures through in v0.1.7. Returns (ok, reason)."""
+    races = result.get("RaceHistory") or []
+    if len(races) < 6:
+        return False, f"only {len(races)} races run (need 6+ for completed IT)"
+    factors = result.get("SuccessionFactorGainInfo") or []
+    factors_total = sum(
+        len(y.get("<GainFactorInfoArray>k__BackingField", []) or [])
+        for y in factors
+    )
+    if factors_total == 0:
+        return False, "no factors gained (career hasn't produced any yet)"
+    return True, ""
 
 
 def main() -> int:
@@ -699,6 +729,20 @@ def main() -> int:
         print("[!] Run the extractor again once you've finished an IT run and")
         print("[!] the Training Log popup is on screen.")
         return 5
+
+    # Second gate: even if SingleModeChara was populated, the walked
+    # data has to look like a real COMPLETED IT (>=6 races, >=1
+    # factor). Server rejects mid-scenario captures too, but catching
+    # them here avoids writing dead JSONs to disk that the user then
+    # has to manually delete from their runs/ folder.
+    ok, reason = _looks_completed(result)
+    if not ok:
+        print()
+        print(f"[!] Capture doesn't look like a completed IT run: {reason}")
+        print("[!] This usually means the extractor was run outside the Training")
+        print("[!] Log screen (mid-scenario, wrong tab, etc.). Nothing saved.")
+        print("[!] Finish an IT run, reach the Training Log popup, and try again.")
+        return 6
 
     RUNS_DIR.mkdir(exist_ok=True)
     out_path = RUNS_DIR / _output_name(result)
