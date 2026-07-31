@@ -113,14 +113,53 @@ unsafe fn install_hook() -> Result<(), String> {
     let get_method_addr = api
         .il2cpp_get_method_addr
         .ok_or("il2cpp_get_method_addr missing from vtable")?;
-    // Arg count is 5 — matches Uma-ISC's hook signature per the
-    // research pass. If a game update changes it (e.g. adds an
-    // arg) the lookup returns null and we bail out cleanly.
-    let method_addr = get_method_addr(class as *mut _, method_name.as_ptr(), 5);
-    if method_addr.is_null() {
-        return Err("CreateSetupParameter(5) not found — arg count changed?".into());
+    // Uma-ISC's hook was 5 args on an older Global build; v0.0.2 field
+    // test showed CreateSetupParameter(5) returns null on the current
+    // build. Try common arg counts and log which one hits so we know
+    // the ground truth for future refs. Range covers realistic
+    // deltas: original 5, ±2 for added/dropped params.
+    let mut method_addr: *mut c_void = std::ptr::null_mut();
+    let mut hit_argc: i32 = -1;
+    for argc in [5, 4, 6, 3, 7, 2, 8] {
+        let addr = get_method_addr(class as *mut _, method_name.as_ptr(), argc);
+        if !addr.is_null() {
+            method_addr = addr;
+            hit_argc = argc;
+            break;
+        }
     }
-    info!("[uma-it] target method resolved at {:p}", method_addr);
+    if method_addr.is_null() {
+        return Err(
+            "CreateSetupParameter not found at any arg count 2..8 — method \
+             renamed? Report the log so we can dnSpy the current signature."
+                .into(),
+        );
+    }
+    info!(
+        "[uma-it] target method resolved at {:p} (argc={})",
+        method_addr, hit_argc
+    );
+
+    // Our hook_create_setup_parameter function has a hardcoded 5-arg
+    // signature (this + 5 params matching Uma-ISC's reference).
+    // If the actual method takes a different arg count, installing
+    // the hook would corrupt the stack when the game calls it and
+    // crash. Only install when the counts match; otherwise log the
+    // mismatch loudly so we know to rebuild with the right signature
+    // in the next version.
+    const EXPECTED_ARGC: i32 = 5;
+    if hit_argc != EXPECTED_ARGC {
+        error!(
+            "[uma-it] discovered argc={} but our hook is hardcoded to {}. \
+             Skipping install to avoid stack corruption. \
+             Rebuild plugin with matching signature and re-release.",
+            hit_argc, EXPECTED_ARGC
+        );
+        // Return Ok so init() doesn't fall through to the fallback
+        // callback register — we don't want the hook to be tried
+        // again with a bad signature later.
+        return Ok(());
+    }
 
     let hachimi_instance = api
         .hachimi_instance
