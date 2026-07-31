@@ -32,7 +32,25 @@ static TRAMPOLINE: AtomicPtr<c_void> = AtomicPtr::new(std::ptr::null_mut());
 
 edge_sdk::declare_plugin! {
     fn init() -> bool {
-        info!("[uma-it] plugin loaded, waiting for game_initialized to install hooks");
+        info!("[uma-it] plugin loaded");
+        // Try installing the hook right now. When Hachimi late-loads
+        // (e.g. through LoadLibraryW hook rather than the DXGI proxy),
+        // it initialises plugins AFTER IL2CPP hooks are already up —
+        // 'game_initialized' has already fired by the time we're
+        // instantiated, so the callback would never come. Try eager
+        // install; fall back to the callback only if the image isn't
+        // loaded yet (which happens on proxy-load paths).
+        match unsafe { install_hook() } {
+            Ok(()) => {
+                info!("[uma-it] hook installed at init (game already up)");
+                return true;
+            }
+            Err(msg) => {
+                info!(
+                    "[uma-it] eager install skipped ({msg}); registering game_initialized callback"
+                );
+            }
+        }
         let api = Api::get();
         let register = match api.hachimi_register_on_game_initialized {
             Some(f) => f,
@@ -46,11 +64,12 @@ edge_sdk::declare_plugin! {
     }
 }
 
-/// Fires once, after Hachimi finishes hooking IL2CPP and the game
-/// is done initializing. Safe point to resolve our target method
-/// and install the hook.
+/// Fires (if it fires) once Hachimi finishes hooking IL2CPP and the
+/// game is done initializing. Only called on the early-load path
+/// where our plugin runs BEFORE IL2CPP is ready; the late-load path
+/// installs eagerly from `init()` instead.
 unsafe extern "C" fn on_game_initialized(_userdata: *mut c_void) {
-    info!("[uma-it] game initialized — installing DialogTrainedCharacterDetail hook");
+    info!("[uma-it] game_initialized fired — installing hook");
     if let Err(msg) = install_hook() {
         error!("[uma-it] hook install failed: {msg}");
     }
@@ -62,6 +81,13 @@ unsafe extern "C" fn on_game_initialized(_userdata: *mut c_void) {
 /// game-version drift show up as a specific log line rather than a
 /// silent no-op.
 unsafe fn install_hook() -> Result<(), String> {
+    // Idempotent: if the trampoline is already set, a prior install
+    // succeeded (probably the eager path did the work and the
+    // callback fell through anyway). Skip silently.
+    if !TRAMPOLINE.load(Ordering::SeqCst).is_null() {
+        return Ok(());
+    }
+
     let api = Api::get();
 
     let umamusume = CString::new("umamusume").unwrap();
