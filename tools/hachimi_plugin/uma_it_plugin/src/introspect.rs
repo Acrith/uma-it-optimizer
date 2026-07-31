@@ -292,6 +292,13 @@ unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
         return None;
     }
     let fields = describe_fields(klass).ok()?;
+
+    // First-time diagnostic for SignedInt-shaped classes: log the
+    // wrapper's layout so we can see what type <Sign>/<Value> are
+    // and their offsets. Complements the diagnostic in
+    // obscured_offsets_for which fires for ObscuredInt structs.
+    log_signed_layout_once(klass, &fields);
+
     let mut sign = None;
     let mut value = None;
     for f in &fields {
@@ -312,6 +319,37 @@ unsafe fn try_decode_signed_int(obj: *mut c_void) -> Option<i32> {
     }
     let (s, v) = (sign?, value?);
     Some(if s < 0 { -v } else { v })
+}
+
+/// Log the SignedInt wrapper's field layout the first time we see
+/// each such class. Uses a small dedupe set keyed by klass address
+/// so we don't spam per-instance.
+static SIGNED_LOG_SEEN: OnceCell<Mutex<Vec<usize>>> = OnceCell::new();
+unsafe fn log_signed_layout_once(klass: *mut Il2CppClass, fields: &[Field]) {
+    let key = klass as usize;
+    let seen = SIGNED_LOG_SEEN.get_or_init(|| Mutex::new(Vec::new()));
+    if let Ok(mut g) = seen.lock() {
+        if g.contains(&key) {
+            return;
+        }
+        g.push(key);
+    }
+    if let Some(syms) = META_SYMS.get() {
+        let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
+        let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
+        info!(
+            "[uma-it] first-encounter SignedInt-like layout: {}.{} ({} fields):",
+            ns,
+            name,
+            fields.len()
+        );
+        for f in fields {
+            info!(
+                "[uma-it]   field: {} @ offset={}, type={}",
+                f.name, f.offset, f.type_enum
+            );
+        }
+    }
 }
 
 /// Decode a single field on `container` as an ObscuredInt-shaped
@@ -353,18 +391,35 @@ unsafe fn decode_field_as_obscured(container: *mut c_void, f: &Field) -> Option<
 /// on the field's type). If the struct declares `hiddenValue` and
 /// `currentCryptoKey` i32 fields, we XOR them; otherwise None.
 ///
-/// Field offsets on a value-type class are relative to the value
-/// data (no 16-byte Il2CppObject header) — so total read address
-/// is `container + field_offset + struct_field_offset`.
+/// Unity IL2CPP wrinkle: `il2cpp_field_get_offset` on a value-type
+/// class returns offsets AS IF the struct were boxed (with a
+/// 16-byte Il2CppObject header prefix). Inline access has no
+/// header, so we subtract 16 from the reported offset to get the
+/// actual inline byte offset.
+///
+/// If the reported offset is < 16, either (a) this isn't actually
+/// a value type or (b) the runtime uses a different convention on
+/// this build. Log-once-and-fall-back rather than read wildly.
 unsafe fn try_decode_inline_obscured_int(
     container: *mut c_void,
     struct_offset: i32,
     struct_class: *mut Il2CppClass,
 ) -> Option<i32> {
     let (hidden_off, key_off) = obscured_offsets_for(struct_class)?;
+    // Subtract Il2CppObject header size to convert boxed→inline offset.
+    // If either is < 16, il2cpp on this build doesn't apply the
+    // boxed-header bias for value types; use raw offsets.
+    const IL2CPP_OBJECT_HEADER: i32 = 16;
+    let (h_use, k_use) = if hidden_off >= IL2CPP_OBJECT_HEADER
+        && key_off >= IL2CPP_OBJECT_HEADER
+    {
+        (hidden_off - IL2CPP_OBJECT_HEADER, key_off - IL2CPP_OBJECT_HEADER)
+    } else {
+        (hidden_off, key_off)
+    };
     let base = (container as *const u8).offset(struct_offset as isize);
-    let hidden = *(base.offset(hidden_off as isize) as *const i32);
-    let key = *(base.offset(key_off as isize) as *const i32);
+    let hidden = *(base.offset(h_use as isize) as *const i32);
+    let key = *(base.offset(k_use as isize) as *const i32);
     Some(hidden ^ key)
 }
 
@@ -381,6 +436,29 @@ unsafe fn obscured_offsets_for(klass: *mut Il2CppClass) -> Option<(i32, i32)> {
     }
     // Slow path: describe fields, find the two by name.
     let fields = describe_fields(klass).ok()?;
+
+    // First-time diagnostic: log the class's field layout so we can
+    // see whether il2cpp is returning header-adjusted offsets (16,
+    // 20, ...) or bare inline offsets (0, 4, ...). Informs whether
+    // try_decode_inline_obscured_int's -16 adjustment is right for
+    // this build. Only fires once per class per session (cache miss).
+    if let Some(syms) = META_SYMS.get() {
+        let ns = cstr_or_empty((syms.il2cpp_class_get_namespace)(klass));
+        let name = cstr_or_empty((syms.il2cpp_class_get_name)(klass));
+        info!(
+            "[uma-it] first-encounter layout: {}.{} ({} fields):",
+            ns,
+            name,
+            fields.len()
+        );
+        for f in &fields {
+            info!(
+                "[uma-it]   field: {} @ offset={}, type={}",
+                f.name, f.offset, f.type_enum
+            );
+        }
+    }
+
     let mut hidden = None;
     let mut key = None;
     for f in &fields {
