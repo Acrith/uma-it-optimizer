@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.11"
+EXTRACTOR_VERSION = "0.1.12"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -325,6 +325,14 @@ setTimeout(() => {
       dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo'), 'SuccessionFactorGainInfo');
       dumpAll(httpAsm.class('Gallop.SingleRaceHistory'), 'RaceHistory');
       dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory');
+      // Chara-effect log: the visible "conditions" on the Training
+      // Log popup (Fast Learner, Migraine, Practice Perfect, Pure
+      // Passion, etc.). One instance per condition ever applied
+      // during the run — `IsActive` distinguishes still-in-effect
+      // from [Removed]. `CharaEffectId` decodes as ObscuredInt and
+      // joins against MasterSingleModeCharaEffect for the human
+      // name. Discovered via scout_conditions.py (2026-08-02).
+      dumpAll(mainAsm.class('Gallop.ObscuredCharaEffectLog'), 'CharaEffectLog');
       // Direct parents (+ nested grandparents) — needed for compat + lineage panel.
       dumpParents(p.w.succession_trained_chara_id_1, p.w.succession_trained_chara_id_2);
       send({type: 'done'});

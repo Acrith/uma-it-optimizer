@@ -155,7 +155,7 @@ unsafe fn setup() -> Result<(), String> {
     // instances but we only want the "real" one, pick the match
     // with the highest value at the given int32 field. Matches
     // the extractor's picker logic (dump_it_run.py:517).
-    let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage, Option<&'static str>); 6] = [
+    let targets: [(&'static str, &'static str, *const edge_sdk::ffi::Il2CppImage, Option<&'static str>); 7] = [
         ("GainInfo",                     "ObscuredIdleSingleModeGainInfo",                   img_main, None),
         ("SupportCardGainInfo",          "ObscuredIdleSingleModeSupportCardGainInfo",        img_main, None),
         // v0.0.8a used "FactorGainInfo" here — extractor uses the
@@ -169,6 +169,15 @@ unsafe fn setup() -> Result<(), String> {
         // v0.0.8a used "IdleRaceHistory" — extractor uses the full
         // "IdleSingleModeRaceHistory" name (dump_it_run.py:322).
         ("IdleSingleModeRaceHistory",    "IdleSingleModeRaceHistory",                        img_http, None),
+        // v1.1.0: chara-effect log = the visible "conditions" on the
+        // Training Log popup (Fast Learner, Migraine, Practice
+        // Perfect, Pure Passion, etc.). One instance per condition
+        // ever applied — <IsActive>k__BackingField distinguishes
+        // still-in-effect from [Removed]. <CharaEffectId>k__BackingField
+        // decodes as ObscuredInt (same as fans, speed, etc.) and
+        // joins against MasterSingleModeCharaEffect for the human
+        // name. Discovered via scout_conditions.py (2026-08-02).
+        ("CharaEffectLog",               "ObscuredCharaEffectLog",                           img_main, None),
     ];
     let mut resolved = 0;
     for (label, cls_name, image, pick_by) in targets {
@@ -246,7 +255,7 @@ unsafe fn setup() -> Result<(), String> {
     if resolved == 0 {
         return Err("no target classes resolved — either the game version is very off or the images aren't loaded".into());
     }
-    info!("[uma-it] {}/7 target classes resolved for scanning", resolved);
+    info!("[uma-it] {}/8 target classes resolved for scanning", resolved);
 
     // GC + metadata symbols already resolved earlier in this
     // function (moved up so Parents registration could use

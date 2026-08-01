@@ -1,6 +1,6 @@
 [package]
 name = "uma_it_plugin"
-version = "1.0.5"
+version = "1.1.0"
 # v1.0.0: full extractor JSON parity + auto-upload + minimal
 # settings UI. From here on, semver: bump patch for fixes, minor
 # for additive features, major for breaking capture-schema changes.
