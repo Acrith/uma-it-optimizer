@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.14"
+EXTRACTOR_VERSION = "0.1.15"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -709,33 +709,47 @@ def _upload_run(json_path: Path, cfg: dict) -> None:
 
     url = f"{cfg['api_url']}/api/runs"
     body = json_path.read_bytes()
-    req = urllib.request.Request(
-        url,
-        data=body,
-        method="POST",
-        headers={
-            "Authorization": f"Bearer {cfg['api_token']}",
-            "X-Filename": json_path.name,
-            "Content-Type": "application/octet-stream",
-            # Distinctive UA — was defaulting to `Python-urllib/3.x`
-            # which Cloudflare's bot rules occasionally 403'd. This
-            # form matches what CF's ML treats as an identified
-            # first-party tool. Bumped alongside EXTRACTOR_VERSION.
-            "User-Agent": (
-                f"uma-it-extract/{EXTRACTOR_VERSION} "
-                f"(+https://training.umaladder.moe)"
-            ),
-        },
-    )
-    # One retry on transport-level failures — Wine's TLS stack and
-    # Cloudflare edges both occasionally drop connections mid-flight
-    # (WSAECONNRESET 10054 on Linux/Proton users especially). HTTP-
-    # level failures (401 auth, 400 malformed, 409 dup, 5xx crash)
-    # are NOT retried: they're deterministic responses that won't
-    # differ on a repeat.
+
+    def _build_request() -> urllib.request.Request:
+        # Fresh Request per attempt so nothing carries over from a
+        # dropped connection. `Connection: close` also asks urllib to
+        # tear down the socket after each response rather than pool it,
+        # so a retry always starts a new TCP + TLS handshake — the
+        # Wine 10054 pattern we're defending against is a mid-flight
+        # reset of a specific socket, not a full CF outage.
+        return urllib.request.Request(
+            url,
+            data=body,
+            method="POST",
+            headers={
+                "Authorization": f"Bearer {cfg['api_token']}",
+                "X-Filename": json_path.name,
+                "Content-Type": "application/octet-stream",
+                "Connection": "close",
+                # Distinctive UA — was defaulting to `Python-urllib/3.x`
+                # which Cloudflare's bot rules occasionally 403'd. This
+                # form matches what CF's ML treats as an identified
+                # first-party tool. Bumped alongside EXTRACTOR_VERSION.
+                "User-Agent": (
+                    f"uma-it-extract/{EXTRACTOR_VERSION} "
+                    f"(+https://training.umaladder.moe)"
+                ),
+            },
+        )
+
+    # 3 attempts total with exponential backoff (2s, 6s). Prior v0.1.11
+    # single-retry-after-2s wasn't enough on Wine/Proton — user hit two
+    # consecutive 10054s in a row with the 2s gap, so we widen the net
+    # both in count and in backoff. HTTP-level failures (401/400/409/5xx)
+    # are still NOT retried: those are deterministic and won't differ.
+    BACKOFFS = (2, 6)  # sleeps AFTER attempt 1 and attempt 2 respectively
+    MAX_ATTEMPTS = 3
     last_err: Exception | None = None
-    for attempt in (1, 2):
+    status = None
+    payload: dict = {}
+    for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
+            req = _build_request()
             with urllib.request.urlopen(req, timeout=UPLOAD_TIMEOUT_SECONDS) as resp:
                 status = resp.status
                 payload = json.loads(resp.read().decode("utf-8") or "{}")
@@ -755,12 +769,17 @@ def _upload_run(json_path: Path, cfg: dict) -> None:
             return
         except urllib.error.URLError as e:
             last_err = e
-            if attempt == 1:
-                print(f"[.] Network hiccup ({e.reason}); retrying once...")
-                time.sleep(2)
+            if attempt < MAX_ATTEMPTS:
+                delay = BACKOFFS[attempt - 1]
+                print(
+                    f"[.] Network hiccup ({e.reason}); "
+                    f"retry {attempt}/{MAX_ATTEMPTS - 1} in {delay}s..."
+                )
+                time.sleep(delay)
                 continue
     else:
-        print(f"[!] Upload failed: {last_err.reason if last_err else 'unknown'}")
+        print(f"[!] Upload failed after {MAX_ATTEMPTS} attempts: "
+              f"{last_err.reason if last_err else 'unknown'}")
         print(f"[!] Local file is safe at {json_path.name}; retry later.")
         return
 
