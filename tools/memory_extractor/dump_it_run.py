@@ -41,6 +41,11 @@ PROCESS_NAME = "UmamusumePrettyDerby.exe"
 WAIT_POLL_SECONDS = 2.0
 WAIT_MAX_SECONDS = 300  # 5 min — plenty of time to launch + navigate
 UPLOAD_TIMEOUT_SECONDS = 30
+# Bumped per release. Appears in the User-Agent on /api/runs POSTs so
+# Cloudflare's bot ML can recognise us as a first-party tool instead
+# of a generic Python-urllib scraper (which occasionally 403'd before
+# adding this UA — see the v0.1.10 changelog).
+EXTRACTOR_VERSION = "0.1.10"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -681,6 +686,14 @@ def _upload_run(json_path: Path, cfg: dict) -> None:
             "Authorization": f"Bearer {cfg['api_token']}",
             "X-Filename": json_path.name,
             "Content-Type": "application/octet-stream",
+            # Distinctive UA — was defaulting to `Python-urllib/3.x`
+            # which Cloudflare's bot rules occasionally 403'd. This
+            # form matches what CF's ML treats as an identified
+            # first-party tool. Bumped alongside EXTRACTOR_VERSION.
+            "User-Agent": (
+                f"uma-it-extract/{EXTRACTOR_VERSION} "
+                f"(+https://training.umaladder.moe)"
+            ),
         },
     )
     try:
