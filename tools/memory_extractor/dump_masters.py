@@ -54,6 +54,15 @@ TEXT_CAT = {
     "factor_name": 147,       # index = factor_id — authoritative game display
                               # names (e.g. 2303 -> "Late Surger",
                               # 2102102 -> "Ignited Spirit: Speed +").
+    "chara_effect_name": 142, # index = chara-effect id (e.g. 10 -> "Practice
+                              # Perfect ○", 3 -> "Skin Outbreak"). These are
+                              # the "conditions" shown on the Training Log
+                              # popup after IT — Fast Learner, Migraine, Pure
+                              # Passion variants, etc.
+    "chara_effect_desc": 143, # index = same. Long-form description shown on
+                              # long-tap in-game (e.g. 5 -> "These migraines
+                              # are getting her down. Cannot gain
+                              # improvements in Mood.").
 }
 
 # Scenario id -> Global display name. Derived from release-date + champion
@@ -402,6 +411,33 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "max": r["max_value"],
             })
 
+        # ── chara effects ("conditions" on the Training Log popup) ──
+        # single_mode_chara_effect row.id joins against text_data cat
+        # 142 (name) and 143 (description). These are the ids the
+        # capture tools emit under top-level CharaEffectLog (from
+        # Gallop.ObscuredCharaEffectLog.<CharaEffectId>). Extra master
+        # columns (effect_type, effect_category, effect_group_id,
+        # priority) passed through raw — enrichment layer can group
+        # or sort by these if useful, but the primary use is
+        # id → name lookup on the run detail page.
+        effect_names = _load_text_map(con, TEXT_CAT["chara_effect_name"])
+        effect_descs = _load_text_map(con, TEXT_CAT["chara_effect_desc"])
+        chara_effects: dict[str, dict] = {}
+        for r in con.execute(
+            "SELECT id, effect_type, effect_category, effect_group_id, priority "
+            "FROM single_mode_chara_effect ORDER BY id"
+        ):
+            eid = r["id"]
+            chara_effects[str(eid)] = {
+                "id": eid,
+                "name": effect_names.get(eid, f"?effect:{eid}"),
+                "description": effect_descs.get(eid, ""),
+                "effect_type": r["effect_type"],
+                "effect_category": r["effect_category"],
+                "effect_group_id": r["effect_group_id"],
+                "priority": r["priority"],
+            }
+
         con.close()
 
         # ── assemble output ────────────────────────────────────────────
@@ -427,6 +463,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                     "win_saddles": len(win_saddles),
                     "race_instances": len(race_instances),
                     "innate_skill_sets": len(innate_skills),
+                    "chara_effects": len(chara_effects),
                 },
             },
             "scenarios": scenarios,
@@ -444,6 +481,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             "win_saddles": win_saddles,
             "race_instances": race_instances,
             "innate_skills": innate_skills,
+            "chara_effects": chara_effects,
         }
         out_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
         return result
