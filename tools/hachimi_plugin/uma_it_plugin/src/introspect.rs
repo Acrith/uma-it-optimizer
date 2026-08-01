@@ -300,6 +300,38 @@ pub unsafe fn read_ref(obj: *mut c_void, offset: i32) -> *mut c_void {
 ///
 /// Caches (class → offsets) on first-seen so subsequent decodes
 /// of the same class are constant-time.
+/// CodeStage.AntiCheat.ObscuredTypes.ObscuredBool stores its value
+/// as one of two magic constants XOR'd with the key. Reverse-
+/// engineered 2026-08-02 by dumping raw bytes of live
+/// ObscuredCharaEffectLog.IsActive fields against a known-state
+/// Training Log; correlation was 3/3.
+const OBOOL_FALSE: i32 = 181;
+const OBOOL_TRUE: i32 = 213;
+
+/// If `klass`'s type name ends with "ObscuredBool", interpret an
+/// already-XOR-decoded int as a bool via the magic constants.
+/// Returns None for non-ObscuredBool classes (caller falls back to
+/// emitting the raw int). Returns Some(JsonValue::Null) for
+/// ObscuredBool values that don't match either magic constant —
+/// treated as corruption / unexpected rather than silently mapping
+/// to true or false.
+unsafe fn obscured_int_as_bool(v: i32, klass: *mut Il2CppClass) -> Option<JsonValue> {
+    let syms = META_SYMS.get()?;
+    let name_ptr = (syms.il2cpp_class_get_name)(klass);
+    if name_ptr.is_null() {
+        return None;
+    }
+    let name = CStr::from_ptr(name_ptr).to_bytes();
+    if !name.ends_with(b"ObscuredBool") {
+        return None;
+    }
+    Some(match v {
+        OBOOL_TRUE => JsonValue::Bool(true),
+        OBOOL_FALSE => JsonValue::Bool(false),
+        _ => JsonValue::Null,
+    })
+}
+
 pub unsafe fn try_decode_obscured_int(obscured_obj: *mut c_void) -> Option<i32> {
     if obscured_obj.is_null() {
         return None;
@@ -941,6 +973,13 @@ unsafe fn value_for_field(
                 return JsonValue::Null;
             }
             if let Some(v) = try_decode_obscured_int(ptr) {
+                // Same obscured layout, different interpretation:
+                // if the referent's class is ObscuredBool, decoded
+                // int is one of the 213/181 magic constants → bool.
+                let klass = *(ptr as *const *mut Il2CppClass);
+                if let Some(b) = obscured_int_as_bool(v, klass) {
+                    return b;
+                }
                 return JsonValue::Int(v as i64);
             }
             if let Some(v) = try_decode_signed_int(ptr) {
@@ -960,6 +999,13 @@ unsafe fn value_for_field(
                 return JsonValue::Null;
             }
             if let Some(v) = try_decode_inline_obscured_int(container, use_off, struct_class) {
+                // Same dispatch as the CLASS branch above — inline
+                // ObscuredBool structs (e.g. IsActive on
+                // ObscuredCharaEffectLog) decode to true/false, not
+                // the raw magic byte.
+                if let Some(b) = obscured_int_as_bool(v, struct_class) {
+                    return b;
+                }
                 return JsonValue::Int(v as i64);
             }
             // Non-obscured value type: walk its fields inline.
