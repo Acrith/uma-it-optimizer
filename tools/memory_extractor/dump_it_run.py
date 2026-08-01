@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.10"
+EXTRACTOR_VERSION = "0.1.11"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -696,25 +696,40 @@ def _upload_run(json_path: Path, cfg: dict) -> None:
             ),
         },
     )
-    try:
-        with urllib.request.urlopen(req, timeout=UPLOAD_TIMEOUT_SECONDS) as resp:
-            status = resp.status
-            payload = json.loads(resp.read().decode("utf-8") or "{}")
-    except urllib.error.HTTPError as e:
+    # One retry on transport-level failures — Wine's TLS stack and
+    # Cloudflare edges both occasionally drop connections mid-flight
+    # (WSAECONNRESET 10054 on Linux/Proton users especially). HTTP-
+    # level failures (401 auth, 400 malformed, 409 dup, 5xx crash)
+    # are NOT retried: they're deterministic responses that won't
+    # differ on a repeat.
+    last_err: Exception | None = None
+    for attempt in (1, 2):
         try:
-            msg = json.loads(e.read().decode("utf-8") or "{}")
-        except (json.JSONDecodeError, ValueError):
-            msg = {}
-        if e.code == 409:
-            # Server already had this run — silent-accept, not an error.
-            print(f"[i] Already uploaded ({msg.get('message', 'duplicate')})")
+            with urllib.request.urlopen(req, timeout=UPLOAD_TIMEOUT_SECONDS) as resp:
+                status = resp.status
+                payload = json.loads(resp.read().decode("utf-8") or "{}")
+            break
+        except urllib.error.HTTPError as e:
+            try:
+                msg = json.loads(e.read().decode("utf-8") or "{}")
+            except (json.JSONDecodeError, ValueError):
+                msg = {}
+            if e.code == 409:
+                # Server already had this run — silent-accept, not an error.
+                print(f"[i] Already uploaded ({msg.get('message', 'duplicate')})")
+                return
+            print(f"[!] Upload failed: HTTP {e.code} — {msg.get('error', e.reason)}")
+            if e.code == 401:
+                print(f"[!] Check api_token in {CONFIG_PATH.name}")
             return
-        print(f"[!] Upload failed: HTTP {e.code} — {msg.get('error', e.reason)}")
-        if e.code == 401:
-            print(f"[!] Check api_token in {CONFIG_PATH.name}")
-        return
-    except urllib.error.URLError as e:
-        print(f"[!] Upload failed: {e.reason}")
+        except urllib.error.URLError as e:
+            last_err = e
+            if attempt == 1:
+                print(f"[.] Network hiccup ({e.reason}); retrying once...")
+                time.sleep(2)
+                continue
+    else:
+        print(f"[!] Upload failed: {last_err.reason if last_err else 'unknown'}")
         print(f"[!] Local file is safe at {json_path.name}; retry later.")
         return
 
