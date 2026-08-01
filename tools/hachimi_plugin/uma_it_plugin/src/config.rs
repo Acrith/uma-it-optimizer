@@ -63,6 +63,7 @@ static CONFIG: Lazy<RwLock<Config>> = Lazy::new(|| {
     RwLock::new(Config {
         api_url: DEFAULT_API_URL.to_string(),
         api_token: String::new(),
+        open_after_upload: false,
     })
 });
 
