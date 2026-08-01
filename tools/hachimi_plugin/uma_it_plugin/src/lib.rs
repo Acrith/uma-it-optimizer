@@ -562,6 +562,34 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), CaptureError> {
         // of all walked matches (matches the extractor's format).
         let value = match target.pick_by {
             Some(field_name) => {
+                // Diagnostic dump for SingleModeChara pick — helps
+                // catch the "long-running session, stale SMC from
+                // earlier IT lingers on heap with higher fans than
+                // the current run" failure mode. Only fires on
+                // Extract click (menu-triggered, one-shot per
+                // press) so there's no per-frame log-spam risk. Cap
+                // at 10 entries in case future heap state ever has
+                // dozens of stale candidates.
+                if target.label == "SingleModeChara" && res.matches.len() > 1 {
+                    info!(
+                        "[uma-it] [SingleModeChara] {} candidates before pick (dumping up to 10):",
+                        res.matches.len()
+                    );
+                    const MAX_LOG: usize = 10;
+                    for (i, &obj) in res.matches.iter().take(MAX_LOG).enumerate() {
+                        let d = unsafe { introspect::peek_smc_diag(obj) };
+                        info!(
+                            "[uma-it]   [{}] card={:?} scen={:?} fans={:?} turn={:?}",
+                            i, d.card_id, d.scenario_id, d.fans, d.turn
+                        );
+                    }
+                    if res.matches.len() > MAX_LOG {
+                        info!(
+                            "[uma-it]   ... {} more not logged (cap {})",
+                            res.matches.len() - MAX_LOG, MAX_LOG
+                        );
+                    }
+                }
                 let picked = unsafe {
                     introspect::pick_best_by_int_field(&res.matches, field_name)
                         .map(|(p, _)| p)

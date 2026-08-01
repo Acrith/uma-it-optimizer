@@ -778,6 +778,44 @@ pub unsafe fn find_class_by_full_name(
 /// Assumes all matches share the same class (they do — they came
 /// from a scan filtered to one class). Resolves the field offset
 /// once from the first match's class.
+/// Snapshot of the 4 int fields that identify which IT run an SMC
+/// instance represents. Cheap: one describe_fields lookup + direct
+/// memory reads (same pattern pick_best_by_int_field uses). Used
+/// for logging pre-pick candidates so we can diagnose the "picker
+/// chose stale SMC from earlier IT in the same game session" case
+/// if it's ever reported.
+///
+/// All fields are `Option` because a template SMC may lack them or
+/// the type_enum could be non-I4 (in which case the read is
+/// deliberately skipped — never a wild pointer deref).
+pub struct SmcDiag {
+    pub card_id: Option<i32>,
+    pub scenario_id: Option<i32>,
+    pub fans: Option<i32>,
+    pub turn: Option<i32>,
+}
+
+pub unsafe fn peek_smc_diag(obj: *mut c_void) -> SmcDiag {
+    let klass = *(obj as *const *mut Il2CppClass);
+    if klass.is_null() {
+        return SmcDiag { card_id: None, scenario_id: None, fans: None, turn: None };
+    }
+    let fields = describe_fields(klass).ok();
+    let read = |name: &str| -> Option<i32> {
+        let fs = fields.as_ref()?;
+        let f = fs
+            .iter()
+            .find(|f| f.name == name && f.type_enum == edge_sdk::ffi::Il2CppTypeEnum_IL2CPP_TYPE_I4)?;
+        Some(*((obj as *const u8).offset(f.offset as isize) as *const i32))
+    };
+    SmcDiag {
+        card_id: read("card_id"),
+        scenario_id: read("scenario_id"),
+        fans: read("fans"),
+        turn: read("turn"),
+    }
+}
+
 pub unsafe fn pick_best_by_int_field(
     matches: &[*mut c_void],
     field_name: &str,
