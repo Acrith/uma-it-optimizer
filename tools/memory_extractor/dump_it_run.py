@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.12"
+EXTRACTOR_VERSION = "0.1.13"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -54,9 +54,29 @@ setTimeout(() => {
     const mainAsm = Il2Cpp.domain.assembly('umamusume').image;
     const httpAsm = Il2Cpp.domain.assembly('umamusume.Http').image;
 
+    // CodeStage.AntiCheat's ObscuredBool stores its value not as
+    // raw 0/1, but as two magic constants XOR'd with the key:
+    //     false → 181 (0xB5)   true → 213 (0xD5)
+    // Verified 2026-08-02 by reading raw bytes of live
+    // ObscuredCharaEffectLog.IsActive fields against a known-state
+    // Training Log. Anything else = tampered / unexpected → null.
+    const OBOOL_FALSE = 181;
+    const OBOOL_TRUE = 213;
+
     function tryDecodeOI(v) {
-      try { return (v.field('hiddenValue').value ^ v.field('currentCryptoKey').value) | 0; }
-      catch (e) { return null; }
+      try {
+        const decoded = (v.field('hiddenValue').value ^ v.field('currentCryptoKey').value) | 0;
+        // Dispatch on class name — ObscuredBool has the same
+        // (hidden, key) layout as ObscuredInt but the decoded byte
+        // is a bool magic, not an int32.
+        const clsName = v.class && v.class.type && v.class.type.name;
+        if (clsName && clsName.endsWith('ObscuredBool')) {
+          if (decoded === OBOOL_TRUE) return true;
+          if (decoded === OBOOL_FALSE) return false;
+          return null;  // corruption / unexpected magic
+        }
+        return decoded;
+      } catch (e) { return null; }
     }
 
     function walk(v, typeName, depth) {
