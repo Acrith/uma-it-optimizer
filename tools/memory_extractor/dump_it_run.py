@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.13"
+EXTRACTOR_VERSION = "0.1.14"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -63,14 +63,15 @@ setTimeout(() => {
     const OBOOL_FALSE = 181;
     const OBOOL_TRUE = 213;
 
-    function tryDecodeOI(v) {
+    function tryDecodeOI(v, typeName) {
       try {
         const decoded = (v.field('hiddenValue').value ^ v.field('currentCryptoKey').value) | 0;
-        // Dispatch on class name — ObscuredBool has the same
-        // (hidden, key) layout as ObscuredInt but the decoded byte
-        // is a bool magic, not an int32.
-        const clsName = v.class && v.class.type && v.class.type.name;
-        if (clsName && clsName.endsWith('ObscuredBool')) {
+        // Dispatch on the FIELD's declared typeName (passed in by
+        // walk()). Earlier version tried v.class.type.name — that
+        // works for Il2Cpp.Object refs but not for value-type
+        // structs, which the game's Obscured* wrappers all are.
+        // Passing typeName in avoids the accessor question entirely.
+        if (typeName && typeName.endsWith('ObscuredBool')) {
           if (decoded === OBOOL_TRUE) return true;
           if (decoded === OBOOL_FALSE) return false;
           return null;  // corruption / unexpected magic
@@ -86,9 +87,11 @@ setTimeout(() => {
       if (typeName === 'System.Int64' || typeName === 'System.UInt64') {
         try { return v.toString(); } catch (e) { return String(v); }
       }
-      const oi = tryDecodeOI(v);
+      const oi = tryDecodeOI(v, typeName);
       if (oi !== null) return oi;
       if (typeName === 'Gallop.ObscuredIdleSingleModeSignedInt' && v.field) {
+        // Sign+Value are always ObscuredInt (i32), so we don't need
+        // to pass a typeName — decoder falls to int path either way.
         const s = tryDecodeOI(v.field('<Sign>k__BackingField').value);
         const val = tryDecodeOI(v.field('<Value>k__BackingField').value);
         if (typeof s === 'number' && typeof val === 'number') return s < 0 ? -val : val;
@@ -144,7 +147,7 @@ setTimeout(() => {
       if (typeName === 'System.Int64' || typeName === 'System.UInt64') {
         try { return v.toString(); } catch (e) { return String(v); }
       }
-      const oi = tryDecodeOI(v);
+      const oi = tryDecodeOI(v, typeName);
       if (oi !== null) return oi;
       if (typeName && typeName.endsWith('[]')) {
         const elemType = typeName.slice(0, -2);
