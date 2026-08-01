@@ -307,7 +307,18 @@ extern "C" fn on_menu_click(_userdata: *mut c_void) {
     gc_scan::scan_and_log();
     let (filename, bytes) = match write_capture_to_disk() {
         Ok(pair) => pair,
-        Err(msg) => {
+        Err(CaptureError::NoRunFound) => {
+            info!(
+                "[uma-it] Extract clicked but no IT run found — SMC template state, \
+                 Training Log popup not open"
+            );
+            notify("No IT run found — open the Training Log first");
+            settings_ui::set_status(
+                "No IT run — click after finishing an IT with the Training Log open".to_string()
+            );
+            return;
+        }
+        Err(CaptureError::Other(msg)) => {
             error!("[uma-it] failed to write capture file: {msg}");
             notify(&format!("Extract failed: {msg}"));
             settings_ui::set_status(format!("Last extract: FAILED ({msg})"));
@@ -444,14 +455,36 @@ fn extract_int_field(obj: &json::JsonValue, key: &str) -> Option<i64> {
 /// keeps filenames consistent between the two capture paths so
 /// they sort together in a shared runs folder.
 ///
-/// Returns None if SMC didn't yield the two required IDs; callers
-/// fall back to the epoch-based name and skip API upload (which
-/// would fail server-side filename validation anyway).
+/// Returns None if there's no real capture available: SMC field
+/// missing, OR either ID is 0. Zero-value IDs indicate the SMC
+/// picker landed on a template instance (Training Log popup not
+/// open when the user clicked Extract); scenarios are 1-indexed
+/// and card_ids are 6-digit numbers, so 0 is impossible for a
+/// real run. The caller uses this None as the "no run found"
+/// signal — see CaptureError::NoRunFound.
 fn extractor_filename(smc: &json::JsonValue) -> Option<String> {
     let scenario_id = extract_int_field(smc, "scenario_id")?;
     let card_id = extract_int_field(smc, "card_id")?;
+    if scenario_id <= 0 || card_id <= 0 {
+        return None;
+    }
     let ts = chrono::Local::now().format("%Y%m%dT%H%M%S").to_string();
     Some(format!("{ts}_scen{scenario_id}_uma{card_id}.json"))
+}
+
+/// Error variants from [`write_capture_to_disk`]. Separated so
+/// [`on_menu_click`] can distinguish "user clicked Extract at the
+/// wrong screen" (friendly toast, no disk/network activity) from
+/// everything else (log + generic failure toast).
+enum CaptureError {
+    /// SMC scan yielded no live instance with real (scenario_id,
+    /// card_id) > 0 — user clicked Extract without a Training Log
+    /// popup open (main screen, mid-training, after pressing OK).
+    /// Not really an error, just the wrong click context.
+    NoRunFound,
+    /// Any other failure — target classes not registered, disk
+    /// write failed, base-dir resolution failed, etc.
+    Other(String),
 }
 
 /// Re-scan every registered class, build a JSON capture, write it
@@ -462,15 +495,15 @@ fn extractor_filename(smc: &json::JsonValue) -> Option<String> {
 /// dumps. Doubles the click-to-file latency but keeps the log
 /// dump as a distinct debug artifact — we can drop the log-based
 /// dump later once the JSON is confirmed correct across builds.
-fn write_capture_to_disk() -> Result<(String, Vec<u8>), String> {
+fn write_capture_to_disk() -> Result<(String, Vec<u8>), CaptureError> {
     use json::JsonValue;
     let api = Api::get();
     let get_base_dir = api
         .hachimi_get_base_dir
-        .ok_or("hachimi_get_base_dir missing from vtable")?;
+        .ok_or_else(|| CaptureError::Other("hachimi_get_base_dir missing from vtable".into()))?;
     let base_dir_ptr = unsafe { get_base_dir() };
     if base_dir_ptr.is_null() {
-        return Err("hachimi_get_base_dir returned null".into());
+        return Err(CaptureError::Other("hachimi_get_base_dir returned null".into()));
     }
     let base_dir = unsafe { std::ffi::CStr::from_ptr(base_dir_ptr) }
         .to_string_lossy()
@@ -478,7 +511,7 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), String> {
 
     let targets = gc_scan::snapshot_targets();
     if targets.is_empty() {
-        return Err("no target classes registered".into());
+        return Err(CaptureError::Other("no target classes registered".into()));
     }
     let mut root: Vec<(String, JsonValue)> = Vec::new();
     root.push((
@@ -599,29 +632,27 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), String> {
     }
     root.push(("_scan_counts".into(), JsonValue::Object(per_class_counts)));
 
-    let json = JsonValue::Object(root).to_pretty();
     // Extractor-style filename `<local-ts>_scen<N>_uma<N>.json`
-    // built from SMC's scenario_id + card_id. Server-side filename
-    // validator rejects anything else, so if SMC didn't yield both
-    // IDs we fall back to an epoch-suffixed name and let the caller
-    // skip the API upload — the on-disk file is still recoverable
-    // via manual upload.
+    // built from SMC's scenario_id + card_id. If SMC didn't yield
+    // real IDs (missing fields, or 0-value template because the
+    // Training Log popup wasn't open when the user clicked), abort
+    // BEFORE writing anything to disk. Previous versions fell back
+    // to `uma_it_capture_<epoch>.json` + still POSTed — server
+    // rejected on filename regex + user got confusing "Saved
+    // capture: uma_it_capture_..." toast before the upload error.
     let filename = match smc_walked.as_ref().and_then(extractor_filename) {
         Some(name) => name,
-        None => {
-            let epoch = std::time::SystemTime::now()
-                .duration_since(std::time::UNIX_EPOCH)
-                .map(|d| d.as_secs())
-                .unwrap_or(0);
-            format!("uma_it_capture_{epoch}.json")
-        }
+        None => return Err(CaptureError::NoRunFound),
     };
+    let json = JsonValue::Object(root).to_pretty();
     let base = base_dir.trim_end_matches(['/', '\\']);
     let dir = format!("{}\\IT", base);
-    std::fs::create_dir_all(&dir).map_err(|e| format!("create dir {}: {}", dir, e))?;
+    std::fs::create_dir_all(&dir)
+        .map_err(|e| CaptureError::Other(format!("create dir {}: {}", dir, e)))?;
     let path = format!("{}\\{}", dir, filename);
     let bytes = json.into_bytes();
-    std::fs::write(&path, &bytes).map_err(|e| format!("write {}: {}", path, e))?;
+    std::fs::write(&path, &bytes)
+        .map_err(|e| CaptureError::Other(format!("write {}: {}", path, e)))?;
     info!("[uma-it] wrote capture ({} bytes) to {}", bytes.len(), path);
     Ok((filename, bytes))
 }
