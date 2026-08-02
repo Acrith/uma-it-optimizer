@@ -1142,7 +1142,21 @@ unsafe fn walk_array(
     for i in 0..take {
         let slot = data_start.offset((i * stride) as isize);
         let item = if is_value {
-            walk_inline(slot as *mut c_void, 0, elem_class, depth)
+            // Try obscured-int decode first — the element class might be
+            // ObscuredInt/ObscuredBool (e.g. _winSaddleIdArray on a
+            // grandparent is ObscuredInt[]). Without this, walk_inline
+            // dumps raw {hiddenValue, currentCryptoKey, ...} structs
+            // and downstream compat code treats every entry as 0. Same
+            // dispatch as value_for_field TYPE_VALUETYPE branch.
+            if let Some(v) = try_decode_inline_obscured_int(slot as *mut c_void, 0, elem_class) {
+                if let Some(b) = obscured_int_as_bool(v, elem_class) {
+                    b
+                } else {
+                    JsonValue::Int(v as i64)
+                }
+            } else {
+                walk_inline(slot as *mut c_void, 0, elem_class, depth)
+            }
         } else {
             let elem_ptr = *(slot as *const *mut c_void);
             if depth + 1 >= MAX_JSON_DEPTH {
