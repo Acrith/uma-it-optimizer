@@ -50,6 +50,8 @@ DEFAULT_MDB_PATHS = [
 TEXT_CAT = {
     "uma_name": 6,            # index = chara_id (e.g. 1032 -> "Agnes Tachyon")
     "skill_name": 47,         # index = skill_id (e.g. 200352 -> "Corner Recovery ○")
+    "skill_desc": 48,         # index = skill_id (e.g. 200352 -> "Slightly increase
+                              # velocity when navigating a corner. (Late Surger)")
     "race_name": 33,          # index = race id  (e.g. 1001 -> "February Stakes")
     "factor_name": 147,       # index = factor_id — authoritative game display
                               # names (e.g. 2303 -> "Late Surger",
@@ -118,6 +120,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         # ── text maps (loaded once, joined by many things) ─────────────
         uma_names = _load_text_map(con, TEXT_CAT["uma_name"])
         skill_names = _load_text_map(con, TEXT_CAT["skill_name"])
+        skill_descs = _load_text_map(con, TEXT_CAT["skill_desc"])
         race_names = _load_text_map(con, TEXT_CAT["race_name"])
         factor_names = _load_text_map(con, TEXT_CAT["factor_name"])
 
@@ -223,6 +226,11 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             skills[str(sid)] = {
                 "id": sid,
                 "name": skill_names.get(sid, f"?skill:{sid}"),
+                # In-game description shown in tooltips / hint popups
+                # (e.g. "Slightly increase velocity when navigating a
+                # corner. (Late Surger)"). Empty string when the master
+                # lacks a description entry for this skill id.
+                "description": skill_descs.get(sid, ""),
                 "rarity": r["rarity"],
                 "group_id": r["group_id"],
                 "group_rate": r["group_rate"],
