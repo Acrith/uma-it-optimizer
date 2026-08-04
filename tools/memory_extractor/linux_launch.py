@@ -28,6 +28,9 @@ Usage:
     python linux_launch.py --appid 3224770       # override Steam AppID
     python linux_launch.py --prefix /path/to/pfx # skip appid → prefix
     python linux_launch.py --wine /path/to/wine  # force a specific wine
+    python linux_launch.py --upload 20260804T153304_scen2_uma102701.json
+                                                 # re-upload a saved run
+                                                 # (no wine, no game)
 """
 from __future__ import annotations
 
@@ -157,8 +160,11 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
     lines. When both appear, we retry the upload from native Linux
     Python (see :func:`retry_upload_native`) — the .exe's Wine-hosted
     urllib+OpenSSL is what CF is RSTing, native Linux has a different
-    fingerprint. Best-effort; the .exe already told the user the file
-    is on disk, so a re-retry failure is a no-op UX-wise.
+    fingerprint. The retry fires IMMEDIATELY on seeing the marker,
+    while the .exe is still parked on its "Press Enter to close..."
+    prompt — waiting for the user to dismiss it first just delays the
+    upload for no reason. Best-effort; the .exe already told the user
+    the file is on disk, so a re-retry failure is a no-op UX-wise.
     """
     env = os.environ.copy()
     env["WINEPREFIX"] = str(prefix)
@@ -188,7 +194,7 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
     )
 
     saw_upload_fail = False
-    failed_filename: str | None = None
+    retried: set[str] = set()
     assert proc.stdout is not None
     for line in proc.stdout:
         sys.stdout.write(line)
@@ -198,25 +204,28 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
             continue
         m = _SAFE_AT_LINE.match(line)
         if m and saw_upload_fail:
-            failed_filename = m.group(1)
-    rc = proc.wait()
+            saw_upload_fail = False
+            filename = m.group(1)
+            if filename not in retried:
+                retried.add(filename)
+                retry_upload_native(exe.parent, filename)
+    return proc.wait()
 
-    if failed_filename:
-        retry_upload_native(exe.parent, failed_filename)
 
-    return rc
-
-
-def retry_upload_native(base_dir: Path, filename: str) -> None:
-    """Re-run the .exe's failed upload from native Linux Python. Reads
-    the same uma-it-config.json the .exe writes/reads, POSTs the JSON
+def retry_upload_native(base_dir: Path, filename: str,
+                        file_path: Path | None = None) -> None:
+    """Upload a saved run JSON from native Linux Python. Reads the
+    same uma-it-config.json the .exe writes/reads, POSTs the JSON
     with the same bearer/UA/X-Filename headers. Only reason to do this
     from the launcher is TLS-stack diversity — the .exe's bundled
     OpenSSL under Wine has a JA3 that some CF edges reject on flagged
     IPs; distro OpenSSL doesn't.
+
+    ``file_path`` overrides the default ``base_dir/runs/filename``
+    location (used by --upload with an explicit path).
     """
     cfg_path = base_dir / "uma-it-config.json"
-    runs_path = base_dir / "runs" / filename
+    runs_path = file_path if file_path is not None else base_dir / "runs" / filename
     if not cfg_path.is_file():
         # No config = user never enabled auto-upload; the .exe already
         # skipped upload and saved the file. Nothing for us to do.
@@ -236,7 +245,7 @@ def retry_upload_native(base_dir: Path, filename: str) -> None:
         return
     version = str(cfg.get("extractor_version") or EXTRACTOR_VERSION_FALLBACK)
 
-    print(f"\n[linux-retry] Wine upload failed — retrying from native Linux Python...")
+    print(f"\n[linux-retry] Uploading {filename} from native Linux Python...")
     body = runs_path.read_bytes()
     req = urllib.request.Request(
         f"{api_url}/api/runs",
@@ -294,6 +303,30 @@ def _die(msg: str) -> None:
     sys.exit(1)
 
 
+def upload_only(target: str) -> int:
+    """--upload mode: push one saved run JSON with native Python.
+    No wine, no game, no frida — just the HTTP POST. Accepts a bare
+    filename (resolved against runs/ next to this script) or a path.
+    """
+    script_dir = Path(__file__).resolve().parent
+    p = Path(target)
+    if p.is_file():
+        p = p.resolve()
+        # Config lives next to the exe, i.e. one level above runs/.
+        base_dir = p.parent.parent if p.parent.name == "runs" else script_dir
+    else:
+        candidate = script_dir / "runs" / p.name
+        if not candidate.is_file():
+            _die(f"{target} not found (also looked at {candidate})")
+        p, base_dir = candidate, script_dir
+    cfg = base_dir / "uma-it-config.json"
+    if not cfg.is_file():
+        _die(f"No uma-it-config.json at {base_dir} — run the extractor "
+             "once and enable auto-upload to create it.")
+    retry_upload_native(base_dir, p.name, file_path=p)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -302,10 +335,16 @@ def main() -> int:
                     help=f"Steam AppID (default: {DEFAULT_APPID} = Umamusume)")
     ap.add_argument("--prefix", help="Path to Proton prefix (overrides --appid)")
     ap.add_argument("--wine", help="Path to wine binary")
+    ap.add_argument("--upload", metavar="FILE",
+                    help="Skip wine entirely: upload a saved run JSON from "
+                         "runs/ (bare filename or path) and exit.")
     args = ap.parse_args()
 
     if sys.platform != "linux":
         _die("This launcher is Linux-only. On Windows just run the .exe.")
+
+    if args.upload:
+        return upload_only(args.upload)
 
     exe = find_extractor(args.exe)
     prefix = find_proton_prefix(args.prefix, args.appid)
