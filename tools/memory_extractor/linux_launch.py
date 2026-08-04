@@ -179,6 +179,11 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        # The exe's console output under Wine can arrive CP1252-encoded
+        # (0x97 = em-dash) — strict UTF-8 would kill the tee mid-stream.
+        # The marker lines we match are pure ASCII, so lossy is fine.
+        encoding="utf-8",
+        errors="replace",
         bufsize=1,  # line-buffered so the tee is live, not chunked
     )
 
