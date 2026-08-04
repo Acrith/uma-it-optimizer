@@ -45,7 +45,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.15"
+EXTRACTOR_VERSION = "0.1.16"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -803,13 +803,17 @@ def _looks_completed(result: dict) -> tuple[bool, str]:
     """Best-effort check that the walked data is a COMPLETED IT run,
     not a mid-scenario snapshot caught outside the Training Log.
 
-    Same signals the server-side run_state uses: >=6 races run and
+    Same signals the server-side run_state uses: >=1 race run and
     at least one factor gained. Fans/stat sanity is skipped here
     because those pile up mid-scenario and were what let bogus
-    captures through in v0.1.7. Returns (ok, reason)."""
+    captures through in v0.1.7. The race floor is 1, NOT higher:
+    Trackblazer careers can legitimately finish with as few as 4
+    races (a real capture was rejected when this said >=6), and
+    future scenarios may allow fewer still. Mid-scenario snapshots
+    are still caught by the zero-factors check. Returns (ok, reason)."""
     races = result.get("RaceHistory") or []
-    if len(races) < 6:
-        return False, f"only {len(races)} races run (need 6+ for completed IT)"
+    if len(races) < 1:
+        return False, f"no races run yet (a completed career always races at least once)"
     factors = result.get("SuccessionFactorGainInfo") or []
     factors_total = sum(
         len(y.get("<GainFactorInfoArray>k__BackingField", []) or [])
@@ -867,7 +871,7 @@ def main() -> int:
         return 5
 
     # Second gate: even if SingleModeChara was populated, the walked
-    # data has to look like a real COMPLETED IT (>=6 races, >=1
+    # data has to look like a real COMPLETED IT (>=1 race, >=1
     # factor). Server rejects mid-scenario captures too, but catching
     # them here avoids writing dead JSONs to disk that the user then
     # has to manually delete from their runs/ folder.
