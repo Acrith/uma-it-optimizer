@@ -3,10 +3,10 @@
 The formula decoded from the Trackblazer ladder (2026-08-05, see
 `../../../uma-it-web/docs/it-formula.md` for the full research log):
 
-    base_stat = floor( g_run * (C + 2*FB + 3*Mood + 9*TE) )
+    base_stat = floor( g_run * (C + 0*FB + 5*Mood + 21*TE) )
 
 where FB / Mood / TE are the card's UNIQUE-INCLUSIVE percentages at its
-current level, C ~= 1400-1500 (not yet pinned), and ``g_run`` is a
+current level, C ~= 3400 (i.e. C:wMood ~= 680:1), and ``g_run`` is a
 per-run scale absorbing unit(races) ~ 0.423*(76-races), scenario and
 whatever drives the run-level multiplier. Facility-elevated cells and
 the SP column are NOT modelled here (open channels).
@@ -50,7 +50,14 @@ EFF_TRAINING = 8
 EFF_INIT_STATS = (9, 10, 11, 12, 13)   # initial Spd/Sta/Pow/Guts/Wiz
 
 # Axis weights, from three byte-identical ladder cards (see doc).
-W_FRIENDSHIP, W_MOOD, W_TRAINING = 2, 3, 9
+# Settled 2026-08-06 by three single-axis isolation runs (Trackblazer,
+# 4 races each) that held two of the three bonuses fixed and varied the
+# third. Friendship is ZERO: six cards spanning FB 15..35 with Mood and
+# TE identical all returned the same base of 32. Mood 0..65 moved base
+# 32->35; TE 0..15 moved 31->34, giving TE:Mood ~ 4.2:1, not the 3:1
+# previously assumed. The old 2:3:9 set carried a Friendship term that
+# only ever fit because FB correlates with rarity and level.
+W_FRIENDSHIP, W_MOOD, W_TRAINING = 0, 5, 21
 C_DEFAULT = 1450
 
 # Scenario -> pal card ids (the deck-wide multiplier cards).
