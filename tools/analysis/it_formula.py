@@ -153,7 +153,16 @@ class Masters:
         points = [(MILESTONES[i], v) for i, v in enumerate(values) if v != -1]
         if not points:
             return 0
-        if level <= points[0][0]:
+        if level < points[0][0]:
+            # -1 milestones mean the effect is NOT YET UNLOCKED, not
+            # "same as the first defined value". Confirmed in-game on
+            # 30101 [Q≠0]: its Skill Point Bonus first appears at lv45
+            # (+1) and becomes +2 at lv50 — below lv45 the tooltip has
+            # no such line at all. 1,251 effect rows unlock above lv1,
+            # so crediting the first value early inflated every
+            # under-levelled card.
+            return 0
+        if level == points[0][0]:
             return points[0][1]
         for (x0, y0), (x1, y1) in zip(points, points[1:]):
             if level <= x1:
