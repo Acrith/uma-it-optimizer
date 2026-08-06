@@ -216,7 +216,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
             """
             SELECT s.id, s.rarity, s.group_id, s.group_rate, s.skill_category,
                    s.grade_value, s.disable_singlemode, s.condition_1, s.condition_2,
-                   s.icon_id,
+                   s.icon_id, s.disp_order,
                    n.need_skill_point
             FROM skill_data s
             LEFT JOIN single_mode_skill_need_point n ON n.id = s.id
@@ -247,6 +247,13 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 # distance_type==N) from opponent/universal ones.
                 "condition_1": r["condition_1"] or "",
                 "condition_2": r["condition_2"] or "",
+                # The game's own skill-list ordering. group_id ordering
+                # is NOT equivalent: venues added after launch got
+                # far-away group ids (Oi 20095, Kawasaki/Funabashi/
+                # Morioka 20220-20222) that interleave them with
+                # unrelated groups (Savvy 20152-20155), while their
+                # disp_order keeps every racetrack together (1070-1382).
+                "disp_order": r["disp_order"],
             }
 
         # ── races ──────────────────────────────────────────────────────
