@@ -229,7 +229,16 @@ def load_run(path: Path, masters: Masters) -> dict | None:
         gains = entry["<GainInfo>k__BackingField"]
         stats = [gains[f"<{s}>k__BackingField"] for s in STAT_FIELDS]
         friendship, mood, training, initial, _ = masters.bonuses(card_id, level)
-        base = min(s - i for s, i in zip(stats, initial))
+        # Read the base off stats the card gives NO initial bonus to.
+        # Initial stats land on SPECIFIC stats, so for most cards the
+        # minimum is already untouched and subtracting was harmless —
+        # but a card with an initial bonus on all five (e.g. 30078,
+        # +30 across the board) has a genuinely inflated minimum, and
+        # subtracting the master value overshot it by ~9 every time.
+        # Ignoring the bonused stats instead took the pal-free fit from
+        # 40% to 59% of runs (86.2% -> 90.7% of rows).
+        free = [s for s, i in zip(stats, initial) if i == 0]
+        base = min(free) if free else min(s - i for s, i in zip(stats, initial))
         if base <= 0:
             continue
         rows.append(
