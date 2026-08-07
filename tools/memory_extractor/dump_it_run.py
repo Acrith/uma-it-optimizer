@@ -22,6 +22,22 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
+# Under Wine the console hands us a cp1252 stream, and any character
+# outside that codepage raises UnicodeEncodeError mid-print — which
+# killed the whole run on a box-drawing rule in the first-run setup:
+#
+#   File "encodings\cp1252.py", line 19, in encode
+#   UnicodeEncodeError: 'charmap' codec can't encode characters ...
+#
+# Degrade unmappable characters instead of dying. Console output is
+# cosmetic; the run JSON is written with an explicit encoding elsewhere
+# and is unaffected either way.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(errors="replace")
+    except (AttributeError, ValueError):  # not a TextIOWrapper (piped/frozen)
+        pass
+
 # When packaged with PyInstaller, __file__ is inside a temp extraction
 # dir; sys.executable points at the .exe next to which we want to write
 # runs. Use that as the anchor when frozen, else the script's own dir.
@@ -45,7 +61,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.16"
+EXTRACTOR_VERSION = "0.1.17"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -630,9 +646,9 @@ def _first_run_bootstrap() -> None:
     we don't nag on future runs. Same shape as git's initial config
     prompt: one time, then invisible."""
     print()
-    print("──────────────────────────────────────────────")
+    print("-" * 46)
     print("  First-run setup")
-    print("──────────────────────────────────────────────")
+    print("-" * 46)
     print()
     print("Auto-upload runs to the community dashboard at")
     print(f"  {DEFAULT_API_URL}")
@@ -673,7 +689,7 @@ def _first_run_bootstrap() -> None:
     _write_config(token)
     print()
     print(f"[+] Saved {CONFIG_PATH.name}")
-    print("──────────────────────────────────────────────")
+    print("-" * 46)
     print()
 
 
