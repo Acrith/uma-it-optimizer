@@ -67,6 +67,33 @@ W_FRIENDSHIP, W_MOOD, W_TRAINING = 0, 5, 21
 FACILITY_LEVEL = 4
 C_DEFAULT = 1450
 
+# The constant is PER SCENARIO, and it is a large effect. Fitted over 174
+# pal-free runs (2026-08-07); each is the midpoint of its plateau:
+#
+#   scenario            n    at C=3400   best C   at best C
+#   URA Finale         23      21/23      2750    23/23 = 100%
+#   Unity Cup          52      10/52      2100    37/52 =  71%
+#   Our Grand Concert  21      14/21      1825    19/21 =  90%
+#   Trackblazer        78      70/78      3400    70/78 =  90%
+#
+# Using one constant everywhere was costing 20 points on the population:
+# pal-free 6-trainer 86.4% -> 93.2%, all trainer counts 66.1% -> 85.6%.
+#
+# A free per-run g already absorbs any pure RATE difference between
+# scenarios, so this is not a rate effect — the scenario changes the flat
+# amount every card receives. Trackblazer (no pal exists) sits highest;
+# ratios against it are 1.24 (URA), 1.62 (Unity), 1.86 (Our Grand
+# Concert), which is the shape the pal-multiplier note in the research
+# log predicted — though these are PAL-FREE runs, so the constant differs
+# by scenario even with no pal card in the deck.
+SCENARIO_CONST = {1: 2750, 2: 2100, 3: 1825, 4: 3400}
+
+
+def const_for(scenario: int) -> int:
+    """Per-scenario constant, falling back to Trackblazer's for unknown
+    scenarios (a new one will land closer to it than to the default)."""
+    return SCENARIO_CONST.get(scenario, SCENARIO_CONST[4])
+
 # Scenario -> pal card ids (the deck-wide multiplier cards).
 PAL_BY_SCENARIO = {
     1: {10022, 20021},    # URA — Aoi Kiryuin
