@@ -463,6 +463,75 @@ def upload_only(target: str) -> int:
     return 0
 
 
+RELEASE_LATEST_API = "https://api.github.com/repos/Acrith/uma-it-optimizer/releases/latest"
+RELEASE_DL = ("https://github.com/Acrith/uma-it-optimizer/releases/latest/"
+              "download/" + DEFAULT_EXE_NAME)
+
+
+def update_exe(explicit: str | None) -> int:
+    """Download the latest release .exe over the local one.
+
+    install_linux.sh only ever INSTALLS — it skips the download when the
+    file is already there, so there was no upgrade path short of deleting
+    the exe by hand. Fixes that ship in the exe (rather than in this
+    launcher) need this, and a user on an old exe has no way to tell.
+
+    Keeps the previous binary as <name>.bak so a bad release can be
+    rolled back without another download.
+    """
+    import json as _json
+    import urllib.error
+    import urllib.request
+
+    # Don't route through find_extractor(): on a first install it _die()s
+    # with a "download it from releases" message, which is noise when
+    # downloading is exactly what we are about to do.
+    here = Path(__file__).resolve().parent
+    if explicit:
+        dest = Path(explicit).expanduser().resolve()
+    elif (here / DEFAULT_EXE_NAME).is_file():
+        dest = here / DEFAULT_EXE_NAME
+    elif (Path.cwd() / DEFAULT_EXE_NAME).is_file():
+        dest = Path.cwd() / DEFAULT_EXE_NAME
+    else:
+        dest = here / DEFAULT_EXE_NAME
+
+    tag = "?"
+    try:
+        req = urllib.request.Request(
+            RELEASE_LATEST_API, headers={"User-Agent": "uma-it-launcher"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            tag = _json.loads(r.read().decode()).get("tag_name", "?")
+    except (urllib.error.URLError, OSError, ValueError):
+        pass  # informational only; the download URL is version-independent
+
+    print(f"[*] latest release: {tag}")
+    print(f"[*] downloading {DEFAULT_EXE_NAME} -> {dest}")
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    try:
+        req = urllib.request.Request(
+            RELEASE_DL, headers={"User-Agent": "uma-it-launcher"})
+        with urllib.request.urlopen(req, timeout=120) as r, tmp.open("wb") as f:
+            shutil.copyfileobj(r, f)
+    except (urllib.error.URLError, OSError) as e:
+        tmp.unlink(missing_ok=True)
+        _die(f"download failed: {e}\n    Grab it manually from "
+             "https://github.com/Acrith/uma-it-optimizer/releases")
+    if tmp.stat().st_size < 1_000_000:
+        tmp.unlink(missing_ok=True)
+        _die("download looks truncated (under 1 MB); try again.")
+
+    if dest.is_file():
+        backup = dest.with_suffix(dest.suffix + ".bak")
+        dest.replace(backup)
+        print(f"[+] previous exe kept at {backup.name}")
+    tmp.replace(dest)
+    dest.chmod(0o755)
+    print(f"[+] updated: {dest} ({dest.stat().st_size // (1024 * 1024)} MB)")
+    print("[*] now start the game, then run: python linux_launch.py")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                   formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -474,10 +543,16 @@ def main() -> int:
     ap.add_argument("--upload", metavar="FILE",
                     help="Skip wine entirely: upload a saved run JSON from "
                          "runs/ (bare filename or path) and exit.")
+    ap.add_argument("--update", action="store_true",
+                    help="Download the latest release .exe over the local "
+                         "one (keeps the old one as .bak) and exit.")
     args = ap.parse_args()
 
     if sys.platform != "linux":
         _die("This launcher is Linux-only. On Windows just run the .exe.")
+
+    if args.update:
+        return update_exe(args.exe)
 
     if args.upload:
         return upload_only(args.upload)

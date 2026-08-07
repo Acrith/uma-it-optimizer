@@ -17,7 +17,8 @@ EXE_URL="https://github.com/Acrith/uma-it-optimizer/releases/latest/download/${E
 
 if [ -f "$EXE_NAME" ]; then
     echo "[+] $EXE_NAME already present in $SCRIPT_DIR"
-    echo "    Delete it first if you want to force-refresh the download."
+    echo "    To upgrade to the latest release, run:"
+    echo "      python linux_launch.py --update"
 else
     echo "[*] Downloading $EXE_NAME from latest release..."
     if command -v curl >/dev/null 2>&1; then
