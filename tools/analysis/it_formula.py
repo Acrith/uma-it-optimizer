@@ -58,6 +58,13 @@ EFF_INIT_STATS = (9, 10, 11, 12, 13)   # initial Spd/Sta/Pow/Guts/Wiz
 # previously assumed. The old 2:3:9 set carried a Friendship term that
 # only ever fit because FB correlates with rarity and level.
 W_FRIENDSHIP, W_MOOD, W_TRAINING = 0, 5, 21
+
+# Effective training-facility level in IT. Read off [Sentimental Flare ♪],
+# whose unique grants +5% TE per facility level: its base pins the level to
+# 4 (levels are 105 axis units apart, and the deck's controls pin g to +-6).
+# Note training_level_info_array reports 1 for these facilities — that field
+# does NOT mean what it appears to.
+FACILITY_LEVEL = 4
 C_DEFAULT = 1450
 
 # Scenario -> pal card ids (the deck-wide multiplier cards).
@@ -121,11 +128,24 @@ class Masters:
         # type >= 100 means CONDITIONAL — how IT treats those is still open,
         # so they are folded in optimistically and flagged.
         self._uniques: dict[int, tuple[int, tuple[tuple[int, int], ...]]] = {}
-        for cid, ulv, t0, v0, t1, v1 in cur.execute(
-            "SELECT id, lv, type_0, value_0, type_1, value_1 "
+        # Conditional uniques (type >= 100) use a different column layout:
+        # type_0 names the CONDITION and value_0 is its parameter, with the
+        # actual effect in value_0_1 (effect type) / value_0_2 (magnitude).
+        #   101 -> "bond >= value_0"          e.g. 101/80/8/10  = +10 TE
+        #   111 -> "per facility level"       e.g. 111/8/5      = +5 TE per lv
+        #   112 -> chance-based, 113 -> during friendship training
+        # These were previously skipped as unmodellable. They are not: a deck
+        # with two bond-gated +10 TE cards only fits once they are applied
+        # (20260807T144029), and applying them moves the 6-trainer population
+        # from 78.1% to 89.6%.
+        self._cond: dict[int, tuple[int, int, int, int, int]] = {}
+        for cid, ulv, t0, v0, v01, v02, t1, v1 in cur.execute(
+            "SELECT id, lv, type_0, value_0, value_0_1, value_0_2, type_1, value_1 "
             "FROM support_card_unique_effect"
         ):
             self._uniques[cid] = (ulv, ((t0, v0), (t1, v1)))
+            if t0 and t0 >= 100:
+                self._cond[cid] = (ulv, t0, v0, v01, v02)
 
         self.card_name = {
             idx: text
@@ -184,6 +204,25 @@ class Masters:
         training = self.effect_at(card_id, EFF_TRAINING, level)
         initial = [self.effect_at(card_id, t, level) for t in EFF_INIT_STATS]
         conditional = False
+
+        cond = self._cond.get(card_id)
+        if cond and level >= cond[0]:
+            _, ctype, cparam, ceff, cmag = cond
+            if ctype == 101:
+                # bond >= cparam. Observed to FIRE in IT — do not skip it.
+                if ceff == EFF_TRAINING:
+                    training += cmag
+                elif ceff == EFF_MOOD:
+                    mood += cmag
+                elif ceff == EFF_FRIENDSHIP:
+                    friendship += cmag
+            elif ctype == 111:
+                # +cparam-effect per facility level; level 4 fits best globally
+                # and matches the single Sentimental Flare probe run.
+                if cparam == EFF_TRAINING:
+                    training += ceff * FACILITY_LEVEL
+                elif cparam == EFF_MOOD:
+                    mood += ceff * FACILITY_LEVEL
 
         unique = self._uniques.get(card_id)
         if unique and level >= unique[0]:
