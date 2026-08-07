@@ -103,6 +103,23 @@ def find_proton_prefix(explicit: str | None, appid: str) -> Path:
     )
 
 
+def _loader_in(bindir: Path) -> Path | None:
+    """The wine loader inside a Proton bin/ directory, or None.
+
+    Wine 9 merged the 32/64-bit loaders: builds from that era ship only
+    `wine`, with no `wine64`. Looking for `wine64` alone silently skips
+    every modern Proton — including proton-cachyos 11.x — and falls back
+    to whatever older build still has one, which is how a user ended up
+    running Proton 10.0 against a proton-cachyos prefix and hit
+    "version mismatch 932/856".
+    """
+    for name in ("wine64", "wine"):
+        cand = bindir / name
+        if cand.is_file() and os.access(cand, os.X_OK):
+            return cand
+    return None
+
+
 def wine_from_running_game(prefix: Path) -> Path | None:
     """wine64 of the Proton build ALREADY running this prefix, or None.
 
@@ -133,12 +150,12 @@ def wine_from_running_game(prefix: Path) -> Path | None:
             for var in (b"WINELOADER=", b"WINESERVER="):
                 if not entry.startswith(var):
                     continue
-                cand = Path(entry.split(b"=", 1)[1].decode()).parent / "wine64"
-                if cand.is_file() and os.access(cand, os.X_OK):
+                cand = _loader_in(Path(entry.split(b"=", 1)[1].decode()).parent)
+                if cand is not None:
                     return cand
         try:
-            cand = (Path("/proc") / pid / "exe").resolve().parent / "wine64"
-            if cand.is_file() and os.access(cand, os.X_OK):
+            cand = _loader_in((Path("/proc") / pid / "exe").resolve().parent)
+            if cand is not None:
                 return cand
         except (OSError, PermissionError):
             continue
@@ -169,10 +186,10 @@ def find_wine(explicit: str | None, prefix: Path | None = None) -> Path:
             for proton_dir in base.iterdir():
                 if not proton_dir.is_dir():
                     continue
-                # GE-Proton / official Proton layouts both put wine64 at
-                # <proton>/files/bin/wine64.
-                w = proton_dir / "files" / "bin" / "wine64"
-                if w.is_file() and os.access(w, os.X_OK):
+                # GE-Proton / official Proton / proton-cachyos all use
+                # <proton>/files/bin/. Wine 9+ ships only `wine` there.
+                w = _loader_in(proton_dir / "files" / "bin")
+                if w is not None:
                     proton_wines.append(w)
     if proton_wines:
         # Newest install wins — a user with GE-Proton10-34 alongside an
