@@ -56,6 +56,10 @@ STEAM_ROOTS = [
     Path.home() / ".steam" / "steam",
     Path.home() / ".var" / "app" / "com.valvesoftware.Steam"
         / ".local" / "share" / "Steam",
+    # Distro-packaged compat tools live outside $HOME — CachyOS installs
+    # proton-cachyos to /usr/share/steam/compatibilitytools.d.
+    Path("/usr/share/steam"),
+    Path("/usr/local/share/steam"),
 ]
 
 
@@ -103,6 +107,21 @@ def find_proton_prefix(explicit: str | None, appid: str) -> Path:
     )
 
 
+def _dehost(p: Path) -> Path:
+    """Map a pressure-vessel container path back to the host.
+
+    Inside Steam's container the host filesystem is bind-mounted at
+    /run/host, so a Proton install at /usr/share/steam/... is seen as
+    /run/host/usr/share/steam/... — a path that does not exist when we
+    look from outside. Strip the prefix so the host path is testable.
+    """
+    s = str(p)
+    for pre in ("/run/host/", "/run/pressure-vessel/pv-from-host/"):
+        if s.startswith(pre):
+            return Path("/" + s[len(pre):])
+    return p
+
+
 def _loader_in(bindir: Path) -> Path | None:
     """The wine loader inside a Proton bin/ directory, or None.
 
@@ -138,26 +157,44 @@ def wine_from_running_game(prefix: Path) -> Path | None:
         pids = [d.name for d in Path("/proc").iterdir() if d.name.isdigit()]
     except OSError:
         return None
+    # Steam containerises the game (pressure-vessel), so paths seen in a
+    # game process are container paths: /proc/PID/exe reads as
+    # /run/host/usr/share/... which does not exist out here, and
+    # WINELOADER/WINESERVER are not set at all. STEAM_COMPAT_TOOL_PATHS
+    # is the reliable one — Steam sets it to HOST paths, first entry the
+    # compat tool itself.
     want = f"WINEPREFIX={prefix}".encode()
+    want_alt = want + b"/"          # Proton exports it with a trailing slash
     for pid in pids:
         try:
             blob = (Path("/proc") / pid / "environ").read_bytes()
         except (OSError, PermissionError):
             continue
-        if want not in blob:
+        if want not in blob and want_alt not in blob:
             continue
         for entry in blob.split(b"\x00"):
-            for var in (b"WINELOADER=", b"WINESERVER="):
-                if not entry.startswith(var):
-                    continue
-                cand = _loader_in(Path(entry.split(b"=", 1)[1].decode()).parent)
+            if entry.startswith(b"STEAM_COMPAT_TOOL_PATHS="):
+                for part in entry.split(b"=", 1)[1].decode().split(os.pathsep):
+                    if not part:
+                        continue
+                    cand = _loader_in(_dehost(Path(part)) / "files" / "bin")
+                    if cand is not None:
+                        return cand
+            for var in (b"WINELOADER=", b"WINESERVER=", b"PROTONPATH="):
+                if entry.startswith(var):
+                    base = _dehost(Path(entry.split(b"=", 1)[1].decode()))
+                    for d in (base.parent, base / "files" / "bin"):
+                        cand = _loader_in(d)
+                        if cand is not None:
+                            return cand
+        try:
+            exe = _dehost(Path(os.readlink(f"/proc/{pid}/exe")))
+            # .../files/bin/wineserver or .../files/lib/wine/*/wine-preloader
+            for d in list(exe.parents)[:5]:
+                cand = _loader_in(d / "files" / "bin") or _loader_in(d)
                 if cand is not None:
                     return cand
-        try:
-            cand = _loader_in((Path("/proc") / pid / "exe").resolve().parent)
-            if cand is not None:
-                return cand
-        except (OSError, PermissionError):
+        except OSError:
             continue
     return None
 
