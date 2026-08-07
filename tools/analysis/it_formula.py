@@ -244,6 +244,47 @@ def axis_of(friendship: int, mood: int, training: int) -> int:
     return W_FRIENDSHIP * friendship + W_MOOD * mood + W_TRAINING * training
 
 
+# ── SP channel ────────────────────────────────────────────────────────
+# SP accumulates per training turn like base stats do, rather than being
+# some opaque per-card factor times a per-run multiplier:
+#
+#     sp = N * (SP_FLAT + SP_PER_BONUS*spBonus + SP_PER_MOOD*mood
+#                       + SP_PER_TE*training)
+#
+# Least squares over 909 pal-free card-observations gives R^2 = 0.859.
+# Fitted on PAL-FREE runs only: including pal decks pushes the spBonus
+# coefficient from ~0.72 to 1.27 because the pal multiplier inflates SP
+# and correlates with card quality.
+#
+# CAVEAT: these are empirical coefficients, not derived constants. The
+# spBonus coefficient "should" arguably be 1.0 (one point of Skill Point
+# Bonus per training turn); it lands at 0.72-0.83 depending on which
+# terms are included, and that discrepancy is unexplained.
+SP_FLAT = 1.6186
+SP_PER_BONUS = 0.7197
+SP_PER_MOOD = 0.0092
+SP_PER_TE = 0.0409
+EFF_SP_BONUS = 30
+
+
+def training_turns(races: int, turn_costs: int = 0) -> int:
+    """Training turns in an IT run. The calendar is 78 turns (24/year x 3
+    + 6 for URA Finale); each race costs exactly one, verified at 1.00
+    turns per race across 26 of 30 observed race counts. Conditions cost
+    turns too — Skin Outbreak measures at ~2."""
+    return 78 - races - turn_costs
+
+
+def predict_sp(masters: "Masters", card_id: int, level: int, races: int,
+               turn_costs: int = 0) -> float:
+    """Expected SP contribution from one support card over one run."""
+    _, mood, training, _, _ = masters.bonuses(card_id, level)
+    sp_bonus = masters.effect_at(card_id, EFF_SP_BONUS, level)
+    per_turn = (SP_FLAT + SP_PER_BONUS * sp_bonus
+                + SP_PER_MOOD * mood + SP_PER_TE * training)
+    return training_turns(races, turn_costs) * per_turn
+
+
 def load_run(path: Path, masters: Masters) -> dict | None:
     """Parse one capture into {races, mood, scenario, has_pal, rows, conditions}."""
     raw = json.loads(path.read_text(encoding="utf-8"))
