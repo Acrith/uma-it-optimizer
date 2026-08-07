@@ -294,6 +294,9 @@ def load_run(path: Path, masters: Masters) -> dict | None:
     chara = chara_list[0]
     scenario = int(chara.get("scenario_id") or 0)
     pals = PAL_BY_SCENARIO.get(scenario, set())
+    # Needed during row extraction (initial stats scale with turns), not
+    # just in the returned dict.
+    races = len(raw.get("RaceHistory") or [])
 
     deck = {
         int(c.get("support_card_id") or 0): (
@@ -324,8 +327,26 @@ def load_run(path: Path, masters: Masters) -> dict | None:
         # subtracting the master value overshot it by ~9 every time.
         # Ignoring the bonused stats instead took the pal-free fit from
         # 40% to 59% of runs (86.2% -> 90.7% of rows).
+        # Initial-stat effects are NOT applied flat — they scale with the
+        # number of training turns. Regressing (stat - base) over 978
+        # observations: as `c*init` the coefficient is 0.22, but as
+        # `c*init*(N/74)` it is 1.06, i.e. fully scaled. The ratio
+        # (stat-base)/init climbs monotonically from 0.50 at N=17 to 2.98
+        # at N=74; flat application would make it constant.
+        #
+        # Stats with no adder are unaffected either way, so prefer those.
+        # The fallback matters for cards carrying an adder on ALL five
+        # (e.g. 30078, +30 across the board): flat subtraction put its base
+        # at 3-11 against deckmates reading 16-19, which is why it looked
+        # unreadable all along. Scaled subtraction lands it at 15-18.
+        turns = training_turns(races)
+        scale = turns / 74.0
         free = [s for s, i in zip(stats, initial) if i == 0]
-        base = min(free) if free else min(s - i for s, i in zip(stats, initial))
+        base = (
+            min(free)
+            if free
+            else min(s - i * scale for s, i in zip(stats, initial))
+        )
         if base <= 0:
             continue
         rows.append(
@@ -346,7 +367,7 @@ def load_run(path: Path, masters: Masters) -> dict | None:
 
     return {
         "file": path.name,
-        "races": len(raw.get("RaceHistory") or []),
+        "races": races,
         "mood": int(chara.get("motivation") or 0),
         "scenario": scenario,
         "has_pal": bool(pals & set(deck)),
