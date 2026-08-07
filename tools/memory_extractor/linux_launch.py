@@ -103,15 +103,62 @@ def find_proton_prefix(explicit: str | None, appid: str) -> Path:
     )
 
 
-def find_wine(explicit: str | None) -> Path:
-    """Prefer Proton's wine64 (matches the prefix version), then system
-    wine. Scans compatibilitytools.d + steamapps/common for Proton
-    installs, picks the newest by mtime."""
+def wine_from_running_game(prefix: Path) -> Path | None:
+    """wine64 of the Proton build ALREADY running this prefix, or None.
+
+    "Newest Proton by mtime" is the wrong pick when the game runs under
+    a different build: that prefix has a wineserver up already, and a
+    mismatched client dies with
+
+        wine client error:0: version mismatch 932/856.
+
+    The wineserver protocol version is tied to the Wine build, so the
+    only safe choice is the binary Steam actually launched. Every
+    process in the prefix carries WINEPREFIX in its environ, so walk
+    /proc and take the loader from the first match.
+    """
+    try:
+        pids = [d.name for d in Path("/proc").iterdir() if d.name.isdigit()]
+    except OSError:
+        return None
+    want = f"WINEPREFIX={prefix}".encode()
+    for pid in pids:
+        try:
+            blob = (Path("/proc") / pid / "environ").read_bytes()
+        except (OSError, PermissionError):
+            continue
+        if want not in blob:
+            continue
+        for entry in blob.split(b"\x00"):
+            for var in (b"WINELOADER=", b"WINESERVER="):
+                if not entry.startswith(var):
+                    continue
+                cand = Path(entry.split(b"=", 1)[1].decode()).parent / "wine64"
+                if cand.is_file() and os.access(cand, os.X_OK):
+                    return cand
+        try:
+            cand = (Path("/proc") / pid / "exe").resolve().parent / "wine64"
+            if cand.is_file() and os.access(cand, os.X_OK):
+                return cand
+        except (OSError, PermissionError):
+            continue
+    return None
+
+
+def find_wine(explicit: str | None, prefix: Path | None = None) -> Path:
+    """Prefer the Proton already running this prefix, then the newest
+    Proton install, then system wine."""
     if explicit:
         p = Path(explicit).expanduser().resolve()
         if not p.exists():
             _die(f"--wine path does not exist: {p}")
         return p
+
+    if prefix is not None:
+        running = wine_from_running_game(prefix)
+        if running is not None:
+            print(f"[+] matched running game's Proton: {running}")
+            return running
 
     proton_wines: list[Path] = []
     for root in STEAM_ROOTS:
@@ -170,6 +217,15 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
     env["WINEPREFIX"] = str(prefix)
     # Silence wine's console noise unless the user opted into debugging.
     env.setdefault("WINEDEBUG", "-all")
+    # Pin the toolchain to THIS wine's directory. Setting WINEPREFIX
+    # alone leaves wine64 free to pick a wineserver off the system PATH,
+    # which is the other half of the "version mismatch" failure — client
+    # and server have to come from one build.
+    bindir = wine.parent
+    if (bindir / "wineserver").is_file():
+        env["WINESERVER"] = str(bindir / "wineserver")
+    env["WINELOADER"] = str(wine)
+    env["PATH"] = str(bindir) + os.pathsep + env.get("PATH", "")
 
     print(f"[+] wine:    {wine}")
     print(f"[+] prefix:  {prefix}")
@@ -194,11 +250,14 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
     )
 
     saw_upload_fail = False
+    saw_mismatch = False
     retried: set[str] = set()
     assert proc.stdout is not None
     for line in proc.stdout:
         sys.stdout.write(line)
         sys.stdout.flush()
+        if "version mismatch" in line:
+            saw_mismatch = True
         if _UPLOAD_FAIL_LINE.match(line):
             saw_upload_fail = True
             continue
@@ -209,7 +268,30 @@ def launch(wine: Path, prefix: Path, exe: Path) -> int:
             if filename not in retried:
                 retried.add(filename)
                 retry_upload_native(exe.parent, filename)
-    return proc.wait()
+    rc = proc.wait()
+    if saw_mismatch:
+        _print_mismatch_help(wine, prefix)
+    return rc
+
+
+def _print_mismatch_help(wine: Path, prefix: Path) -> None:
+    """wineserver protocol mismatch — say what to do about it."""
+    print(
+        "\n[!] Wine reported a wineserver version mismatch.\n"
+        "    This prefix already has a wineserver running from a DIFFERENT\n"
+        "    Proton build than the wine64 used here; they must match.\n"
+        f"      used: {wine}\n"
+        f"    prefix: {prefix}\n"
+        "    Try, in order:\n"
+        "      1. Start the game first, then re-run this script — it reads\n"
+        "         /proc to find the Proton that owns the prefix.\n"
+        "      2. Name the build explicitly:\n"
+        "           python linux_launch.py --wine '<Proton>/files/bin/wine64'\n"
+        "         (Steam > game > Properties > Compatibility shows which.)\n"
+        "      3. With the game closed, kill the stale server:\n"
+        f"           WINEPREFIX='{prefix}' '{wine.parent / 'wineserver'}' -k",
+        file=sys.stderr,
+    )
 
 
 def retry_upload_native(base_dir: Path, filename: str,
@@ -348,7 +430,9 @@ def main() -> int:
 
     exe = find_extractor(args.exe)
     prefix = find_proton_prefix(args.prefix, args.appid)
-    wine = find_wine(args.wine)
+    # prefix first: find_wine() uses it to match the Proton already
+    # running the game instead of guessing by install mtime.
+    wine = find_wine(args.wine, prefix)
     return launch(wine, prefix, exe)
 
 
