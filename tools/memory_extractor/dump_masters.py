@@ -49,6 +49,13 @@ DEFAULT_MDB_PATHS = [
 # Update if a game update shifts these.
 TEXT_CAT = {
     "uma_name": 6,            # index = chara_id (e.g. 1032 -> "Agnes Tachyon")
+    "uma_card_title": 5,      # index = trainee CARD id (e.g. 102901 ->
+                              # "[Darl'n Snowflake]"). A character has one
+                              # name but several card variants, each with
+                              # its own growth rates, innate skills and
+                              # events — 31 of 63 characters have more than
+                              # one, covering 79% of runs — so the chara
+                              # name alone does not identify what was run.
     "skill_name": 47,         # index = skill_id (e.g. 200352 -> "Corner Recovery ○")
     "skill_desc": 48,         # index = skill_id (e.g. 200352 -> "Slightly increase
                               # velocity when navigating a corner. (Late Surger)")
@@ -138,6 +145,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         # (0 = always available, N = unlocks when trainee reaches
         # career rank N).
         uma_cards: dict[str, dict] = {}
+        card_titles = _load_text_map(con, TEXT_CAT["uma_card_title"])
         for r in con.execute(
             "SELECT id, chara_id, default_rarity, running_style, "
             "available_skill_set_id, "
@@ -149,6 +157,9 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "id": cid,
                 "chara_id": r["chara_id"],
                 "chara_name": uma_names.get(r["chara_id"], f"?uma:{r['chara_id']}"),
+                # e.g. "[Darl'n Snowflake]" — identifies WHICH variant of
+                # the character this is. Empty for cards with no title row.
+                "card_title": card_titles.get(cid, ""),
                 "default_rarity": r["default_rarity"],
                 "running_style": r["running_style"],
                 "available_skill_set_id": r["available_skill_set_id"],
