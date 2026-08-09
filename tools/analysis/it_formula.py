@@ -278,20 +278,44 @@ def axis_of(friendship: int, mood: int, training: int) -> int:
 #     sp = N * (SP_FLAT + SP_PER_BONUS*spBonus + SP_PER_MOOD*mood
 #                       + SP_PER_TE*training)
 #
-# Least squares over 909 pal-free card-observations gives R^2 = 0.859.
 # Fitted on PAL-FREE runs only: including pal decks pushes the spBonus
 # coefficient from ~0.72 to 1.27 because the pal multiplier inflates SP
 # and correlates with card quality.
 #
-# CAVEAT: these are empirical coefficients, not derived constants. The
-# spBonus coefficient "should" arguably be 1.0 (one point of Skill Point
-# Bonus per training turn); it lands at 0.72-0.83 depending on which
-# terms are included, and that discrepancy is unexplained.
-SP_FLAT = 1.6186
-SP_PER_BONUS = 0.7197
-SP_PER_MOOD = 0.0092
-SP_PER_TE = 0.0409
+# PER SCENARIO, from 1,279 pal-free card-observations. One global fit gives
+# 8.76% median error; splitting by scenario gives 7.37%, a 16% improvement,
+# and the same shape as the base channel needing a per-scenario constant.
+#
+# The spBonus coefficient was long assumed to "really" be 1.0 — one point
+# of Skill Point Bonus per training turn — with the shortfall blamed on
+# Trackblazer paying half the skill points of other scenarios (2 vs 4 in
+# single_mode_training_effect). Trackblazer IS the low outlier at 0.69
+# against 0.76-0.90, so that part holds, but excluding it only reaches
+# 0.775. No scenario reaches 1.0. **The 1.0 was an intuition, not a
+# measurement, and it is wrong.**
+#
+# Other shapes were tried and are worse, so the per-turn form stands:
+#   a*base + b*spBonus*N        13.7% median error
+#   base*(a + b*spBonus)        15.4%
+#   the per-turn form below      8.8%
+# In particular SP does NOT ride on the same participation as stats —
+# sp/base spans 1.94..14.5 — so it cannot inherit base's +-1 accuracy.
+SP_BY_SCENARIO: dict[int, tuple[float, float, float, float]] = {
+    # scenario: (flat, per spBonus, per mood, per training effect)
+    1: (1.7108, 0.8504, 0.00632, 0.04009),   # URA,         5.5% median err
+    2: (1.4425, 0.7631, 0.00773, 0.03883),   # Unity Cup,   7.0%
+    3: (1.6404, 0.9020, 0.01231, 0.05142),   # Grand Live,  8.7%
+    4: (1.5934, 0.6934, 0.01101, 0.04326),   # Trackblazer, 8.4%
+}
+# Global fallback for an unknown scenario.
+SP_FLAT, SP_PER_BONUS, SP_PER_MOOD, SP_PER_TE = 1.5995, 0.7674, 0.0099, 0.0421
 EFF_SP_BONUS = 30
+
+
+def sp_coefficients(scenario: int) -> tuple[float, float, float, float]:
+    """(flat, spBonus, mood, training) per training turn for a scenario."""
+    return SP_BY_SCENARIO.get(
+        scenario, (SP_FLAT, SP_PER_BONUS, SP_PER_MOOD, SP_PER_TE))
 
 
 def training_turns(races: int, turn_costs: int = 0) -> int:
@@ -303,12 +327,17 @@ def training_turns(races: int, turn_costs: int = 0) -> int:
 
 
 def predict_sp(masters: "Masters", card_id: int, level: int, races: int,
-               turn_costs: int = 0) -> float:
-    """Expected SP contribution from one support card over one run."""
+               turn_costs: int = 0, scenario: int | None = None) -> float:
+    """Expected SP contribution from one support card over one run.
+
+    Pass `scenario` wherever it is known — the coefficients differ enough
+    between scenarios to be worth 16% of the error.
+    """
     _, mood, training, _, _ = masters.bonuses(card_id, level)
     sp_bonus = masters.effect_at(card_id, EFF_SP_BONUS, level)
-    per_turn = (SP_FLAT + SP_PER_BONUS * sp_bonus
-                + SP_PER_MOOD * mood + SP_PER_TE * training)
+    flat, per_bonus, per_mood, per_te = sp_coefficients(scenario or 0)
+    per_turn = (flat + per_bonus * sp_bonus
+                + per_mood * mood + per_te * training)
     return training_turns(races, turn_costs) * per_turn
 
 
