@@ -5,18 +5,19 @@ channel every card contributes to every stat. It is the quantity the formula
 research in ../uma-it-web/docs/it-formula.md models:
 
     base = floor(g * (C_scenario + 5*Mood + 21*TrainingEffect))
-    g    = u * N,   N = 78 - races
+    g    = u * T(races)     — T is the MEASURED turn curve, not 78 - races
 
-Accuracy, measured leave-one-card-out over 127 independent deck x race cells
-(660 card-rows, pal-free):
+Accuracy, held-out half of the pal-free corpus (2026-08-10, T-curve model):
 
-    within +-1   100.0%      <- has never been exceeded
-    exact         88.2%      when g is fitted from the rest of the deck
-    exact        ~78%        cold, using u * N with no deck context
+    within +-1   96.6%
+    exact        82.0%       cold  (was 78.8% under u * (78 - races))
+    exact        90.7%       cold at 20 races or fewer  (was 76.7%)
 
-Cold accuracy is the honest number when you name a single card, so this tool
-reports the interval and not just a point. Our Grand Concert is the weak
-scenario: its constant is unresolved and errors there reach +2.
+The gain is the measured turn curve T(races) replacing 78 - races — the
+old form ran ~1.5 turns low on short careers. Stats are deterministic
+(twin runs are byte-identical at <=40 races), so the remaining misses are
+X-table granularity, not randomness. Our Grand Concert's constant is the
+least trustworthy of the four.
 
 Usage:
     python predict_base.py --card 30010 --level 50 --scenario 4 --races 9
@@ -34,12 +35,35 @@ from it_formula import (
     const_for,
 )
 
-# u = g / N, fitted per scenario over the pal-free corpus with no per-run
-# freedom. Our Grand Concert's is least trustworthy — see the doc.
-U_BY_SCENARIO = {1: 0.000134560, 2: 0.000127300, 3: 0.000150000,
-                 4: 0.000125955}
+# u = g / T, fitted per scenario over the pal-free corpus with no per-run
+# freedom, against the MEASURED turn curve T(races) below rather than 78-r.
+U_BY_SCENARIO = {1: 0.000132839, 2: 0.000125950, 3: 0.000149987,
+                 4: 0.000124227}
 SCEN_NAME = {1: "URA", 2: "Unity Cup", 3: "Our Grand Concert",
              4: "Trackblazer"}
+
+# T(races): the effective training-turn count, measured from deck 3fbf95's
+# 19-consecutive-race-count sweep (specialty stats pin the run scalar to
+# ~1%, exposing what 78 - races only approximates). Deck-independent to
+# <=0.5% and shared across scenarios at 9-35 races (36ee8e dual rows, and
+# a URA six-count deck). 78 - r runs ~1.5 turns LOW below ~28 races and
+# high above ~35, which is why the old form missed short careers.
+# Linear interpolation between measured points; outside 4-40 races the
+# curve is unmeasured (41+ is also schedule-dependent — twin runs differ).
+_T_POINTS = [(4, 75.60), (5, 74.99), (6, 73.46), (7, 72.73), (8, 71.15),
+             (9, 70.44), (12, 66.98), (16, 63.07), (20, 58.51), (24, 54.30),
+             (25, 53.36), (26, 51.90), (27, 51.18), (28, 50.74), (29, 49.00),
+             (30, 48.67), (31, 46.82), (32, 46.60), (33, 44.82), (34, 44.53),
+             (35, 42.55), (36, 42.46), (37, 40.55), (38, 40.29), (39, 38.32),
+             (40, 38.11)]
+
+
+def turns_for(races: int) -> float | None:
+    """Measured T(races), or None outside the calibrated 4-40 range."""
+    for (a, ta), (b, tb) in zip(_T_POINTS, _T_POINTS[1:]):
+        if a <= races <= b:
+            return ta + (tb - ta) * (races - a) / (b - a)
+    return None
 # Initial bonus on all five stats, so no adder-free stat exists to read a
 # base off. Excluded from every fit; refuse to predict it rather than lie.
 UNREADABLE = {30078}
@@ -50,7 +74,11 @@ def predict(masters: Masters, card_id: int, level: int, scenario: int,
     fb, mood, te, initial, conditional = masters.bonuses(card_id, level)
     axis = axis_of(fb, mood, te)
     const = const_for(scenario)
-    n = 78 - races
+    n = turns_for(races)
+    if n is None:
+        # Fall back to the linear approximation outside the measured range,
+        # and say so — 41+ races is also schedule-dependent.
+        n = 78 - races
     u = U_BY_SCENARIO[scenario]
     point = int(u * n * (const + axis))
     return {
@@ -85,9 +113,14 @@ def main() -> int:
         entries.append((args.card, args.level))
 
     masters = Masters(args.mdb)
+    t = turns_for(args.races)
     print(f"scenario {args.scenario} ({SCEN_NAME[args.scenario]})  "
-          f"races {args.races}  training turns {78 - args.races}  "
+          f"races {args.races}  training turns "
+          f"{f'{t:.1f}' if t is not None else f'~{78 - args.races} (unmeasured range)'}  "
           f"C {const_for(args.scenario)}")
+    if args.races > 40:
+        print("  ! 41+ races: turn economy is race-schedule dependent — "
+              "twin runs differ even in stats")
     if args.scenario == 3:
         print("  ! Our Grand Concert: constant unresolved, errors reach +2")
     print()
