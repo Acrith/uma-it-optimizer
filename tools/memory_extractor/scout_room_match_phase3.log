@@ -1,0 +1,1015 @@
+[+] attaching to PID 26152
+[+] IL2CPP ready
+[+] found 1 WorkRoomMatchData
+
+=== _savedRaceResultInfo ===
+class = Gallop.WorkRoomMatchData.SavedRaceResultData
+  ._raceResult [Gallop.RoomMatchSavedRoomInfo] = <Gallop.RoomMatchSavedRoomInfo>
+    .saved_room_id [System.Int32] = 34408987
+    .register_id [System.UInt64] = <object>
+    .host_viewer_id [System.Int64] = <object>
+    .race_instance_id [System.Int32] = 800095
+    .room_name [System.String] = "InyanyaCup ?1"
+    .message [System.String] = "May the best Umamusume win!"
+    .season [System.Int32] = 2
+    .weather [System.Int32] = 1
+    .ground_condition [System.Int32] = 1
+    .motivation [System.Int32] = 5
+    .entry_num [System.Int32] = 11
+    .current_entry_num [System.Int32] = 11
+    .private_entry_type [System.Int32] = 0
+    .private_entry_num [System.Int32] = 0
+    .private_current_entry_num [System.Int32] = 0
+    .is_allow_watching [System.Int32] = 1
+    .trained_chara_restriction [System.Int32] = 0
+    .restriction_type [System.Int32] = 0
+    .start_time [System.String] = "2026-07-26 23:30:45"
+    .random_seed [System.Int32] = 1973968693
+    .favorite_flag [System.Int32] = 0
+    .own_join_type [System.Int32] = 2
+    .restrict_chara_info_array [Gallop.RoomMatchRestrictCharaInfo[]] = <array len=0>
+  ._raceHorseDataArray [Gallop.RaceHorseData[]] = <array len=11>
+    [0] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Trubber"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 1290
+      .trained_chara_id [System.Int32] = 1290
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 100402
+      .chara_id [System.Int32] = 1004
+      .rarity [System.Int32] = 4
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 1
+      .skill_array [Gallop.SkillData[]] = <array len=20>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 110041
+          .level [System.Int32] = 4
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200011
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200152
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200431
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200452
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200531
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200542
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200552
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200681
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201041
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 492
+      .speed [System.Int32] = 1571
+      .pow [System.Int32] = 1116
+      .guts [System.Int32] = 532
+      .wiz [System.Int32] = 1177
+      .running_style [System.Int32] = 1
+      .race_dress_id [System.Int32] = 100430
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 25
+      .popularity [System.Int32] = 8
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 9
+        [1] = 9
+        [2] = 3
+      .proper_distance_short [System.Int32] = 6
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 6
+      .proper_distance_long [System.Int32] = 5
+      .proper_running_style_nige [System.Int32] = 7
+      .proper_running_style_senko [System.Int32] = 3
+      .proper_running_style_sashi [System.Int32] = 1
+      .proper_running_style_oikomi [System.Int32] = 1
+      .proper_ground_turf [System.Int32] = 8
+      .proper_ground_dirt [System.Int32] = 4
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 10
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 10
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 11
+      .fan_count [System.Int32] = 282575
+    [1] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Lennox"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 2156
+      .trained_chara_id [System.Int32] = 2156
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 102202
+      .chara_id [System.Int32] = 1022
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 2
+      .skill_array [Gallop.SkillData[]] = <array len=20>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 110221
+          .level [System.Int32] = 3
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200131
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200152
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200462
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200482
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200582
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200681
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201031
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201041
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201052
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 454
+      .speed [System.Int32] = 1625
+      .pow [System.Int32] = 1208
+      .guts [System.Int32] = 607
+      .wiz [System.Int32] = 1247
+      .running_style [System.Int32] = 2
+      .race_dress_id [System.Int32] = 102226
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 29
+      .popularity [System.Int32] = 5
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 2
+        [1] = 8
+        [2] = 2
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 8
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 5
+      .proper_running_style_nige [System.Int32] = 4
+      .proper_running_style_senko [System.Int32] = 7
+      .proper_running_style_sashi [System.Int32] = 3
+      .proper_running_style_oikomi [System.Int32] = 5
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 2
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 6
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 2
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 12
+      .fan_count [System.Int32] = 281935
+    [2] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Cano"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 3185
+      .trained_chara_id [System.Int32] = 3185
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 100901
+      .chara_id [System.Int32] = 1009
+      .rarity [System.Int32] = 4
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 3
+      .skill_array [Gallop.SkillData[]] = <array len=24>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100091
+          .level [System.Int32] = 5
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200152
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200292
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200342
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200432
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200462
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200572
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200582
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200851
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201052
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 613
+      .speed [System.Int32] = 1603
+      .pow [System.Int32] = 1209
+      .guts [System.Int32] = 762
+      .wiz [System.Int32] = 1151
+      .running_style [System.Int32] = 2
+      .race_dress_id [System.Int32] = 100901
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 30
+      .popularity [System.Int32] = 2
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 1
+        [1] = 2
+        [2] = 7
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 6
+      .proper_running_style_nige [System.Int32] = 7
+      .proper_running_style_senko [System.Int32] = 7
+      .proper_running_style_sashi [System.Int32] = 3
+      .proper_running_style_oikomi [System.Int32] = 1
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 2
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 10
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 7
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 11
+      .fan_count [System.Int32] = 301085
+    [3] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "BeUwUlf12"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 4474
+      .trained_chara_id [System.Int32] = 4474
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 101401
+      .chara_id [System.Int32] = 1014
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 4
+      .skill_array [Gallop.SkillData[]] = <array len=15>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100141
+          .level [System.Int32] = 4
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200332
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200502
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200581
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200702
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201052
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201072
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201311
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201342
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201662
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201902
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 566
+      .speed [System.Int32] = 1449
+      .pow [System.Int32] = 1050
+      .guts [System.Int32] = 605
+      .wiz [System.Int32] = 1255
+      .running_style [System.Int32] = 2
+      .race_dress_id [System.Int32] = 101401
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 20
+      .popularity [System.Int32] = 6
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 10
+        [1] = 5
+        [2] = 5
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 7
+      .proper_running_style_nige [System.Int32] = 4
+      .proper_running_style_senko [System.Int32] = 8
+      .proper_running_style_sashi [System.Int32] = 7
+      .proper_running_style_oikomi [System.Int32] = 5
+      .proper_ground_turf [System.Int32] = 8
+      .proper_ground_dirt [System.Int32] = 6
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 6
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 4
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 11
+      .fan_count [System.Int32] = 332386
+    [4] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "StarlitFire"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 1711
+      .trained_chara_id [System.Int32] = 1711
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 100901
+      .chara_id [System.Int32] = 1009
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 3
+      .frame_order [System.Int32] = 5
+      .skill_array [Gallop.SkillData[]] = <array len=21>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100091
+          .level [System.Int32] = 3
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200132
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200152
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200332
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200431
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200512
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200682
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201042
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201072
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201242
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201252
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 588
+      .speed [System.Int32] = 1499
+      .pow [System.Int32] = 915
+      .guts [System.Int32] = 617
+      .wiz [System.Int32] = 1108
+      .running_style [System.Int32] = 1
+      .race_dress_id [System.Int32] = 100901
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 20
+      .popularity [System.Int32] = 9
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 6
+        [1] = 6
+        [2] = 10
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 6
+      .proper_running_style_nige [System.Int32] = 7
+      .proper_running_style_senko [System.Int32] = 7
+      .proper_running_style_sashi [System.Int32] = 3
+      .proper_running_style_oikomi [System.Int32] = 1
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 1
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 10
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 3
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 10
+      .fan_count [System.Int32] = 274504
+    [5] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Aisha AlSadhazi"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 2323
+      .trained_chara_id [System.Int32] = 2323
+      .nickname_id [System.Int32] = 67
+      .card_id [System.Int32] = 100201
+      .chara_id [System.Int32] = 1002
+      .rarity [System.Int32] = 4
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 6
+      .skill_array [Gallop.SkillData[]] = <array len=15>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100021
+          .level [System.Int32] = 3
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200131
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200181
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200431
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200531
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200542
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200551
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201052
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201241
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201271
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201282
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201651
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 556
+      .speed [System.Int32] = 1602
+      .pow [System.Int32] = 1075
+      .guts [System.Int32] = 644
+      .wiz [System.Int32] = 1278
+      .running_style [System.Int32] = 1
+      .race_dress_id [System.Int32] = 100201
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 26
+      .popularity [System.Int32] = 1
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 3
+        [1] = 3
+        [2] = 6
+      .proper_distance_short [System.Int32] = 4
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 4
+      .proper_running_style_nige [System.Int32] = 7
+      .proper_running_style_senko [System.Int32] = 6
+      .proper_running_style_sashi [System.Int32] = 3
+      .proper_running_style_oikomi [System.Int32] = 1
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 1
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 14
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 11
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 12
+      .fan_count [System.Int32] = 216737
+    [6] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Riso"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 1038
+      .trained_chara_id [System.Int32] = 1038
+      .nickname_id [System.Int32] = 241
+      .card_id [System.Int32] = 101901
+      .chara_id [System.Int32] = 1019
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 3
+      .frame_order [System.Int32] = 7
+      .skill_array [Gallop.SkillData[]] = <array len=19>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100191
+          .level [System.Int32] = 3
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200342
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200462
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200512
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200592
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200601
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201072
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201382
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201412
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201592
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201651
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201662
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 495
+      .speed [System.Int32] = 1277
+      .pow [System.Int32] = 953
+      .guts [System.Int32] = 538
+      .wiz [System.Int32] = 927
+      .running_style [System.Int32] = 3
+      .race_dress_id [System.Int32] = 101901
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 16
+      .popularity [System.Int32] = 11
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 11
+        [1] = 11
+        [2] = 11
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 1
+      .proper_running_style_nige [System.Int32] = 1
+      .proper_running_style_senko [System.Int32] = 8
+      .proper_running_style_sashi [System.Int32] = 7
+      .proper_running_style_oikomi [System.Int32] = 6
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 8
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 7
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 6
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 12
+      .fan_count [System.Int32] = 267375
+    [7] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Kezuke"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 1776
+      .trained_chara_id [System.Int32] = 1776
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 102602
+      .chara_id [System.Int32] = 1026
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 8
+      .skill_array [Gallop.SkillData[]] = <array len=19>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 110261
+          .level [System.Int32] = 4
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200152
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200182
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200431
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200532
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200541
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200552
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201042
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201242
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201252
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 650
+      .speed [System.Int32] = 1619
+      .pow [System.Int32] = 1091
+      .guts [System.Int32] = 553
+      .wiz [System.Int32] = 1155
+      .running_style [System.Int32] = 1
+      .race_dress_id [System.Int32] = 102613
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 27
+      .popularity [System.Int32] = 7
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 7
+        [1] = 7
+        [2] = 8
+      .proper_distance_short [System.Int32] = 5
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 7
+      .proper_running_style_nige [System.Int32] = 7
+      .proper_running_style_senko [System.Int32] = 3
+      .proper_running_style_sashi [System.Int32] = 1
+      .proper_running_style_oikomi [System.Int32] = 1
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 1
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 1
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 9
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 11
+      .fan_count [System.Int32] = 317241
+    [8] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Acrith"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 2565
+      .trained_chara_id [System.Int32] = 2565
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 104401
+      .chara_id [System.Int32] = 1044
+      .rarity [System.Int32] = 3
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 9
+      .skill_array [Gallop.SkillData[]] = <array len=18>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100441
+          .level [System.Int32] = 4
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200011
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200132
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200352
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200492
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200512
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200642
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200692
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200702
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201461
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 488
+      .speed [System.Int32] = 1603
+      .pow [System.Int32] = 1249
+      .guts [System.Int32] = 565
+      .wiz [System.Int32] = 986
+      .running_style [System.Int32] = 4
+      .race_dress_id [System.Int32] = 104401
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 24
+      .popularity [System.Int32] = 10
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 8
+        [1] = 10
+        [2] = 9
+      .proper_distance_short [System.Int32] = 3
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 4
+      .proper_running_style_nige [System.Int32] = 1
+      .proper_running_style_senko [System.Int32] = 1
+      .proper_running_style_sashi [System.Int32] = 7
+      .proper_running_style_oikomi [System.Int32] = 7
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 1
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 3
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 8
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 13
+      .fan_count [System.Int32] = 272217
+    [9] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Yuuta"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 3926
+      .trained_chara_id [System.Int32] = 3926
+      .nickname_id [System.Int32] = 236
+      .card_id [System.Int32] = 101401
+      .chara_id [System.Int32] = 1014
+      .rarity [System.Int32] = 4
+      .talent_level [System.Int32] = 2
+      .frame_order [System.Int32] = 10
+      .skill_array [Gallop.SkillData[]] = <array len=19>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100141
+          .level [System.Int32] = 5
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200132
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200181
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200352
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200492
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200572
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200582
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201052
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201311
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201321
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 480
+      .speed [System.Int32] = 1600
+      .pow [System.Int32] = 1195
+      .guts [System.Int32] = 592
+      .wiz [System.Int32] = 1312
+      .running_style [System.Int32] = 2
+      .race_dress_id [System.Int32] = 101401
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 30
+      .popularity [System.Int32] = 4
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 5
+        [1] = 4
+        [2] = 1
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 6
+      .proper_running_style_nige [System.Int32] = 3
+      .proper_running_style_senko [System.Int32] = 7
+      .proper_running_style_sashi [System.Int32] = 8
+      .proper_running_style_oikomi [System.Int32] = 5
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 6
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 6
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 1
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 12
+      .fan_count [System.Int32] = 357296
+    [10] <Gallop.RaceHorseData>
+      .viewer_id [System.Int64] = <object>
+      .owner_viewer_id [System.Int64] = <object>
+      .trainer_name [System.String] = "Ryada"
+      .owner_trainer_name [System.String] = ""
+      .single_mode_chara_id [System.Int32] = 2261
+      .trained_chara_id [System.Int32] = 2261
+      .nickname_id [System.Int32] = 154
+      .card_id [System.Int32] = 105001
+      .chara_id [System.Int32] = 1050
+      .rarity [System.Int32] = 4
+      .talent_level [System.Int32] = 5
+      .frame_order [System.Int32] = 11
+      .skill_array [Gallop.SkillData[]] = <array len=16>
+        [0] <Gallop.SkillData>
+          .skill_id [System.Int32] = 100501
+          .level [System.Int32] = 5
+        [1] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200331
+          .level [System.Int32] = 1
+        [2] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200342
+          .level [System.Int32] = 1
+        [3] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200362
+          .level [System.Int32] = 1
+        [4] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200461
+          .level [System.Int32] = 1
+        [5] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200491
+          .level [System.Int32] = 1
+        [6] <Gallop.SkillData>
+          .skill_id [System.Int32] = 200641
+          .level [System.Int32] = 1
+        [7] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201031
+          .level [System.Int32] = 1
+        [8] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201451
+          .level [System.Int32] = 1
+        [9] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201591
+          .level [System.Int32] = 1
+        [10] <Gallop.SkillData>
+          .skill_id [System.Int32] = 201641
+          .level [System.Int32] = 1
+        [11] <Gallop.SkillData>
+          .skill_id [System.Int32] = 202021
+          .level [System.Int32] = 1
+      .stamina [System.Int32] = 792
+      .speed [System.Int32] = 1274
+      .pow [System.Int32] = 1110
+      .guts [System.Int32] = 755
+      .wiz [System.Int32] = 1229
+      .running_style [System.Int32] = 4
+      .race_dress_id [System.Int32] = 105001
+      .chara_color_type [System.Int32] = 0
+      .npc_type [System.Int32] = 11
+      .final_grade [System.Int32] = 22
+      .popularity [System.Int32] = 3
+      .popularity_mark_rank_array [System.Int32[]] = <array len=3>
+        [0] = 4
+        [1] = 1
+        [2] = 4
+      .proper_distance_short [System.Int32] = 2
+      .proper_distance_mile [System.Int32] = 7
+      .proper_distance_middle [System.Int32] = 7
+      .proper_distance_long [System.Int32] = 7
+      .proper_running_style_nige [System.Int32] = 1
+      .proper_running_style_senko [System.Int32] = 3
+      .proper_running_style_sashi [System.Int32] = 6
+      .proper_running_style_oikomi [System.Int32] = 7
+      .proper_ground_turf [System.Int32] = 7
+      .proper_ground_dirt [System.Int32] = 1
+      .motivation [System.Int32] = 5
+      .mob_id [System.Int32] = 0
+      .win_saddle_id_array [System.Int32[]] = <array len=1>
+        [0] = 2
+      .race_result_array [Gallop.RaceHorseDataRaceResult[]] = <array len=0>
+      .team_id [System.Int32] = 5
+      .team_member_id [System.Int32] = 1
+      .item_id_array [System.Int32[]] = <array len=0>
+      .motivation_change_flag [System.Int32] = 0
+      .frame_order_change_flag [System.Int32] = 0
+      .team_rank [System.Int32] = 0
+      .single_mode_win_count [System.Int32] = 15
+      .fan_count [System.Int32] = 532235
+  ._raceScenario [CodeStage.AntiCheat.ObscuredTypes.ObscuredString] = <CodeStage.AntiCheat.ObscuredTypes.ObscuredString>
+    .currentCryptoKey [System.String] = "ptgvmuyz"
+    .hiddenValue [System.Byte[]] = <array len=31264>
+    .inited [System.Boolean] = true
+[X] agent error: access violation accessing 0x10
+Error: access violation accessing 0x10
+    at get length (/script1.js:3363)
+    at get content (/script1.js:3346)
+    at <anonymous> (/script1.js:3861)
+    at forEach (native)
+    at dumpFields (/script1.js:3906)
+    at <anonymous> (/script1.js:3902)
+    at forEach (native)
+    at dumpFields (/script1.js:3906)
+    at <anonymous> (/script1.js:3918)
+    at perform (/script1.js:1399)

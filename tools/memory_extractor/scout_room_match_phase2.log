@@ -1,0 +1,76 @@
+Traceback (most recent call last):
+  File "C:\Users\rafal.krawczak\AppData\Local\Programs\Python\Python313\Lib\site-packages\frida\__init__.py", line 1183, in _on_message
+    handler(message, data)
+    ~~~~~~~^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\r_krawczak\workspace\uma-it-optimizer\tools\memory_extractor\scout_room_match_phase2.py", line 191, in on_message
+    print(payload["text"])
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\rafal.krawczak\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 2: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\rafal.krawczak\AppData\Local\Programs\Python\Python313\Lib\site-packages\frida\__init__.py", line 1183, in _on_message
+    handler(message, data)
+    ~~~~~~~^^^^^^^^^^^^^^^
+  File "\\wsl.localhost\Ubuntu\home\r_krawczak\workspace\uma-it-optimizer\tools\memory_extractor\scout_room_match_phase2.py", line 191, in on_message
+    print(payload["text"])
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\rafal.krawczak\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 2-3: character maps to <undefined>
+[+] attaching to PID 26152
+[+] IL2CPP ready, scouting...
+[NOT FOUND] Gallop.WorkRoomMatchData.RaceResultData
+[NOT FOUND] Gallop.WorkRoomMatchData.SavedRaceResultData
+[NOT FOUND] Gallop.WorkRoomMatchData.RoomMatchTrainedCharaData
+[NOT FOUND] Gallop.WorkRoomMatchData.UserData
+[NOT FOUND] Gallop.WorkRoomMatchData.RoomData
+[NOT FOUND] Gallop.WorkRoomMatchData.RestrictCharaData
+[NOT FOUND] Gallop.TempData.RoomMatchTempData
+
+=== HEAP SCAN (9 targets) ===
+[1/9] Gallop.RoomMatchRaceEndResultResponse (umamusume.Http)
+  0 live instances
+[2/9] Gallop.RoomMatchGetSavedRaceResultResponse (umamusume.Http)
+  0 live instances
+[3/9] Gallop.WorkRoomMatchData (umamusume)
+    ._guestEntryRoomList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>>
+    ._currentRoomData [Gallop.WorkRoomMatchData.RoomData] = <Gallop.WorkRoomMatchData.RoomData>
+    ._currentRoomUserList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>>
+    ._currentRoomUserListWithPolling [System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>>
+    ._myEntryRoomList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>>
+    ._joinWatchRoomNum [CodeStage.AntiCheat.ObscuredTypes.ObscuredInt] = <object>
+    ._registHostList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>>
+    ._registEntryList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>>
+    ._registWatchList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.RoomData>>
+    ._saveRoomDictionary [System.Collections.Generic.Dictionary<System.Tuple<System.Int32,System.UInt64>,System.Tuple<Gallop.WorkRoomMatchData.RoomData,Gallop.ExhibitionRaceDefine.RoomRaceType>>] = <System.Collections.Generic.Dictionary<System.Tuple<System.Int32,System.UInt64>,System.Tuple<Gallop.WorkRoomMatchData.RoomData,Gallop.ExhibitionRaceDefine.RoomRaceType>>>
+    ._latestEntryRoomData [Gallop.WorkRoomMatchData.RoomData] = <read err: access violation accessing 0x0>
+    ._pollingInterval [System.Single] = 0
+    .<ChangeRoomDataWithPolling>k__BackingField [System.Boolean] = false
+    ._currentRoomJoinUserList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>>
+    ._currentRoomLeaveUserList [System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>] = <System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>>
+    ._raceResultInfo [Gallop.WorkRoomMatchData.RaceResultData] = <read err: access violation accessing 0x0>
+    ._savedRaceResultInfo [Gallop.WorkRoomMatchData.SavedRaceResultData] = <Gallop.WorkRoomMatchData.SavedRaceResultData>
+    .<NeedNotifyRoom>k__BackingField [System.Boolean] = false
+    ._roomMatchEntryCharaIdArray [System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>] = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>>
+    ._isReplay [CodeStage.AntiCheat.ObscuredTypes.ObscuredBool] = <object>
+    ._skipMotivationList [System.Collections.Generic.List<System.Int32>] = <System.Collections.Generic.List<System.Int32>>
+    ._roomFriendInfoList [System.Collections.Generic.List<Gallop.WorkDataUtil.OtherUserData>] = <System.Collections.Generic.List<Gallop.WorkDataUtil.OtherUserData>>
+    ._roomSearchResultUsersInfo [System.ValueTuple<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt,System.Collections.Generic.List<Gallop.WorkRoomMatchData.UserData>>] = <object>
+    ._deckDict [System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkDataUtil.RacePresetData>] = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkDataUtil.RacePresetData>>
+[4/9] Gallop.RoomMatchTrainedChara (umamusume.Http)
+  0 live instances
+[5/9] Gallop.RoomMatchUser (umamusume.Http)
+  0 live instances
+[6/9] Gallop.RoomMatchUserDetail (umamusume.Http)
+  0 live instances
+[7/9] Gallop.RoomMatchRoomInfo (umamusume.Http)
+  0 live instances
+[8/9] Gallop.RoomMatchEntryChara (umamusume.Http)
+  0 live instances
+[9/9] Gallop.MsgPack.Formatters.RoomMatchRaceEndResultResponseFormatter (umamusume.Http)
+  0 live instances
+
+[+] scout complete
