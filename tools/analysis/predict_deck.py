@@ -84,6 +84,7 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
 def fit_tables(runs):
     """-> dx {(card,level,stat): median}, W {(card,level): weight}."""
     dx_acc = defaultdict(list)
+    dx_scen_acc = defaultdict(list)
     sp_runs = []
     for r in runs:
         ut = U[r["scen"]] * turns(r["races"])
@@ -91,10 +92,16 @@ def fit_tables(runs):
         cm = (clo + chi) / 2
         for (cid, lvl), (stats, axis) in r["cards"].items():
             for i, v in enumerate(stats):
-                dx_acc[(cid, lvl, i)].append((v + 0.5) / ut - cm - axis)
+                d = (v + 0.5) / ut - cm - axis
+                dx_acc[(cid, lvl, i)].append(d)
+                dx_scen_acc[(cid, lvl, i, r["scen"])].append(d)
         if len(r["sp"]) >= 2:
             sp_runs.append({"sp": {k: v + 0.5 for k, v in r["sp"].items()}})
+    # E is SCENARIO-DEPENDENT: per-scenario spreads are 1-5% where the
+    # pooled table showed 16-19% (measured 2026-08-13). Scenario-specific
+    # medians first, pooled as fallback for unseen scenario cells.
     dx = {k: median(v) for k, v in dx_acc.items() if len(v) >= 3}
+    dx_scen = {k: median(v) for k, v in dx_scen_acc.items() if len(v) >= 3}
     w_raw = solve_w(sp_runs) if sp_runs else {}
     # Anchor W's arbitrary scale so that sp = k * T * W matches the
     # fitting half directly: scale = median(sp / (k*T*W_raw)).
@@ -105,10 +112,11 @@ def fit_tables(runs):
             if k2 in w_raw and w_raw[k2] > 0:
                 scales.append((v + 0.5) / (kt * w_raw[k2]))
     s = median(scales) if scales else 1.0
-    return dx, {k: v * s for k, v in w_raw.items()}
+    return (dx, dx_scen), {k: v * s for k, v in w_raw.items()}
 
 
-def predict_card(masters, dx, w, cid, lvl, scenario, races):
+def predict_card(masters, dx_pair, w, cid, lvl, scenario, races):
+    dx, dx_scen = dx_pair
     fb, mo, te, ini, _ = masters.bonuses(cid, lvl)
     axis = axis_of(fb, mo, te)
     ut = U[scenario] * turns(races)
@@ -117,7 +125,7 @@ def predict_card(masters, dx, w, cid, lvl, scenario, races):
     stats = []
     covered = (cid, lvl, 0) in dx
     for i in range(5):
-        d = dx.get((cid, lvl, i), 0.0)
+        d = dx_scen.get((cid, lvl, i, scenario), dx.get((cid, lvl, i), 0.0))
         stats.append(int(ut * (cm + axis + d)))
     wt = w.get((cid, lvl))
     sp = int(SP_K[scenario] * turns(races) * wt) if wt else None
