@@ -34,8 +34,19 @@ from pathlib import Path
 from it_formula import Masters, load_run
 
 U = {1: 0.000132839, 3: 0.000149987, 4: 0.000124227}
-C_LO = {1: 2798, 3: 1825, 4: 3400}
-C_HI = {1: 2854, 3: 1825, 4: 3400}
+# URA's constant is RACE-DEPENDENT (recalibrated 2026-08-13): the fixed
+# [2798, 2854) interval was the shadow of a race tilt. C_eff(races) =
+# 2738 + 1.30 * races (+-25), which lands on the community's old 2750
+# at 9 races - that number was right for short careers all along.
+URA_C_BASE, URA_C_SLOPE, URA_C_HALFWIDTH = 2738.4, 1.30, 25.0
+
+
+def c_bounds(scenario: int, races: int) -> tuple[float, float]:
+    if scenario == 1:
+        mid = URA_C_BASE + URA_C_SLOPE * races
+        return mid - URA_C_HALFWIDTH, mid + URA_C_HALFWIDTH
+    c = {3: 1825.0, 4: 3400.0}[scenario]
+    return c, c
 # Measured turn curve. 13/14/15 added 2026-08-13; T(14) is the softest
 # point (+-0.3) — offset precision chains to T precision at the run's
 # race counts.
@@ -79,6 +90,7 @@ def sweep(runs_dir: Path, masters: Masters, stat: int | None = None):
         seen.add(key)
         t = turns(r["races"])
         ut = U[r["scenario"]] * t
+        clo, chi = c_bounds(r["scenario"], r["races"])
         if stat is None:
             cells = [(row.card_id, row.level, row.base, row.axis)
                      for row in r["rows"] if row.card_id != 30078]
@@ -94,8 +106,8 @@ def sweep(runs_dir: Path, masters: Masters, stat: int | None = None):
                 cells.append((cid, lv[cid][0], v, lv[cid][1]))
         for cid, level, obs, axis in cells:
             k = (cid, level)
-            iv[k][0] = max(iv[k][0], obs / ut - C_HI[r["scenario"]] - axis)
-            iv[k][1] = min(iv[k][1], (obs + 1) / ut - C_LO[r["scenario"]] - axis)
+            iv[k][0] = max(iv[k][0], obs / ut - chi - axis)
+            iv[k][1] = min(iv[k][1], (obs + 1) / ut - clo - axis)
             nn[k] += 1
     return iv, nn
 
