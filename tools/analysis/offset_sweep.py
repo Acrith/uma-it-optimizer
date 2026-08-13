@@ -69,8 +69,12 @@ def turns(races: int) -> float | None:
     return None
 
 
-def sweep(runs_dir: Path, masters: Masters, stat: int | None = None):
-    """-> {(card, level): [lo, hi]}, {(card, level): n}"""
+def sweep(runs_dir: Path, masters: Masters, stat: int | None = None,
+          constraints: dict | None = None):
+    """-> {(card, level): [lo, hi]}, {(card, level): n}
+
+    Pass constraints={} to also collect per-run (lo, hi) lists, enabling
+    drop-one analysis via tolerant()."""
     iv: dict = defaultdict(lambda: [-1e9, 1e9])
     nn: dict = defaultdict(int)
     seen: set = set()
@@ -106,10 +110,33 @@ def sweep(runs_dir: Path, masters: Masters, stat: int | None = None):
                 cells.append((cid, lv[cid][0], v, lv[cid][1]))
         for cid, level, obs, axis in cells:
             k = (cid, level)
-            iv[k][0] = max(iv[k][0], obs / ut - chi - axis)
-            iv[k][1] = min(iv[k][1], (obs + 1) / ut - clo - axis)
+            lo = obs / ut - chi - axis
+            hi = (obs + 1) / ut - clo - axis
+            iv[k][0] = max(iv[k][0], lo)
+            iv[k][1] = min(iv[k][1], hi)
             nn[k] += 1
+            if constraints is not None:
+                constraints.setdefault(k, []).append((lo, hi))
     return iv, nn
+
+
+def tolerant(cons: list[tuple[float, float]]) -> tuple[float, float] | None:
+    """Widest intersection achievable by dropping exactly one constraint.
+
+    Strict intersection is brittle: a single outlier run EMPTYs a cell.
+    A cell that is non-empty under drop-one has n-1 agreeing runs and
+    one outlier - report it as such, never as a clean interval.
+    Returns None if even drop-one is empty."""
+    if len(cons) < 3:
+        return None
+    best = None
+    for skip in (max(range(len(cons)), key=lambda i: cons[i][0]),
+                 min(range(len(cons)), key=lambda i: cons[i][1])):
+        lo = max(c[0] for i, c in enumerate(cons) if i != skip)
+        hi = min(c[1] for i, c in enumerate(cons) if i != skip)
+        if lo <= hi and (best is None or hi - lo > best[1] - best[0]):
+            best = (lo, hi)
+    return best
 
 
 def main() -> int:
