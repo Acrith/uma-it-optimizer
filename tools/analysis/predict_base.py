@@ -52,7 +52,14 @@ SCEN_NAME = {1: "URA", 2: "Unity Cup", 3: "Our Grand Concert",
 # curve is unmeasured (41+ is also schedule-dependent — twin runs differ).
 _T_POINTS = [(4, 75.60), (5, 74.99), (6, 73.46), (7, 72.73), (8, 71.15),
              (9, 70.44), (10, 69.31), (11, 68.17), (12, 66.98), (13, 65.96),
-             (14, 65.50), (15, 63.94), (16, 63.07), (20, 58.51), (24, 54.30),
+             (14, 65.50), (15, 63.94), (16, 63.07),
+             # 17-19 and 21-23 are PATTERN-FILLED, not measured (+-0.3):
+             # the staircase is race-count parity accounting (odd
+             # transitions ~-1.9 turns, even ~-0.25, placement-independent
+             # per RaceHistory), and continuing it from 16 hits measured
+             # T(20) within 0.24 and from 20 hits T(24) within 0.1.
+             (17, 61.17), (18, 60.92), (19, 59.02), (20, 58.51),
+             (21, 56.61), (22, 56.36), (23, 54.46), (24, 54.30),
              (25, 53.36), (26, 51.90), (27, 51.18), (28, 50.74), (29, 49.00),
              (30, 48.67), (31, 46.82), (32, 46.60), (33, 44.82), (34, 44.53),
              (35, 42.55), (36, 42.46), (37, 40.55), (38, 40.29), (39, 38.32),
