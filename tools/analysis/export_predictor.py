@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import defaultdict
 from pathlib import Path
 
 from it_formula import Masters, axis_of
@@ -52,6 +53,8 @@ def main() -> int:
         for k in r["cards"]:
             counts[k] = counts.get(k, 0) + 1
 
+    cmd = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
+        "select id, command_id from support_card_data")}
     cards: dict = {}
     for (cid, lvl), n in sorted(counts.items()):
         if (cid, lvl, 0) not in dx:
@@ -60,6 +63,7 @@ def main() -> int:
         entry = {
             "axis": axis_of(fb, mo, te),
             "chara": chara.get(cid, cid),
+            "cmd": cmd.get(cid) or 0,
             "n": n,
             "dx": [round(dx.get((cid, lvl, i), 0.0), 1) for i in range(5)],
             "dx_scen": {},
@@ -74,6 +78,47 @@ def main() -> int:
         entry["w"] = round(wt, 2) if wt else None
         cards[f"{cid}:{lvl}"] = entry
 
+    # Facility priors: mean covered dx/W per (command, scenario) - the
+    # cold fallback so uncovered cards still get a credible specialty
+    # estimate rather than a base-only row.
+    pr_dx: dict = defaultdict(list)
+    pr_w: dict = defaultdict(list)
+    for e in cards.values():
+        for scen, dxs in e["dx_scen"].items():
+            pr_dx[(e["cmd"], scen)].append(dxs)
+        if e["w"]:
+            pr_w[e["cmd"]].append(e["w"])
+    priors: dict = {}
+    for (cmd_id, scen), rows in pr_dx.items():
+        priors.setdefault(str(cmd_id), {})[scen] = [
+            round(sum(r[i] for r in rows) / len(rows), 1) for i in range(5)]
+    priors_w = {str(cmd_id): round(sum(v) / len(v), 2)
+                for cmd_id, v in pr_w.items()}
+
+    # Cold cells: every trainer card at every LB cap level, axis only.
+    LB_CAP = {0: 30, 1: 35, 2: 40, 3: 45, 4: 50}
+    rarity = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
+        "select id, rarity from support_card_data")}
+    cold: dict = {}
+    for cid in sorted(masters.trainer_cards):
+        if cid == 30078:
+            continue
+        r = rarity.get(cid, 3)
+        if r == 1:
+            caps = [20, 25, 30, 35, 40]
+        elif r == 2:
+            caps = [25, 30, 35, 40, 45]
+        else:
+            caps = list(LB_CAP.values())
+        for lvl in caps:
+            key = f"{cid}:{lvl}"
+            if key in cards:
+                continue
+            fb, mo, te, _ini, _c = masters.bonuses(cid, lvl)
+            cold[key] = {"axis": axis_of(fb, mo, te),
+                         "chara": chara.get(cid, cid),
+                         "cmd": cmd.get(cid) or 0}
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -85,11 +130,13 @@ def main() -> int:
             "sp_k": {str(k): v for k, v in SP_K.items()},
         },
         "cards": cards,
+        "cold": cold,
+        "priors": {"dx": priors, "w": priors_w},
     }
     args.out.write_text(json.dumps(out, separators=(",", ":")),
                         encoding="utf-8")
     print(f"wrote {args.out} ({args.out.stat().st_size // 1024} KB, "
-          f"{len(cards)} cells from {len(runs)} runs)")
+          f"{len(cards)} covered + {len(cold)} cold cells, {len(runs)} runs)")
     return 0
 
 
