@@ -41,6 +41,9 @@ def main() -> int:
     args = ap.parse_args()
 
     masters = Masters(args.mdb)
+    import sqlite3
+    chara = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
+        "select id, chara_id from support_card_data")}
     runs = collect_runs(args.runs, masters)
     (dx, dx_scen), w = fit_tables(runs)
 
@@ -56,6 +59,7 @@ def main() -> int:
         fb, mo, te, _ini, _c = masters.bonuses(cid, lvl)
         entry = {
             "axis": axis_of(fb, mo, te),
+            "chara": chara.get(cid, cid),
             "n": n,
             "dx": [round(dx.get((cid, lvl, i), 0.0), 1) for i in range(5)],
             "dx_scen": {},
