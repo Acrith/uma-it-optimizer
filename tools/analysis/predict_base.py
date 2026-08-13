@@ -29,8 +29,8 @@ import argparse
 from pathlib import Path
 
 from it_formula import (
-    Masters,
     SCENARIO_CONST,
+    Masters,
     axis_of,
     const_for,
 )
@@ -61,7 +61,7 @@ _T_POINTS = [(4, 75.60), (5, 74.99), (6, 73.46), (7, 72.73), (8, 71.15),
 
 def turns_for(races: int) -> float | None:
     """Measured T(races), or None outside the calibrated 4-40 range."""
-    for (a, ta), (b, tb) in zip(_T_POINTS, _T_POINTS[1:]):
+    for (a, ta), (b, tb) in zip(_T_POINTS, _T_POINTS[1:], strict=False):
         if a <= races <= b:
             return ta + (tb - ta) * (races - a) / (b - a)
     return None
@@ -75,6 +75,12 @@ def predict(masters: Masters, card_id: int, level: int, scenario: int,
     fb, mood, te, initial, conditional = masters.bonuses(card_id, level)
     axis = axis_of(fb, mood, te)
     const = const_for(scenario)
+    if scenario == 1:
+        # URA's constant is race-dependent (recalibrated 2026-08-13):
+        # C_eff = 2738 + 1.30 * races. The static 2750 it replaces was
+        # exactly right at 9 races; the correction lifts URA from 77.4%
+        # to 82.3% exact over the corpus, level with GL/TB at 83.6%.
+        const = 2738.4 + 1.30 * races
     n = turns_for(races)
     if n is None:
         # Fall back to the linear approximation outside the measured range,
