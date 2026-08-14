@@ -43,8 +43,24 @@ def main() -> int:
 
     masters = Masters(args.mdb)
     import sqlite3
-    chara = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
+    conn = sqlite3.connect(str(args.mdb))
+    chara = {r[0]: r[1] for r in conn.execute(
         "select id, chara_id from support_card_data")}
+    BP = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+
+    def race_bonus(cid: int, lv: int) -> float:
+        row = conn.execute(
+            "select * from support_card_effect_table where id=? and type=19",
+            (cid,)).fetchone()
+        if not row:
+            return 0.0
+        pts = [(a, v) for a, v in zip(BP, row[2:13], strict=False) if v != -1]
+        if not pts or lv < pts[0][0]:
+            return 0.0
+        for (x0, v0), (x1, v1) in zip(pts, pts[1:], strict=False):
+            if lv <= x1:
+                return v0 + (v1 - v0) * (lv - x0) / (x1 - x0)
+        return float(pts[-1][1])
     runs = collect_runs(args.runs, masters)
     (dx, dx_scen), w = fit_tables(runs)
 
@@ -76,6 +92,10 @@ def main() -> int:
                     for i in range(5)]
         wt = w.get((cid, lvl))
         entry["w"] = round(wt, 2) if wt else None
+        entry["rb"] = round(race_bonus(cid, lvl), 1)
+        hv = [r["hints"].get((cid, lvl)) for r in runs
+              if (cid, lvl) in r["hints"]]
+        entry["hints"] = round(sum(hv) / len(hv), 1) if hv else None
         cards[f"{cid}:{lvl}"] = entry
 
     # Facility priors: mean covered dx/W per (command, scenario) - the
@@ -117,7 +137,42 @@ def main() -> int:
             fb, mo, te, _ini, _c = masters.bonuses(cid, lvl)
             cold[key] = {"axis": axis_of(fb, mo, te),
                          "chara": chara.get(cid, cid),
-                         "cmd": cmd.get(cid) or 0}
+                         "cmd": cmd.get(cid) or 0,
+                         "rb": round(race_bonus(cid, lvl), 1)}
+
+    # Events + inspiration model per scenario (see it-formula.md
+    # 2026-08-14): stat MASS is a near-constant per scenario with a
+    # random split; events SP = a + b * races * (1 + deck race bonus).
+    from statistics import median as med
+    events = {}
+    insp = {}
+    for scen in (1, 3, 4):
+        sub = [r for r in runs if r["scen"] == scen and any(r["ev"])]
+        if len(sub) < 10:
+            continue
+        tots = sorted(sum(r["ev"][:5]) for r in sub)
+        shape = [med([r["ev"][i] / max(1, sum(r["ev"][:5])) for r in sub])
+                 for i in range(5)]
+        sh = sum(shape)
+        xs = [r["races"] * (1 + sum(race_bonus(c, lv) for c, lv in r["cards"])
+                            / 100) for r in sub]
+        ys = [r["ev"][5] for r in sub]
+        mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+        cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys, strict=False))
+        b_ = cov / sum((x - mx) ** 2 for x in xs)
+        a_ = my - b_ * mx
+        events[str(scen)] = {
+            "stat_total": round(med(tots), 0),
+            "spread": [tots[len(tots) // 10], tots[int(len(tots) * .9)]],
+            "shape": [round(v / sh, 3) for v in shape],
+            "sp_a": round(a_, 0), "sp_b": round(b_, 2),
+        }
+        itots = sorted(sum(r["insp"]) for r in sub)
+        ishape = [med([r["insp"][i] / max(1, sum(r["insp"])) for r in sub])
+                  for i in range(5)]
+        ish = sum(ishape) or 1
+        insp[str(scen)] = {"stat_total": round(med(itots), 0),
+                           "shape": [round(v / ish, 3) for v in ishape]}
 
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
@@ -132,6 +187,8 @@ def main() -> int:
         "cards": cards,
         "cold": cold,
         "priors": {"dx": priors, "w": priors_w},
+        "events": events,
+        "insp": insp,
     }
     args.out.write_text(json.dumps(out, separators=(",", ":")),
                         encoding="utf-8")

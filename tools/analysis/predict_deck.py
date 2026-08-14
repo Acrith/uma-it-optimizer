@@ -66,6 +66,7 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
         lv = {x.card_id: (x.level, x.axis) for x in r["rows"]}
         cards = {}
         sps = {}
+        hints = {}
         for e in raw.get("SupportCardGainInfo") or []:
             cid = e["<SupportCardId>k__BackingField"]
             if cid not in lv or cid == 30078:
@@ -76,8 +77,16 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
             sp = g.get("<SkillPoint>k__BackingField")
             if sp:
                 sps[(cid, lv[cid][0])] = sp
+            tips = g.get("<SkillTipsArray>k__BackingField") or []
+            hints[(cid, lv[cid][0])] = len(tips)
+        gi = raw.get("GainInfo") or []
+        ev = gi[0] if gi else {}
+        insp = gi[1] if len(gi) > 1 else {}
         out.append({"scen": r["scenario"], "races": r["races"],
-                    "cards": cards, "sp": sps})
+                    "cards": cards, "sp": sps, "hints": hints,
+                    "ev": [ev.get(f, 0) for f in STAT_FIELDS] +
+                          [ev.get("<SkillPoint>k__BackingField", 0)],
+                    "insp": [insp.get(f, 0) for f in STAT_FIELDS]})
     return out
 
 
