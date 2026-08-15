@@ -214,6 +214,15 @@ def main() -> int:
         insp[str(scen)] = {"stat_total": round(med(itots), 0),
                            "shape": [round(v / ish, 3) for v in ishape]}
 
+    # Preset redistribution, measured from player-declared overrides
+    # (1,248 marked runs; shares vs Balanced). Applies to the E surplus
+    # and events stats only - the base trio measured preset-immune.
+    presets = {
+        "Balanced": [1.0, 1.0, 1.0, 1.0, 1.0],
+        "Stamina": [0.99, 1.45, 0.94, 0.90, 0.85],
+        "Sprint": [1.10, 0.88, 1.00, 0.99, 0.96],
+    }
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -229,6 +238,7 @@ def main() -> int:
         "priors": {"dx": priors, "w": priors_w},
         "events": events,
         "insp": insp,
+        "presets": presets,
     }
     args.out.write_text(json.dumps(out, separators=(",", ":")),
                         encoding="utf-8")
