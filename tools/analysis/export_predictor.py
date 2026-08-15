@@ -50,7 +50,7 @@ def main() -> int:
 
     def race_bonus(cid: int, lv: int) -> float:
         row = conn.execute(
-            "select * from support_card_effect_table where id=? and type=19",
+            "select * from support_card_effect_table where id=? and type=15",
             (cid,)).fetchone()
         if not row:
             return 0.0
@@ -116,11 +116,17 @@ def main() -> int:
                 for cmd_id, v in pr_w.items()}
 
     # Cold cells: every trainer card at every LB cap level, axis only.
+    # Pals (support_card_type 2) and group cards (type 3) are included
+    # with a kind flag: pals get the pal law applied deck-wide by the
+    # UI, group cards carry the rough measured +2500 X group offset.
     LB_CAP = {0: 30, 1: 35, 2: 40, 3: 45, 4: 50}
     rarity = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
         "select id, rarity from support_card_data")}
+    sc_type = {r[0]: r[1] for r in conn.execute(
+        "select id, support_card_type from support_card_data")}
+    all_cards = sorted(sc_type)
     cold: dict = {}
-    for cid in sorted(masters.trainer_cards):
+    for cid in all_cards:
         if cid == 30078:
             continue
         r = rarity.get(cid, 3)
@@ -135,10 +141,16 @@ def main() -> int:
             if key in cards:
                 continue
             fb, mo, te, _ini, _c = masters.bonuses(cid, lvl)
-            cold[key] = {"axis": axis_of(fb, mo, te),
-                         "chara": chara.get(cid, cid),
-                         "cmd": cmd.get(cid) or 0,
-                         "rb": round(race_bonus(cid, lvl), 1)}
+            entry_c = {"axis": axis_of(fb, mo, te),
+                       "chara": chara.get(cid, cid),
+                       "cmd": cmd.get(cid) or 0,
+                       "rb": round(race_bonus(cid, lvl), 1)}
+            k2 = sc_type.get(cid, 1)
+            if k2 == 2:
+                entry_c["kind"] = "pal"
+            elif k2 == 3:
+                entry_c["kind"] = "group"
+            cold[key] = entry_c
 
     # Events + inspiration model per scenario (see it-formula.md
     # 2026-08-14): stat MASS is a near-constant per scenario with a
@@ -161,10 +173,26 @@ def main() -> int:
         cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys, strict=False))
         b_ = cov / sum((x - mx) ** 2 for x in xs)
         a_ = my - b_ * mx
+        # Race-vs-events decomposition (2026-08-15): per-race base
+        # rewards from the reference tables (normal career for URA/GL,
+        # the user's canonical MANT table for TB) averaged over the
+        # corpus race mix, and the events RESIDUAL after subtracting
+        # exact per-run race rewards. URA's residual includes its
+        # finale (3 all-stats+SP races absent from RaceHistory).
+        # Measured via the reconstruction snippet in it-formula.md;
+        # re-derive when the corpus shifts materially.
+        RACE_EVENTS = {
+            1: {"race_sp": 43.3, "race_st": 9.7, "ev_sp": 183, "ev_st": 1282},
+            3: {"race_sp": 42.5, "race_st": 9.6, "ev_sp": 562, "ev_st": 1732},
+            4: {"race_sp": 31.2, "race_st": 9.8, "ev_sp": 518, "ev_st": 1362},
+        }
+        re_ = RACE_EVENTS[scen]
         events[str(scen)] = {
-            "stat_total": round(med(tots), 0),
+            "stat_total": re_["ev_st"],
             "spread": [tots[len(tots) // 10], tots[int(len(tots) * .9)]],
             "shape": [round(v / sh, 3) for v in shape],
+            "ev_sp": re_["ev_sp"],
+            "race_sp": re_["race_sp"], "race_st": re_["race_st"],
             "sp_a": round(a_, 0), "sp_b": round(b_, 2),
         }
         itots = sorted(sum(r["insp"]) for r in sub)
