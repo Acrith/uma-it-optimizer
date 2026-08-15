@@ -49,18 +49,30 @@ def main() -> int:
     BP = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
 
     def race_bonus(cid: int, lv: int) -> float:
+        """Effect-table race bonus (type 15) PLUS any unique-effect race
+        bonus once its level gate is met - e.g. Marvelous Sunday's SSR
+        carries +5% in her unique, Turf as Nails' famous rider likewise."""
+        total = 0.0
         row = conn.execute(
             "select * from support_card_effect_table where id=? and type=15",
             (cid,)).fetchone()
-        if not row:
-            return 0.0
-        pts = [(a, v) for a, v in zip(BP, row[2:13], strict=False) if v != -1]
-        if not pts or lv < pts[0][0]:
-            return 0.0
-        for (x0, v0), (x1, v1) in zip(pts, pts[1:], strict=False):
-            if lv <= x1:
-                return v0 + (v1 - v0) * (lv - x0) / (x1 - x0)
-        return float(pts[-1][1])
+        if row:
+            pts = [(a, v) for a, v in zip(BP, row[2:13], strict=False)
+                   if v != -1]
+            if pts and lv >= pts[0][0]:
+                total = float(pts[-1][1])
+                for (x0, v0), (x1, v1) in zip(pts, pts[1:], strict=False):
+                    if lv <= x1:
+                        total = v0 + (v1 - v0) * (lv - x0) / (x1 - x0)
+                        break
+        for gate, t0, v0, t1, v1 in conn.execute(
+                "select lv, type_0, value_0, type_1, value_1 "
+                "from support_card_unique_effect where id=?", (cid,)):
+            if lv >= gate:
+                for t, v in ((t0, v0), (t1, v1)):
+                    if t == 15:
+                        total += v
+        return total
     runs = collect_runs(args.runs, masters)
     (dx, dx_scen), w = fit_tables(runs)
 
@@ -182,9 +194,9 @@ def main() -> int:
         # Measured via the reconstruction snippet in it-formula.md;
         # re-derive when the corpus shifts materially.
         RACE_EVENTS = {
-            1: {"race_sp": 43.3, "race_st": 9.7, "ev_sp": 183, "ev_st": 1282},
-            3: {"race_sp": 42.5, "race_st": 9.6, "ev_sp": 562, "ev_st": 1732},
-            4: {"race_sp": 31.2, "race_st": 9.8, "ev_sp": 518, "ev_st": 1362},
+            1: {"race_sp": 43.3, "race_st": 9.7, "ev_sp": 149, "ev_st": 1270},
+            3: {"race_sp": 42.5, "race_st": 9.6, "ev_sp": 532, "ev_st": 1726},
+            4: {"race_sp": 31.2, "race_st": 9.8, "ev_sp": 496, "ev_st": 1352},
         }
         re_ = RACE_EVENTS[scen]
         events[str(scen)] = {
