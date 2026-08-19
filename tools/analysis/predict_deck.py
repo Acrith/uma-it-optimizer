@@ -41,6 +41,28 @@ SP_K = {1: 2.403, 3: 2.602, 4: 2.401}
 # Pal law bands, (m_mid, delta_mid), measured 2026-08-13.
 PAL_LAW = {"R": (1.10, -55.0), "SR": (1.127, 0.0), "SSR": (1.50, -60.0)}
 
+# Official notice 2026-08-19: post-race career events failed to trigger
+# for six trainees in URA / Unity / Grand Live between 2026-07-22 08:00
+# and 2026-08-13 09:16 UTC. Card rows are untouched (dx / W / base fits
+# keep these runs) but the run's events channel underreports, so the
+# events/inspiration fit must skip them. Population footprint measured
+# small (GL ev_sp -3.7%, ev_stat ~0) yet per-trainee it is exactly the
+# systematic bias a trainee-event table cannot carry.
+EVENT_BUG_CHARAS = {1003, 1016, 1017, 1026, 1059, 1068}
+# Tokai Teio, Narita Brian, Symboli Rudolf, Mihono Bourbon,
+# Mejiro Dober, Kitasan Black
+EVENT_BUG_SCENS = {1, 2, 3}
+EVENT_BUG_WINDOW = ("20260722T080000", "20260813T091600")
+
+
+def event_bugged(run: dict) -> bool:
+    """True when this run's events channel fell inside the official
+    event-trigger bug window (affected trainee + scenario + time)."""
+    return (run.get("trainee", 0) // 100 in EVENT_BUG_CHARAS
+            and run["scen"] in EVENT_BUG_SCENS
+            and EVENT_BUG_WINDOW[0] <= run.get("at", "")
+            <= EVENT_BUG_WINDOW[1])
+
 
 def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
     """Deduped pal-free URA/GL/TB runs; half=0/1 splits by run-key parity."""
@@ -82,8 +104,15 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
         gi = raw.get("GainInfo") or []
         ev = gi[0] if gi else {}
         insp = gi[1] if len(gi) > 1 else {}
+        # Extractor filenames are "<ts>_scen<N>_uma<card>.json" - the
+        # timestamp and trainee ride along for the event-bug filter.
+        parts = p.stem.split("_")
+        trainee = (int(parts[2][3:]) if len(parts) > 2
+                   and parts[2].startswith("uma")
+                   and parts[2][3:].isdigit() else 0)
         out.append({"scen": r["scenario"], "races": r["races"],
                     "cards": cards, "sp": sps, "hints": hints,
+                    "trainee": trainee, "at": parts[0],
                     "ev": [ev.get(f, 0) for f in STAT_FIELDS] +
                           [ev.get("<SkillPoint>k__BackingField", 0)],
                     "insp": [insp.get(f, 0) for f in STAT_FIELDS]})

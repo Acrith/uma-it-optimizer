@@ -30,7 +30,7 @@ from offset_sweep import (
     URA_C_SLOPE,
     U,
 )
-from predict_deck import SP_K, collect_runs, fit_tables
+from predict_deck import SP_K, collect_runs, event_bugged, fit_tables
 
 
 def main() -> int:
@@ -171,7 +171,11 @@ def main() -> int:
     events = {}
     insp = {}
     for scen in (1, 3, 4):
-        sub = [r for r in runs if r["scen"] == scen and any(r["ev"])]
+        # event_bugged: runs inside the official Jul 22 - Aug 13 window
+        # for the six affected trainees underreport trainee events -
+        # they stay in the card-channel fits but not in this one.
+        sub = [r for r in runs if r["scen"] == scen and any(r["ev"])
+               and not event_bugged(r)]
         if len(sub) < 10:
             continue
         tots = sorted(sum(r["ev"][:5]) for r in sub)
