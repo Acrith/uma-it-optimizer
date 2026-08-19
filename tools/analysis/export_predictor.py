@@ -194,7 +194,10 @@ def main() -> int:
         # the user's canonical MANT table for TB) averaged over the
         # corpus race mix, and the events RESIDUAL after subtracting
         # exact per-run race rewards. URA's residual includes its
-        # finale (3 all-stats+SP races absent from RaceHistory).
+        # finale: the 3 finale races ARE in RaceHistory (turns 74/76/
+        # 78) but their program ids don't resolve to a grade through
+        # single_mode_program, so the reconstruction skips them and
+        # their all-stats+SP payout stays in the residual.
         # Measured via the reconstruction snippet in it-formula.md;
         # re-derive when the corpus shifts materially.
         RACE_EVENTS = {
