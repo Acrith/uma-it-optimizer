@@ -1,0 +1,11005 @@
+{
+"10001": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10002": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10003": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"10004": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10005": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"10006": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10007": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10008": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10009": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10010": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10011": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10012": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"10013": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10014": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10015": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10016": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"10017": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 75
+}
+},
+"10018": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10019": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10020": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10021": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10022": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"10023": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10024": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10025": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10026": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10027": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10028": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"10029": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10030": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10031": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"10032": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10033": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10034": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10035": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10036": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10037": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10038": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10039": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10040": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"10041": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10042": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10043": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10044": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"10045": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10046": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"10047": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10048": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"10049": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"10050": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 40
+}
+},
+"10051": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10052": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10053": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10054": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10055": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10056": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10057": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10058": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10059": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10060": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10061": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10062": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10063": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10064": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10065": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10066": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 3,
+"pt": 15
+}
+},
+"10067": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10068": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"10069": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10070": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10071": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10072": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 14,
+"pt": 0
+}
+},
+"10073": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"10074": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10075": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10076": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10077": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10078": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"10079": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 25
+}
+},
+"10080": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10081": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10082": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"10083": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 28,
+"pt": 0
+}
+},
+"10084": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 5
+}
+},
+"10085": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10086": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 24,
+"pt": 0
+}
+},
+"10087": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"10088": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"10089": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10090": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 30
+}
+},
+"10091": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10092": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"10093": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10094": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10095": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"10096": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"10097": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10098": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10099": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10100": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10101": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10102": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10103": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10104": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10105": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 20
+}
+},
+"10106": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10107": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"10108": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10109": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10110": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 25
+}
+},
+"10111": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10113": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"10114": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10115": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10116": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10117": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"10118": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 25
+}
+},
+"10119": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"10120": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"10121": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 10
+}
+},
+"10122": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10123": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"10124": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"10125": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10126": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 30
+}
+},
+"10127": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"10128": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 10
+}
+},
+"10129": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"10131": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10132": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"10133": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10134": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10135": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"10136": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10137": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"10138": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 28,
+"pt": 14
+}
+},
+"10139": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"10140": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 50,
+"pt": 0
+}
+},
+"10141": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 31,
+"pt": 13
+}
+},
+"10142": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"10143": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 20
+}
+},
+"10144": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"10145": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 20
+}
+},
+"20001": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200931,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"20002": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201362,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20003": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200632,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20004": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 0,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+200372,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20005": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200821,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20006": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": -30,
+"mood": 0,
+"skills": [
+[
+201212,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20007": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 45,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200432,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20008": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201432,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"20009": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 15,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+201242,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20010": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200492,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20011": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 2,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20012": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 30,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200831,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20013": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 0,
+"energy": 30,
+"mood": 1,
+"skills": [
+[
+200512,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20014": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201472,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"20015": {
+"chain": {
+"links": 2,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20016": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 60,
+"energy": 5,
+"mood": 1,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"20017": {
+"chain": {
+"links": 2,
+"stats": 5,
+"pt": 15,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+200582,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20018": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"20019": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200762,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20020": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"20021": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"20022": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 10,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201322,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20023": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 30,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201562,
+1
+],
+[
+201492,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 40
+}
+},
+"20024": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201342,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20025": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200791,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20026": {
+"chain": {
+"links": 2,
+"stats": 8,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200302,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20027": {
+"chain": {
+"links": 2,
+"stats": 14,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200362,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20028": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201442,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20029": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201562,
+1
+],
+[
+201052,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20030": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201102,
+1
+],
+[
+201631,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20031": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201052,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 3,
+"pt": 15
+}
+},
+"20032": {
+"chain": {
+"links": 2,
+"stats": 33,
+"pt": 0,
+"energy": -15,
+"mood": 2,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"20033": {
+"chain": {
+"links": 2,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201322,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20034": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 10,
+"energy": 40,
+"mood": 1,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20035": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 40,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200462,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20036": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202682,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"20037": {
+"chain": {
+"links": 2,
+"stats": 5,
+"pt": 30,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200732,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"20038": {
+"chain": {
+"links": 2,
+"stats": 45,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20039": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20040": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 0,
+"energy": 25,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20041": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+201552,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20042": {
+"chain": {
+"links": 2,
+"stats": 40,
+"pt": 0,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+201611,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20043": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 0,
+"energy": 25,
+"mood": 1,
+"skills": [
+[
+201902,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20044": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200972,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"20045": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 25,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201272,
+1
+],
+[
+201672,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20046": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 30,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200781,
+2
+],
+[
+200921,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 40
+}
+},
+"20047": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 25,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201112,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"20048": {
+"chain": {
+"links": 2,
+"stats": 14,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200162,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"20049": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 40,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200382,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 75
+}
+},
+"20050": {
+"chain": {
+"links": 2,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200911,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20051": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 35,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200962,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"20052": {
+"chain": {
+"links": 2,
+"stats": 44,
+"pt": 7,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+201382,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20053": {
+"chain": {
+"links": 2,
+"stats": 40,
+"pt": 15,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+200252,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20054": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 10,
+"energy": 0,
+"mood": 1,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"20055": {
+"chain": {
+"links": 2,
+"stats": 0,
+"pt": 0,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+201002,
+1
+],
+[
+201012,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"20056": {
+"chain": {
+"links": 2,
+"stats": 29,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202102,
+2
+],
+[
+200642,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20057": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 40,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200062,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"20058": {
+"chain": {
+"links": 2,
+"stats": 50,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200352,
+1
+],
+[
+200012,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20059": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202032,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20060": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200962,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20061": {
+"chain": {
+"links": 2,
+"stats": 29,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202032,
+1
+],
+[
+200752,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20062": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201072,
+2
+],
+[
+201262,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20063": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201272,
+1
+],
+[
+201252,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20064": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202242,
+1
+],
+[
+202332,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"20065": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200602,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20066": {
+"chain": {
+"links": 2,
+"stats": 5,
+"pt": 10,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+201182,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20067": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202672,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20068": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200512,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20069": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202642,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20070": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202502,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20071": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 15,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202092,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"20072": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 15,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+201462,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 5
+}
+},
+"20073": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202472,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20074": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202762,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20075": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202462,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"20076": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202882,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20077": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202432,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20078": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200142,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"20079": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201312,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20080": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202592,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20081": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202372,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20082": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+203132,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"20083": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+203112,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"20084": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+203222,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"20085": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202012,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20086": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202482,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20087": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+203162,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 10
+}
+},
+"20088": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200722,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 30
+}
+},
+"20089": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202452,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"20090": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+203042,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20091": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+203632,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"20092": {
+"chain": {
+"links": 2,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+202982,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 30
+}
+},
+"20093": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+202122,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"20094": {
+"chain": {
+"links": 2,
+"stats": 25,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+203512,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20095": {
+"chain": {
+"links": 2,
+"stats": 15,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202622,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"20096": {
+"chain": {
+"links": 2,
+"stats": 10,
+"pt": 15,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+203962,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"20097": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+202802,
+1
+],
+[
+203302,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"20098": {
+"chain": {
+"links": 2,
+"stats": 20,
+"pt": 0,
+"energy": 25,
+"mood": 1,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"20099": {
+"chain": {
+"links": 2,
+"stats": 45,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"20100": {
+"chain": {
+"links": 2,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200962,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30001": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 0,
+"energy": -20,
+"mood": 1,
+"skills": [
+[
+201142,
+1
+],
+[
+201342,
+2
+],
+[
+200512,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30002": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201302,
+1
+],
+[
+200432,
+1
+],
+[
+200551,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30003": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+200371,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30004": {
+"chain": {
+"links": 3,
+"stats": 80,
+"pt": 35,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+202022,
+1
+],
+[
+201552,
+1
+],
+[
+200341,
+2
+],
+[
+202032,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30005": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 60,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200702,
+2
+],
+[
+200381,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30006": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 15,
+"energy": 25,
+"mood": 0,
+"skills": [
+[
+201152,
+1
+],
+[
+201542,
+1
+],
+[
+200701,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30007": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+200721,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30008": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 5,
+"energy": 20,
+"mood": 2,
+"skills": [
+[
+201262,
+1
+],
+[
+200542,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30009": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201611,
+1
+],
+[
+200591,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30010": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 45,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"30011": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 30,
+"energy": -30,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30012": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201402,
+1
+],
+[
+200601,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30013": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 60,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201512,
+1
+],
+[
+200642,
+1
+],
+[
+200731,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30014": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 50,
+"mood": 1,
+"skills": [
+[
+200502,
+1
+],
+[
+200691,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 75
+}
+},
+"30015": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200651,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30016": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200351,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30017": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201601,
+1
+],
+[
+201672,
+1
+],
+[
+200452,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30018": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 10,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+200992,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30019": {
+"chain": {
+"links": 3,
+"stats": 0,
+"pt": 0,
+"energy": 35,
+"mood": 1,
+"skills": [
+[
+200481,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30020": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200991,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30021": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30022": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": -10,
+"mood": 1,
+"skills": [
+[
+200741,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30023": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+200762,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30024": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200562,
+1
+],
+[
+200701,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30025": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201352,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30026": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+201272,
+3
+],
+[
+200532,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30027": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+201242,
+1
+],
+[
+201192,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30028": {
+"chain": {
+"links": 3,
+"stats": 16,
+"pt": 0,
+"energy": 10,
+"mood": 2,
+"skills": [
+[
+200331,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30029": {
+"chain": {
+"links": 3,
+"stats": 62,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201702,
+2
+],
+[
+200441,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30030": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 25,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200481,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30031": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 0,
+"energy": 0,
+"mood": 7,
+"skills": [
+[
+200252,
+1
+],
+[
+200491,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30032": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 40,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200891,
+1
+],
+[
+200911,
+1
+],
+[
+200461,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30033": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": -40,
+"mood": 0,
+"skills": [
+[
+200511,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30034": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200351,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30036": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30037": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200342,
+3
+],
+[
+200351,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30038": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 20,
+"energy": -15,
+"mood": 1,
+"skills": [
+[
+200562,
+1
+],
+[
+201102,
+1
+],
+[
+200581,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30039": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200451,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30040": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+200212,
+1
+],
+[
+201352,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30041": {
+"chain": {
+"links": 3,
+"stats": 16,
+"pt": 20,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+201431,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"30042": {
+"chain": {
+"links": 3,
+"stats": 94,
+"pt": 0,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+200282,
+1
+],
+[
+200512,
+1
+],
+[
+200611,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30043": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 75,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201591,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30044": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+201361,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 14,
+"pt": 0
+}
+},
+"30045": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 20,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+200642,
+2
+],
+[
+201501,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 40
+}
+},
+"30046": {
+"chain": {
+"links": 3,
+"stats": 85,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201571,
+1
+],
+[
+201412,
+1
+],
+[
+201102,
+1
+],
+[
+201401,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30047": {
+"chain": {
+"links": 3,
+"stats": 29,
+"pt": 0,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+200571,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30048": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+200731,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30052": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 28,
+"pt": 0
+}
+},
+"30053": {
+"chain": {
+"links": 3,
+"stats": 59,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201042,
+2
+],
+[
+200681,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30054": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+200601,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30055": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200801,
+1
+],
+[
+201191,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30056": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 20,
+"energy": -15,
+"mood": 0,
+"skills": [
+[
+201022,
+1
+],
+[
+200672,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30057": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": -25,
+"mood": 0,
+"skills": [
+[
+201172,
+1
+],
+[
+200752,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30058": {
+"chain": {
+"links": 3,
+"stats": 24,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+200761,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30059": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200551,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30060": {
+"chain": {
+"links": 3,
+"stats": 44,
+"pt": 0,
+"energy": -25,
+"mood": 0,
+"skills": [
+[
+200721,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30061": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200352,
+1
+],
+[
+200741,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30062": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201352,
+1
+],
+[
+200431,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30063": {
+"chain": {
+"links": 3,
+"stats": 90,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200502,
+1
+],
+[
+201431,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30064": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201411,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30065": {
+"chain": {
+"links": 3,
+"stats": 5,
+"pt": 35,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200012,
+2
+],
+[
+201691,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30066": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201282,
+1
+],
+[
+200531,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30067": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 8,
+"stats": 55,
+"pt": 20
+}
+},
+"30068": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201022,
+1
+],
+[
+201001,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30069": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 0,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+200722,
+1
+],
+[
+200361,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 14,
+"pt": 0
+}
+},
+"30070": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": -30,
+"mood": 0,
+"skills": [
+[
+200242,
+1
+],
+[
+200341,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30071": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 20,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+200532,
+1
+],
+[
+200541,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30072": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+201902,
+1
+],
+[
+201281,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30073": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+201142,
+1
+],
+[
+200621,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30074": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 5,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200591,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30075": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201182,
+1
+],
+[
+201221,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30076": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200711,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30077": {
+"chain": {
+"links": 3,
+"stats": 59,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200871,
+2
+],
+[
+202021,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30078": {
+"chain": {
+"links": 3,
+"stats": 0,
+"pt": 77,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201561,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"30079": {
+"chain": {
+"links": 3,
+"stats": 24,
+"pt": 10,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+200721,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30080": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30081": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 14,
+"stats": 100,
+"pt": 15
+}
+},
+"30082": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 25,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+201052,
+1
+],
+[
+201341,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30083": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201601,
+1
+],
+[
+202041,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30084": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+200381,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30085": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 50,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201352,
+1
+],
+[
+201681,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30086": {
+"chain": {
+"links": 3,
+"stats": 81,
+"pt": 20,
+"energy": -30,
+"mood": 1,
+"skills": [
+[
+201532,
+1
+],
+[
+201212,
+1
+],
+[
+200154,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30087": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+202022,
+1
+],
+[
+201211,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30088": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201631,
+1
+],
+[
+201692,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30089": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 60,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+200761,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30090": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 50,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201142,
+1
+],
+[
+202091,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30091": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201542,
+1
+],
+[
+202082,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30092": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201452,
+1
+],
+[
+201491,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30093": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202012,
+2
+],
+[
+201901,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30094": {
+"chain": {
+"links": 3,
+"stats": 85,
+"pt": 0,
+"energy": -25,
+"mood": 1,
+"skills": [
+[
+200592,
+1
+],
+[
+202111,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30095": {
+"chain": {
+"links": 3,
+"stats": 58,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200702,
+2
+],
+[
+202121,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30096": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": -30,
+"mood": 0,
+"skills": [
+[
+200731,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30097": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+200352,
+2
+],
+[
+202021,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30098": {
+"chain": {
+"links": 3,
+"stats": 0,
+"pt": 0,
+"energy": 90,
+"mood": 0,
+"skills": [
+[
+201401,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30099": {
+"chain": {
+"links": 3,
+"stats": 51,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+202151,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30100": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": -20,
+"mood": 0,
+"skills": [
+[
+200062,
+2
+],
+[
+201361,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30101": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 40,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+202371,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30102": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 60,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200581,
+3
+],
+[
+200581,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30103": {
+"chain": {
+"links": 3,
+"stats": 42,
+"pt": 50,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200462,
+1
+],
+[
+200901,
+1
+],
+[
+200461,
+3
+],
+[
+200461,
+2
+],
+[
+200461,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30104": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201432,
+1
+],
+[
+201362,
+1
+],
+[
+201121,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30105": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 0,
+"energy": -10,
+"mood": 0,
+"skills": [
+[
+202012,
+2
+],
+[
+201211,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30106": {
+"chain": {
+"links": 3,
+"stats": 44,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+202122,
+1
+],
+[
+202082,
+1
+],
+[
+201691,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30107": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201271,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30108": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 40,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202031,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30109": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201061,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30110": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 0,
+"energy": 75,
+"mood": 1,
+"skills": [
+[
+202071,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30111": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 20,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+200572,
+1
+],
+[
+200331,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30112": {
+"chain": {
+"links": 3,
+"stats": 80,
+"pt": 15,
+"energy": -25,
+"mood": 0,
+"skills": [
+[
+202391,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30113": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 10,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+201201,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30114": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 25,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202401,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 25
+}
+},
+"30115": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 30,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201252,
+1
+],
+[
+200531,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30116": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 35,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201652,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30117": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202282,
+1
+],
+[
+202341,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 3,
+"pt": 15
+}
+},
+"30118": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+200282,
+2
+],
+[
+202421,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30119": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 5,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200571,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30120": {
+"chain": {
+"links": 3,
+"stats": 51,
+"pt": 55,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201352,
+1
+],
+[
+200022,
+3
+],
+[
+200721,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30121": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 15,
+"energy": 5,
+"mood": 1,
+"skills": [
+[
+200711,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30122": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 15,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+200592,
+1
+],
+[
+201383,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30123": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202482,
+1
+],
+[
+202471,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 14,
+"pt": 0
+}
+},
+"30124": {
+"chain": {
+"links": 3,
+"stats": 34,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201432,
+1
+],
+[
+200472,
+1
+],
+[
+200591,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30125": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202121,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30126": {
+"chain": {
+"links": 3,
+"stats": 26,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+202411,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 24,
+"pt": 0
+}
+},
+"30127": {
+"chain": {
+"links": 3,
+"stats": 39,
+"pt": 0,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+202072,
+1
+],
+[
+200491,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30128": {
+"chain": {
+"links": 3,
+"stats": 24,
+"pt": 25,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201512,
+1
+],
+[
+202491,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 40
+}
+},
+"30129": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201212,
+1
+],
+[
+200741,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30130": {
+"chain": {
+"links": 3,
+"stats": 41,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201901,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30131": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 40,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200382,
+1
+],
+[
+200471,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30132": {
+"chain": {
+"links": 3,
+"stats": 41,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200811,
+1
+],
+[
+200602,
+1
+],
+[
+201393,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30133": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200212,
+2
+],
+[
+200991,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30134": {
+"chain": {
+"links": 3,
+"stats": 44,
+"pt": 15,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+202531,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30135": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200552,
+1
+],
+[
+200731,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30136": {
+"chain": {
+"links": 3,
+"stats": 28,
+"pt": 10,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201122,
+1
+],
+[
+202091,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30137": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 8,
+"stats": 31,
+"pt": 30
+}
+},
+"30138": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 40,
+"mood": 1,
+"skills": [
+[
+200492,
+1
+],
+[
+201652,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30139": {
+"chain": {
+"links": 3,
+"stats": 74,
+"pt": 20,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202192,
+1
+],
+[
+202482,
+1
+],
+[
+202581,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30140": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201322,
+1
+],
+[
+201131,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30141": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 10,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201522,
+3
+],
+[
+201602,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30142": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202612,
+2
+],
+[
+200601,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30143": {
+"chain": {
+"links": 3,
+"stats": 26,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201432,
+1
+],
+[
+201401,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30145": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200631,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 5
+}
+},
+"30146": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 30,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+201571,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30147": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201702,
+3
+],
+[
+202661,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30148": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 25,
+"mood": 0,
+"skills": [
+[
+202461,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30149": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201262,
+1
+],
+[
+200431,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"30150": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201442,
+1
+],
+[
+201411,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30151": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 50,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200491,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30152": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200742,
+2
+],
+[
+202481,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"30153": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 25,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201052,
+1
+],
+[
+200184,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 75
+}
+},
+"30154": {
+"chain": {
+"links": 3,
+"stats": 51,
+"pt": 20,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202681,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30155": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201631,
+2
+],
+[
+200981,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30156": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 20,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201611,
+1
+],
+[
+202301,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30157": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 25,
+"mood": 0,
+"skills": [
+[
+201392,
+1
+],
+[
+202421,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30158": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+202621,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30159": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": -5,
+"mood": 0,
+"skills": [
+[
+200372,
+1
+],
+[
+200581,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30160": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30161": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 10,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+200722,
+3
+],
+[
+200732,
+1
+],
+[
+202711,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30162": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 10,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201491,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30163": {
+"chain": {
+"links": 3,
+"stats": 90,
+"pt": 40,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202092,
+2
+],
+[
+200014,
+3
+],
+[
+200012,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30164": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+201462,
+3
+],
+[
+200642,
+2
+],
+[
+201463,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30165": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 15,
+"energy": 25,
+"mood": 0,
+"skills": [
+[
+202101,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 5
+}
+},
+"30166": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201282,
+3
+],
+[
+200551,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30167": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+200561,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"30168": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201462,
+2
+],
+[
+201592,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30169": {
+"chain": {
+"links": 3,
+"stats": 85,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200472,
+1
+],
+[
+201103,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30170": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 15,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202541,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30171": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200441,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30172": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 15,
+"energy": 25,
+"mood": 1,
+"skills": [
+[
+200052,
+2
+],
+[
+202762,
+2
+],
+[
+202761,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30173": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 30,
+"energy": 40,
+"mood": 0,
+"skills": [
+[
+200362,
+2
+],
+[
+200361,
+2
+],
+[
+200381,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30174": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202111,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 45
+}
+},
+"30175": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200202,
+3
+],
+[
+200204,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30176": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201401,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30177": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 30,
+"energy": 25,
+"mood": 0,
+"skills": [
+[
+200591,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30178": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+202721,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30179": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 10,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+202662,
+2
+],
+[
+202151,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30180": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 11,
+"stats": 120,
+"pt": 19
+}
+},
+"30181": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201271,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30182": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 25,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202831,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 30
+}
+},
+"30183": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+202452,
+3
+],
+[
+202451,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30184": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+200652,
+2
+],
+[
+202861,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30185": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201051,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30186": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201032,
+1
+],
+[
+200461,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30187": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 15,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+202552,
+1
+],
+[
+202551,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30188": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30189": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200711,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30190": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200371,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30191": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 1,
+"skills": [
+[
+200481,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30192": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201421,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30193": {
+"chain": {
+"links": 3,
+"stats": 90,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202011,
+2
+],
+[
+202012,
+2
+],
+[
+202011,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 20
+}
+},
+"30194": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202371,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30195": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 30,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200651,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30196": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+202502,
+2
+],
+[
+202501,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 24,
+"pt": 0
+}
+},
+"30197": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201453,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30198": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 15,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+202082,
+2
+],
+[
+202081,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30199": {
+"chain": {
+"links": 3,
+"stats": 75,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202562,
+1
+],
+[
+202561,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30200": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202121,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30201": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+202902,
+2
+],
+[
+202901,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30202": {
+"chain": {
+"links": 3,
+"stats": 54,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202402,
+2
+],
+[
+202401,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30203": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202101,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30204": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 15,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202692,
+2
+],
+[
+202691,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30205": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201033,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30206": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+201611,
+3
+],
+[
+201612,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30207": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30208": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 20,
+"energy": 20,
+"mood": 2,
+"skills": [
+[
+203032,
+1
+],
+[
+203042,
+1
+],
+[
+203041,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30209": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+203052,
+2
+],
+[
+203051,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30210": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 0,
+"energy": 35,
+"mood": 0,
+"skills": [
+[
+200531,
+2
+],
+[
+200532,
+2
+],
+[
+200531,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30211": {
+"chain": {
+"links": 3,
+"stats": 75,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202952,
+3
+],
+[
+202951,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30212": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202281,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30213": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201141,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30214": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 35,
+"mood": 0,
+"skills": [
+[
+203112,
+1
+],
+[
+203111,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"30215": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 10,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+203152,
+3
+],
+[
+203151,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"30216": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200341,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 25
+}
+},
+"30217": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201113,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30218": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 20,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+203162,
+2
+],
+[
+203161,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30219": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202982,
+2
+],
+[
+202981,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30220": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200751,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30221": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30222": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 0,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+202331,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 25
+}
+},
+"30223": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+202022,
+2
+],
+[
+202021,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30224": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 35,
+"mood": 0,
+"skills": [
+[
+202481,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 14,
+"pt": 0
+}
+},
+"30225": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201393,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"30226": {
+"chain": {
+"links": 3,
+"stats": 0,
+"pt": 25,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+203242,
+2
+],
+[
+203252,
+2
+],
+[
+203241,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30227": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+201242,
+1
+],
+[
+202012,
+2
+],
+[
+202821,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30228": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+202422,
+2
+],
+[
+202421,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30229": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 10,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+203351,
+2
+],
+[
+203352,
+2
+],
+[
+203351,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30230": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 10,
+"energy": 25,
+"mood": 1,
+"skills": [
+[
+202622,
+2
+],
+[
+202621,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30231": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200581,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"30232": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 10,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+203412,
+2
+],
+[
+203411,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30233": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 15,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+202712,
+1
+],
+[
+202711,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30234": {
+"chain": {
+"links": 3,
+"stats": 75,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202741,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30235": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+202461,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30236": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202752,
+2
+],
+[
+202751,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30237": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+203491,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30238": {
+"chain": {
+"links": 3,
+"stats": 80,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201072,
+2
+],
+[
+201071,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30239": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+201421,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30240": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30241": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 13,
+"stats": 40,
+"pt": 55
+}
+},
+"30242": {
+"chain": {
+"links": 3,
+"stats": 90,
+"pt": 0,
+"energy": 30,
+"mood": 1,
+"skills": [
+[
+202701,
+2
+],
+[
+203431,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30243": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201033,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30244": {
+"chain": {
+"links": 1,
+"stats": 60,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+202591,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30245": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 15,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+201383,
+1
+],
+[
+203571,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30246": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+202881,
+1
+],
+[
+202931,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30247": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+201183,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30248": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 15,
+"energy": 10,
+"mood": 2,
+"skills": [
+[
+202532,
+1
+],
+[
+203591,
+1
+],
+[
+200591,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30249": {
+"chain": {
+"links": 3,
+"stats": 65,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202952,
+1
+],
+[
+203091,
+1
+],
+[
+203601,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30250": {
+"chain": {
+"links": 3,
+"stats": 85,
+"pt": 0,
+"energy": 15,
+"mood": 2,
+"skills": [
+[
+202871,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 25
+}
+},
+"30251": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201671,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 25
+}
+},
+"30252": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 40,
+"mood": 0,
+"skills": [
+[
+203381,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30253": {
+"chain": {
+"links": 3,
+"stats": 95,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+201051,
+1
+],
+[
+202671,
+1
+],
+[
+201051,
+1
+],
+[
+202671,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30254": {
+"chain": {
+"links": 3,
+"stats": 95,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202502,
+3
+],
+[
+202501,
+3
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 10
+}
+},
+"30255": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201411,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 15
+}
+},
+"30256": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+201651,
+1
+],
+[
+202551,
+2
+],
+[
+203361,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30257": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 10
+}
+},
+"30258": {
+"chain": {
+"links": 1,
+"stats": 60,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+203681,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30259": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 10,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+201323,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30260": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+203301,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30261": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+203502,
+1
+],
+[
+203731,
+1
+],
+[
+200751,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30262": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 10,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+202901,
+1
+],
+[
+203751,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30263": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202111,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30264": {
+"chain": {
+"links": 3,
+"stats": 0,
+"pt": 0,
+"energy": 30,
+"mood": 1,
+"skills": [
+[
+203502,
+1
+],
+[
+202721,
+2
+],
+[
+203851,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30265": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+203831,
+1
+],
+[
+203841,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30266": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+200721,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30267": {
+"chain": {
+"links": 3,
+"stats": 80,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+202041,
+1
+],
+[
+203881,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30268": {
+"chain": {
+"links": 3,
+"stats": 50,
+"pt": 0,
+"energy": 10,
+"mood": 0,
+"skills": [
+[
+202402,
+1
+],
+[
+201453,
+1
+],
+[
+202401,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30269": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+201701,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30270": {
+"chain": {
+"links": 1,
+"stats": 65,
+"pt": 0,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+203911,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 25
+}
+},
+"30271": {
+"chain": {
+"links": 1,
+"stats": 65,
+"pt": 0,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+203961,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 15
+}
+},
+"30272": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+203332,
+1
+],
+[
+202641,
+1
+],
+[
+203671,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30273": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+202121,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30274": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+200351,
+1
+],
+[
+203991,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 30
+}
+},
+"30275": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 25,
+"mood": 1,
+"skills": [
+[
+203502,
+1
+],
+[
+204001,
+2
+],
+[
+203421,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 15
+}
+},
+"30276": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 28,
+"pt": 14
+}
+},
+"30277": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 20,
+"mood": 0,
+"skills": [
+[
+200452,
+1
+],
+[
+200531,
+1
+],
+[
+203461,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30278": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 0,
+"energy": 15,
+"mood": 0,
+"skills": [
+[
+202972,
+1
+],
+[
+200641,
+1
+],
+[
+202891,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30279": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 10,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+203412,
+1
+],
+[
+202011,
+1
+],
+[
+202771,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30280": {
+"chain": {
+"links": 3,
+"stats": 20,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+201481,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30281": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+202592,
+1
+],
+[
+202421,
+1
+],
+[
+203331,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 15
+}
+},
+"30282": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 10,
+"energy": 25,
+"mood": 2,
+"skills": [
+[
+203632,
+2
+],
+[
+202711,
+2
+],
+[
+204031,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30283": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 25,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+203032,
+1
+],
+[
+202761,
+1
+],
+[
+204071,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 10
+}
+},
+"30284": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 0,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+201313,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 0
+}
+},
+"30285": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 25,
+"energy": 10,
+"mood": 2,
+"skills": [
+[
+202621,
+1
+],
+[
+204131,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30286": {
+"chain": {
+"links": 1,
+"stats": 65,
+"pt": 0,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+203701,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 45
+}
+},
+"30287": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 0,
+"energy": 5,
+"mood": 2,
+"skills": [
+[
+202601,
+1
+],
+[
+203141,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30288": {
+"chain": {
+"links": 3,
+"stats": 40,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201243,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 30,
+"pt": 0
+}
+},
+"30289": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 45,
+"mood": 2,
+"skills": [
+[
+202832,
+5
+],
+[
+204192,
+5
+],
+[
+202831,
+2
+],
+[
+204191,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 50,
+"pt": 0
+}
+},
+"30290": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 31,
+"pt": 13
+}
+},
+"30291": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 0,
+"energy": 5,
+"mood": 0,
+"skills": [
+[
+203651,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 20
+}
+},
+"30292": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 10,
+"energy": 5,
+"mood": 1,
+"skills": [
+[
+203611,
+1
+],
+[
+202301,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30293": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 10,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+203791,
+1
+],
+[
+204051,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 0
+}
+},
+"30294": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 10,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+202531,
+1
+],
+[
+202741,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 10
+}
+},
+"30295": {
+"chain": {
+"links": 3,
+"stats": 30,
+"pt": 10,
+"energy": 0,
+"mood": 0,
+"skills": [
+[
+201323,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 20,
+"pt": 30
+}
+},
+"30296": {
+"chain": {
+"links": 3,
+"stats": 55,
+"pt": 35,
+"energy": 20,
+"mood": 1,
+"skills": [
+[
+204271,
+2
+],
+[
+204311,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 30
+}
+},
+"30297": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 25,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+203362,
+1
+],
+[
+202151,
+1
+],
+[
+204351,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30298": {
+"chain": {
+"links": 3,
+"stats": 90,
+"pt": 0,
+"energy": 0,
+"mood": 2,
+"skills": [
+[
+204092,
+1
+],
+[
+200431,
+1
+],
+[
+201271,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 15,
+"pt": 10
+}
+},
+"30299": {
+"chain": {
+"links": 3,
+"stats": 25,
+"pt": 10,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+200581,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 10,
+"pt": 0
+}
+},
+"30300": {
+"chain": {
+"links": 1,
+"stats": 65,
+"pt": 0,
+"energy": 0,
+"mood": 1,
+"skills": [
+[
+203121,
+2
+],
+[
+204331,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30301": {
+"chain": {
+"links": 3,
+"stats": 45,
+"pt": 20,
+"energy": 5,
+"mood": 2,
+"skills": [
+[
+203541,
+1
+],
+[
+204171,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 40,
+"pt": 0
+}
+},
+"30302": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 30,
+"energy": 0,
+"mood": 3,
+"skills": [
+[
+203241,
+1
+],
+[
+203561,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 25,
+"pt": 0
+}
+},
+"30303": {
+"chain": {
+"links": 3,
+"stats": 15,
+"pt": 0,
+"energy": 25,
+"mood": 1,
+"skills": [
+[
+202471,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 35,
+"pt": 0
+}
+},
+"30304": {
+"chain": {
+"links": 3,
+"stats": 70,
+"pt": 10,
+"energy": 10,
+"mood": 2,
+"skills": [
+[
+201591,
+1
+],
+[
+200331,
+2
+],
+[
+203651,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 0
+}
+},
+"30305": {
+"chain": {
+"links": 0,
+"stats": 0,
+"pt": 0,
+"energy": 0,
+"mood": 0,
+"skills": []
+},
+"random": {
+"events": 2,
+"stats": 5,
+"pt": 5
+}
+},
+"30306": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 10,
+"energy": 15,
+"mood": 1,
+"skills": [
+[
+203672,
+1
+],
+[
+203571,
+1
+],
+[
+203681,
+2
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30307": {
+"chain": {
+"links": 3,
+"stats": 60,
+"pt": 0,
+"energy": 10,
+"mood": 1,
+"skills": [
+[
+202821,
+2
+],
+[
+204481,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 20
+}
+},
+"30308": {
+"chain": {
+"links": 3,
+"stats": 35,
+"pt": 10,
+"energy": 30,
+"mood": 1,
+"skills": [
+[
+203631,
+1
+],
+[
+204501,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+},
+"30309": {
+"chain": {
+"links": 3,
+"stats": 10,
+"pt": 0,
+"energy": 30,
+"mood": 0,
+"skills": [
+[
+201341,
+1
+]
+]
+},
+"random": {
+"events": 2,
+"stats": 0,
+"pt": 0
+}
+}
+}

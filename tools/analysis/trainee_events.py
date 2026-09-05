@@ -76,11 +76,13 @@ def goal_turns(trainee_card_id: int) -> set[int]:
     return out
 
 
-def race_rewards(raw: dict, scen: int, trainee: int, grades: dict) -> tuple[float, float]:
+def race_rewards(raw: dict, scen: int, trainee: int, grades: dict,
+                 rb: float = 0.0) -> tuple[float, float]:
     """(sp, stat_total) the generic tables predict for this run's
-    OPTIONAL races (TB: all races via MANT). Academy decks carry 0 RB,
-    so no bonus scaling here - callers feeding non-bare runs must add it."""
+    OPTIONAL races (TB: all races via MANT), scaled x(1+rb/100).
+    Bare academy decks carry rb=0."""
     sp = st = 0.0
+    scale = 1.0 + rb / 100.0
     goals = goal_turns(trainee) if scen != 4 else set()
     for rc in raw.get("RaceHistory") or []:
         turn = int(rc.get("turn") or 0)
@@ -89,15 +91,15 @@ def race_rewards(raw: dict, scen: int, trainee: int, grades: dict) -> tuple[floa
         if scen == 4:
             key = "Debut" if g == 900 else GRADE_KEY.get(g)
             if key:
-                sp += MANT_SP[key]
-                st += MANT_ST[key]
+                sp += int(MANT_SP[key] * scale)
+                st += int(MANT_ST[key] * scale)
             continue
         if turn > 72 or turn in goals or g == 900:
             continue                      # scripted: finale / goal / debut
         key = GRADE_KEY.get(g)
         if key:
-            sp += SP_TABLE[key][pos]
-            st += ST_TABLE[key][pos]
+            sp += int(SP_TABLE[key][pos] * scale)
+            st += int(ST_TABLE[key][pos] * scale)
     return sp, st
 
 
