@@ -38,8 +38,13 @@ from offset_sweep import STAT_FIELDS, U, c_bounds, turns
 from sp_weights import solve as solve_w
 
 SP_K = {1: 2.403, 3: 2.602, 4: 2.401}
-# Pal law bands, (m_mid, delta_mid), measured 2026-08-13.
-PAL_LAW = {"R": (1.10, -55.0), "SR": (1.127, 0.0), "SSR": (1.50, -60.0)}
+# Pal law bands, (m_mid, delta_mid). R and SR share ONE law: Q14's four
+# URA SR-Kiryuin lv45 pairs (2026-09-05, 11 cells) exclude the old
+# SR-specific point (1.127, 0) - a one-pair artifact - and their
+# feasible region contains the R box. Scored on all 120 SR-pal URA
+# runs: unified law 99.3% of card bases within +-1 vs 84.9% for the
+# old point. SSR (from GL lv50 pairs) still differs.
+PAL_LAW = {"R": (1.10, -55.0), "SR": (1.10, -55.0), "SSR": (1.50, -60.0)}
 
 # Official notice 2026-08-19: post-race career events failed to trigger
 # for six trainees in URA / Unity / Grand Live between 2026-07-22 08:00
