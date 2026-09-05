@@ -221,13 +221,16 @@ def main() -> int:
         insp[str(scen)] = {"stat_total": round(med(itots), 0),
                            "shape": [round(v / ish, 3) for v in ishape]}
 
-    # Preset redistribution, measured from player-declared overrides
-    # (1,248 marked runs; shares vs Balanced). Applies to the E surplus
-    # and events stats only - the base trio measured preset-immune.
+    # Preset redistribution, CONTROLLED-PAIR measurement (2026-09-05):
+    # race-matched same-deck same-trainee pairs (n=1,358 Stamina vs
+    # Balanced) prove card rows are EXACTLY preset-immune (E-row delta
+    # 0 on every stat) - redistribution lives in the events channel
+    # only, as zero-sum ADDITIVE per-stat shifts. These replace the
+    # August share-based multipliers (which wrongly also scaled dx).
     presets = {
-        "Balanced": [1.0, 1.0, 1.0, 1.0, 1.0],
-        "Stamina": [0.99, 1.45, 0.94, 0.90, 0.85],
-        "Sprint": [1.10, 0.88, 1.00, 0.99, 0.96],
+        "Balanced": [0, 0, 0, 0, 0],
+        "Stamina": [-5, 50, 0, -17, -28],
+        "Sprint": [18, -32, 10, 4, 12],
     }
 
     out = {
