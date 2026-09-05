@@ -162,6 +162,13 @@ def main() -> int:
                 entry_c["kind"] = "pal"
             elif k2 == 3:
                 entry_c["kind"] = "group"
+                # Measured group offsets (X units) where the corpus has
+                # pal-free coverage; the planner falls back to the rough
+                # +2500 otherwise. 30067@50 URA: +1726 (IQR 1680-1805,
+                # n=28, 2026-09-05).
+                gx = {(30067, 50): 1726}.get((cid, lvl))
+                if gx is not None:
+                    entry_c["gx"] = gx
             cold[key] = entry_c
 
     # Events + inspiration model per scenario (see it-formula.md
