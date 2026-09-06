@@ -33,7 +33,12 @@ from pathlib import Path
 
 from it_formula import Masters, load_run
 
-U = {1: 0.000132839, 3: 0.000149987, 4: 0.000124227}
+# Unity (2) SHARES u WITH TRACKBLAZER: pinned 2026-09-06 by the Thrones
+# Assemblage discriminator - a group card at X~1831 separates the three
+# feasible (u, C2) parametrizations, and the one qualifying corpus run
+# implies group offset +1688 (inside the URA-measured IQR 1680..1805)
+# under u_TB only. Valid PRE-DICE only (races <= 21; dice from 22).
+U = {1: 0.000132839, 2: 0.000124227, 3: 0.000149987, 4: 0.000124227}
 # URA's constant is RACE-DEPENDENT (recalibrated 2026-08-13): the fixed
 # [2798, 2854) interval was the shadow of a race tilt. C_eff(races) =
 # 2738 + 1.30 * races (+-25), which lands on the community's old 2750
@@ -45,6 +50,10 @@ def c_bounds(scenario: int, races: int) -> tuple[float, float]:
     if scenario == 1:
         mid = URA_C_BASE + URA_C_SLOPE * races
         return mid - URA_C_HALFWIDTH, mid + URA_C_HALFWIDTH
+    if scenario == 2:
+        # joint-solve slice at u_TB (0/217 violations + Thrones run);
+        # matches the August wedge estimate (~2110)
+        return 2102.0, 2158.0
     c = {3: 1825.0, 4: 3400.0}[scenario]
     return c, c
 # Measured turn curve. 13/14/15 added 2026-08-13; T(14) is the softest

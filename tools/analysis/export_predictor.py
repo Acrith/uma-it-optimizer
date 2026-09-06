@@ -96,7 +96,7 @@ def main() -> int:
             "dx": [round(dx.get((cid, lvl, i), 0.0), 1) for i in range(5)],
             "dx_scen": {},
         }
-        for scen in (1, 3, 4):
+        for scen in (1, 2, 3, 4):
             if (cid, lvl, 0, scen) in dx_scen:
                 entry["dx_scen"][str(scen)] = [
                     round(dx_scen.get((cid, lvl, i, scen),
@@ -246,7 +246,7 @@ def main() -> int:
         "constants": {
             "u": {str(k): v for k, v in U.items()},
             "ura_c": [URA_C_BASE, URA_C_SLOPE, URA_C_HALFWIDTH],
-            "c": {"3": 1825.0, "4": 3400.0},
+            "c": {"2": 2130.0, "3": 1825.0, "4": 3400.0},
             "t": {str(k): v for k, v in T_POINTS.items()},
             "sp_k": {str(k): v for k, v in SP_K.items()},
         },

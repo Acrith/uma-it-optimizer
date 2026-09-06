@@ -37,7 +37,10 @@ from it_formula import Masters, axis_of, load_run
 from offset_sweep import STAT_FIELDS, U, c_bounds, turns
 from sp_weights import solve as solve_w
 
-SP_K = {1: 2.403, 3: 2.602, 4: 2.401}
+# k_Unity derived 2026-09-06 from 195 pre-dice cells against the
+# jointly-fitted W table: 2.099 (IQR 2.069..2.132) - a distinct fourth
+# value, not shared with any scenario.
+SP_K = {1: 2.403, 2: 2.099, 3: 2.602, 4: 2.401}
 # Pal law bands, (m_mid, delta_mid). R and SR share ONE law: Q14's four
 # URA SR-Kiryuin lv45 pairs (2026-09-05, 11 cells) exclude the old
 # SR-specific point (1.127, 0) - a one-pair artifact - and their
@@ -83,6 +86,8 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
             continue
         if not r["races"] or turns(r["races"]) is None:
             continue
+        if r["scenario"] == 2 and r["races"] > 21:
+            continue          # Unity rolls dice from 22 races
         key = (r["scenario"], r["races"],
                tuple(sorted((x.card_id, x.level) for x in r["rows"])))
         if key in seen:
@@ -138,7 +143,7 @@ def fit_tables(runs):
                 d = (v + 0.5) / ut - cm - axis
                 dx_acc[(cid, lvl, i)].append(d)
                 dx_scen_acc[(cid, lvl, i, r["scen"])].append(d)
-        if len(r["sp"]) >= 2:
+        if len(r["sp"]) >= 2 and r["scen"] in SP_K:
             sp_runs.append({"sp": {k: v + 0.5 for k, v in r["sp"].items()}})
     # E is SCENARIO-DEPENDENT: per-scenario spreads are 1-5% where the
     # pooled table showed 16-19% (measured 2026-08-13). Scenario-specific
@@ -150,6 +155,8 @@ def fit_tables(runs):
     # fitting half directly: scale = median(sp / (k*T*W_raw)).
     scales = []
     for r in runs:
+        if r["scen"] not in SP_K:
+            continue
         kt = SP_K[r["scen"]] * turns(r["races"])
         for k2, v in r["sp"].items():
             if k2 in w_raw and w_raw[k2] > 0:
@@ -171,7 +178,8 @@ def predict_card(masters, dx_pair, w, cid, lvl, scenario, races):
         d = dx_scen.get((cid, lvl, i, scenario), dx.get((cid, lvl, i), 0.0))
         stats.append(int(ut * (cm + axis + d)))
     wt = w.get((cid, lvl))
-    sp = int(SP_K[scenario] * turns(races) * wt) if wt else None
+    k = SP_K.get(scenario)
+    sp = int(k * turns(races) * wt) if (wt and k) else None
     return stats, sp, covered
 
 
