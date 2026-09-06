@@ -127,6 +127,22 @@ def main() -> int:
     priors_w = {str(cmd_id): round(sum(v) / len(v), 2)
                 for cmd_id, v in pr_w.items()}
 
+    # Global-release filter: master.mdb carries JP-ahead cards that
+    # nobody on global can own; they rendered NAMELESS in the planner
+    # picker (no EN name) and only added noise. Released = flagged in
+    # the gametora reference dump OR seen in the corpus (provably
+    # owned - covers releases newer than the dump).
+    gt_path = (Path(__file__).parent
+               / "../../references/support_cards_gametora_data"
+               / "gametora_support_cards_all_lb_2026-08-07.json")
+    released: set[int] = {cid for (cid, _lvl) in counts}
+    try:
+        for row in json.loads(gt_path.read_text(encoding="utf-8")):
+            if row.get("Released_Global_By_Snapshot"):
+                released.add(int(row["Support_ID"]))
+    except OSError:
+        released = set()          # dump missing: filter off, keep all
+
     # Cold cells: every trainer card at every LB cap level, axis only.
     # Pals (support_card_type 2) and group cards (type 3) are included
     # with a kind flag: pals get the pal law applied deck-wide by the
@@ -140,6 +156,8 @@ def main() -> int:
     cold: dict = {}
     for cid in all_cards:
         if cid == 30078:
+            continue
+        if released and cid not in released:
             continue
         r = rarity.get(cid, 3)
         if r == 1:
@@ -240,6 +258,57 @@ def main() -> int:
         "Sprint": [18, -32, 10, 4, 12],
     }
 
+    # Per-card EVENT contributions (level-independent): enumeration
+    # (top-option success totals) x measured chain completion rate,
+    # scenario-mean rate for unmarked cards. See it-formula.md
+    # 2026-09-05 for the derivation and its honest limits.
+    here = Path(__file__).parent
+    enum = json.loads((here / "event_enum.json").read_text())
+    marker = json.loads((here / "chain_rates_measured.json").read_text())["marker_rates"]
+    SCEN_MEAN_RATE = {"1": 0.15, "2": 0.16, "3": 0.12, "4": 0.08}
+    card_ev: dict = {}
+    for cid_s, e in enum.items():
+        if released and int(cid_s) not in released:
+            continue
+        per = {}
+        for scen in ("1", "2", "3", "4"):
+            rate = (marker.get(cid_s) or {}).get(scen, SCEN_MEAN_RATE[scen])
+            per[scen] = [round(e["chain"]["pt"] * rate + e["random"]["pt"], 1),
+                         round(e["chain"]["stats"] * rate + e["random"]["stats"], 1)]
+        card_ev[cid_s] = per
+
+    # Scenario event base + trainee deltas, from the bare-run census
+    # harvest (trainee_events.json). The bare baseline includes six
+    # academy R cards' own events; subtract their mean card_ev so the
+    # base is deck-independent and the planner re-adds the actual
+    # deck's card events.
+    te = json.loads((here / "trainee_events.json").read_text())
+    ev_base: dict = {}
+    for scen, b in te["baselines"].items():
+        acad = [card_ev[c][scen] for c in card_ev
+                if int(c) < 20000 and int(c) not in
+                {10022, 20021, 10060, 30036, 10083, 30052}]
+        a_sp = sum(v[0] for v in acad) / len(acad) if acad else 0
+        a_st = sum(v[1] for v in acad) / len(acad) if acad else 0
+        ev_base[scen] = {"sp": round(b["sp"] - 6 * a_sp, 1),
+                         "st": round(b["st"] - 6 * a_st, 1)}
+    # per-trainee deltas + event stat shape where measured
+    umas = json.loads((Path(__file__).parent
+                       / "../../../uma-it-web/uma_it_web/enrich/data/masters.json"
+                       ).read_text()).get("uma_cards", {})
+    trainees: dict = {}
+    for key, cell in te["cells"].items():
+        tid, scen = key.split(":")
+        b = te["baselines"][scen]
+        t = trainees.setdefault(tid, {"name": "", "d": {}})
+        card = umas.get(tid) or {}
+        nm = card.get("chara_name") or f"?{tid}"
+        title = card.get("card_title") or ""
+        t["name"] = f"{nm} {title}".strip()
+        t["d"][scen] = {"sp": round(cell["sp"] - b["sp"], 1),
+                       "st": round(cell["st"] - b["st"], 1),
+                       "shape": cell["shape"], "n": cell["n"]}
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -256,6 +325,9 @@ def main() -> int:
         "events": events,
         "insp": insp,
         "presets": presets,
+        "card_ev": card_ev,
+        "ev_base": ev_base,
+        "trainees": trainees,
     }
     args.out.write_text(json.dumps(out, separators=(",", ":")),
                         encoding="utf-8")

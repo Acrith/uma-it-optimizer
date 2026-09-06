@@ -109,6 +109,8 @@ def main() -> int:
     ap.add_argument("--mdb", type=Path,
                     default=Path(__file__).parent / "../../references/master.mdb")
     ap.add_argument("--min-n", type=int, default=2)
+    ap.add_argument("--json-out", type=Path, default=None,
+                    help="also write per-cell medians as JSON")
     args = ap.parse_args()
 
     masters = Masters(args.mdb)
@@ -171,9 +173,28 @@ def main() -> int:
               + "/".join(f"{100*v/tot:.0f}" for v in shape))
         per_scen[scen].append((median(sps), median(sts)))
     print("\nscenario baselines (median across cells):")
+    baselines = {}
     for scen, vals in sorted(per_scen.items()):
-        print(f"  {scen_name[scen]:>5}: SP {median(v[0] for v in vals):.0f}  "
-              f"stat {median(v[1] for v in vals):.0f}  ({len(vals)} cells)")
+        baselines[scen] = {"sp": round(median(v[0] for v in vals), 1),
+                           "st": round(median(v[1] for v in vals), 1),
+                           "cells": len(vals)}
+        print(f"  {scen_name[scen]:>5}: SP {baselines[scen]['sp']:.0f}  "
+              f"stat {baselines[scen]['st']:.0f}  ({len(vals)} cells)")
+    if args.json_out:
+        out = {"baselines": {str(k): v for k, v in baselines.items()}, "cells": {}}
+        for (trainee, scen), rows in cells.items():
+            if len(rows) < args.min_n:
+                continue
+            shape = [median(r["st"][i] for r in rows) for i in range(5)]
+            tot = sum(shape) or 1
+            out["cells"][f"{trainee}:{scen}"] = {
+                "n": len(rows),
+                "sp": round(median(r["sp_resid"] for r in rows), 1),
+                "st": round(median(r["st_resid"] for r in rows), 1),
+                "shape": [round(v / tot, 3) for v in shape],
+            }
+        args.json_out.write_text(json.dumps(out, indent=0))
+        print(f"wrote {args.json_out} ({len(out['cells'])} cells)")
     return 0
 
 
