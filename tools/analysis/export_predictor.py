@@ -127,6 +127,59 @@ def main() -> int:
     priors_w = {str(cmd_id): round(sum(v) / len(v), 2)
                 for cmd_id, v in pr_w.items()}
 
+    # Friend / group card SP weights, measured from ALL runs (their W
+    # cannot come from the pal-free fit by construction: pals never
+    # appear pal-free and group cards ride pal decks). SP of a non-pal
+    # card in a pal deck scales by the pal multiplier m, the pal's own
+    # row does not - divide it back out. Measured 2026-09-06 with
+    # IQRs of a few percent (Light Hello lv50 W=3.01, Thrones 2.05).
+    from statistics import median as _med
+    sc_type = {r[0]: r[1] for r in conn.execute(
+        "select id, support_card_type from support_card_data")}
+    seen_in_receipts: set[int] = set()
+    M_BY_RARITY = {1: 1.10, 2: 1.10, 3: 1.50}
+    PAL_IDS_ALL = {10022, 20021, 10060, 30036, 10083, 30052}
+    fg_acc: dict = defaultdict(list)
+    for p_ in sorted(args.runs.glob("*/*.json")):
+        try:
+            raw = json.loads(p_.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        ch = (raw.get("SingleModeChara") or [{}])[0]
+        scen = int(ch.get("scenario_id") or 0)
+        races = len(raw.get("RaceHistory") or [])
+        from offset_sweep import turns as _turns
+        from predict_deck import SP_K as _SPK
+        if scen not in _SPK or not races or _turns(races) is None:
+            continue
+        if scen == 2 and races > 21:
+            continue
+        deck = {int(e.get("support_card_id") or 0):
+                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
+                for e in ch.get("support_card_array") or []}
+        scen_pals = {1: {10022, 20021}, 2: {10060, 30036},
+                     3: {10083, 30052}, 4: set()}[scen]
+        pal_id = next((c for c in deck if c in scen_pals), None)
+        m_others = (M_BY_RARITY.get(pal_id // 10000, 1.0)
+                    if pal_id else 1.0)
+        kt = _SPK[scen] * _turns(races)
+        seen_in_receipts.update(deck)
+        for e in raw.get("SupportCardGainInfo") or []:
+            cid2 = e["<SupportCardId>k__BackingField"]
+            if sc_type.get(cid2, 1) == 1 or cid2 not in deck:
+                continue
+            spv = e["<GainInfo>k__BackingField"].get(
+                "<SkillPoint>k__BackingField")
+            if not spv:
+                continue
+            lv2 = masters.level_from_exp(cid2, *deck[cid2])
+            if lv2 is None:
+                continue
+            m2 = 1.0 if cid2 == pal_id else m_others
+            fg_acc[(cid2, lv2)].append(spv / (kt * m2))
+    fg_w = {key: round(_med(v), 2) for key, v in fg_acc.items()
+            if len(v) >= 10}
+
     # Global-release filter: master.mdb carries JP-ahead cards that
     # nobody on global can own; they rendered NAMELESS in the planner
     # picker (no EN name) and only added noise. Released = flagged in
@@ -135,7 +188,7 @@ def main() -> int:
     gt_path = (Path(__file__).parent
                / "../../references/support_cards_gametora_data"
                / "gametora_support_cards_all_lb_2026-08-07.json")
-    released: set[int] = {cid for (cid, _lvl) in counts}
+    released: set[int] = {cid for (cid, _lvl) in counts} | seen_in_receipts
     try:
         for row in json.loads(gt_path.read_text(encoding="utf-8")):
             if row.get("Released_Global_By_Snapshot"):
@@ -150,13 +203,13 @@ def main() -> int:
     LB_CAP = {0: 30, 1: 35, 2: 40, 3: 45, 4: 50}
     rarity = {r[0]: r[1] for r in sqlite3.connect(str(args.mdb)).execute(
         "select id, rarity from support_card_data")}
-    sc_type = {r[0]: r[1] for r in conn.execute(
-        "select id, support_card_type from support_card_data")}
     all_cards = sorted(sc_type)
     cold: dict = {}
     for cid in all_cards:
-        if cid == 30078:
-            continue
+        # (30078 stays excluded from the analysis fits - its +30
+        # initials on all five stats break the base read - but it DOES
+        # get cold cells: without them it vanished from the planner
+        # picker and from run model checks entirely.)
         if released and cid not in released:
             continue
         r = rarity.get(cid, 3)
@@ -188,6 +241,12 @@ def main() -> int:
                 if gx is not None:
                     entry_c["gx"] = gx
             cold[key] = entry_c
+
+    # Attach the measured friend/group SP weights to their cold cells.
+    for (cid2, lv2), wv in fg_w.items():
+        cell = cold.get(f"{cid2}:{lv2}")
+        if cell is not None:
+            cell["w"] = wv
 
     # Events + inspiration model per scenario (see it-formula.md
     # 2026-08-14): stat MASS is a near-constant per scenario with a
@@ -308,59 +367,6 @@ def main() -> int:
         t["d"][scen] = {"sp": round(cell["sp"] - b["sp"], 1),
                        "st": round(cell["st"] - b["st"], 1),
                        "shape": cell["shape"], "n": cell["n"]}
-
-    # Friend / group card SP weights, measured from ALL runs (their W
-    # cannot come from the pal-free fit by construction: pals never
-    # appear pal-free and group cards ride pal decks). SP of a non-pal
-    # card in a pal deck scales by the pal multiplier m, the pal's own
-    # row does not - divide it back out. Measured 2026-09-06 with
-    # IQRs of a few percent (Light Hello lv50 W=3.01, Thrones 2.05).
-    from statistics import median as _med
-    M_BY_RARITY = {1: 1.10, 2: 1.10, 3: 1.50}
-    PAL_IDS_ALL = {10022, 20021, 10060, 30036, 10083, 30052}
-    fg_acc: dict = defaultdict(list)
-    for p_ in sorted(args.runs.glob("*/*.json")):
-        try:
-            raw = json.loads(p_.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        ch = (raw.get("SingleModeChara") or [{}])[0]
-        scen = int(ch.get("scenario_id") or 0)
-        races = len(raw.get("RaceHistory") or [])
-        from offset_sweep import turns as _turns
-        from predict_deck import SP_K as _SPK
-        if scen not in _SPK or not races or _turns(races) is None:
-            continue
-        if scen == 2 and races > 21:
-            continue
-        deck = {int(e.get("support_card_id") or 0):
-                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
-                for e in ch.get("support_card_array") or []}
-        scen_pals = {1: {10022, 20021}, 2: {10060, 30036},
-                     3: {10083, 30052}, 4: set()}[scen]
-        pal_id = next((c for c in deck if c in scen_pals), None)
-        m_others = (M_BY_RARITY.get(pal_id // 10000, 1.0)
-                    if pal_id else 1.0)
-        kt = _SPK[scen] * _turns(races)
-        for e in raw.get("SupportCardGainInfo") or []:
-            cid2 = e["<SupportCardId>k__BackingField"]
-            if sc_type.get(cid2, 1) == 1 or cid2 not in deck:
-                continue
-            spv = e["<GainInfo>k__BackingField"].get(
-                "<SkillPoint>k__BackingField")
-            if not spv:
-                continue
-            lv2 = masters.level_from_exp(cid2, *deck[cid2])
-            if lv2 is None:
-                continue
-            m2 = 1.0 if cid2 == pal_id else m_others
-            fg_acc[(cid2, lv2)].append(spv / (kt * m2))
-    fg_w = {key: round(_med(v), 2) for key, v in fg_acc.items()
-            if len(v) >= 10}
-    for (cid2, lv2), wv in fg_w.items():
-        cell = cold.get(f"{cid2}:{lv2}")
-        if cell is not None:
-            cell["w"] = wv
 
     # Exp -> level thresholds per rarity, so the site can resolve a
     # receipt's support_card exp into the level the tables are keyed
