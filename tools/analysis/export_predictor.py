@@ -116,6 +116,10 @@ def main() -> int:
     pr_dx: dict = defaultdict(list)
     pr_w: dict = defaultdict(list)
     for e in cards.values():
+        if not e["cmd"]:
+            # friend/group rows (no facility) would pollute a cmd-0
+            # bucket with group-offset-absorbed dx; keep priors trainer
+            continue
         for scen, dxs in e["dx_scen"].items():
             pr_dx[(e["cmd"], scen)].append(dxs)
         if e["w"]:
@@ -176,9 +180,19 @@ def main() -> int:
             if lv2 is None:
                 continue
             m2 = 1.0 if cid2 == pal_id else m_others
-            fg_acc[(cid2, lv2)].append(spv / (kt * m2))
-    fg_w = {key: round(_med(v), 2) for key, v in fg_acc.items()
-            if len(v) >= 10}
+            fg_acc[(cid2, lv2, scen)].append(spv / (kt * m2))
+    # scenario-keyed: a friend card's SP economy differs in and out of
+    # its own scenario (Light Hello's W is a third lower in URA than
+    # GL); pooled fallback for thin scenarios
+    fg_w: dict = {}
+    pooled: dict = defaultdict(list)
+    for (cid2, lv2, scen2), v in fg_acc.items():
+        pooled[(cid2, lv2)].extend(v)
+        if len(v) >= 10:
+            fg_w.setdefault((cid2, lv2), {})[str(scen2)] = round(_med(v), 2)
+    for key, v in pooled.items():
+        if len(v) >= 10:
+            fg_w.setdefault(key, {})["*"] = round(_med(v), 2)
 
     # Global-release filter: master.mdb carries JP-ahead cards that
     # nobody on global can own; they rendered NAMELESS in the planner
@@ -206,10 +220,6 @@ def main() -> int:
     all_cards = sorted(sc_type)
     cold: dict = {}
     for cid in all_cards:
-        # (30078 stays excluded from the analysis fits - its +30
-        # initials on all five stats break the base read - but it DOES
-        # get cold cells: without them it vanished from the planner
-        # picker and from run model checks entirely.)
         if released and cid not in released:
             continue
         r = rarity.get(cid, 3)
@@ -246,11 +256,13 @@ def main() -> int:
                     entry_c["gx"] = gx
             cold[key] = entry_c
 
-    # Attach the measured friend/group SP weights to their cold cells.
+    # Attach the measured friend/group SP weights to their cells
+    # (cold OR covered - friend/group rows join the fits now, so their
+    # cells may be covered; the measured scenario-keyed W wins).
     for (cid2, lv2), wv in fg_w.items():
-        cell = cold.get(f"{cid2}:{lv2}")
+        cell = cold.get(f"{cid2}:{lv2}") or cards.get(f"{cid2}:{lv2}")
         if cell is not None:
-            cell["w"] = wv
+            cell["w_scen"] = wv
 
     # Events + inspiration model per scenario (see it-formula.md
     # 2026-08-14): stat MASS is a near-constant per scenario with a

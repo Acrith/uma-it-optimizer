@@ -93,12 +93,12 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
         # known (m, delta). Without them GL coverage starves - nearly
         # every GL deck carries Light Hello.
         pal_m, pal_d = 1.0, 0.0
+        pid = None
         if r.get("has_pal"):
             pal_ids = {1: {10022, 20021}, 2: {10060, 30036},
                        3: {10083, 30052}, 4: set()}[r["scenario"]]
             raw_deck = {int(c.get("support_card_id") or 0)
-                        for c in (json.loads(p.read_text(encoding="utf-8"))
-                                  .get("SingleModeChara") or [{}])[0]
+                        for c in (raw.get("SingleModeChara") or [{}])[0]
                         .get("support_card_array") or []}
             pid = next((c for c in raw_deck if c in pal_ids), None)
             tier = {1: "R", 2: "SR", 3: "SSR"}.get((pid or 0) // 10000, "R")
@@ -111,18 +111,37 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
         if half is not None and hash(key) % 2 != half:
             continue
         lv = {x.card_id: (x.level, x.axis) for x in r["rows"]}
+        # Friend / group cards and the pal's own row never pass
+        # load_run's trainer filter, but the inversion framework fits
+        # them like any card (the pal's OWN row is not multiplied ->
+        # own_pal flag makes fit_tables use m=1 for it).
+        chara0 = (raw.get("SingleModeChara") or [{}])[0]
+        deck_exp = {int(c.get("support_card_id") or 0):
+                    (int(c.get("exp") or 0),
+                     int(c.get("limit_break_count") or 0))
+                    for c in chara0.get("support_card_array") or []}
         cards = {}
         sps = {}
         hints = {}
         for e in raw.get("SupportCardGainInfo") or []:
             cid = e["<SupportCardId>k__BackingField"]
-            if cid not in lv or cid == 30078:
-                continue
+            own_pal = cid == pid
+            if cid not in lv:
+                if cid not in deck_exp:
+                    continue
+                lvl_x = masters.level_from_exp(cid, *deck_exp[cid])
+                if lvl_x is None:
+                    continue
+                try:
+                    fb, mo, te, _ini, _c = masters.bonuses(cid, lvl_x)
+                except Exception:
+                    continue
+                lv[cid] = (lvl_x, axis_of(fb, mo, te))
             g = e["<GainInfo>k__BackingField"]
             cards[(cid, lv[cid][0])] = (
-                [g[f] for f in STAT_FIELDS], lv[cid][1])
+                [g[f] for f in STAT_FIELDS], lv[cid][1], own_pal)
             sp = g.get("<SkillPoint>k__BackingField")
-            if sp:
+            if sp and not own_pal:
                 sps[(cid, lv[cid][0])] = sp
             tips = g.get("<SkillTipsArray>k__BackingField") or []
             hints[(cid, lv[cid][0])] = len(tips)
@@ -156,9 +175,10 @@ def fit_tables(runs):
         cm = (clo + chi) / 2
         m = r.get("pal_m", 1.0)
         d0 = r.get("pal_d", 0.0)
-        for (cid, lvl), (stats, axis) in r["cards"].items():
+        for (cid, lvl), (stats, axis, own_pal) in r["cards"].items():
+            mm, dd = (1.0, 0.0) if own_pal else (m, d0)
             for i, v in enumerate(stats):
-                d = (v + 0.5) / (ut * m) - cm - axis - d0
+                d = (v + 0.5) / (ut * mm) - cm - axis - dd
                 dx_acc[(cid, lvl, i)].append(d)
                 dx_scen_acc[(cid, lvl, i, r["scen"])].append(d)
         if len(r["sp"]) >= 2 and r["scen"] in SP_K:
@@ -216,7 +236,7 @@ def validate(masters, runs_dir):
         m = r.get("pal_m", 1.0)
         d0 = r.get("pal_d", 0.0)
         ut = U[r["scen"]] * turns(r["races"])
-        for (cid, lvl), (obs, _axis) in r["cards"].items():
+        for (cid, lvl), (obs, _axis, _own_pal) in r["cards"].items():
             pred, spd, covered = predict_card(
                 masters, dx, w, cid, lvl, r["scen"], r["races"])
             if not covered:
