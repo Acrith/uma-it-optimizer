@@ -309,6 +309,16 @@ def main() -> int:
                        "st": round(cell["st"] - b["st"], 1),
                        "shape": cell["shape"], "n": cell["n"]}
 
+    # Exp -> level thresholds per rarity, so the site can resolve a
+    # receipt's support_card exp into the level the tables are keyed
+    # by (receipts store exp + limit_break, never level).
+    level_exp = {}
+    for rar in (1, 2, 3):
+        rows = conn.execute(
+            "select level, total_exp from support_card_level "
+            "where rarity=? order by level", (rar,)).fetchall()
+        level_exp[str(rar)] = [[lv, exp] for lv, exp in rows]
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -328,6 +338,9 @@ def main() -> int:
         "card_ev": card_ev,
         "ev_base": ev_base,
         "trainees": trainees,
+        "level_exp": level_exp,
+        "lb_caps": {"1": [20, 25, 30, 35, 40], "2": [25, 30, 35, 40, 45],
+                    "3": [30, 35, 40, 45, 50]},
     }
     args.out.write_text(json.dumps(out, separators=(",", ":")),
                         encoding="utf-8")
