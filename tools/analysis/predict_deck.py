@@ -82,12 +82,27 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
             raw = json.loads(p.read_text(encoding="utf-8"))
         except Exception:
             continue
-        if not r or r["scenario"] not in U or r.get("has_pal"):
+        if not r or r["scenario"] not in U:
             continue
         if not r["races"] or turns(r["races"]) is None:
             continue
         if r["scenario"] == 2 and r["races"] > 21:
             continue          # Unity rolls dice from 22 races
+        # Pal decks JOIN the fit via the inverted pal law (2026-09-06):
+        # v = floor(uT*m*(C+axis+delta+dx)) => dx recoverable with the
+        # known (m, delta). Without them GL coverage starves - nearly
+        # every GL deck carries Light Hello.
+        pal_m, pal_d = 1.0, 0.0
+        if r.get("has_pal"):
+            pal_ids = {1: {10022, 20021}, 2: {10060, 30036},
+                       3: {10083, 30052}, 4: set()}[r["scenario"]]
+            raw_deck = {int(c.get("support_card_id") or 0)
+                        for c in (json.loads(p.read_text(encoding="utf-8"))
+                                  .get("SingleModeChara") or [{}])[0]
+                        .get("support_card_array") or []}
+            pid = next((c for c in raw_deck if c in pal_ids), None)
+            tier = {1: "R", 2: "SR", 3: "SSR"}.get((pid or 0) // 10000, "R")
+            pal_m, pal_d = PAL_LAW[tier]
         key = (r["scenario"], r["races"],
                tuple(sorted((x.card_id, x.level) for x in r["rows"])))
         if key in seen:
@@ -122,6 +137,7 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
                    and parts[2][3:].isdigit() else 0)
         out.append({"scen": r["scenario"], "races": r["races"],
                     "cards": cards, "sp": sps, "hints": hints,
+                    "pal_m": pal_m, "pal_d": pal_d,
                     "trainee": trainee, "at": parts[0],
                     "ev": [ev.get(f, 0) for f in STAT_FIELDS] +
                           [ev.get("<SkillPoint>k__BackingField", 0)],
@@ -138,13 +154,16 @@ def fit_tables(runs):
         ut = U[r["scen"]] * turns(r["races"])
         clo, chi = c_bounds(r["scen"], r["races"])
         cm = (clo + chi) / 2
+        m = r.get("pal_m", 1.0)
+        d0 = r.get("pal_d", 0.0)
         for (cid, lvl), (stats, axis) in r["cards"].items():
             for i, v in enumerate(stats):
-                d = (v + 0.5) / ut - cm - axis
+                d = (v + 0.5) / (ut * m) - cm - axis - d0
                 dx_acc[(cid, lvl, i)].append(d)
                 dx_scen_acc[(cid, lvl, i, r["scen"])].append(d)
         if len(r["sp"]) >= 2 and r["scen"] in SP_K:
-            sp_runs.append({"sp": {k: v + 0.5 for k, v in r["sp"].items()}})
+            sp_runs.append({"sp": {k: (v + 0.5) / m
+                                   for k, v in r["sp"].items()}})
     # E is SCENARIO-DEPENDENT: per-scenario spreads are 1-5% where the
     # pooled table showed 16-19% (measured 2026-08-13). Scenario-specific
     # medians first, pooled as fallback for unseen scenario cells.
@@ -158,9 +177,10 @@ def fit_tables(runs):
         if r["scen"] not in SP_K:
             continue
         kt = SP_K[r["scen"]] * turns(r["races"])
+        m = r.get("pal_m", 1.0)
         for k2, v in r["sp"].items():
             if k2 in w_raw and w_raw[k2] > 0:
-                scales.append((v + 0.5) / (kt * w_raw[k2]))
+                scales.append((v + 0.5) / (kt * m * w_raw[k2]))
     s = median(scales) if scales else 1.0
     return (dx, dx_scen), {k: v * s for k, v in w_raw.items()}
 
@@ -191,11 +211,20 @@ def validate(masters, runs_dir):
     sp_n = 0
     sp_err = []
     for r in test:
+        # pal decks: forward-apply the law to the prediction so the
+        # comparison matches what the game printed
+        m = r.get("pal_m", 1.0)
+        d0 = r.get("pal_d", 0.0)
+        ut = U[r["scen"]] * turns(r["races"])
         for (cid, lvl), (obs, _axis) in r["cards"].items():
             pred, spd, covered = predict_card(
                 masters, dx, w, cid, lvl, r["scen"], r["races"])
             if not covered:
                 continue
+            if m != 1.0:
+                # pred = floor(ut*(cm+axis+dx)); re-derive the inner
+                # sum and re-apply with the pal transform
+                pred = [int(ut * m * ((v + 0.5) / ut + d0)) for v in pred]
             base_val = sorted(obs)[1]
             for i in range(5):
                 bucket = ch["base" if obs[i] <= base_val else "E"]
@@ -204,8 +233,9 @@ def validate(masters, runs_dir):
                 bucket[2] += abs(pred[i] - obs[i]) <= 1
             o = r["sp"].get((cid, lvl))
             if o and spd:
+                spd2 = int(spd * m)
                 sp_n += 1
-                sp_err.append(abs(spd - o) / o)
+                sp_err.append(abs(spd2 - o) / o)
     print(f"COLD validation (fit {len(fit)} runs, test {len(test)} runs)")
     for name, (n, ex, w1) in ch.items():
         print(f"  {name:>4} stats: n={n}  exact {100 * ex / n:.1f}%  "

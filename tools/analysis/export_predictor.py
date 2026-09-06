@@ -213,12 +213,16 @@ def main() -> int:
         if released and cid not in released:
             continue
         r = rarity.get(cid, 3)
+        # Dense level grid, not just LB caps: a level-1 card borrowing
+        # the level-20 cell's axis overpredicted by 50-64 points (the
+        # worst individual cells in the 2026-09-06 outlier scan).
+        base_lvls = [1, 5, 10, 15]
         if r == 1:
-            caps = [20, 25, 30, 35, 40]
+            caps = base_lvls + [20, 25, 30, 35, 40]
         elif r == 2:
-            caps = [25, 30, 35, 40, 45]
+            caps = base_lvls + [20, 25, 30, 35, 40, 45]
         else:
-            caps = list(LB_CAP.values())
+            caps = base_lvls + [20, 25] + list(LB_CAP.values())
         for lvl in caps:
             key = f"{cid}:{lvl}"
             if key in cards:
