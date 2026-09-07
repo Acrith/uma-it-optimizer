@@ -503,18 +503,20 @@ def main() -> int:
             if abs(r_ - 1) >= 0.005:
                 t_dice_fac.setdefault(str(cmd_id), {})[bucket] = r_
 
-    # Events recentering (2026-09-07): the composed events prediction
-    # (bare-census base + trainee delta + card events + race slope) runs
-    # systematically LOW - +46 URA / +309 Unity-dice / +238 GL / +93 TB
-    # median SP. Measure the residual line resid = a + b*(opt*rmul) per
-    # scenario bucket (Unity split pre/post-dice) over the full corpus
-    # and bake it as events adjustments; the model adds a to the base
-    # and b to the per-race slope.
+    # Corpus-fit trainee SP deltas (2026-09-07): for trainees without a
+    # bare-run census cell, the per-(trainee, scenario) median events-SP
+    # residual is a usable delta - big signals validate against census
+    # (101901 GL fit -151 vs census -130) and are consistent across
+    # scenarios (100601: -73/-104/-62 URA/Unity/GL). STAT deltas are NOT
+    # baked from fits: census stat deltas shrink with race count (the
+    # displacement slope eats them), so population fits and bare-run
+    # census disagree on stats by design. src="fit" so the UI can label
+    # them as community-fit, not measured.
     import importlib.util as _ilu
+    import sys as _sys
     _cspec = _ilu.spec_from_file_location(
         "career", here / "../../../uma-it-web/uma_it_web/enrich/career.py")
     _career = _ilu.module_from_spec(_cspec)
-    import sys as _sys
     _sys.modules["career"] = _career
     _cspec.loader.exec_module(_career)
 
@@ -531,69 +533,133 @@ def main() -> int:
     STATF = ("<Speed>k__BackingField", "<Stamina>k__BackingField",
              "<Power>k__BackingField", "<Guts>k__BackingField",
              "<Wiz>k__BackingField")
-    adj_acc: dict = defaultdict(lambda: ([], [], []))  # x, rsp, rst
-    for p_ in sorted(args.runs.glob("*/*.json")):
-        parts_ = p_.stem.split("_")
-        if len(parts_) < 3 or not parts_[2].startswith("uma"):
+
+    def _events_resid(subtract_trainee: bool):
+        """(key, x, resid_sp, resid_st, trainee) rows over the corpus;
+        key is the scenario bucket with Unity split pre/post-dice."""
+        out_rows = []
+        for p_ in sorted(args.runs.glob("*/*.json")):
+            parts_ = p_.stem.split("_")
+            if len(parts_) < 3 or not parts_[2].startswith("uma"):
+                continue
+            try:
+                raw = json.loads(p_.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            ch = (raw.get("SingleModeChara") or [{}])[0]
+            scen = int(ch.get("scenario_id") or 0)
+            if str(scen) not in ev_base:
+                continue
+            races = len(raw.get("RaceHistory") or [])
+            if not races:
+                continue
+            gi = raw.get("GainInfo") or []
+            if not gi:
+                continue
+            ev = gi[0]
+            tr = int(parts_[2][3:]) if parts_[2][3:].isdigit() else 0
+            deck = {int(e.get("support_card_id") or 0):
+                    (int(e.get("exp") or 0),
+                     int(e.get("limit_break_count") or 0))
+                    for e in ch.get("support_card_array") or []}
+            if not deck:
+                continue
+            opt = max(0, races - _min_races(tr, scen))
+            rmul = 1.0
+            cev_sp = cev_st = 0.0
+            for cid2, el in deck.items():
+                lv2 = masters.level_from_exp(cid2, *el)
+                if lv2:
+                    rmul += race_bonus(cid2, lv2) / 100
+                ce = (card_ev.get(str(cid2)) or {}).get(str(scen))
+                if ce:
+                    cev_sp += ce[0]
+                    cev_st += ce[1]
+            td = {"sp": 0, "st": 0}
+            if subtract_trainee:
+                td = ((trainees.get(str(tr)) or {}).get("d") or {})                     .get(str(scen)) or td
+            e_ = events.get(str(scen)) or {}
+            per_sp = e_.get("race_sp") or 40
+            per_st = e_.get("race_st") or 8
+            x = opt * rmul
+            pred_sp = (ev_base[str(scen)]["sp"] + td["sp"] + cev_sp
+                       + per_sp * x)
+            pred_st = (ev_base[str(scen)]["st"] + td["st"] + cev_st
+                       + per_st * x)
+            key = "2d" if (scen == 2 and races > 21) else str(scen)
+            out_rows.append(
+                (key, x,
+                 ev.get("<SkillPoint>k__BackingField", 0) - pred_sp,
+                 sum(ev.get(f, 0) for f in STATF) - pred_st, tr, scen))
+        return out_rows
+
+    def _fit_adj(rows_):
+        acc: dict = defaultdict(lambda: ([], [], []))
+        for key, x, rsp_, rst_, _tr, _scen in rows_:
+            xs_, rsps_, rsts_ = acc[key]
+            xs_.append(x)
+            rsps_.append(rsp_)
+            rsts_.append(rst_)
+        adj: dict = {}
+        for key, (xs_, rsp_, rst_) in acc.items():
+            if len(xs_) < 50:
+                continue
+            mx = sum(xs_) / len(xs_)
+            vx = sum((x - mx) ** 2 for x in xs_) or 1.0
+            row = {}
+            for tag, ys_ in (("sp", rsp_), ("st", rst_)):
+                my = sum(ys_) / len(ys_)
+                b_ = sum((x - mx) * (y - my)
+                         for x, y in zip(xs_, ys_)) / vx
+                row[f"{tag}_a"] = round(my - b_ * mx, 1)
+                row[f"{tag}_b"] = round(b_, 2)
+            adj[key] = row
+        return adj
+
+    # Pass 1: recentering line on census-only trainee subtraction.
+    _rows = _events_resid(subtract_trainee=True)
+    adj0 = _fit_adj(_rows)
+    # Pass 2: per-trainee SP delta RELATIVE to that line, for trainees
+    # the census never measured.
+    fit_acc: dict = defaultdict(list)
+    for key, x, rsp_, _rst, tr_, scen_ in _rows:
+        if str(scen_) in ((trainees.get(str(tr_)) or {}).get("d") or {}):
+            continue                     # census subtraction already done
+        a0 = adj0.get(key) or {}
+        fit_acc[(tr_, scen_)].append(
+            rsp_ - (a0.get("sp_a", 0) + a0.get("sp_b", 0) * x))
+    n_fit = 0
+    fitted: dict = {}
+    for (tr_, scen_), v in fit_acc.items():
+        if len(v) < 25:
             continue
-        try:
-            raw = json.loads(p_.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        ch = (raw.get("SingleModeChara") or [{}])[0]
-        scen = int(ch.get("scenario_id") or 0)
-        if str(scen) not in ev_base:
-            continue
-        races = len(raw.get("RaceHistory") or [])
-        if not races:
-            continue
-        gi = raw.get("GainInfo") or []
-        if not gi:
-            continue
-        ev = gi[0]
-        tr = int(parts_[2][3:]) if parts_[2][3:].isdigit() else 0
-        deck = {int(e.get("support_card_id") or 0):
-                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
-                for e in ch.get("support_card_array") or []}
-        if not deck:
-            continue
-        opt = max(0, races - _min_races(tr, scen))
-        rmul = 1.0
-        cev_sp = cev_st = 0.0
-        for cid2, el in deck.items():
-            lv2 = masters.level_from_exp(cid2, *el)
-            if lv2:
-                rmul += race_bonus(cid2, lv2) / 100
-            ce = (card_ev.get(str(cid2)) or {}).get(str(scen))
-            if ce:
-                cev_sp += ce[0]
-                cev_st += ce[1]
-        td = ((trainees.get(str(tr)) or {}).get("d") or {}).get(str(scen))             or {"sp": 0, "st": 0}
-        e_ = events.get(str(scen)) or {}
-        per_sp = e_.get("race_sp") or 40
-        per_st = e_.get("race_st") or 8
-        x = opt * rmul
-        pred_sp = (ev_base[str(scen)]["sp"] + td["sp"] + cev_sp + per_sp * x)
-        pred_st = (ev_base[str(scen)]["st"] + td["st"] + cev_st + per_st * x)
-        key = "2d" if (scen == 2 and races > 21) else str(scen)
-        xs_, rsp_, rst_ = adj_acc[key]
-        xs_.append(x)
-        rsp_.append(ev.get("<SkillPoint>k__BackingField", 0) - pred_sp)
-        rst_.append(sum(ev.get(f, 0) for f in STATF) - pred_st)
-    ev_adj: dict = {}
-    for key, (xs_, rsp_, rst_) in adj_acc.items():
-        if len(xs_) < 50:
-            continue
-        mx = sum(xs_) / len(xs_)
-        vx = sum((x - mx) ** 2 for x in xs_) or 1.0
-        row = {}
-        for tag, ys_ in (("sp", rsp_), ("st", rst_)):
-            my = sum(ys_) / len(ys_)
-            b_ = sum((x - mx) * (y - my)
-                     for x, y in zip(xs_, ys_)) / vx
-            row[f"{tag}_a"] = round(my - b_ * mx, 1)
-            row[f"{tag}_b"] = round(b_, 2)
-        ev_adj[key] = row
+        dsp = _med(v)
+        if abs(dsp) < 25:
+            continue                     # below noise, adds nothing
+        tid = str(tr_)
+        t = trainees.setdefault(tid, {"name": "", "d": {}})
+        if not t["name"]:
+            card = umas.get(tid) or {}
+            nm = card.get("chara_name") or f"?{tid}"
+            t["name"] = f"{nm} {card.get('card_title') or ''}".strip()
+        t["d"][str(scen_)] = {"sp": round(dsp, 1), "st": 0,
+                              "src": "fit", "n": len(v)}
+        fitted[(tr_, scen_)] = dsp
+        n_fit += 1
+    print(f"trainee SP deltas: +{n_fit} corpus-fit cells")
+    # Pass 3: final recentering with the fitted deltas subtracted too
+    # (reuse the residual rows; only sp changes for fitted trainees).
+    _rows = [(key, x, rsp_ - fitted.get((tr_, scen_), 0.0), rst_, tr_,
+              scen_) for key, x, rsp_, rst_, tr_, scen_ in _rows]
+
+    # Events recentering (2026-09-07): the composed events prediction
+    # (bare-census base + trainee delta + card events + race slope) runs
+    # systematically LOW - +46 URA / +309 Unity-dice / +238 GL / +93 TB
+    # median SP. Measure the residual line resid = a + b*(opt*rmul) per
+    # scenario bucket (Unity split pre/post-dice) over the full corpus
+    # and bake it as events adjustments; the model adds a to the base
+    # and b to the per-race slope.
+    ev_adj = _fit_adj(_rows)
 
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
