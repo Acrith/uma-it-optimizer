@@ -402,6 +402,55 @@ def main() -> int:
             "where rarity=? order by level", (rar,)).fetchall()
         level_exp[str(rar)] = [[lv, exp] for lv, exp in rows]
 
+    # Unity dice staircase (2026-09-07): beyond 21 races the rows still
+    # obey stat = floor(u2 * T * (C2 + axis + dx)) with a run-level T
+    # (one scalar per run explains trainer rows at 93% within +-1, and
+    # SP holds under the same T with k2/W). Retrodict T per receipt
+    # from the fitted tables and export the median staircase.
+    t2_acc: dict = defaultdict(list)
+    lvl_cache: dict = {}
+    for p_ in sorted(args.runs.glob("*/*.json")):
+        try:
+            raw = json.loads(p_.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        ch = (raw.get("SingleModeChara") or [{}])[0]
+        if int(ch.get("scenario_id") or 0) != 2:
+            continue
+        races = len(raw.get("RaceHistory") or [])
+        if races <= 21:
+            continue
+        deck = {int(e.get("support_card_id") or 0):
+                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
+                for e in ch.get("support_card_array") or []}
+        pal_id = next((c for c in deck if c in (10060, 30036)), None)
+        sa = sb = 0.0
+        n_rows = 0
+        for e in raw.get("SupportCardGainInfo") or []:
+            cid2 = e["<SupportCardId>k__BackingField"]
+            if cid2 not in deck:
+                continue
+            lv2 = masters.level_from_exp(cid2, *deck[cid2])
+            ent = cards.get(f"{cid2}:{lv2}")
+            if ent is None or not ent.get("cmd"):
+                continue
+            dxs = (ent.get("dx_scen") or {}).get("2") or ent["dx"]
+            g = e["<GainInfo>k__BackingField"]
+            is_pal = cid2 == pal_id
+            m2, d2 = ((1.0, 0.0) if is_pal or not pal_id
+                      else ((1.10, -55.0) if pal_id < 20000
+                            else (1.50, -60.0)))
+            sa += sum(g.get(f, 0) for f in
+                      ("<Speed>k__BackingField", "<Stamina>k__BackingField",
+                       "<Power>k__BackingField", "<Guts>k__BackingField",
+                       "<Wiz>k__BackingField"))
+            sb += sum(m2 * (2130.0 + ent["axis"] + d + d2) for d in dxs)
+            n_rows += 1
+        if n_rows >= 3 and sb > 0:
+            t2_acc[races].append(sa / (sb * U[2]))
+    t_dice = {str(r): round(_med(v), 2)
+              for r, v in sorted(t2_acc.items()) if len(v) >= 5}
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -410,6 +459,7 @@ def main() -> int:
             "ura_c": [URA_C_BASE, URA_C_SLOPE, URA_C_HALFWIDTH],
             "c": {"2": 2130.0, "3": 1825.0, "4": 3400.0},
             "t": {str(k): v for k, v in T_POINTS.items()},
+            "t_dice": t_dice,
             "sp_k": {str(k): v for k, v in SP_K.items()},
         },
         "cards": cards,

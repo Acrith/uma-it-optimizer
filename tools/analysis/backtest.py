@@ -57,6 +57,7 @@ def main() -> int:
     args = ap.parse_args()
 
     stat_d = defaultdict(list)          # scen -> deltas (covered cells)
+    stat_d_adj = defaultdict(list)      # same, schedule-jitter adjusted
     sp_d = defaultdict(list)            # (scen, has_pal) -> rel SP deltas
     ev_sp_d = defaultdict(list)
     ev_st_d = defaultdict(list)
@@ -87,22 +88,41 @@ def main() -> int:
             continue
         n_runs += 1
         month = f"{parts[0][:4]}-{parts[0][4:6]}"
+        skey = "2d" if (scen == 2 and races > 21) else str(scen)
         by_cid = {c["card_id"]: c for c in pred.cards}
         pal_ids = model.PAL_BY_SCENARIO.get(scen, set())
         has_pal = any(cid in pal_ids for cid, _e, _l in deck)
         actual_ev = None
+        pairs = []
         for e in raw.get("SupportCardGainInfo") or []:
             cid = e["<SupportCardId>k__BackingField"]
             c = by_cid.get(cid)
             if not c or not c["covered"] or c["pal"]:
                 continue
             g = e["<GainInfo>k__BackingField"]
-            for i, f in enumerate(STAT):
-                d = g.get(f, 0) - c["stats"][i]
-                stat_d[scen].append(d)
-                month_stat[month].append(abs(d))
+            pairs.append(([g.get(f, 0) for f in STAT], c["stats"],
+                          c.get("cmd") or 0))
             if c["sp"] and g.get(SP):
-                sp_d[(scen, has_pal)].append((g[SP] - c["sp"]) / c["sp"])
+                sp_d[(skey, has_pal)].append((g[SP] - c["sp"]) / c["sp"])
+        # Schedule jitter retrodiction (same adjustment the model check
+        # displays): j = closest integer turn offset explaining the
+        # whole receipt; the adjusted metric says how well the model
+        # does once the run's rest/outing luck is known.
+        fadj = 1.0
+        t_run = model.turns_for(races)
+        sa = sum(sum(a) for a, _p, _c in pairs)
+        sp_sum = sum(sum(pp) for _a, pp, _c in pairs)
+        # No adjustment in dice territory: the deviation there is not a
+        # run-level scalar (dice hit facilities unevenly), so scaling
+        # by the deck total makes rows worse, not better.
+        if skey != "2d" and len(pairs) >= 3 and t_run and sp_sum:
+            j = max(-3, min(3, round(t_run * (sa / sp_sum - 1))))
+            fadj = (t_run + j) / t_run
+        for a, pp, _cmd in pairs:
+            for x, y in zip(a, pp, strict=False):
+                stat_d[skey].append(x - y)
+                stat_d_adj[skey].append(x - int(y * fadj))
+                month_stat[month].append(abs(x - y))
         gi = raw.get("GainInfo") or []
         actual_ev = gi[0] if gi else None
         if actual_ev is not None:
@@ -130,7 +150,9 @@ def main() -> int:
 
     report = {
         "meta": {"runs": n_runs},
-        "cards_stat": {str(s): agg(v) for s, v in sorted(stat_d.items())},
+        "cards_stat": {s: agg(v) for s, v in sorted(stat_d.items())},
+        "cards_stat_sched_adj": {s: agg(v)
+                                 for s, v in sorted(stat_d_adj.items())},
         "cards_sp_rel": {f"{s}{'_pal' if pal else ''}":
                          {"n": len(v),
                           "median_pct": round(float(np.median(v)) * 100, 1),
