@@ -103,8 +103,21 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
             pid = next((c for c in raw_deck if c in pal_ids), None)
             tier = {1: "R", 2: "SR", 3: "SSR"}.get((pid or 0) // 10000, "R")
             pal_m, pal_d = PAL_LAW[tier]
+        # Dedup key includes the stat-gain rows themselves (2026-09-07):
+        # rows are deterministic given setup+mood (a 179-run same-deck
+        # group had byte-identical rows), so identical re-runs carry no
+        # new stat information and still collapse, while re-runs that
+        # differ (mood strata) are genuine samples the old coarse key
+        # wrongly dropped - +26% fit corpus. SP stays OUT of the key
+        # (hint RNG would defeat literal-duplicate detection).
+        gains_key = tuple(sorted(
+            (e["<SupportCardId>k__BackingField"],)
+            + tuple(e["<GainInfo>k__BackingField"].get(f, 0)
+                    for f in STAT_FIELDS)
+            for e in raw.get("SupportCardGainInfo") or []))
         key = (r["scenario"], r["races"],
-               tuple(sorted((x.card_id, x.level) for x in r["rows"])))
+               tuple(sorted((x.card_id, x.level) for x in r["rows"])),
+               gains_key)
         if key in seen:
             continue
         seen.add(key)
@@ -164,7 +177,7 @@ def collect_runs(runs_dir: Path, masters: Masters, half: int | None = None):
     return out
 
 
-def fit_tables(runs):
+def fit_tables(runs, min_n: int = 3):
     """-> dx {(card,level,stat): median}, W {(card,level): weight}."""
     dx_acc = defaultdict(list)
     dx_scen_acc = defaultdict(list)
@@ -187,8 +200,9 @@ def fit_tables(runs):
     # E is SCENARIO-DEPENDENT: per-scenario spreads are 1-5% where the
     # pooled table showed 16-19% (measured 2026-08-13). Scenario-specific
     # medians first, pooled as fallback for unseen scenario cells.
-    dx = {k: median(v) for k, v in dx_acc.items() if len(v) >= 3}
-    dx_scen = {k: median(v) for k, v in dx_scen_acc.items() if len(v) >= 3}
+    dx = {k: median(v) for k, v in dx_acc.items() if len(v) >= min_n}
+    dx_scen = {k: median(v) for k, v in dx_scen_acc.items()
+               if len(v) >= min_n}
     w_raw = solve_w(sp_runs) if sp_runs else {}
     # Anchor W's arbitrary scale so that sp = k * T * W matches the
     # fitting half directly: scale = median(sp / (k*T*W_raw)).

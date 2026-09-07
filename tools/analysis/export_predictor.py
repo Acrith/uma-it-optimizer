@@ -74,7 +74,10 @@ def main() -> int:
                         total += v
         return total
     runs = collect_runs(args.runs, masters)
-    (dx, dx_scen), w = fit_tables(runs)
+    # min_n=1: rows are deterministic given setup+mood (2026-09-07),
+    # and cold validation PREFERS single-observation cells over
+    # dropping them (93.7% vs 93.1% within +-1, 329 vs 203 cells).
+    (dx, dx_scen), w = fit_tables(runs, min_n=1)
 
     counts: dict = {}
     for r in runs:
@@ -102,8 +105,13 @@ def main() -> int:
                     round(dx_scen.get((cid, lvl, i, scen),
                                       dx.get((cid, lvl, i), 0.0)), 1)
                     for i in range(5)]
+        # SP does NOT share the stat rows' determinism: a W observed
+        # once at low level misses by ~50% on unseen runs (Unity SP p90
+        # blew to 53% when min_n=1 shipped thin W). Three SP samples
+        # minimum; stats keep min_n=1.
         wt = w.get((cid, lvl))
-        entry["w"] = round(wt, 2) if wt else None
+        w_n = sum(1 for r in runs if (cid, lvl) in r["sp"])
+        entry["w"] = round(wt, 2) if wt and w_n >= 3 else None
         entry["rb"] = round(race_bonus(cid, lvl), 1)
         hv = [r["hints"].get((cid, lvl)) for r in runs
               if (cid, lvl) in r["hints"]]
