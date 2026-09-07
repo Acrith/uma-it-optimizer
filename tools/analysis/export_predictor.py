@@ -451,6 +451,150 @@ def main() -> int:
     t_dice = {str(r): round(_med(v), 2)
               for r, v in sorted(t2_acc.items()) if len(v) >= 5}
 
+    # Per-facility dice ratios (2026-09-07): the dice's extra sessions
+    # land disproportionately on the low-baseline facilities - guts and
+    # wit rows run +8-9% hot at 22-27 races. Median ratio vs the T2
+    # staircase per (facility, race bucket); 1.0 where unmeasured.
+    fac_acc: dict = defaultdict(list)
+    for p_ in sorted(args.runs.glob("*/*.json")):
+        try:
+            raw = json.loads(p_.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        ch = (raw.get("SingleModeChara") or [{}])[0]
+        if int(ch.get("scenario_id") or 0) != 2:
+            continue
+        races = len(raw.get("RaceHistory") or [])
+        if races <= 21 or str(races) not in t_dice:
+            continue
+        t2m = t_dice[str(races)]
+        deck = {int(e.get("support_card_id") or 0):
+                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
+                for e in ch.get("support_card_array") or []}
+        pal_id = next((c for c in deck if c in (10060, 30036)), None)
+        bucket = ("22-27" if races <= 27 else
+                  "28-31" if races <= 31 else "32+")
+        for e in raw.get("SupportCardGainInfo") or []:
+            cid2 = e["<SupportCardId>k__BackingField"]
+            if cid2 not in deck:
+                continue
+            lv2 = masters.level_from_exp(cid2, *deck[cid2])
+            ent = cards.get(f"{cid2}:{lv2}")
+            if ent is None or not ent.get("cmd"):
+                continue
+            dxs = (ent.get("dx_scen") or {}).get("2") or ent["dx"]
+            g = e["<GainInfo>k__BackingField"]
+            is_pal = cid2 == pal_id
+            m2, d2 = ((1.0, 0.0) if is_pal or not pal_id
+                      else ((1.10, -55.0) if pal_id < 20000
+                            else (1.50, -60.0)))
+            a = sum(g.get(f, 0) for f in
+                    ("<Speed>k__BackingField", "<Stamina>k__BackingField",
+                     "<Power>k__BackingField", "<Guts>k__BackingField",
+                     "<Wiz>k__BackingField"))
+            b = sum(m2 * (2130.0 + ent["axis"] + d + d2)
+                    for d in dxs) * U[2] * t2m
+            if b > 0:
+                fac_acc[(ent["cmd"], bucket)].append(a / b)
+    t_dice_fac: dict = {}
+    for (cmd_id, bucket), v in fac_acc.items():
+        if len(v) >= 30:
+            r_ = round(_med(v), 4)
+            if abs(r_ - 1) >= 0.005:
+                t_dice_fac.setdefault(str(cmd_id), {})[bucket] = r_
+
+    # Events recentering (2026-09-07): the composed events prediction
+    # (bare-census base + trainee delta + card events + race slope) runs
+    # systematically LOW - +46 URA / +309 Unity-dice / +238 GL / +93 TB
+    # median SP. Measure the residual line resid = a + b*(opt*rmul) per
+    # scenario bucket (Unity split pre/post-dice) over the full corpus
+    # and bake it as events adjustments; the model adds a to the base
+    # and b to the per-race slope.
+    import importlib.util as _ilu
+    _cspec = _ilu.spec_from_file_location(
+        "career", here / "../../../uma-it-web/uma_it_web/enrich/career.py")
+    _career = _ilu.module_from_spec(_cspec)
+    import sys as _sys
+    _sys.modules["career"] = _career
+    _cspec.loader.exec_module(_career)
+
+    def _min_races(tr: int, scen: int) -> int:
+        if scen == 4:
+            return 4
+        objs = _career.objectives_for(str(tr))
+        if not objs:
+            return 9
+        tset = {o.get("Turn") for o in objs
+                if _career.race_by_name(o.get("ObjectiveName") or "")}
+        return len(tset) + 1 + 3
+
+    STATF = ("<Speed>k__BackingField", "<Stamina>k__BackingField",
+             "<Power>k__BackingField", "<Guts>k__BackingField",
+             "<Wiz>k__BackingField")
+    adj_acc: dict = defaultdict(lambda: ([], [], []))  # x, rsp, rst
+    for p_ in sorted(args.runs.glob("*/*.json")):
+        parts_ = p_.stem.split("_")
+        if len(parts_) < 3 or not parts_[2].startswith("uma"):
+            continue
+        try:
+            raw = json.loads(p_.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        ch = (raw.get("SingleModeChara") or [{}])[0]
+        scen = int(ch.get("scenario_id") or 0)
+        if str(scen) not in ev_base:
+            continue
+        races = len(raw.get("RaceHistory") or [])
+        if not races:
+            continue
+        gi = raw.get("GainInfo") or []
+        if not gi:
+            continue
+        ev = gi[0]
+        tr = int(parts_[2][3:]) if parts_[2][3:].isdigit() else 0
+        deck = {int(e.get("support_card_id") or 0):
+                (int(e.get("exp") or 0), int(e.get("limit_break_count") or 0))
+                for e in ch.get("support_card_array") or []}
+        if not deck:
+            continue
+        opt = max(0, races - _min_races(tr, scen))
+        rmul = 1.0
+        cev_sp = cev_st = 0.0
+        for cid2, el in deck.items():
+            lv2 = masters.level_from_exp(cid2, *el)
+            if lv2:
+                rmul += race_bonus(cid2, lv2) / 100
+            ce = (card_ev.get(str(cid2)) or {}).get(str(scen))
+            if ce:
+                cev_sp += ce[0]
+                cev_st += ce[1]
+        td = ((trainees.get(str(tr)) or {}).get("d") or {}).get(str(scen))             or {"sp": 0, "st": 0}
+        e_ = events.get(str(scen)) or {}
+        per_sp = e_.get("race_sp") or 40
+        per_st = e_.get("race_st") or 8
+        x = opt * rmul
+        pred_sp = (ev_base[str(scen)]["sp"] + td["sp"] + cev_sp + per_sp * x)
+        pred_st = (ev_base[str(scen)]["st"] + td["st"] + cev_st + per_st * x)
+        key = "2d" if (scen == 2 and races > 21) else str(scen)
+        xs_, rsp_, rst_ = adj_acc[key]
+        xs_.append(x)
+        rsp_.append(ev.get("<SkillPoint>k__BackingField", 0) - pred_sp)
+        rst_.append(sum(ev.get(f, 0) for f in STATF) - pred_st)
+    ev_adj: dict = {}
+    for key, (xs_, rsp_, rst_) in adj_acc.items():
+        if len(xs_) < 50:
+            continue
+        mx = sum(xs_) / len(xs_)
+        vx = sum((x - mx) ** 2 for x in xs_) or 1.0
+        row = {}
+        for tag, ys_ in (("sp", rsp_), ("st", rst_)):
+            my = sum(ys_) / len(ys_)
+            b_ = sum((x - mx) * (y - my)
+                     for x, y in zip(xs_, ys_)) / vx
+            row[f"{tag}_a"] = round(my - b_ * mx, 1)
+            row[f"{tag}_b"] = round(b_, 2)
+        ev_adj[key] = row
+
     out = {
         "meta": {"runs": len(runs), "cells": len(cards),
                  "model": "it-formula 2026-08-13 post-recalibration"},
@@ -460,6 +604,7 @@ def main() -> int:
             "c": {"2": 2130.0, "3": 1825.0, "4": 3400.0},
             "t": {str(k): v for k, v in T_POINTS.items()},
             "t_dice": t_dice,
+            "t_dice_fac": t_dice_fac,
             "sp_k": {str(k): v for k, v in SP_K.items()},
         },
         "cards": cards,
@@ -470,6 +615,7 @@ def main() -> int:
         "presets": presets,
         "card_ev": card_ev,
         "ev_base": ev_base,
+        "ev_adj": ev_adj,
         "trainees": trainees,
         "level_exp": level_exp,
         "lb_caps": {"1": [20, 25, 30, 35, 40], "2": [25, 30, 35, 40, 45],
