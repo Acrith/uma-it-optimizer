@@ -111,21 +111,39 @@ def main() -> int:
                                      for s, n in rows]
         added.append((cid, f"{name} {titles.get(cid, '')}".strip()))
 
-    # ── skills ── the new trainees' uniques (and their inherited 9xxxxx
-    # twins) are missing too; the floor score reads grade_value from
-    # masters, so an unknown unique silently scores zero.
+    # ── skills ── a new trainee's unique is missing too, and the floor
+    # score reads grade_value from masters, so an unknown unique
+    # silently scores ZERO (Inari One [Golden Dream] shipped with
+    # 'Firelight' unresolvable, 2026-09-12).
+    #
+    # The global client's skill_data lags its own text bundle, exactly
+    # like card_data does, so take structural rows from whichever mdb
+    # has them - global first, JP as the superset - and gate a JP-only
+    # row on the global bundle knowing an EN name for it. Unlike the
+    # trainee pickers, `skills` is a pure lookup: an entry nothing
+    # references costs nothing, while a missing one costs a wrong score.
     skills = m.setdefault("skills", {})
     s_names, s_descs = _text(g, 47), _text(g, 48)
+
+    def _is_en(text: str | None) -> bool:
+        return bool(text) and all(ord(c) < 0x3000 for c in text)
+
+    SKILL_COLS = ("s.id, s.rarity, s.group_id, s.group_rate, "
+                  "s.skill_category, s.grade_value, s.disable_singlemode, "
+                  "s.condition_1, s.condition_2, s.icon_id, s.disp_order, "
+                  "n.need_skill_point from skill_data s left join "
+                  "single_mode_skill_need_point n on n.id = s.id")
+    rows_by_id = {}
+    for conn in (jp, g):                      # global wins on overlap
+        for row in conn.execute(f"select {SKILL_COLS}"):
+            rows_by_id[row[0]] = (row, conn is g)
+
     s_added = []
-    for row in g.execute(
-            "select s.id, s.rarity, s.group_id, s.group_rate, "
-            "s.skill_category, s.grade_value, s.disable_singlemode, "
-            "s.condition_1, s.condition_2, s.icon_id, s.disp_order, "
-            "n.need_skill_point from skill_data s left join "
-            "single_mode_skill_need_point n on n.id = s.id"):
-        sid = row[0]
+    for sid, (row, from_global) in sorted(rows_by_id.items()):
         if str(sid) in skills:
             continue
+        if not from_global and not _is_en(s_names.get(sid)):
+            continue                          # JP-only and unnamed here
         skills[str(sid)] = {
             "id": sid, "name": s_names.get(sid, f"?skill:{sid}"),
             "description": s_descs.get(sid, ""), "rarity": row[1],
