@@ -28,6 +28,8 @@ HERE = Path(__file__).parent
 MASTERS = HERE / "../../../uma-it-web/uma_it_web/enrich/data/masters.json"
 JP_MDB = HERE / "../../references/master.mdb"
 
+STAT_BY_TARGET = {1: "Speed", 2: "Stamina", 3: "Power", 4: "Guts",
+                  5: "Wit"}
 CARD_COLS = ("chara_id, default_rarity, running_style, "
              "available_skill_set_id, talent_speed, talent_stamina, "
              "talent_pow, talent_guts, talent_wiz")
@@ -155,6 +157,73 @@ def main() -> int:
         }
         s_added.append((sid, s_names.get(sid, "?")))
 
+    # ── factors ── a new chara's own inheritance sparks (Firelight,
+    # I'm Possible!) arrive with the chara, so a stale snapshot leaves
+    # the lineage and inspiration panels showing unnamed rows.
+    factors = m.setdefault("factors", {})
+    f_names, sk_names = _text(g, 147), s_names
+    grants: dict = {}
+    for conn in (jp, g):
+        for gid, target, value in conn.execute(
+                "select distinct factor_group_id, target_type, value_1 "
+                "from succession_factor_effect"):
+            e = grants.setdefault(gid, {"skills": set(), "stats": set()})
+            if target == 41:
+                e["skills"].add(int(value))
+            elif target in STAT_BY_TARGET:
+                e["stats"].add(STAT_BY_TARGET[target])
+    f_rows = {}
+    for conn in (jp, g):
+        for row in conn.execute(
+                "select factor_id, factor_group_id, rarity, grade, "
+                "factor_type, effect_group_id from succession_factor"):
+            f_rows[row[0]] = (row, conn is g)
+    f_added = []
+    for fid, (row, from_global) in sorted(f_rows.items()):
+        if str(fid) in factors:
+            continue
+        if not from_global and not _is_en(f_names.get(fid)):
+            continue
+        grant = grants.get(row[1]) or {"skills": set(), "stats": set()}
+        sids = sorted(grant["skills"])
+        factors[str(fid)] = {
+            "id": fid, "group_id": row[1], "rarity": row[2],
+            "grade": row[3], "factor_type": row[4],
+            "effect_group_id": row[5],
+            "display_name": f_names.get(fid, f"?factor:{fid}"),
+            "granted_skill_ids": sids,
+            "granted_skill_names": [sk_names.get(x, f"?skill:{x}")
+                                    for x in sids],
+            "granted_stats": sorted(grant["stats"]),
+        }
+        f_added.append((fid, f_names.get(fid, "?")))
+
+    # ── programs ── career race slots; a new one (a Make Debut variant)
+    # leaves the race calendar unable to name that turn.
+    programs = m.setdefault("programs", {})
+    r_names = _text(g, 33)
+    p_rows = {}
+    for conn in (jp, g):
+        for row in conn.execute(
+                "select p.id, ri.race_id, r.grade, r.entry_num, p.month, "
+                "p.half from single_mode_program p join race_instance ri "
+                "on ri.id = p.race_instance_id join race r on r.id = "
+                "ri.race_id"):
+            p_rows[row[0]] = (row, conn is g)
+    p_added = []
+    for pid, (row, from_global) in sorted(p_rows.items()):
+        if str(pid) in programs:
+            continue
+        if not from_global and not _is_en(r_names.get(row[1])):
+            continue
+        programs[str(pid)] = {
+            "id": pid, "race_id": row[1],
+            "name": r_names.get(row[1], f"?race:{row[1]}"),
+            "grade": row[2], "entry_num": row[3],
+            "month": row[4], "half": row[5],
+        }
+        p_added.append((pid, r_names.get(row[1], "?")))
+
     MASTERS.write_text(json.dumps(m, ensure_ascii=False,
                                   separators=(",", ":")), encoding="utf-8")
     for cid, label in added:
@@ -163,8 +232,14 @@ def main() -> int:
         print(f"  (skipped, no master row/name: {no_text})")
     for sid, label in s_added:
         print(f"  + skill {sid}  {label}")
+    for fid, label in f_added:
+        print(f"  + factor {fid}  {label}")
+    for pid, label in p_added:
+        print(f"  + program {pid}  {label}")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
           f"{len(s_added)} skills (total {len(skills)}), "
+          f"{len(f_added)} factors (total {len(factors)}), "
+          f"{len(p_added)} programs (total {len(programs)}), "
           f"innate sets {len(innate)}")
     return 0
 
