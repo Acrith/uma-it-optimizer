@@ -52,17 +52,41 @@ click).
 | Legacy roster (parents) | **nearly free** | The Parents scan already enumerates every `TrainedCharaData` in memory (269 instances on the dev account) and filters to the run's lineage. Dropping the filter *is* the roster capture. |
 | Support-card collection | **needs a scout** | Class not yet identified. Same discovery route that found `TrainedCharaData`: enumerate `img_main` classes, match by flattened name, dump fields. One session of scouting, then a walker like the others. |
 | Mid-career manual state | **feasible, unscouted** | Manual careers are client-side simulated, so `SingleModeChara`, owned skills, hint tips and levels, SP and stats are all resident. Same one-shot scan, triggered by the player at the skill-buy screen. Outside the IT ceiling memo, which is about per-turn IT journals. |
-| IT completion *detection* | **not doing it** | True auto-capture needs a completion hook. Hooks broke across builds in v0.0.1..v0.0.5 and carry the detection posture we rejected. |
+| IT completion *trigger* | **feasible via Hachimi's interceptor** | The plugin SDK exposes `interceptor_hook` / `interceptor_hook_vtable`, the same machinery Hachimi's own dozens of hooks use, so one more hook is not a new detection surface. Hook the **view layer** (the Training Log dialog opening), never the API response path. |
 
-"Auto capture" therefore means: **one click in the game, and everything
-after it is automatic** (validate, queue, upload, notify, grade against
-the plan). Plus a timer: IT runs ~50 minutes, the companion knows when
-one started, and it can nudge at the right moment. That is the honest
-ceiling and it is a good product.
+"Auto capture" therefore means: the trigger fires when the Training Log
+dialog opens, the original method runs first (the dialog is built from
+the already-received response, so the DTOs are populated on return),
+then the exact capture the menu click performs today runs. Wrapped in
+`catch_unwind`, behind an `auto_capture` config flag, and the manual
+button stays as the always-works path: if name resolution fails after
+a game update, log it and degrade to manual. A broken build costs the
+automation, never a run.
 
-Posture, unchanged: no hooks, no polling scans, no network listeners
-inside the game process, no Frida sessions. One-shot reads on a manual
-trigger. Same risk surface as today.
+What makes the trigger survive updates better than a named-method hook:
+a **vtable-slot hook** on the dialog base class (the slot for a base
+virtual only moves if the base class changes shape, rarer than a method
+rename), or an **engine-level hook Cygames never renames** as a coarse
+trigger with a cheap check behind it, e.g. the text-set method matched
+on the dialog's title string, which is exactly the hook Hachimi's
+localization layer lives on.
+
+Scene-change events are too coarse: the game is essentially one scene
+with a view-controller stack. Same instinct, one layer lower.
+
+Posture, stated precisely: the Frida memories are about an external
+debugger attach and long sessions, and they still apply to the
+extractor. In-process hooks through Hachimi's interceptor are a
+different surface, already carried by every Hachimi user. Two rules
+survive from experience: never hook an API deserializer (a throw there
+lost a user's live run), and test any hook offline first with a kill
+switch. No polling heap scans (they freeze the game), no network
+listeners inside the game process.
+
+**Tool split.** The Frida extractor (`tools/memory_extractor`) is the
+*scouting* tool: on the dev account, offline, it finds the dialog
+class, the collection class and field layouts in one session with no
+shipping risk. The Hachimi plugin is *production* capture.
 
 ## Architecture
 
@@ -161,9 +185,12 @@ where the plan said. Do not clone the dashboard.
 URA attempt), planner public launch. Nothing below starts before this;
 the roadmap already says so.
 
-**M1. Plugin v2: captures.** Legacy roster (drop the lineage filter),
-collection (scout, then walker), career state (scout, then walker).
-File-drop inbox alongside the existing POST. `capture-schema` crate.
+**M1. Plugin v2: captures + trigger.** Legacy roster (drop the lineage
+filter), collection (scout, then walker), career state (scout, then
+walker), and the Training Log dialog trigger for zero-click IT capture
+(scout the dialog class with the extractor, hook via the interceptor,
+kill switch, offline test). File-drop inbox alongside the existing
+POST. `capture-schema` crate.
 Deliverable is three documented JSON kinds. Useful immediately: the
 website could accept a collection upload with no companion at all.
 
