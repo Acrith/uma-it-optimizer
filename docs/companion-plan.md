@@ -74,14 +74,14 @@ localization layer lives on.
 Scene-change events are too coarse: the game is essentially one scene
 with a view-controller stack. Same instinct, one layer lower.
 
-Posture, stated precisely: the Frida memories are about an external
-debugger attach and long sessions, and they still apply to the
-extractor. In-process hooks through Hachimi's interceptor are a
-different surface, already carried by every Hachimi user. Two rules
-survive from experience: never hook an API deserializer (a throw there
-lost a user's live run), and test any hook offline first with a kill
-switch. No polling heap scans (they freeze the game), no network
-listeners inside the game process.
+Posture: Hachimi's interceptor is Frida Gum running in-process,
+permanently, on every Hachimi user's machine. Hooks installed through
+it are not a new surface, and detection is not a design constraint for
+plugin work. The rules that survive are about correctness, learned the
+hard way: never hook an API deserializer (a throw there lost a user's
+live run), test any hook offline first with a kill switch, keep the
+manual button as the fallback, and no polling heap scans (they freeze
+the game).
 
 **Tool split.** The Frida extractor (`tools/memory_extractor`) is the
 *scouting* tool: on the dev account, offline, it finds the dialog
