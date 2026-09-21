@@ -122,8 +122,8 @@ setTimeout(() => {
           send({type: 'text', text: '    parents: ' + (chain.join(' -> ') || '(none)')});
           try {
             klass.methods.forEach(m => {
-              if (/^(Initialize|Init|OnEnter|OnStart|Open|Show|Setup|Start|Awake|OnEnable|Play|Begin|Create)/i.test(m.name)
-                  || /Initialize|Open|Show/i.test(m.name)) {
+              const LIFECYCLE = /^(Initialize|Init|OnEnter|OnStart|Open|Show|Setup|Start|Awake|OnEnable|Play|Begin|Create)/i;
+              if (LIFECYCLE.test(m.name) || /Initialize|Open|Show/i.test(m.name)) {
                 send({type: 'text', text: '    method ' + m.name + '(' + m.parameterCount + ' args)'
                                           + (m.isStatic ? ' static' : '')
                                           + '  @' + m.virtualAddress});
@@ -135,15 +135,16 @@ setTimeout(() => {
 
       // ─── 3. heap-scan a short list: costly, capped ──
       const shortlist = candidates.filter(c => c.hit).slice(0, MAX_SCANS);
-      send({type: 'header', text: '=== HEAP SCAN (' + shortlist.length + ' of ' + candidates.length
-                                    + ' candidates, cap ' + MAX_SCANS + ') ==='});
+      send({type: 'header', text: '=== HEAP SCAN (' + shortlist.length + ' of '
+                                    + candidates.length + ' candidates, cap ' + MAX_SCANS + ') ==='});
       shortlist.forEach(({ img, klass, name }) => {
         let instances;
         const t0 = Date.now();
         try { instances = Il2Cpp.gc.choose(klass); }
         catch (e) { send({type: 'text', text: '  ' + name + ' scan failed: ' + e.message}); return; }
         send({type: 'text', text: ''});
-        send({type: 'text', text: '  [' + img + '] ' + name + ': ' + (instances ? instances.length : 0)
+        const count = instances ? instances.length : 0;
+        send({type: 'text', text: '  [' + img + '] ' + name + ': ' + count
                                   + ' instance(s), ' + (Date.now() - t0) + ' ms'});
         if (!instances || !instances.length) return;
         const N = Math.min(3, instances.length);
@@ -170,7 +171,8 @@ setTimeout(() => {
         // Collection mode: a class with hundreds of instances and a
         // support_card_id field is the roster. Say so.
         if (MODE === 'collection' && instances.length > 50) {
-          send({type: 'text', text: '    ^ ' + instances.length + ' instances: this looks like the collection'});
+          send({type: 'text', text: '    ^ ' + instances.length
+                                    + ' instances: this looks like the collection'});
         }
       });
 
