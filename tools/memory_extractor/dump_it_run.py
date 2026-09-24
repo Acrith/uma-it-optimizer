@@ -61,7 +61,7 @@ UPLOAD_TIMEOUT_SECONDS = 30
 # Cloudflare's bot ML can recognise us as a first-party tool instead
 # of a generic Python-urllib scraper (which occasionally 403'd before
 # adding this UA — see the v0.1.10 changelog).
-EXTRACTOR_VERSION = "0.1.17"
+EXTRACTOR_VERSION = "0.1.18"
 
 AGENT_TAIL = r"""
 setTimeout(() => {
@@ -96,7 +96,12 @@ setTimeout(() => {
       } catch (e) { return null; }
     }
 
-    function walk(v, typeName, depth) {
+    // maxDepth: how far into nested objects to go. 3 keeps the top-level
+    // dumps compact; the race history needs 5 so each race's
+    // race_reward_info.race_reward[] (RaceRewardData: Carats, Monies) is
+    // expanded instead of written as "<Gallop.RaceRewardData>", which is
+    // what every receipt from this tool carried until 0.1.18.
+    function walk(v, typeName, depth, maxDepth = 3) {
       if (v === null || v === undefined) return null;
       if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'string') return v;
       if (typeName === 'System.String') return v.content !== undefined ? v.content : String(v);
@@ -116,15 +121,15 @@ setTimeout(() => {
         try {
           const elemType = typeName.slice(0, -2);
           const out = [];
-          for (let i = 0; i < v.length; i++) out.push(walk(v.get(i), elemType, depth + 1));
+          for (let i = 0; i < v.length; i++) out.push(walk(v.get(i), elemType, depth + 1, maxDepth));
           return out;
         } catch (e) { return '<arr-err>'; }
       }
-      if (depth < 3 && v.class) {
+      if (depth < maxDepth && v.class) {
         const out = {};
         v.class.fields.forEach(f => {
           if (f.isStatic || f.isLiteral || f.isThreadStatic) return;
-          try { out[f.name] = walk(v.field(f.name).value, f.type.name, depth + 1); }
+          try { out[f.name] = walk(v.field(f.name).value, f.type.name, depth + 1, maxDepth); }
           catch (e) { out[f.name] = '<err>'; }
         });
         return out;
@@ -132,10 +137,10 @@ setTimeout(() => {
       return '<' + typeName + '>';
     }
 
-    function dumpAll(cls, label) {
+    function dumpAll(cls, label, maxDepth = 3) {
       try {
         const insts = Il2Cpp.gc.choose(cls);
-        const out = insts.map(inst => walk(inst, cls.type.name, 0));
+        const out = insts.map(inst => walk(inst, cls.type.name, 0, maxDepth));
         send({type: 'dump', label: label, count: insts.length, data: out});
       } catch (e) {
         send({type: 'dump_err', label: label, err: e.message});
@@ -363,7 +368,7 @@ setTimeout(() => {
       dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSupportCardGainInfo'), 'SupportCardGainInfo');
       dumpAll(mainAsm.class('Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo'), 'SuccessionFactorGainInfo');
       dumpAll(httpAsm.class('Gallop.SingleRaceHistory'), 'RaceHistory');
-      dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory');
+      dumpAll(httpAsm.class('Gallop.IdleSingleModeRaceHistory'), 'IdleSingleModeRaceHistory', 5);
       // Chara-effect log: the visible "conditions" on the Training
       // Log popup (Fast Learner, Migraine, Practice Perfect, Pure
       // Passion, etc.). One instance per condition ever applied
