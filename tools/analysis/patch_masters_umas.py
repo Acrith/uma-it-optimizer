@@ -252,6 +252,21 @@ def main() -> int:
                           "icon": row[5], "start": row[6], "end": row[7]})
             c_filled += 1
 
+    # ── card hint skills ── the skills each support card can hint
+    # (single_mode_hint_gain, hint_gain_type 0: hint_value_1 is the
+    # skill id). Powers the site's "deck has a card that hints X"
+    # filter. Global first, JP for cards the global client lacks.
+    hints: dict[str, list[int]] = {}
+    for conn in (jp, g):                           # global overwrites JP
+        per: dict[int, list[int]] = {}
+        for cid, sid in conn.execute(
+                "select support_card_id, hint_value_1 from single_mode_hint_gain "
+                "where hint_gain_type = 0 order by support_card_id, hint_group"):
+            per.setdefault(cid, []).append(sid)
+        for cid, sids in per.items():
+            hints[str(cid)] = sorted(set(sids))
+    m["card_hint_skills"] = hints
+
     # ── items ── names for everything a race can pay out (sashes, shoes,
     # Support Points, Dream Glimmer, statues...). Receipts carry
     # (item_type = item_data.item_category, item_id = item_data.id).
@@ -276,7 +291,7 @@ def main() -> int:
         print(f"  + factor {fid}  {label}")
     for pid, label in p_added:
         print(f"  + program {pid}  {label}")
-    print(f"items: {len(items)}")
+    print(f"items: {len(items)}, card hint sets: {len(hints)}")
     print(f"campaigns: {c_added} added, {c_filled} got dates (total {len(campaigns)})")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
           f"{len(s_added)} skills (total {len(skills)}), "
