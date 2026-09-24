@@ -226,12 +226,30 @@ both routes.
 capture kind, namespaced by product (`it.*`, `ladder.*`); a test harness that runs both walkers over the same
 recorded game state and diffs the JSON. Useful immediately: the rewards
 drift of 2026-09-24 becomes impossible to ship silently.
+Status 2026-09-25: `crates/capture-schema` in `umaladder-companion`
+(kinds, canonical `it.run`, `normalize()`, `capture-diff`). The .exe
+is not rewritten: its receipts are read through `normalize()`. A 0.1.19
+.exe was considered and skipped; it would have added nothing users see
+(the site takes support-card hints from `GainInfo`, which the .exe
+captures).
 
 **M2. Companion v0: the extractor's replacement.** Tauri shell with the
 Frida host (route B): detect the game, attach, one-click capture
 (button or hotkey), detach, upload, notify. Also watches the inbox for
 route A. This is what non-Hachimi users install instead of the .exe,
 and the site owner can test it directly.
+
+Two things ship in the first release, not later, because people do not
+update: the newest .exe receipt on the site on 2026-09-25 still came
+from a pre-0.1.18 build, weeks after 0.1.18 fixed carats.
+- **Auto-updater from day one.** The Tauri updater reads the public
+  releases repo; fixes reach users without them doing anything.
+- **Version check on upload.** Every capture carries `capture_meta`
+  (tool + version). The site always accepts the upload; when the
+  version is outdated the response says so and the companion shows
+  "update available". Old captures are never rejected for their age:
+  `normalize()` reads every older shape and marks what it lacks as
+  "not captured".
 
 **M3. Zero-click capture, both routes.** The Training Log view-layer
 trigger (vtable-slot hook preferred; see "What the game will let us
@@ -274,7 +292,7 @@ against the next upload.
   for.
 - **Distribution.** Unsigned Windows binaries hit SmartScreen. Budget
   for a signing certificate or accept GitHub Releases with published
-  hashes; wire the Tauri updater once there is a second release.
+  hashes. The Tauri updater ships in M2 itself (see M2).
 - **Scope.** Windows only. The game is Windows; so is Hachimi. The
   Linux/Proton path the .exe supports today (see
   `tools/memory_extractor/README.md`) needs a decision before the .exe
