@@ -252,6 +252,18 @@ def main() -> int:
                           "icon": row[5], "start": row[6], "end": row[7]})
             c_filled += 1
 
+    # ── items ── names for everything a race can pay out (sashes, shoes,
+    # Support Points, Dream Glimmer, statues...). Receipts carry
+    # (item_type = item_data.item_category, item_id = item_data.id).
+    # Rebuilt wholesale: small, and names never collide.
+    i_names = _text(g, 23)
+    items = {}
+    for iid, cat in g.execute("select id, item_category from item_data"):
+        name = i_names.get(iid)
+        if _is_en(name):
+            items[str(iid)] = {"category": cat, "name": name}
+    m["items"] = items
+
     MASTERS.write_text(json.dumps(m, ensure_ascii=False,
                                   separators=(",", ":")), encoding="utf-8")
     for cid, label in added:
@@ -264,6 +276,7 @@ def main() -> int:
         print(f"  + factor {fid}  {label}")
     for pid, label in p_added:
         print(f"  + program {pid}  {label}")
+    print(f"items: {len(items)}")
     print(f"campaigns: {c_added} added, {c_filled} got dates (total {len(campaigns)})")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
           f"{len(s_added)} skills (total {len(skills)}), "
