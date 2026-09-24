@@ -44,6 +44,33 @@ The layers, in the order they pay off:
    `test_predictor_agreement.py`. The companion imports a single
    package rather than becoming a fourth copy.
 
+## Two sites, one companion (2026-09-25)
+
+The same owner runs **umaladder.moe** (race ladder) alongside
+**training.umaladder.moe** (IT), and umaladder has its own Frida
+extractor for Room Match results (`uma-ladder/tools/race_extractor`,
+posting to `/api/race-captures` with its own token). It is the same
+machine as the IT extractor: attach, find objects by class name, upload.
+
+The companion hosts both, for a technical reason as much as a tidy one:
+two separate tools means two Frida agents attached to one game process
+with independent lifecycles, which is where conflicts come from. One
+host attaches once and loads several capture modules.
+
+Decided now so nothing is retrofitted later:
+
+- Capture kinds are namespaced by product: `it.run`, `it.roster`,
+  `it.collection`, `ladder.room_match`. The schema and the parity test
+  cover both.
+- Each capture kind declares its upload target and token (the race
+  tool already keeps a separate config and token; keep that model). A
+  single sign-in across both sites is a later question.
+- The Frida host loads modules; the Hachimi route can carry race
+  capture too, since it is the same kind of class-name read.
+- The race extractor keeps maturing in `uma-ladder` and is ported in as
+  a module once stable; the companion only has to be ready to receive
+  it.
+
 ## What the game will let us read
 
 Grounded in the plugin as it stands (`tools/hachimi_plugin`, v1.0.x,
@@ -196,7 +223,7 @@ run, skill screen). Its logs are the input to everything below, for
 both routes.
 
 **M1. Shared capture format + parity test.** `capture-schema` for every
-capture kind; a test harness that runs both walkers over the same
+capture kind, namespaced by product (`it.*`, `ladder.*`); a test harness that runs both walkers over the same
 recorded game state and diffs the JSON. Useful immediately: the rewards
 drift of 2026-09-24 becomes impossible to ship silently.
 
