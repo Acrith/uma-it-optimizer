@@ -1,44 +1,48 @@
 # UmaLadder Companion: scaffold plan
 
-Status: planning, 2026-09-22. Nothing here is built. The sequencing gate
-from the September roadmap still applies: validate SS predictions in
-public and launch the planner before a companion becomes its own
-project.
+Status: planning, revised 2026-09-25. Nothing here is built. Priority
+changed on 2026-09-25: the companion comes before the planner launch
+(the planner needs more data and accuracy work, which the companion's
+captures feed).
 
 ## The verdict, up front
 
-A Tauri app is worth building **only as the last layer of three**, and
-the first two layers are worth building regardless of whether the app
-ever exists.
+Build it, as **one product with two capture routes**, because the
+corpus shows two user groups of similar size, and a plan that serves
+only one leaves half the service behind:
 
-1. **The plugin as a data source.** Every feature on the wish list
-   (collection, legacy roster, mid-career state, IT completion) is a
-   *read from the game*, and only the Hachimi plugin can perform one.
-   Tauri cannot see the game. The shell adds nothing until the reads
-   exist, so the reads come first and they are most of the work.
-2. **One brain, not two.** The planner logic lives in three places
-   today: `scoring.py` (Python knapsack + rating), the SP planner JS
-   inside `detail_template.py`, and the deck predictor JS in
-   `planner/index.html`, with `predictor_tables.json` baked alongside.
-   A companion would make it four. Consolidating into one package that
-   the website *and* a local shell both import is the enabling
-   investment, and it retires a drift risk the site already carries
-   (server and client agreeing at 17,553 tonight was checked by hand,
-   not by a test).
-3. **The shell, decided last.** Once captures exist and the brain is
-   one package, a Tauri app is a thin host: inbox watcher, uploader,
-   notifier, settings, and a webview. That is a few weeks, not months.
-   But at that point a second option is on the table that costs far
-   less: the plugin uploads the collection to the user's profile and
-   the *website's* planner becomes account-valid. The choice between
-   them is a privacy and product call, not an engineering one, and it
-   is better made with real captures in hand.
+| Route | Who | Runs since Aug 9 |
+|---|---|---|
+| Hachimi plugin | Hachimi users | ~9,100 |
+| Frida extractor (.exe today) | everyone else, including the site owner | ~6,800 |
 
-So: yes, with the order above, and with the honest caveat that the
-Tauri shell's *unique* value is modest. What it uniquely offers is
-local-first handling of private data, an OS notification when IT
-finishes, and a low-latency loop for manual careers. What it does not
-offer is anything the reads plus the website could not also deliver.
+Both routes run the same hooking engine (Frida Gum). What differs is
+how it reaches the game: Hachimi is a DLL loaded when the game starts
+and present for the whole session; the extractor injects its agent
+into the running game from outside. So both routes can offer the same
+features, including zero-click IT capture, and neither carries a
+detection argument the other does not (settled 2026-09-22).
+
+The layers, in the order they pay off:
+
+1. **One capture format, two walkers, a parity test.** The plugin and
+   the extractor each walk the game's data with their own code, and
+   they drift: the extractor stopped three levels deep and silently
+   lost every race reward until 0.1.18 (2026-09-24). A shared schema
+   plus a test that feeds the same game state through both walkers and
+   requires identical JSON makes that class of bug a failing test.
+2. **The companion is the extractor's home.** For non-Hachimi users the
+   companion hosts the Frida agent: it notices the game starting,
+   attaches, installs the same view-layer trigger the plugin uses, and
+   captures when the Training Log opens. It replaces the .exe outright.
+   For Hachimi users it reads the plugin's captures from the same inbox.
+   Everything after a capture (validate, upload, notify, advise) is
+   shared.
+3. **One brain, not four.** The planner logic lives in three places
+   today (`scoring.py`, the SP planner JS, the deck predictor JS), with
+   Python/JS agreement now pinned by `test_planner_agreement.py` and
+   `test_predictor_agreement.py`. The companion imports a single
+   package rather than becoming a fourth copy.
 
 ## What the game will let us read
 
@@ -91,44 +95,44 @@ shipping risk. The Hachimi plugin is *production* capture.
 ## Architecture
 
 ```
-┌────────────── game process ──────────────┐
-│ Hachimi + uma_it_plugin (Rust)           │
-│   F1 menu:  Capture IT run               │
-│             Capture collection           │
-│             Capture legacy roster        │
-│             Capture career state         │
-│   → %LOCALAPPDATA%\UmaLadder\inbox\      │
-│       <kind>_<timestamp>.json            │
-└───────────────────┬──────────────────────┘
-                    │  file drop, nothing else crosses the boundary
-┌───────────────────▼──────────────────────┐
-│ Companion (Tauri v2, Windows)            │
-│   Rust core: inbox watcher · schema      │
-│     validation · upload queue · OS       │
-│     notifications · settings             │
-│   Webview: @umaladder/brain + views      │
-│     (plan a career · grade a run ·       │
-│      buy skills · what can I build)      │
-└───────────────────┬──────────────────────┘
-                    │  HTTPS, existing bearer token
-┌───────────────────▼──────────────────────┐
-│ training.umaladder.moe                   │
-│   /api/runs (exists)                     │
-│   /api/collection, /api/plans (new,      │
-│   opt-in)                                │
-└──────────────────────────────────────────┘
+┌──────────────────── game process ────────────────────┐
+│  Route A: Hachimi + uma_it_plugin (Rust, in-process) │
+│  Route B: Frida agent injected by the companion      │
+│  Both: same capture kinds, same JSON (capture-schema)│
+│    IT run (zero-click: Training Log trigger)         │
+│    collection · legacy roster · career state         │
+└───────────────┬──────────────────────┬───────────────┘
+  A: file drop  │                      │  B: agent messages
+  (inbox dir)   │                      │  (attach/detach owned
+                │                      │   by the companion)
+┌───────────────▼──────────────────────▼───────────────┐
+│ Companion (Tauri v2, Windows)                         │
+│   Rust core: game watcher · Frida host (route B) ·    │
+│     inbox watcher (route A) · schema validation ·     │
+│     upload queue · notifications · settings           │
+│   Webview: brain package + views                      │
+└───────────────────────────┬───────────────────────────┘
+                            │  HTTPS, existing bearer token
+┌───────────────────────────▼───────────────────────────┐
+│ training.umaladder.moe                                │
+│   /api/runs (exists) · collection/plans (new, opt-in) │
+└───────────────────────────────────────────────────────┘
 ```
 
-**Why a file drop and not IPC.** A file in a known folder is the
-simplest, most auditable, least detection-adjacent bridge there is. The
-plugin never opens a socket or a pipe. Captures queue up when the
-companion is not running. The user can inspect every byte that leaves
-the game. And the plugin's existing HTTP path keeps working for people
-who never install the companion.
+**Route A crosses by file drop.** The plugin writes captures to a known
+folder; it opens no socket or pipe, captures queue while the companion
+is closed, and its own HTTP upload keeps working for people who never
+install the companion.
 
-**Why the plugin stays where it is.** It lives in `uma-it-optimizer`
-with its CI (`hachimi-v*` tags build on windows-latest). It gains
-capture kinds and a shared schema crate; it does not move.
+**Route B lives inside the companion.** The companion owns the agent's
+lifetime: attach when the game is running, re-attach after a game or
+companion restart, detach on exit. It is the .exe extractor's logic
+with a lifecycle and a UI around it; the scripts in
+`tools/memory_extractor` are its starting point.
+
+**The plugin stays where it is** (`uma-it-optimizer`, CI on
+`hachimi-v*` tags). It gains capture kinds and depends on the shared
+schema; it does not move.
 
 ## The brain package
 
@@ -166,6 +170,10 @@ umaladder-companion/
                         companion cannot disagree about a field
     companion-core/     inbox watcher, validation, upload queue with
                         retry, notifications, settings; headless-testable
+    frida-host/         route B: game watcher, attach/detach lifecycle,
+                        the capture agent (from tools/memory_extractor)
+  parity/               recorded game states + the test that runs both
+                        walkers over them and diffs the JSON
   src-tauri/            Tauri v2 host; thin, wires core to the webview
   brain/                the TypeScript package above (own package.json,
                         published to the site as a build artifact)
@@ -181,44 +189,40 @@ where the plan said. Do not clone the dashboard.
 
 ## Milestones, each useful on its own
 
-**M0. Gate.** SS prediction validated publicly (the community member's
-URA attempt), planner public launch. Nothing below starts before this;
-the roadmap already says so.
+**M0. Scouting session (needs the site owner in game, ~15 minutes).**
+`tools/memory_extractor/scout_companion.py` in three game states:
+collection (home screen), dialog (Training Log open), career (manual
+run, skill screen). Its logs are the input to everything below, for
+both routes.
 
-**M1. Plugin v2: captures + trigger.** Legacy roster (drop the lineage
-filter), collection (scout, then walker), career state (scout, then
-walker), and the Training Log dialog trigger for zero-click IT capture
-(scout the dialog class with the extractor, hook via the interceptor,
-kill switch, offline test). File-drop inbox alongside the existing
-POST. `capture-schema` crate.
-Deliverable is three documented JSON kinds. Useful immediately: the
-website could accept a collection upload with no companion at all.
+**M1. Shared capture format + parity test.** `capture-schema` for every
+capture kind; a test harness that runs both walkers over the same
+recorded game state and diffs the JSON. Useful immediately: the rewards
+drift of 2026-09-24 becomes impossible to ship silently.
 
-**M2. Brain package.** Extract, golden-test against Python, version the
-data. The website switches to importing it. Useful immediately: kills
-the Python/JS drift risk on the live site.
+**M2. Companion v0: the extractor's replacement.** Tauri shell with the
+Frida host (route B): detect the game, attach, one-click capture
+(button or hotkey), detach, upload, notify. Also watches the inbox for
+route A. This is what non-Hachimi users install instead of the .exe,
+and the site owner can test it directly.
 
-**M3. Companion v0.** Tauri shell: inbox → validate → upload, replacing
-the plugin's own HTTP path for companion users. IT-finished
-notification from the timer. Token settings. "One click in game,
-everything else automatic." Small, shippable, the first thing users
-install.
+**M3. Zero-click capture, both routes.** The Training Log view-layer
+trigger (vtable-slot hook preferred; see "What the game will let us
+read"), installed by the plugin in route A and by the companion's agent
+in route B, with a kill switch and the manual button as fallback.
 
-**M4. Account-valid planner.** Collection and roster feed the brain:
-deck search over owned cards at their real LB levels, lineage-aware SS
-check from the actual roster. Local-first. Optional "sync collection to
-my profile" so the website's planner can do the same. This is the
-feature that turns the planner from theoretical into actionable, and
-it is the one the community member's screenshot session was really
-asking for.
+**M4. New captures, both routes.** Legacy roster (the Parents scan
+without its lineage filter), collection, career state, from the M0
+scouting logs.
 
-**M5. Manual-run assistant.** Career-state capture at the skill screen
-→ the SP planner with live SP, hints and owned skills → a buy list.
-Serves the manual-career audience the sibling `uma-bot` project knows.
+**M5. Account-valid advice.** Collection and roster feed the brain:
+deck search over owned cards at real LB levels, lineage-aware SS check
+from the actual roster. Local-first, optional sync to the profile so
+the website's planner can use it too.
 
-**M6. Plan vs actual.** The companion registers a plan (deck, trainee,
-schedule, predicted score); the next upload is matched and graded. The
-site's phase-two linking item, delivered from the client side.
+**M6. Manual-run assistant and plan vs actual.** Career-state capture
+at the skill screen into the SP planner; a registered plan graded
+against the next upload.
 
 ## Risks
 
@@ -226,9 +230,17 @@ site's phase-two linking item, delivered from the client side.
   every build so far; method hooks did not. Keep the scout scripts in
   the repo and the CI build on tags, and treat a renamed class as a
   one-session fix.
-- **Detection.** Unchanged posture, and the file-drop design keeps it
-  that way. Anything that looks like continuous observation is out of
-  scope by rule, not by preference.
+- **Correctness of long-lived hooks (both routes).** Detection is not a
+  design constraint (settled 2026-09-22); correctness is. Never hook an
+  API deserializer (a throw there lost a user's live run), no heap-scan
+  loops (they freeze the game), test every hook offline with a kill
+  switch, keep the manual capture as the fallback.
+- **Route B lifecycle.** Hachimi is simply present whenever the game
+  runs; the companion must notice the game starting, attach, and
+  re-attach after either side restarts, without ever attaching twice.
+- **Walker drift between routes.** Two walkers over the same classes
+  drift (2026-09-24). The M1 parity test is the mitigation; run it on
+  every release of either route.
 - **UI duplication tax.** The brain package is the mitigation. If a
   view exists in both places, it is a sign the companion is drifting
   toward being a second website; stop and ask what the companion is
@@ -236,7 +248,10 @@ site's phase-two linking item, delivered from the client side.
 - **Distribution.** Unsigned Windows binaries hit SmartScreen. Budget
   for a signing certificate or accept GitHub Releases with published
   hashes; wire the Tauri updater once there is a second release.
-- **Scope.** Windows only. The game is Windows; so is Hachimi.
+- **Scope.** Windows only. The game is Windows; so is Hachimi. The
+  Linux/Proton path the .exe supports today (see
+  `tools/memory_extractor/README.md`) needs a decision before the .exe
+  is retired.
 
 ## Open questions
 
@@ -246,6 +261,10 @@ site's phase-two linking item, delivered from the client side.
 - How real is the manual-career audience for UmaLadder? M5 is a
   different user than the IT site serves today.
 - Willingness to sign binaries, which sets the distribution story.
+- Retiring the .exe: once M2 ships, keep it as a fallback for a
+  release or two, or remove it outright?
+- Linux/Proton users of the .exe: supported by the companion, or left
+  on the old tool?
 
 ## Related
 
