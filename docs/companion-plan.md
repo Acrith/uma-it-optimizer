@@ -269,8 +269,13 @@ trigger (keep `SetupContents` as a second signal). Two cautions:
 - an injected agent with hooks attached made the game hang at exit
   ("not responding"); route B must detach when the game closes, and that
   case needs its own test before always-on hooks ship;
-- still untested: a fresh end of run (animation on) and reopening the
-  log from history.
+- tested: reopening an already-viewed log after a game restart (the
+  only "history" path the game has). Still untested: a fresh end of run
+  (animation on); the owner's next finished run covers it.
+
+**Open blocker (do not ship route-B hooks without it):** the exit hang
+above. Needs a fix (detach on game close) and an explicit "close the game
+with the agent attached" test.
 
 **M4. New captures, both routes.** Legacy roster (the Parents scan
 without its lineage filter), collection, career state, from the M0
