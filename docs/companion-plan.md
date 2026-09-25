@@ -401,6 +401,20 @@ against the next upload.
   a phone next to the Deck), as well as in the companion. Design the
   Career module around capture -> upload -> plan, not around the overlay.
 
+Owner's public commitments (Discord, 2026-09-25), binding on the plan:
+- **The .exe is never revoked.** The companion replaces it for Windows
+  users as the up-to-date tool, but uploads from the .exe (and the
+  Hachimi plugin) stay supported. Keep its capture script shared with
+  frida-host (one agent file, not two copies) so a game-update fix lands
+  in both; the parity test keeps covering .exe receipts.
+- **The most important companion features also land on the website**,
+  at the very least the SP planner for manual careers. Phone and Android
+  users (with Linux, roughly 3-5% of traffic) can view and plan but not
+  capture (no hooking a mobile game without root), so the site's mobile
+  layout is part of the SP planner's release bar.
+- **A native Linux companion will be attempted** (Linux PCs, and the Deck
+  in Desktop Mode; nothing draws over Deck Game Mode).
+
 ## Related
 
 - Roadmap and sequencing: memory `project_roadmap_2026_09`.
