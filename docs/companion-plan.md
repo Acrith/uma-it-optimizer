@@ -440,7 +440,12 @@ scheduled; pick a batch, not single items.
   windowed, foreground only, click-through, hotkeys.
 - IT countdown: lowest priority, opt-in always-on-top timer over any app.
 
-**Captures**
+**Captures** (one scouting session per screen; batch the sessions)
+- IT run start (`it.start`: start/end time, trainee, deck) from the IT
+  setup: feeds the countdown and planner-vs-actual.
+- Account state (M4): veteran umas (legacy roster: the Parents scan
+  without its lineage filter) and the card collection (owned cards,
+  limit breaks) for account-valid decks and parents.
 - Career state at the skill shop (scout first) -> SP planner in the app
   AND on the site (capture -> upload -> plan page; mobile layout is part
   of its release bar).
@@ -454,7 +459,9 @@ scheduled; pick a batch, not single items.
 - Auto-updater: signing key pair (secret) + public releases repo; the
   site's update notice already ships (`api/client_versions.py`, bump
   `LATEST` per release).
-- Code signing (SmartScreen) decision.
+- Code signing: skipped for the beta (cost). Check Microsoft Trusted
+  Signing eligibility before a wide release; until then SmartScreen shows
+  "unknown publisher" once per version.
 - First-run setup flow; import the .exe's token (its config sits next to
   the .exe, location unknown to the app: offer a file picker).
 - `open_after_upload` is stored but unused: decide or drop.
