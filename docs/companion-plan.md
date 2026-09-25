@@ -378,8 +378,28 @@ against the next upload.
 - Willingness to sign binaries, which sets the distribution story.
 - Retiring the .exe: once M2 ships, keep it as a fallback for a
   release or two, or remove it outright?
-- Linux/Proton users of the .exe: supported by the companion, or left
-  on the old tool?
+- Linux/Proton users of the .exe: ANSWERED 2026-09-25 after community
+  feedback (a Steam Deck user; the manual-run SP planner is their most
+  wanted feature). See "Linux and Steam Deck" below.
+
+## Linux and Steam Deck (2026-09-25)
+
+- **Nothing Linux users have today is discontinued.** The .exe plus
+  `linux_launch.py` (the Windows extractor run inside the game's Proton
+  prefix, uploads retried from native Linux) stays supported until the
+  companion covers Linux.
+- **A Linux companion is the same split the .exe already uses.** The app
+  runs natively (Tauri builds for Linux; companion-core is cross-platform;
+  Steam's `libraryfolders.vdf` is the same file on Linux). Capture is
+  a small Windows helper run inside the Proton prefix (`frida-host.exe
+  capture` exists) that drops captures into a folder the companion reads,
+  exactly like the plugin's inbox. Uploads go out natively, which also
+  ends the Wine TLS / Cloudflare resets.
+- **The manual-run SP planner must work without the app window.** Steam
+  Deck Game Mode has no second window and no overlay. The career-state
+  capture is uploadable and the plan is viewable on the site (any device,
+  a phone next to the Deck), as well as in the companion. Design the
+  Career module around capture -> upload -> plan, not around the overlay.
 
 ## Related
 
