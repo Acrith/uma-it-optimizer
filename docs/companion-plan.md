@@ -79,7 +79,17 @@ Captures each module needs:
 | Run planner | none (brain package) | planner v2 |
 | Carats from TT / manual careers | reward capture per mode | to scout; lead: the career-end info carries `RewardSummaryInfo` and `RaceRewardLimitMoreList` (possibly the daily cap itself) |
 
-Next design step: the information architecture (home navigation, each
+Design approved 2026-09-25 (canvas "UmaLadder Companion concepts", page
+"Direction": home window with Today/Training/Career/Planner/Carats/
+Settings, game overlay, tray). Owner's adjustments:
+- live carats from Team Trials and manual careers are wanted; the Carats
+  screen already has the rows, the per-mode reward captures are the work;
+- the IT countdown is the lowest priority: as an in-game overlay it adds
+  little (IT blocks careers, not room matches, stories, Team Trials or
+  CM). If built, it is an opt-in always-on-top timer over any
+  application, not a game overlay.
+
+Earlier plan: the information architecture (home navigation, each
 module idle/active, overlay states per display mode), then the visual
 canvas around it.
 
