@@ -479,6 +479,22 @@ scheduled; pick a batch, not single items.
   the .exe, location unknown to the app: offer a file picker).
 - `open_after_upload` is stored but unused: decide or drop.
 
+**Capture setup manager** (owner's idea, 2026-09-25: the companion sets up
+the right capture for the player's setup)
+- Windows, no Hachimi: built in already (route B).
+- Windows + Hachimi: install / update / configure `uma_it_plugin.dll` with
+  one click, replacing the README's four manual steps: download from the
+  public `hachimi-v*` releases (an app download carries no Mark of the Web,
+  so no "Unblock"), copy next to Hachimi's DLL, add it to `load_libraries`
+  in `<game>\hachimi\config.json` (touch only that entry), write the token
+  into `uma_it_plugin_config.json`. Only with the player's OK, only while
+  the game is closed (the DLL is locked while loaded), verify the download
+  (checksum), check compatibility with the installed Hachimi. Installed
+  version = `plugin_version` in the newest inbox capture.
+- Linux: detection belongs to the download page (OS from the browser) and
+  to the native Linux companion, which bundles the Proton helper; the
+  Windows companion does not run well under Wine (WebView2).
+
 **Modules**
 - Planner module (planner v2 design).
 - Ladder module (umaladder.moe matchmaking, websocket) when defined.
