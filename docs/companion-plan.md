@@ -44,6 +44,45 @@ The layers, in the order they pay off:
    `test_predictor_agreement.py`. The companion imports a single
    package rather than becoming a fourth copy.
 
+## Product direction (owner, 2026-09-25)
+
+The companion is the account's daily hub across both sites: not required,
+but the software you leave running because it knows your day. It grows
+with umaladder.moe (matchmaking, websocket features). Everyone installs
+it, Hachimi users included (the plugin feeds it through the inbox).
+
+Principles:
+- **Notifications only while it runs**, tray included: closing the window
+  minimises to the tray; start-with-Windows is an opt-in setting. No
+  scheduled OS notifications.
+- **Modules**: Training (IT runs, countdown, capture), Planner (runs),
+  Career (SP planner on a manual run), Carats (all modes, daily reset),
+  later Ladder. Each owns its captures, views and notifications; the home
+  window hosts them. Other community projects (parents, skill planners,
+  race results): adopt what fits, link out otherwise, never aim to
+  replace them all.
+- **Three surfaces**: the home window (all modules), the tray (presence,
+  notifications), the game overlay (IT countdown, capture card, SP planner
+  beside the skill screen). The overlay is a topmost transparent window
+  anchored to the game's client area, shown only while the game is
+  foreground: works over borderless fullscreen (the common case) and any
+  windowed size or orientation; steps aside for exclusive fullscreen
+  (notifications take over). A "docked outside the game" panel is out:
+  nobody plays windowed with space beside it.
+
+Captures each module needs:
+
+| Feature | Capture | Source |
+|---|---|---|
+| IT countdown, run finished | `it.start` (start/end time) | `ObscuredIdleSingleModeLoadInfo` / `ProgressInfo` `StartTime`/`EndTime` (dialog scout) |
+| SP planner on a manual run | `career.state` | M4 `career` scout, skill screen |
+| Run planner | none (brain package) | planner v2 |
+| Carats from TT / manual careers | reward capture per mode | to scout; lead: the career-end info carries `RewardSummaryInfo` and `RaceRewardLimitMoreList` (possibly the daily cap itself) |
+
+Next design step: the information architecture (home navigation, each
+module idle/active, overlay states per display mode), then the visual
+canvas around it.
+
 ## Two sites, one companion (2026-09-25)
 
 The same owner runs **umaladder.moe** (race ladder) alongside
