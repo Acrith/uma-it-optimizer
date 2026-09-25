@@ -415,6 +415,59 @@ Owner's public commitments (Discord, 2026-09-25), binding on the plan:
 - **A native Linux companion will be attempted** (Linux PCs, and the Deck
   in Desktop Mode; nothing draws over Deck Game Mode).
 
+## Companion backlog (collected feedback, done in batches)
+
+Status 2026-09-25: the app runs (Today, Training, Carats, Settings; tray;
+route-B one-shot capture; plugin inbox; site sync via `/api/me/day`),
+tested live on the owner's PCs. Everything below is collected, not
+scheduled; pick a batch, not single items.
+
+**Notifications** (owner: "1 into 3+2")
+1. Rich Windows notifications: icon, image, action buttons ("Open run"
+   on uploads, "Open Settings" when uploads pause).
+2. The capture card over the game (the design's overlay card): the
+   in-game, fully custom presentation. Needs the overlay layer.
+3. The companion's own notification window (branded, outside the game):
+   monitor/DPI placement, never steal focus, own Do Not Disturb, stacking.
+
+**Overlay and hooks**
+- Exit-hang fix: detach when the game closes, plus a "close the game with
+  the agent attached" test. Blocker for any always-on route-B hook.
+- Zero-click capture: `DialogIdleSingleModeResultLog.StartShowContent`
+  (plugin first, then route B after the exit-hang fix). Fresh end-of-run
+  case still untested.
+- Game overlay window: anchoring to the client area, borderless and
+  windowed, foreground only, click-through, hotkeys.
+- IT countdown: lowest priority, opt-in always-on-top timer over any app.
+
+**Captures**
+- Career state at the skill shop (scout first) -> SP planner in the app
+  AND on the site (capture -> upload -> plan page; mobile layout is part
+  of its release bar).
+- Carats from Team Trials and manual careers (per-mode reward captures;
+  lead: career-end `RewardSummaryInfo`, `RaceRewardLimitMoreList`).
+- Companion agent walked to plugin depth (reward limits, win saddles,
+  support-card SkillTips, `_useType`); `CreateTime` divergence unresolved.
+- One capture agent file shared by the .exe and frida-host.
+
+**Release and distribution**
+- Auto-updater: signing key pair (secret) + public releases repo; the
+  site's update notice already ships (`api/client_versions.py`, bump
+  `LATEST` per release).
+- Code signing (SmartScreen) decision.
+- First-run setup flow; import the .exe's token (its config sits next to
+  the .exe, location unknown to the app: offer a file picker).
+- `open_after_upload` is stored but unused: decide or drop.
+
+**Modules**
+- Planner module (planner v2 design).
+- Ladder module (umaladder.moe matchmaking, websocket) when defined.
+
+**Platforms**
+- Linux tier 1: `frida-host.exe capture` inside the Proton prefix
+  (port `linux_launch.py`'s prefix and wine discovery); native uploads.
+- Native Linux companion attempt (Linux PCs, Deck Desktop Mode).
+
 ## Related
 
 - Roadmap and sequencing: memory `project_roadmap_2026_09`.
