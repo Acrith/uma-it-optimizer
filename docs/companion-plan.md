@@ -395,6 +395,17 @@ against the next upload.
   capture` exists) that drops captures into a folder the companion reads,
   exactly like the plugin's inbox. Uploads go out natively, which also
   ends the Wine TLS / Cloudflare resets.
+- **Shape of the native Linux companion** (2026-09-25): the same app and
+  core, bundling the Windows helper (`frida-host.exe`, ~70 MB with Frida)
+  and running it with the game's own Proton `wine64` inside
+  `compatdata/3224770/pfx` (port `linux_launch.py`'s discovery to Rust);
+  the helper writes captures to a folder the companion reads like the
+  plugin's inbox; uploads stay native. Finds Steam (native or Flatpak),
+  the game via `libraryfolders.vdf` (parser exists), the running game via
+  the process list. Package as an AppImage first (Flatpak's sandbox gets in
+  the way of the prefix). To verify: whether Hachimi runs under Proton; if
+  it does, Linux Hachimi users get the plugin route (no Frida-in-Wine
+  flakiness) and the capture setup manager can install it there too.
 - **The manual-run SP planner must work without the app window.** Steam
   Deck Game Mode has no second window and no overlay. The career-state
   capture is uploadable and the plan is viewable on the site (any device,
