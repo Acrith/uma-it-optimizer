@@ -428,7 +428,7 @@ Owner's public commitments (Discord, 2026-09-25), binding on the plan:
 
 ## Companion backlog (collected feedback, done in batches)
 
-Status 2026-09-25: the app runs (Today, Training, Carats, Settings; tray;
+Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;
 route-B one-shot capture; plugin inbox; site sync via `/api/me/day`),
 tested live on the owner's PCs. Everything below is collected, not
 scheduled; pick a batch, not single items.
@@ -455,6 +455,21 @@ scheduled; pick a batch, not single items.
 - Game overlay window: anchoring to the client area, borderless and
   windowed, foreground only, click-through, hotkeys.
 - IT countdown: lowest priority, opt-in always-on-top timer over any app.
+- Eye cut-in on the overlay's capture card: built for the window in the
+  v0.1.4 redesign, then taken out (the window is behind the game, nobody
+  sees it). Kept: `ui/src/cutin.ts`, per-card eye positions
+  `ui/src/eyes.json` from `tools/gen_eyes.py` (87 of 105 cards detected;
+  hand-set Hishi Akebono and Symboli Rudolf 101702). Owner: the grey
+  bands repeating the face "don't look best"; give them a neutral scene
+  (track, racecourse) when it comes back.
+
+**Look and assets**
+- Asset survey with an Umamusume asset explorer: racecourse/track
+  backgrounds, scenario logos, race grade icons (G1/G2/G3), campaign
+  banners; decide what enriches which card before adding any.
+- Assets today (v0.1.4): trainee art and head icons from GameTora's CDN,
+  score badges (`rank-icons`) and stat grades (`rank-icons-simple`) from
+  the site, stat and currency icons bundled in `ui/public/icons`.
 
 **Captures** (one scouting session per screen; batch the sessions)
 - IT run start (`it.start`: start/end time, trainee, deck) from the IT
