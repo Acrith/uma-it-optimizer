@@ -256,6 +256,22 @@ trigger (vtable-slot hook preferred; see "What the game will let us
 read"), installed by the plugin in route A and by the companion's agent
 in route B, with a kill switch and the manual button as fallback.
 
+M3 scouting, 2026-09-25 (`tools/memory_extractor/scout_logs/scout_dialog_2026-09-25.log`):
+the Training Log is **`Gallop.DialogIdleSingleModeResultLog`** (parent
+`Gallop.DialogInnerBase`), contents in `PartsIdleSingleModeResultLogContents`.
+Method arguments are UI state only (`SetupContents(DialogCommon, bool
+isShowResultAnimation, string)`, `Setup(bool)`), so the trigger cannot read
+the run from them: it schedules the same capture the button does, after the
+method returns. An observation-only `Interceptor.attach` test saw
+**`StartShowContent()`** fire when the log reappeared after a game restart;
+`SetupContents` did not fire on that path, so `StartShowContent` is the
+trigger (keep `SetupContents` as a second signal). Two cautions:
+- an injected agent with hooks attached made the game hang at exit
+  ("not responding"); route B must detach when the game closes, and that
+  case needs its own test before always-on hooks ship;
+- still untested: a fresh end of run (animation on) and reopening the
+  log from history.
+
 **M4. New captures, both routes.** Legacy roster (the Parents scan
 without its lineage filter), collection, career state, from the M0
 scouting logs.

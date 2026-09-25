@@ -1,0 +1,1505 @@
+﻿[i] mode dialog: run this with the game at: Training Log popup OPEN after an IT run
+[+] attaching to PID 31108
+[+] IL2CPP ready, scouting...
+
+=== DIALOG: candidate classes ===
+  [umamusume] Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut   <-- field match
+      Id:System.Int32, ScenarioId:System.Int32, CommandId:System.Int32, MaxTrainingLv:System.Int32, DesignatedCharaId:System.Int32
+  [umamusume] Gallop.MasterIdleSingleModeTrainingCut   <-- field match
+      _db:Gallop.MasterSingleModeDatabase, _notFounds:System.Collections.Generic.HashSet<System.Int32>, _lazyPrimaryKeyDictionary:System.Collections.Generic.Dictionary<System.Int32,Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut>, _dictionaryWithScenarioId:System.Collections.Generic.Dictionary<System.Int32,System.Collections.Generic.List<Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut>>
+  [umamusume] Gallop.ObscuredIdleSingleModeEndInfo   <-- field match
+      <CharaInfo>k__BackingField:Gallop.SingleModeChara, <RaceConditionArray>k__BackingField:Gallop.SingleModeRaceCondition[], <UncheckedEventArray>k__BackingField:Gallop.SingleModeEventInfo[], <HomeInfo>k__BackingField:Gallop.SingleModeHomeInfo, <WinSaddleIdArray>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], <EffectedFactorArray>k__BackingField:Gallop.SuccessionEffectedFactor[], <RaceStartInfo>k__BackingField:Gallop.SingleRaceStartInfo, <RaceScenario>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <AddTrophyInfo>k__BackingField:Gallop.LoginUserTrophyInfo, <TrophyRewardInfo>k__BackingField:Gallop.RaceRewardData, <PrevCharaGrade>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <RaceAddRewardInfo>k__BackingField:Gallop.SingleModeRaceAddRewardInfo[], <ReservedRaceInfo>k__BackingField:Gallop.SingleModeReservedRaceInfo, <MissionList>k__BackingField:Gallop.UserMission[], <StoryEventMissionList>k__BackingField:Gallop.UserMission[], <StartDressInfo>k__BackingField:Gallop.SingleModeStartDressInfo, <StoryEventCharaBonusList>k__BackingField:Gallop.StoryEventCharaBonus[], <ResumeFactorSelect>k__BackingField:Gallop.SingleModeFactorSelectCommon, <RaceRandomProgramArray>k__BackingField:Gallop.SingleModeRaceRandomProgram[], <RaceRewardLimitMoreList>k__BackingField:Gallop.RaceRewardLimitMoreData[], <SkillFilterSettingArray>k__BackingField:Gallop.SingleModeSkillFilterSet[], <IsUmaplan>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, <RewardSummaryInfo>k__BackingField:Gallop.ObscuredRewardSummaryInfo
+  [umamusume] Gallop.ObscuredIdleSingleModeEndInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeGainInfo   <-- field match
+      <Speed>k__BackingField:Gallop.ObscuredIdleSingleModeSignedInt, <Stamina>k__BackingField:Gallop.ObscuredIdleSingleModeSignedInt, <Power>k__BackingField:Gallop.ObscuredIdleSingleModeSignedInt, <Wiz>k__BackingField:Gallop.ObscuredIdleSingleModeSignedInt, <Guts>k__BackingField:Gallop.ObscuredIdleSingleModeSignedInt, <MaxSpeed>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxStamina>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxPower>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxWiz>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxGuts>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperDistanceShort>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperDistanceMile>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperDistanceMiddle>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperDistanceLong>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperRunningStyleNige>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperRunningStyleSenko>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperRunningStyleSashi>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperRunningStyleOikomi>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperGroundTurf>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ProperGroundDirt>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SkillPoint>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SkillTipsArray>k__BackingField:Gallop.SkillTips[]
+  [umamusume] Gallop.ObscuredIdleSingleModeGainInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeLoadInfo   <-- field match
+      <SingleModeCharaLight>k__BackingField:Gallop.SingleModeCharaLight, <PlayingState>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <StartTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <EndTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString
+  [umamusume] Gallop.ObscuredIdleSingleModeLoadInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModePrioritySkill   <-- field match
+      <Priority>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SkillId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.ObscuredIdleSingleModePrioritySkillExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressInfo   <-- field match
+      <CharaInfo>k__BackingField:Gallop.SingleModeChara, <StartTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <EndTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <StoryEventMissionList>k__BackingField:Gallop.UserMission[], <StoryEventCharaBonusList>k__BackingField:Gallop.StoryEventCharaBonus[]
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressLogInfo   <-- field match
+      <CharaEffectLogArray>k__BackingField:Gallop.ObscuredCharaEffectLog[], <SupportCardGainInfoArray>k__BackingField:Gallop.ObscuredIdleSingleModeSupportCardGainInfo[], <EventGainInfo>k__BackingField:Gallop.ObscuredIdleSingleModeGainInfo, <SuccessionGainInfo>k__BackingField:Gallop.ObscuredIdleSingleModeGainInfo, <SuccessionFactorGainArray>k__BackingField:Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo[], <RaceHistoryArray>k__BackingField:Gallop.IdleSingleModeRaceHistory[], <GainSkillIdArray>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], <TotalSkillPoint>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressLogInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeSignedInt   <-- field match
+      <Sign>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Value>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.ObscuredIdleSingleModeSignedIntExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeStartInfo   <-- field match
+      <TrainingPolicyGroundType>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TrainingPolicyParamRateSetId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <PrioritySkillArray>k__BackingField:Gallop.ObscuredIdleSingleModePrioritySkill[], <RaceArray>k__BackingField:Gallop.SingleModeReservedRace[]
+  [umamusume] Gallop.ObscuredIdleSingleModeStartInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo   <-- field match
+      <Year>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <GainFactorInfoArray>k__BackingField:Gallop.ObscuredFactorInfo[]
+  [umamusume] Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeSupportCardGainInfo   <-- field match
+      <SupportCardId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <GainInfo>k__BackingField:Gallop.ObscuredIdleSingleModeGainInfo
+  [umamusume] Gallop.ObscuredIdleSingleModeSupportCardGainInfoExtensions
+  [umamusume] Gallop.WorkIdleSingleModeData.PlayingState   <-- field match
+      value__:System.Int32
+  [umamusume] Gallop.WorkIdleSingleModeData   <-- field match
+      _state:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CharaInfo>k__BackingField:Gallop.SingleModeChara, <StartTime>k__BackingField:System.Int64, <EndTime>k__BackingField:System.Int64, _singleModePlayingState:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TrainingEventType>k__BackingField:Gallop.SingleModeDefine.TrainingEventType, <ProgressLogInfo>k__BackingField:Gallop.ObscuredIdleSingleModeProgressLogInfo, _workCharaData:Gallop.WorkSingleModeCharaData
+  [umamusume] Gallop.DialogSupportCardTrainingEffectDetail   <-- field match
+      _name:Gallop.TextCommon, _desc:Gallop.TextCommon, _stateLabel:Gallop.ImageCommon, _lockLvText:Gallop.TextCommon, _lockObject:UnityEngine.GameObject
+  [umamusume] Gallop.DialogPhotoStudioTrainingPartnerSelectModel.<>c
+  [umamusume] Gallop.DialogPhotoStudioTrainingPartnerSelectModel   <-- field match
+      _photoStudioCardId:System.Int32, _selectedTrainingPartnerCharaId:System.Int32
+  [umamusume] Gallop.DialogPhotoStudioTrainingPartnerSelect.<>c
+  [umamusume] Gallop.DialogPhotoStudioTrainingPartnerSelect   <-- field match
+      _cardList:Gallop.PartsCardListVertical, _mark:UnityEngine.GameObject, _dialog:Gallop.DialogCommon, _model:Gallop.DialogPhotoStudioTrainingPartnerSelectModel, _onClickDecideButton:System.Action<System.Int32>
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass12_0   <-- field match
+      wipePlayInComplete:System.Boolean, miniCharaPlayInComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass13_0   <-- field match
+      onComplete:System.Action, <>4__this:Gallop.IdleSingleModeCustomLoadingController
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass14_0   <-- field match
+      wipePlayOutComplete:System.Boolean, miniCharaPlayOutComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<HideWipeFlashCoroutine>d__14   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModeCustomLoadingController, <>8__1:Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass14_0, onComplete:System.Action
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<ShowWipeFlashCoroutine>d__12   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModeCustomLoadingController, <>8__1:Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass12_0, onComplete:System.Action
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController   <-- field match
+      _wipePlayer:Gallop.FlashPlayer, _miniCharaViewer:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer
+  [umamusume] Gallop.IdleSingleModePlayCutView   <-- field match
+      CaptureRawImageParent:UnityEngine.Transform, IdleSingleModeHeader:Gallop.IdleSingleModeHeader, IdleSIngleModeFooter:Gallop.IdleSingleModeFooter, RemainTime:Gallop.PartsIdleSingleModeRemainTime
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<>c
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass14_0   <-- field match
+      cardData:Gallop.MasterCardData.CardData
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_0   <-- field match
+      isNowloadingHideComplete:System.Boolean, isWipeHideComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_1   <-- field match
+      isWipeShowComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<CuttControllerRestart>d__25   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<FinalizeView>d__26   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController, <waitCount>5__2:System.Int32
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<GotoResult>d__41   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<InitializeView>d__20   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<PlayInView>d__21   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController, <>8__1:Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_1, <>8__2:Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_0
+  [umamusume] Gallop.IdleSingleModePlayCutViewController   <-- field match
+      _cuttController:Gallop.PhotoStudioCuttController, _cuttingCoroutine:UnityEngine.Coroutine, _gotoResultCoroutine:UnityEngine.Coroutine, _seasonCount:System.Int32, _currentTrainingIndex:System.Int32, _isFromSingleModeStart:System.Boolean, _isPlayCuttPreparing:System.Boolean, _idleSingleModeCustomLoadingController:Gallop.IdleSingleModeCustomLoadingController, _partnerCharaIdArray:System.Int32[], _idleSingleModeTrainingCutArray:Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut[]
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveSetControl, context:Gallop.SingleModeRaceReserve.IContext, onClose:System.Action<Gallop.SingleModeReservedRace[],Gallop.SingleModeReservedRace[],System.Action>, <>9__12:System.Action, <>9__11:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_1   <-- field match
+      addReservedArray:Gallop.SingleModeReservedRace[], cancelReservedArray:Gallop.SingleModeReservedRace[], CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl   <-- field match
+      _listsControl:Gallop.DialogIdleSingleModeRaceReserveSetListControl, _view:Gallop.DialogSingleModeRaceReserveReserveSetView, _model:Gallop.DialogIdleSingleModeRaceReserveSetModel
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveSetListControl, degreeType:Gallop.SingleModeDefine.DegreeType, context:Gallop.SingleModeRaceReserve.IContext, <>9__1:System.Action<Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeDefine.DegreeType,System.Int32>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_1   <-- field match
+      listItem:Gallop.DialogSingleModeRaceListItem, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl   <-- field match
+      _listItemParent:UnityEngine.Transform, _listItemList:System.Collections.Generic.List<Gallop.DialogSingleModeRaceListItem>, <OnItemClicked>k__BackingField:System.Action<Gallop.MasterSingleModeProgram.SingleModeProgram,System.Int32,Gallop.SingleModeDefine.DegreeType>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel.<>c__DisplayClass51_0   <-- field match
+      turn:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel   <-- field match
+      <DegreeType>k__BackingField:Gallop.SingleModeDefine.DegreeType, <DisplayTurn>k__BackingField:System.Int32, <Program>k__BackingField:Gallop.MasterSingleModeProgram.SingleModeProgram, <IsUnnecessaryGlowFrame>k__BackingField:System.Boolean, <ProgramEntryState>k__BackingField:Gallop.SingleModeDefine.ProgramEntryState, _context:Gallop.SingleModeRaceReserve.IContext, _deckIndex:System.Int32, _routeRaceList:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>, _restrictTurnList:System.Collections.Generic.IReadOnlyList<System.Int32>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo   <-- field match
+      <RaceProgram>k__BackingField:Gallop.MasterSingleModeProgram.SingleModeProgram, <TargetTurn>k__BackingField:System.Int32, <DegreeType>k__BackingField:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel.<>c__DisplayClass64_0   <-- field match
+      RequestBuilder:Gallop.SingleModeRaceReserveRequestBuilder
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel   <-- field match
+      _degreeDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData>, _nextReservedTurn:System.Int32, _prevReservedTurn:System.Int32, _charaId:System.Int32, _selectRouteRaceProgramId:System.Int32, <ScenarioId>k__BackingField:System.Int32, <Context>k__BackingField:Gallop.SingleModeRaceReserve.IContext, <DeckIndex>k__BackingField:System.Int32, <RouteProgramList>k__BackingField:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>, <RestrictTurnList>k__BackingField:System.Collections.Generic.IReadOnlyList<System.Int32>, <CurrentDegree>k__BackingField:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass14_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceSelect, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32, onClosed:System.Action<System.ValueTuple<System.Boolean,System.Boolean>>, <>9__8:System.Action<System.Boolean>, <>9__9:System.Action<Gallop.DialogCommon>
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass14_1   <-- field match
+      confirmDialog:Gallop.DialogCommon
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass15_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceSelect, routeRaceList:System.Collections.Generic.List<Gallop.MasterSingleModeRouteRace.SingleModeRouteRace>, scenarioMaster:Gallop.MasterSingleModeScenario.SingleModeScenario, degreeType:Gallop.SingleModeDefine.DegreeType, turn:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass16_0   <-- field match
+      turnSetId:System.Int32, degreeType:Gallop.SingleModeDefine.DegreeType, displayTurn:System.Int32, singleModeProgram:Gallop.MasterSingleModeProgram.SingleModeProgram, scenarioId:Gallop.SingleModeDefine.ScenarioId
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass17_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceSelect, onComplete:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceSelect   <-- field match
+      _view:Gallop.DialogSingleModeRaceReserveReservedRaceListView, _model:Gallop.DialogSingleModeRaceReserveReservedRaceListModel, _context:Gallop.IdleSingleModeCharaRaceSelectContext, _isShowConsecutiveAlert:System.Boolean, _routeSelectButton:Gallop.ButtonCommon
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass41_0   <-- field match
+      scenarioMaster:Gallop.MasterSingleModeScenario.SingleModeScenario
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass51_0   <-- field match
+      cancelReservedArray:Gallop.SingleModeReservedRace[]
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass51_1   <-- field match
+      x:Gallop.SingleModeReservedRace
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_0   <-- field match
+      deckIndex:System.Int32, lastTurn:System.Int32, isOverTurn:System.Boolean, restrictTurnList:System.Collections.Generic.List<System.Int32>, <>4__this:Gallop.IdleSingleModeCharaRaceSelectContext, isNotFound:System.Boolean, targetRouteRaceList:System.Collections.Generic.List<Gallop.MasterSingleModeRouteRace.SingleModeRouteRace>, isTargetRaceTurn:System.Boolean
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_1   <-- field match
+      turnEntity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_2   <-- field match
+      turnEntity:Gallop.SingleModeRaceReserveTurnEntity, CS$<>8__locals1:Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_0
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass54_0   <-- field match
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass54_1   <-- field match
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass56_0   <-- field match
+      <>4__this:Gallop.IdleSingleModeCharaRaceSelectContext, masterManager:Gallop.MasterDataManager
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass57_0   <-- field match
+      raceTurn:System.Int32
+  [umamusume] Gallop.IdleSingleModeCharaRaceSelectContext   <-- field match
+      <ReserveRepository>k__BackingField:Gallop.SingleModeRaceReserveRepository, <TurnRepository>k__BackingField:Gallop.SingleModeRaceReserveTurnRepository, <DefaultUraTurnRepository>k__BackingField:Gallop.SingleModeRaceReserveTurnRepository, <RequestBuilder>k__BackingField:Gallop.SingleModeRaceReserveRequestBuilder, <Connect>k__BackingField:Gallop.ISingleModeRaceReserveConnect, <AutoReapply>k__BackingField:Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply, <ReservedRaceInfo>k__BackingField:Gallop.SingleModeReservedRaceInfo, <EntryInfo>k__BackingField:Gallop.SingleModeStartViewController.EntryInfo, <CharaProperInfo>k__BackingField:Gallop.PartsSingleModeStartProperFrame.InfoWithBonus, <SelectRouteRaceProgramId>k__BackingField:System.Int32
+  [umamusume] Gallop.IdleSingleModeRaceReserveConnect.<>c__DisplayClass7_0   <-- field match
+      deckNum:System.Int32, <>4__this:Gallop.IdleSingleModeRaceReserveConnect, onSuccess:System.Action
+  [umamusume] Gallop.IdleSingleModeRaceReserveConnect   <-- field match
+      _reservedRaceInfo:Gallop.SingleModeReservedRaceInfo, _entryInfo:Gallop.SingleModeStartViewController.EntryInfo
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm.<>c__DisplayClass7_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm   <-- field match
+      _presetItem:Gallop.PartsSingleModeRaceReservePresetItemView, _onDecide:System.Action<Gallop.DialogCommon>, _onCancel:System.Action<Gallop.DialogCommon>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, onClose:System.Action<System.Boolean>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_1   <-- field match
+      dialog:Gallop.DialogCommon, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass13_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32, onLoadFinish:System.Action, <>9__5:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_1   <-- field match
+      result:Gallop.SingleModeRaceReserve.BuildResult, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_0, <>9__4:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass15_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, basePresetIndex:System.Int32, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_0   <-- field match
+      context:Gallop.IdleSingleModeCharaRaceSelectContext, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_1   <-- field match
+      index:System.Int32, presetIndex:System.Int32, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_0   <-- field match
+      context:Gallop.IdleSingleModeCharaRaceSelectContext, baseDeckIndex:System.Int32, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, basePresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_1   <-- field match
+      index:System.Int32, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl   <-- field match
+      _view:Gallop.DialogSingleModeRaceReservePresetView, _model:Gallop.DialogSingleModeRaceReservePresetModel, _entryInfo:Gallop.SingleModeStartViewController.EntryInfo, _context:Gallop.IdleSingleModeCharaRaceSelectContext, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass12_0   <-- field match
+      onClose:System.Action<System.Boolean>, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetInfoControl, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetInfoControl, raceData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[]
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_1   <-- field match
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl   <-- field match
+      _listCoreControl:Gallop.IdleSingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReservePresetInfoView, _model:Gallop.DialogSingleModeRaceReservePresetInfoModelFuture, _context:Gallop.IdleSingleModeCharaRaceSelectContext, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass9_0   <-- field match
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl, entryInfo:Gallop.SingleModeStartViewController.EntryInfo, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32, <>9__3:System.Action<Gallop.SingleModeReservedRace[],Gallop.SingleModeReservedRace[],System.Action>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl   <-- field match
+      _view:Gallop.DialogSingleModeRaceReserveReservedRaceListView, _model:Gallop.DialogSingleModeRaceReserveReservedRaceListModel
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl.Param   <-- field match
+      UseLoopScroll:System.Boolean, IsShowableTitle:System.Boolean, ItemViewParamGetter:Gallop.SingleModeRaceReserveListCoreView.IItemViewParamGetter, IsDetailAtReserved:System.Boolean, RouteRaceList:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl.<>c__DisplayClass7_0   <-- field match
+      <>4__this:Gallop.IdleSingleModeRaceReserveListCoreControl, context:Gallop.IdleSingleModeCharaRaceSelectContext, param:Gallop.IdleSingleModeRaceReserveListCoreControl.Param
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl   <-- field match
+      _view:Gallop.SingleModeRaceReserveListCoreView, _model:Gallop.SingleModeRaceReserveListCoreModel, <OnItemUpdate>k__BackingField:System.Action<System.Int32,Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.DialogIdleSingleModeRaceResult   <-- field match
+      _courseImage:Gallop.RawImageCommon, _partsRaceTitle:Gallop.PartsRaceTitle, _grade:Gallop.ImageCommon, _courseInfo:Gallop.TextCommon, _raceEnvironmentConditions:Gallop.PartsEnvironmentConditions, _runningStyleText:Gallop.TextCommon, _termText:Gallop.TextCommon, _loseTips:Gallop.TazunaMessageBalloon, _resultRankIcon:Gallop.ImageCommon, _itemRewardList:Gallop.PartsIdleSingleModeResultLogRaceRewardList, _itemRewardBonusList:Gallop.PartsIdleSingleModeResultLogRaceRewardList, _bottomContentRect:UnityEngine.RectTransform, _scrollContentRect:UnityEngine.RectTransform, _singleModeProgram:Gallop.MasterSingleModeProgram.SingleModeProgram, _raceInstance:Gallop.MasterRaceInstance.RaceInstance, _raceCourseSet:Gallop.MasterRaceCourseSet.RaceCourseSet, _race:Gallop.MasterRace.Race
+  [umamusume] Gallop.DialogIdleSingleModeResultLog   <-- field match
+      _flashRoot:UnityEngine.Transform, _skipButton:Gallop.ButtonCommon, _contentRoot:UnityEngine.RectTransform, _contents:Gallop.PartsIdleSingleModeResultLogContents, _flashPlayer:Gallop.FlashPlayer, _glitterEffect:UnityEngine.GameObject, _parentCanvas:UnityEngine.Canvas, _currentSequence:DG.Tweening.Sequence, _animationFrameCross:Gallop.AnimationFrameCross, _frameCanvas:UnityEngine.Canvas
+  [umamusume] Gallop.PartsIdleSingleModeResultCharacterDetailStatus   <-- field match
+      _statusValueTextArray:Gallop.TextCommon[], _gainMaxParamRoot:UnityEngine.RectTransform[], _gainMaxParamTextArray:Gallop.TextCommon[], _skillPtRoot:UnityEngine.RectTransform, _skillPtText:Gallop.TextCommon
+  [umamusume] Gallop.PartsIdleSingleModeResultLogCarouselScroll
+  [umamusume] Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData.ResultLogType   <-- field match
+      value__:System.Int32
+  [umamusume] Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData   <-- field match
+      <LogType>k__BackingField:Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData.ResultLogType
+  [umamusume] Gallop.PartsIdleSingleModeResultLogCarouselScrollItem   <-- field match
+      _itemParentTransform:UnityEngine.Transform, _topics:Gallop.PartsIdleSingleModeResultLogTopics, _raceResult:Gallop.PartsIdleSingleModeResultLogRaceResult, _status:Gallop.PartsIdleSingleModeResultLogStatus, _skillTips:Gallop.PartsIdleSingleModeResultLogSkillTips, _succession:Gallop.PartsIdleSingleModeResultLogSuccession, _topicsParts:Gallop.PartsIdleSingleModeResultLogTopics
+  [umamusume] Gallop.PartsIdleSingleModeResultLogContents.<PlayInAnimation>d__20   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeResultLogContents
+  [umamusume] Gallop.PartsIdleSingleModeResultLogContents.<ScrollLockGameCanvasCoroutine>d__29   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeResultLogContents
+  [umamusume] Gallop.PartsIdleSingleModeResultLogContents   <-- field match
+      _contentRoot:UnityEngine.CanvasGroup, _headerTitleRoot:UnityEngine.GameObject, _headerRoot:UnityEngine.GameObject, _titleImage:Gallop.ImageCommon, _titleText:Gallop.TextCommon, _pageDot:Gallop.PageDot, _pageDotRoot:UnityEngine.CanvasGroup, _leftArrowButton:Gallop.ButtonCommon, _rightArrowButton:Gallop.ButtonCommon, _arrowRoot:UnityEngine.CanvasGroup, _carouselScroll:Gallop.PartsIdleSingleModeResultLogCarouselScroll, _onHide:System.Action, _currentScrollIndex:System.Int32, _pageDotArray:Gallop.PageDot[], _isEndOpenAnimation:System.Boolean
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceResult.<>c
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceResult.<>c__DisplayClass10_0   <-- field match
+      totalItemRewardDict:System.Collections.Generic.Dictionary<System.ValueTuple<System.Int32,System.Int32>,System.Int32>
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceResult.<>c__DisplayClass8_0   <-- field match
+      raceHistoryInfo:Gallop.SingleModeUtils.RaceHistoryInfo
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceResult   <-- field match
+      _raceResultList:Gallop.PartsCharacterDatailRaceResultList, _itemIconBase:Gallop.ItemIcon, _itemListRoot:UnityEngine.Transform, _emptyTextRoot:UnityEngine.Transform, _idleSingleModeRaceHistoryArray:Gallop.IdleSingleModeRaceHistory[]
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceRewardList.SetupParameter   <-- field match
+      <RaceRewardArray>k__BackingField:Gallop.RaceRewardData[], <RaceRewardCampaignArray>k__BackingField:Gallop.RaceRewardData[], <RaceRewardLimitArray>k__BackingField:Gallop.RaceRewardLimitData[], <CampaignIdArray>k__BackingField:System.Int32[], <SubscriptionEffectIdArray>k__BackingField:System.Int32[]
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceRewardList.<>c
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceRewardList   <-- field match
+      _itemIconBase:Gallop.ItemIcon, _itemCampaignLabelBase:UnityEngine.GameObject, _itemRestCountLabelBase:UnityEngine.GameObject, _itemListRoot:UnityEngine.Transform, _emptyTextRoot:UnityEngine.Transform, _itemTitleCampaignIconBase:Gallop.RawImageCommon
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTips   <-- field match
+      _successionList:Gallop.PartsIdleSingleModeResultLogSkillTipsListItem, _supportCardList:Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardListItem, _eventList:Gallop.PartsIdleSingleModeResultLogSkillTipsListItem
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsItemContainer.<>c__DisplayClass1_0   <-- field match
+      skillTips:Gallop.SkillTips
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsItemContainer   <-- field match
+      _itemArray:Gallop.PartsSingleModeSkillListItem[]
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsListItem.<>c__DisplayClass2_0   <-- field match
+      infoMatrix:System.Collections.Generic.IEnumerable<Gallop.SkillTips>[]
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsListItem   <-- field match
+      _innerLoopScroll:Gallop.InnerLoopScroll, _emptyText:Gallop.TextCommon
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardItemContainer   <-- field match
+      _scrollRectTransform:UnityEngine.RectTransform, _rectTransform:UnityEngine.RectTransform, _supportCardButton:Gallop.CharacterButton, _supportCardRectTransform:UnityEngine.RectTransform
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardListItem   <-- field match
+      _listItem:Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardItemContainer, _contentRoot:UnityEngine.RectTransform
+  [umamusume] Gallop.PartsIdleSingleModeResultLogStatus   <-- field match
+      _properFrameBefore:Gallop.PartsSingleModeStartProperFrame, _properFrameAfter:Gallop.PartsSingleModeStartProperFrame, _successionStatus:Gallop.PartsIdleSingleModeResultCharacterDetailStatus, _supportCardButtonArray:Gallop.CharacterButton[], _supportCardStatusArray:Gallop.PartsIdleSingleModeResultCharacterDetailStatus[], _eventStatus:Gallop.PartsIdleSingleModeResultCharacterDetailStatus
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSuccession   <-- field match
+      _listItem:Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem, _factorItemListRoot:UnityEngine.RectTransform, _itemList:System.Collections.Generic.List<Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem>
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem.SuccessionFactorDataGroup   <-- field match
+      <SuccessionFactor>k__BackingField:Gallop.MasterSuccessionFactor.SuccessionFactor, <FactorLevel>k__BackingField:System.Int32
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem.<>c
+  [umamusume] Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem   <-- field match
+      _headerTitle:Gallop.TextCommon, _headerLineImage:Gallop.ImageCommon, _factorListRoot:UnityEngine.RectTransform, _factorBase:Gallop.PartsFactorListContent, _factorGroupBase:Gallop.PartsFactorListContent, _factorDataList:System.Collections.Generic.IReadOnlyList<Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem.SuccessionFactorDataGroup>
+  [umamusume] Gallop.PartsIdleSingleModeResultLogTopics.<>c
+  [umamusume] Gallop.PartsIdleSingleModeResultLogTopics.<>c__DisplayClass28_0   <-- field match
+      infoMatrix:System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<Gallop.WorkSkillData.AcquiredSkill>>
+  [umamusume] Gallop.PartsIdleSingleModeResultLogTopics.<>c__DisplayClass30_0   <-- field match
+      contentSizeFitter:UnityEngine.UI.ContentSizeFitter, cacheVerticalFit:UnityEngine.UI.ContentSizeFitter.FitMode, <>4__this:Gallop.PartsIdleSingleModeResultLogTopics
+  [umamusume] Gallop.PartsIdleSingleModeResultLogTopics   <-- field match
+      _contentRoot:UnityEngine.RectTransform, _scrollBgRoot:UnityEngine.GameObject, _scrollBarRoot:UnityEngine.GameObject, _characterRoot:UnityEngine.GameObject, _characterButton:Gallop.CharacterButton, _characterTitleName:Gallop.TextCommon, _characterName:Gallop.TextCommon, _statusRoot:UnityEngine.GameObject, _characterDetailStatus:Gallop.PartsCharacterDetailStatus, _skillPoint:Gallop.TextCommon, _properRoot:UnityEngine.GameObject, _characterDetailProper:Gallop.PartsCharacterDetailProper, _raceHistoryRoot:UnityEngine.GameObject, _raceHistory:Gallop.TextCommon, _fanCount:Gallop.TextCommon, _skillRootRect:UnityEngine.RectTransform, _innerLoopScroll:Gallop.InnerLoopScroll, _effectRoot:UnityEngine.GameObject, _charaEffectIconBase:Gallop.CharaEffectIcon, _charaEffectListRoot:UnityEngine.Transform, _emptyTextRoot:UnityEngine.Transform, _verticalLayoutGroup:UnityEngine.UI.VerticalLayoutGroup, _isInitialized:System.Boolean
+  [umamusume] Gallop.DialogIdleSingleModeHome.<>c__DisplayClass40_0   <-- field match
+      onComplete:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeHome   <-- field match
+      _scenarioIcon:Gallop.RawImageCommon, _characterButton:Gallop.CharacterButton, _characterTitleName:Gallop.TextCommon, _characterName:Gallop.TextCommon, _deleteButton:Gallop.ButtonCommon, _remainTime:Gallop.PartsIdleSingleModeRemainTime, _progressTatRoot:UnityEngine.RectTransform, _trainingChallengeRoot:UnityEngine.GameObject, _tatLoopPreEndTime:Gallop.TweenAnimationTimelineComponent, _tatInPastEndTime:Gallop.TweenAnimationTimelineComponent, _tatLoopPastEndTime:Gallop.TweenAnimationTimelineComponent, _onClose:System.Action, _onChangeView:System.Action, _preChangeView:System.Action<System.Action>, _onDeleteSingleModeData:System.Action, _isCompleted:System.Boolean, _resourceHash:Gallop.ResourceManager.ResourceHash
+  [umamusume] Gallop.IdleSingleModeFooter   <-- field match
+      _flashPlayerRoot:UnityEngine.Transform, _menuButton:Gallop.ButtonCommon, _canvas:UnityEngine.Canvas, _flashActionPlayer:Gallop.FlashActionPlayer
+  [umamusume] Gallop.IdleSingleModeHeaderA2U   <-- field match
+      _flashPlayer:Gallop.FlashPlayer
+  [umamusume] Gallop.IdleSingleModeHeader   <-- field match
+      _trainingHeaderRoot:UnityEngine.Transform, _a2uController:Gallop.IdleSingleModeHeaderA2U
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass7_0   <-- field match
+      isCompleteMotion:System.Boolean
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass8_0   <-- field match
+      <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayInCoroutine>d__7   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, <>8__1:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass7_0, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayOutCoroutine>d__10   <-- field match
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer   <-- field match
+      _image:Gallop.RawImageCommon, _imageCanvasGroup:UnityEngine.CanvasGroup, _charaId:System.Int32, _miniCharaViewer:Gallop.MiniCharaViewer
+  [umamusume] Gallop.PartsIdleSingleModeRemainTime   <-- field match
+      _gauge:Gallop.GaugeCommon, _remainingTimeText:Gallop.TextCommon, _totalTime:System.Int64, _endTime:System.Int64, _isComplete:System.Boolean, _onComplete:System.Action, _currentDisplayGaugeValue:System.Single
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeControl.TransType   <-- field match
+      value__:System.Int32
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c__DisplayClass12_0   <-- field match
+      <>4__this:Gallop.DialogSingleModeSelectTrainingChallengeControl, work:Gallop.WorkTrainingChallengeData, <>9__7:System.Action<System.Int32>
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c__DisplayClass9_0   <-- field match
+      entryInfo:Gallop.SingleModeStartViewController.EntryInfo, master:Gallop.MasterTrainingChallengeMaster.TrainingChallengeMaster, onDecide:System.Action, onCancel:System.Action, <>9__1:System.Action<Gallop.DialogSingleModeSelectTrainingChallengeControl.TransType>, <>9__2:System.Action
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeControl   <-- field match
+      _onEnter:System.Action<Gallop.DialogSingleModeSelectTrainingChallengeControl.TransType>, _onCancel:System.Action, _master:Gallop.MasterTrainingChallengeMaster.TrainingChallengeMaster, _view:Gallop.DialogSingleModeSelectTrainingChallengeView, _selectedType:Gallop.DialogSingleModeSelectTrainingChallengeControl.TransType, _entryInfo:Gallop.SingleModeStartViewController.EntryInfo
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeView.TransType   <-- field match
+      value__:System.Int32
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeView.<>c__DisplayClass65_0   <-- field match
+      <>4__this:Gallop.DialogSingleModeSelectTrainingChallengeView, examEntity:Gallop.TrainingChallenge.ExamDataEntity
+  [umamusume] Gallop.DialogSingleModeSelectTrainingChallengeView   <-- field match
+      _modeButtonLayoutGroup:UnityEngine.UI.VerticalLayoutGroup, _normalModeButton:Gallop.ButtonCommon, _normalModeRawImage:Gallop.RawImageCommon, _eventModeButton:Gallop.ButtonCommon, _eventModeRawImage:Gallop.RawImageCommon, _eventContentsRoot:UnityEngine.GameObject, _examInfoRoot:UnityEngine.GameObject, _itemView:Gallop.TrainingChallenge.TrainingChallengeExamListItemView, _examListButton:Gallop.ButtonCommon, _unselectedRoot:UnityEngine.GameObject, _examListButtonForUnselected:Gallop.ButtonCommon, _restTimeText:Gallop.TextCommon, _highScoreRoot:UnityEngine.GameObject, _charaButton:Gallop.CharacterButton, _highScoreValueText:Gallop.BitmapTextCommon, _unchallengedText:Gallop.TextCommon, _unselectedText:Gallop.TextCommon, _unselectedAloneText:Gallop.TextCommon, _eventNoticeRoot:UnityEngine.GameObject, _eventNoticeText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, _cursor:Gallop.CursorCommon, <OnNormalModeSelected>k__BackingField:System.Action, <OnEventModeSelected>k__BackingField:System.Action, <OnExamListClicked>k__BackingField:System.Action, <OnSelectClick>k__BackingField:System.Action<Gallop.MasterTrainingChallengeExam.TrainingChallengeExam,System.Boolean>, <OnEnterClicked>k__BackingField:System.Action, <OnCancelClicked>k__BackingField:System.Action, <OnHighCharaLongTap>k__BackingField:System.Action<Gallop.TrainingChallenge.ExamDataEntity>
+  [umamusume] Gallop.PartsIdleSingleModeEntryInfoExpandItem   <-- field match
+      _rootRectTransform:UnityEngine.RectTransform, _partsRectTransforms:UnityEngine.RectTransform[], _entryInfoItem:Gallop.PartsSingleModeStartConfirmEntryInfoItem, _expandButton:Gallop.ButtonCommon, _expandButtonOffObject:UnityEngine.GameObject, <IsExpand>k__BackingField:System.Boolean, _onExpandState:System.Action
+  [umamusume] Gallop.StaticVariableDefine.IdleSingleMode
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeNewOpenExamView   <-- field match
+      _itemView:Gallop.TrainingChallenge.TrainingChallengeExamListItemView, _confirmText:Gallop.TextCommon
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass0_0   <-- field match
+      master:Gallop.MasterTrainingChallengeMaster, <>9__1:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass1_0   <-- field match
+      info:Gallop.SingleModeStartViewController.EntryInfo, onTransed:System.Action, <>9__1:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass2_0   <-- field match
+      onTransed:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass4_0   <-- field match
+      onFinish:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmView   <-- field match
+      _eventLogo:Gallop.RawImageCommon, _confirmText:Gallop.TextCommon
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass3_0   <-- field match
+      examId:System.Int32, selectable:System.Boolean, onSelected:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass4_0   <-- field match
+      examId:System.Int32, onClosed:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass5_0   <-- field match
+      onFinished:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass9_0   <-- field match
+      <>4__this:Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl, onSelected:System.Action, onClosed:System.Action, <>9__3:System.Action<Gallop.TrainingChallengeExamSelectResponse.CommonResponse>
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl   <-- field match
+      _scoreBonusCore:Gallop.TrainingChallenge.TrainingChallengeScoreBonusCoreControl, _view:Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailView, _model:Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailModel
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailModel   <-- field match
+      <Entity>k__BackingField:Gallop.TrainingChallenge.ExamDataEntity, <Master>k__BackingField:Gallop.MasterTrainingChallengeExam.TrainingChallengeExam, <Index>k__BackingField:System.Int32, <IsSelectedExam>k__BackingField:System.Boolean, <CanSelectExam>k__BackingField:System.Boolean, <HighScoreTrainedCharaData>k__BackingField:Gallop.WorkTrainedCharaData.TrainedCharaData, <ExamClearScoreList>k__BackingField:System.Collections.Generic.List<System.ValueTuple<System.Int32,System.Boolean>>, <NotificationMessage>k__BackingField:System.String, <ConfirmationMessage>k__BackingField:System.String
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeRivalDetailScoreItemView   <-- field match
+      _titleText:Gallop.TextCommon, _scoreText:Gallop.BitmapTextCommon
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailView   <-- field match
+      _titleBaseImage:Gallop.ImageCommon, _examNameText:Gallop.TextCommon, _examIndexText:Gallop.TextCommon, _highScoreText:Gallop.BitmapTextCommon, _highScoreCharaButton:Gallop.CharacterButton, _unchallengedText:Gallop.TextCommon, _itemIconArray:Gallop.RewardItemIcon[], _clearRateItemArray:Gallop.TrainingChallenge.TrainingChallengeExamClearRateItemView[], _confirmationText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, _isSingleModeScene:System.Boolean, <OnSelected>k__BackingField:System.Action, <OnClosed>k__BackingField:System.Action, <OnCharaLongTapped>k__BackingField:System.Action<Gallop.CharacterButton>
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamListControl.<>c__DisplayClass6_0   <-- field match
+      <>4__this:Gallop.TrainingChallenge.DialogTrainingChallengeExamListControl, onClosed:System.Action<System.Int32>, onExamSelectChange:System.Action<System.Int32>
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamListControl   <-- field match
+      _view:Gallop.TrainingChallenge.DialogTrainingChallengeExamListView, _model:Gallop.TrainingChallenge.DialogTrainingChallengeExamListModel, _examListControl:Gallop.TrainingChallenge.TrainingChallengeExamListCoreControl
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamListModel   <-- field match
+      _examInfoRepository:Gallop.TrainingChallenge.TrainingChallengeExamInfoRepository, <SelectedExamId>k__BackingField:System.Int32
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeExamListView   <-- field match
+      _rivalCountText:Gallop.TextCommon, _examListView:Gallop.TrainingChallenge.TrainingChallengeExamListCoreView, _dialog:Gallop.DialogCommon, <OnBackClick>k__BackingField:System.Action
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusControl   <-- field match
+      _core:Gallop.TrainingChallenge.TrainingChallengeScoreBonusCoreControl, _view:Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusView, _model:Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusModel
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusModel
+  [umamusume] Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusView   <-- field match
+      _dialog:Gallop.DialogCommon
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogRequest
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogResponse   <-- field match
+      data:Gallop.IdleSingleModeCheckProgressLogResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeCheckProgressLogResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeCheckProgressLogResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeEndRequest
+  [umamusume.Http] Gallop.IdleSingleModeEndResponse.CommonResponse   <-- field match
+      progress_log_info:Gallop.IdleSingleModeProgressLogInfo, end_info:Gallop.IdleSingleModeEndInfo
+  [umamusume.Http] Gallop.IdleSingleModeEndResponse   <-- field match
+      data:Gallop.IdleSingleModeEndResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeEndTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeEndResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeEndResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckRequest   <-- field match
+      scenario_id:System.Int32, multi_race_reserve_deck:Gallop.SingleModeMultiRaceReserveDeck
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse   <-- field match
+      reserved_race_info:Gallop.SingleModeReservedRaceInfo
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse   <-- field match
+      data:Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModePreStartRequest   <-- field match
+      scenario_id:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModePreStartResponse.CommonResponse   <-- field match
+      reserved_race_info:Gallop.SingleModeReservedRaceInfo, last_idle_single_mode_start_info:Gallop.IdleSingleModeStartInfo
+  [umamusume.Http] Gallop.IdleSingleModePreStartResponse   <-- field match
+      data:Gallop.IdleSingleModePreStartResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModePreStartTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModePreStartResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModePreStartResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeResultRequest
+  [umamusume.Http] Gallop.IdleSingleModeResultResponse.CommonResponse   <-- field match
+      progress_log_info:Gallop.IdleSingleModeProgressLogInfo, end_info:Gallop.IdleSingleModeEndInfo
+  [umamusume.Http] Gallop.IdleSingleModeResultResponse   <-- field match
+      data:Gallop.IdleSingleModeResultResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeResultTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeResultResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeResultResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeStartRequest   <-- field match
+      single_mode_start_request_common:Gallop.SingleModeStartRequestCommon, start_info:Gallop.IdleSingleModeStartInfo
+  [umamusume.Http] Gallop.IdleSingleModeStartResponse.CommonResponse   <-- field match
+      progress_info:Gallop.IdleSingleModeProgressInfo, tp_info:Gallop.TpInfo, user_item_array:Gallop.UserItem[], mission_list:Gallop.UserMission[], story_event_mission_list:Gallop.UserMission[], story_event_chara_bonus_list:Gallop.StoryEventCharaBonus[], add_trained_chara_array:Gallop.TrainedChara[]
+  [umamusume.Http] Gallop.IdleSingleModeStartResponse   <-- field match
+      data:Gallop.IdleSingleModeStartResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeStartTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeStartResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeStartResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeStatusRequest
+  [umamusume.Http] Gallop.IdleSingleModeStatusResponse.CommonResponse   <-- field match
+      progress_info:Gallop.IdleSingleModeProgressInfo
+  [umamusume.Http] Gallop.IdleSingleModeStatusResponse   <-- field match
+      data:Gallop.IdleSingleModeStatusResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeStatusTask   <-- field match
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeStatusResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeStatusResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeEndInfo   <-- field match
+      chara_info:Gallop.SingleModeChara, race_condition_array:Gallop.SingleModeRaceCondition[], unchecked_event_array:Gallop.SingleModeEventInfo[], home_info:Gallop.SingleModeHomeInfo, win_saddle_id_array:System.Int32[], effected_factor_array:Gallop.SuccessionEffectedFactor[], race_start_info:Gallop.SingleRaceStartInfo, race_scenario:System.String, add_trophy_info:Gallop.LoginUserTrophyInfo, trophy_reward_info:Gallop.RaceRewardData, prev_chara_grade:System.Int32, race_add_reward_info:Gallop.SingleModeRaceAddRewardInfo[], reserved_race_info:Gallop.SingleModeReservedRaceInfo, mission_list:Gallop.UserMission[], story_event_mission_list:Gallop.UserMission[], start_dress_info:Gallop.SingleModeStartDressInfo, story_event_chara_bonus_list:Gallop.StoryEventCharaBonus[], resume_factor_select:Gallop.SingleModeFactorSelectCommon, race_random_program_array:Gallop.SingleModeRaceRandomProgram[], race_reward_limit_more_list:Gallop.RaceRewardLimitMoreData[], skill_filter_setting_array:Gallop.SingleModeSkillFilterSet[], is_umaplan:System.Boolean, reward_summary_info:Gallop.RewardSummaryInfo
+  [umamusume.Http] Gallop.IdleSingleModeGainInfo   <-- field match
+      speed:Gallop.IdleSingleModeSignedInt, stamina:Gallop.IdleSingleModeSignedInt, power:Gallop.IdleSingleModeSignedInt, wiz:Gallop.IdleSingleModeSignedInt, guts:Gallop.IdleSingleModeSignedInt, max_speed:System.Int32, max_stamina:System.Int32, max_power:System.Int32, max_wiz:System.Int32, max_guts:System.Int32, proper_distance_short:System.Int32, proper_distance_mile:System.Int32, proper_distance_middle:System.Int32, proper_distance_long:System.Int32, proper_running_style_nige:System.Int32, proper_running_style_senko:System.Int32, proper_running_style_sashi:System.Int32, proper_running_style_oikomi:System.Int32, proper_ground_turf:System.Int32, proper_ground_dirt:System.Int32, skill_point:System.Int32, skill_tips_array:Gallop.SkillTips[]
+  [umamusume.Http] Gallop.IdleSingleModeLoadInfo   <-- field match
+      single_mode_chara_light:Gallop.SingleModeCharaLight, playing_state:System.Int32, start_time:System.String, end_time:System.String
+  [umamusume.Http] Gallop.IdleSingleModePrioritySkill   <-- field match
+      priority:System.Int32, skill_id:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModeProgressInfo   <-- field match
+      chara_info:Gallop.SingleModeChara, start_time:System.String, end_time:System.String, story_event_mission_list:Gallop.UserMission[], story_event_chara_bonus_list:Gallop.StoryEventCharaBonus[]
+  [umamusume.Http] Gallop.IdleSingleModeProgressLogInfo   <-- field match
+      chara_effect_log_array:Gallop.CharaEffectLog[], support_card_gain_info_array:Gallop.IdleSingleModeSupportCardGainInfo[], event_gain_info:Gallop.IdleSingleModeGainInfo, succession_gain_info:Gallop.IdleSingleModeGainInfo, succession_factor_gain_array:Gallop.IdleSingleModeSuccessionFactorGainInfo[], race_history_array:Gallop.IdleSingleModeRaceHistory[], gain_skill_id_array:System.Int32[], total_skill_point:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModeRaceHistory   <-- field match
+      race_history:Gallop.SingleRaceHistory, race_reward_info:Gallop.CharaRaceReward, lose_tips_id:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModeSignedInt   <-- field match
+      sign:System.Int32, value:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModeStartInfo   <-- field match
+      training_policy_ground_type:System.Int32, training_policy_param_rate_set_id:System.Int32, priority_skill_array:Gallop.IdleSingleModePrioritySkill[], race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.IdleSingleModeSuccessionFactorGainInfo   <-- field match
+      year:System.Int32, gain_factor_info_array:Gallop.FactorInfo[]
+  [umamusume.Http] Gallop.IdleSingleModeSupportCardGainInfo   <-- field match
+      support_card_id:System.Int32, gain_info:Gallop.IdleSingleModeGainInfo
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeEndInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeEndRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeEndResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeEndResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeGainInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeLoadInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePrioritySkillFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeProgressInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeProgressLogInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeRaceHistoryFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeResultRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeResultResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeResultResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeSignedIntFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStatusRequestFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStatusResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStatusResponse_CommonResponseFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeSuccessionFactorGainInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeSupportCardGainInfoFormatter   <-- field match
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+
+=== DIALOG: methods and parents (hook targets) ===
+
+  Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut
+    parents: System.Object
+
+  Gallop.MasterIdleSingleModeTrainingCut
+    parents: Gallop.AbstractMasterData -> System.Object
+
+  Gallop.ObscuredIdleSingleModeEndInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeEndInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeGainInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeGainInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeLoadInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeLoadInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModePrioritySkill
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModePrioritySkillExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeProgressInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeProgressInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeProgressLogInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeProgressLogInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSignedInt
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSignedIntExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeStartInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeStartInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfoExtensions
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSupportCardGainInfo
+    parents: System.Object
+
+  Gallop.ObscuredIdleSingleModeSupportCardGainInfoExtensions
+    parents: System.Object
+
+  Gallop.WorkIdleSingleModeData.PlayingState
+    parents: System.Enum -> System.ValueType -> System.Object
+
+  Gallop.WorkIdleSingleModeData
+    parents: System.Object
+
+  Gallop.DialogSupportCardTrainingEffectDetail
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(3 args) static  @0x7ffc0a3895e0
+    method Setup(3 args)  @0x7ffc0a3897f0
+
+  Gallop.DialogPhotoStudioTrainingPartnerSelectModel.<>c
+    parents: System.Object
+
+  Gallop.DialogPhotoStudioTrainingPartnerSelectModel
+    parents: System.Object
+
+  Gallop.DialogPhotoStudioTrainingPartnerSelect.<>c
+    parents: System.Object
+
+  Gallop.DialogPhotoStudioTrainingPartnerSelect
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method CreateDialogData(0 args)  @0x7ffc08a77420
+    method Setup(3 args)  @0x7ffc08a77700
+    method SetupCharacterButtonList(0 args)  @0x7ffc08a778c0
+    method SetupSettingMark(1 args)  @0x7ffc08a784e0
+    method SetupDialogRightButton(0 args)  @0x7ffc08a78670
+
+  Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass12_0
+    parents: System.Object
+    method <ShowWipeFlashCoroutine>b__0(0 args)  @0x7ffc0623bc00
+    method <ShowWipeFlashCoroutine>b__1(0 args)  @0x7ffc08dc9f00
+
+  Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass13_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass14_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCustomLoadingController.<HideWipeFlashCoroutine>d__14
+    parents: System.Object
+
+  Gallop.IdleSingleModeCustomLoadingController.<ShowWipeFlashCoroutine>d__12
+    parents: System.Object
+
+  Gallop.IdleSingleModeCustomLoadingController
+    parents: System.Object
+    method InitializeOnShowWipeOut(1 args)  @0x7ffc08fb0480
+    method ShowWipeFlash(1 args)  @0x7ffc08fb0680
+    method ShowWipeFlashCoroutine(1 args)  @0x7ffc08fb0940
+
+  Gallop.IdleSingleModePlayCutView
+    parents: Gallop.ViewBase -> Gallop.LockableBehaviour -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<>c
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass14_0
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_0
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<>c__DisplayClass21_1
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<CuttControllerRestart>d__25
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<FinalizeView>d__26
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<GotoResult>d__41
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<InitializeView>d__20
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController.<PlayInView>d__21
+    parents: System.Object
+
+  Gallop.IdleSingleModePlayCutViewController
+    parents: Gallop.ViewControllerBase<Gallop.IdleSingleModePlayCutView> -> System.Object
+    method InitializeView(0 args)  @0x7ffc08fb2a20
+    method PlayInView(0 args)  @0x7ffc08fb2ac0
+    method PlayCutt(0 args)  @0x7ffc08fb2e30
+    method CreateCuttPlayInfo(1 args)  @0x7ffc08fb3450
+    method CreateTrainingCuttPlayInfo(1 args)  @0x7ffc08fb3620
+    method CreateOutingCuttPlayInfo(1 args)  @0x7ffc08fb3ab0
+
+  Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(9 args) static  @0x7ffc08fb57f0
+    method Setup(9 args)  @0x7ffc08fb5980
+
+  Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetListControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(8 args)  @0x7ffc08fb7ed0
+    method ShowRaceDetail(3 args)  @0x7ffc08fb87c0
+
+  Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel.<>c__DisplayClass51_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel
+    parents: System.Object
+    method IsShowMissionBadge(0 args)  @0x7ffc05f652e0
+
+  Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetModel.<>c__DisplayClass64_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveSetModel
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass14_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass14_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass15_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass16_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect.<>c__DisplayClass17_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceSelect
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(3 args) static  @0x7ffc08fbb420
+    method Create(0 args) static  @0x7ffc08fbb560
+    method Setup(6 args)  @0x7ffc08fbb650
+    method ShowConsecutiveAlertDialogIfNeed(0 args)  @0x7ffc08fbc790
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c
+    parents: System.Object
+    method <NeedShowConsecutiveAlert>b__57_1(1 args)  @0x7ffc06278eb0
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass41_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass51_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass51_1
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_1
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass53_2
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass54_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass54_1
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass56_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeCharaRaceSelectContext.<>c__DisplayClass57_0
+    parents: System.Object
+    method <NeedShowConsecutiveAlert>b__2(1 args)  @0x7ffc08fc2750
+
+  Gallop.IdleSingleModeCharaRaceSelectContext
+    parents: System.Object
+    method Setup(1 args)  @0x7ffc08fbe270
+    method NeedShowConsecutiveAlert(0 args)  @0x7ffc08fc1300
+    method <NeedShowConsecutiveAlert>b__57_0(1 args)  @0x7ffc08fc1ab0
+
+  Gallop.IdleSingleModeRaceReserveConnect.<>c__DisplayClass7_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeRaceReserveConnect
+    parents: System.Object
+    method Setup(2 args)  @0x7ffc05dc87a0
+
+  Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm.<>c__DisplayClass7_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(4 args) static  @0x7ffc08fc3190
+    method Setup(4 args)  @0x7ffc08fc3270
+    method CreateDialogData(0 args)  @0x7ffc08fc37b0
+    method OpenCurrentPresetInfo(2 args)  @0x7ffc08fc3bd0
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c
+    parents: System.Object
+    method <OpenPresetInfoDialog>b__16_0(1 args)  @0x7ffc05dc5970
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass13_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass15_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetControl
+    parents: System.Object
+    method OpenPresetList(3 args)  @0x7ffc08fc3d70
+    method OpenPresetCopy(4 args)  @0x7ffc08fc3f00
+    method SetupPresetList(3 args)  @0x7ffc08fc40a0
+    method SetupPresetCopy(4 args)  @0x7ffc08fc43b0
+    method SetupCommon(3 args)  @0x7ffc08fc46c0
+    method OpenPresetInfoDialog(1 args)  @0x7ffc08fc56f0
+
+  Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass12_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_1
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReservePresetInfoControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method OpenAtInfo(3 args) static  @0x7ffc08fc7a00
+    method OpenAtSetting(3 args) static  @0x7ffc08fc7a30
+    method OpenAtSimple(3 args) static  @0x7ffc08fc7a60
+    method OpenAtWithRouteRace(3 args) static  @0x7ffc08fc7a90
+    method Open(4 args) static  @0x7ffc08fc7ac0
+    method Setup(4 args)  @0x7ffc08fc7c30
+
+  Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass9_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl
+    parents: System.Object
+    method OpenAtPreset(3 args)  @0x7ffc08fca8d0
+    method Create(0 args)  @0x7ffc08fcaa70
+    method Setup(4 args)  @0x7ffc08fcab60
+
+  Gallop.IdleSingleModeRaceReserveListCoreControl.Param
+    parents: System.Object
+
+  Gallop.IdleSingleModeRaceReserveListCoreControl.<>c__DisplayClass7_0
+    parents: System.Object
+
+  Gallop.IdleSingleModeRaceReserveListCoreControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc08fcb450
+    method ShowRaceDetail(3 args)  @0x7ffc08fcbb20
+
+  Gallop.DialogIdleSingleModeRaceResult
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(1 args) static  @0x7ffc08fcc700
+    method Setup(1 args)  @0x7ffc08fcca50
+    method InitMasterData(1 args)  @0x7ffc08fccd50
+    method SetupRaceTitle(0 args)  @0x7ffc08fccff0
+    method IsNeedShowRaceGrade(1 args)  @0x7ffc08fcd2f0
+    method SetupRaceInfo(1 args)  @0x7ffc08fcd490
+    method SetupLoseTips(1 args)  @0x7ffc08fcd5d0
+    method SetupResultRank(1 args)  @0x7ffc08fcd700
+    method SetupRewardItem(1 args)  @0x7ffc08fcd740
+
+  Gallop.DialogIdleSingleModeResultLog
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method CreateDialogData(0 args)  @0x7ffc08fcdb90
+    method CreateDialog(1 args) static  @0x7ffc08fcdd40
+    method SetupContents(3 args)  @0x7ffc08fcdf50
+    method StartShowResultAnimation(0 args)  @0x7ffc08fce0f0
+    method PlayCloseAnimation(0 args)  @0x7ffc08fce700
+    method PlayOpenResultLogAnimation(0 args)  @0x7ffc08fce7d0
+    method StartShowContent(0 args)  @0x7ffc08fce800
+    method SetupFrameAnimator(0 args)  @0x7ffc08fcea60
+    method SetupFlashParts(1 args)  @0x7ffc08fcf030
+
+  Gallop.PartsIdleSingleModeResultCharacterDetailStatus
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc08fcfc30
+    method SetupSkillPt(1 args)  @0x7ffc08fcfe70
+
+  Gallop.PartsIdleSingleModeResultLogCarouselScroll
+    parents: Gallop.CarouselScroll<Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData> -> Gallop.NormalizedLoopScroll<Gallop.CarouselScrollItemBase<Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData>,Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData> -> UnityEngine.EventSystems.UIBehaviour -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+
+  Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData.ResultLogType
+    parents: System.Enum -> System.ValueType -> System.Object
+
+  Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogCarouselScrollItem
+    parents: Gallop.CarouselScrollItemBase<Gallop.PartsIdleSingleModeResultLogCarouselScrollItem.ItemData> -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method PlayInAnimation(2 args)  @0x7ffc08fd01d0
+
+  Gallop.PartsIdleSingleModeResultLogContents.<PlayInAnimation>d__20
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogContents.<ScrollLockGameCanvasCoroutine>d__29
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogContents
+    parents: Gallop.SingleModeResultContentBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(2 args)  @0x7ffc08fd0b20
+    method Setup(1 args)  @0x7ffc08fd0c50
+    method PlayInAnimation(0 args)  @0x7ffc08fd0cb0
+    method SetupHeader(0 args)  @0x7ffc08fd0d50
+    method SetupCarouselScroll(0 args)  @0x7ffc08fd12e0
+    method SetupTitleText(0 args)  @0x7ffc08fd1680
+    method ShowContents(1 args)  @0x7ffc08fd1cb0
+
+  Gallop.PartsIdleSingleModeResultLogRaceResult.<>c
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogRaceResult.<>c__DisplayClass10_0
+    parents: System.ValueType -> System.Object
+
+  Gallop.PartsIdleSingleModeResultLogRaceResult.<>c__DisplayClass8_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogRaceResult
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc08fd2a30
+    method SetupRaceResult(2 args)  @0x7ffc08fd2b50
+    method CreateRaceHistoryInfoArray(2 args)  @0x7ffc08fd2c10
+    method SetupItemReward(1 args)  @0x7ffc08fd3190
+    method CreateTotalItemRewardArray(1 args)  @0x7ffc08fd3460
+
+  Gallop.PartsIdleSingleModeResultLogRaceRewardList.SetupParameter
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogRaceRewardList.<>c
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogRaceRewardList
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd40b0
+    method SetupItemIcon(4 args)  @0x7ffc08fd4800
+    method SetupIconLabel(3 args)  @0x7ffc08fd4d70
+    method SetupCampaignIcon(1 args)  @0x7ffc08fd5020
+    method CreateCampaignIcon(2 args)  @0x7ffc08fd5610
+
+  Gallop.PartsIdleSingleModeResultLogSkillTips
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd59f0
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsItemContainer.<>c__DisplayClass1_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsItemContainer
+    parents: Gallop.LoopScrollItemBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd5b90
+    method Setup(1 args)  @0x7ffc08fd5e80
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsListItem.<>c__DisplayClass2_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsListItem
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd6150
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardItemContainer
+    parents: Gallop.PartsIdleSingleModeResultLogSkillTipsListItem -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd6550
+    method SetupSupportCard(1 args)  @0x7ffc08fd6870
+
+  Gallop.PartsIdleSingleModeResultLogSkillTipsSupportCardListItem
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd6900
+
+  Gallop.PartsIdleSingleModeResultLogStatus
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc08fd6a50
+
+  Gallop.PartsIdleSingleModeResultLogSuccession
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd7dd0
+
+  Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem.SuccessionFactorDataGroup
+    parents: System.ValueType -> System.Object
+
+  Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem.<>c
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogSuccessionFactorListItem
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(1 args)  @0x7ffc08fd8100
+
+  Gallop.PartsIdleSingleModeResultLogTopics.<>c
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogTopics.<>c__DisplayClass28_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogTopics.<>c__DisplayClass30_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeResultLogTopics
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc08fd95f0
+    method SetupCharacterInfo(1 args)  @0x7ffc08fd98d0
+    method SetupBaseParameter(2 args)  @0x7ffc08fd9b20
+    method SetupProper(1 args)  @0x7ffc08fd9c20
+    method SetupRaceHistory(1 args)  @0x7ffc08fd9c90
+    method SetupSkillList(1 args)  @0x7ffc08fd9e60
+    method SetupCharaEffect(1 args)  @0x7ffc08fda410
+    method PlayInAnimation(2 args)  @0x7ffc08fda750
+
+  Gallop.DialogIdleSingleModeHome.<>c__DisplayClass40_0
+    parents: System.Object
+
+  Gallop.DialogIdleSingleModeHome
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(4 args) static  @0x7ffc09001590
+    method Setup(4 args)  @0x7ffc090019d0
+    method Setup(3 args)  @0x7ffc09001e70
+    method SetupCharacterInfo(1 args)  @0x7ffc09001ea0
+    method SetupProgressTextImage(0 args)  @0x7ffc09002390
+    method SetupTrainingChallenge(0 args)  @0x7ffc09002880
+
+  Gallop.IdleSingleModeFooter
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Initialize(1 args)  @0x7ffc090035a0
+    method ShowScreen(0 args)  @0x7ffc090038a0
+
+  Gallop.IdleSingleModeHeaderA2U
+    parents: System.Object
+    method CreatePlayer(1 args)  @0x7ffc09003b20
+    method PlayIn(0 args)  @0x7ffc09003ca0
+    method PlayOut(0 args)  @0x7ffc09003db0
+    method Setup(1 args)  @0x7ffc09003ec0
+
+  Gallop.IdleSingleModeHeader
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Initialize(1 args)  @0x7ffc09004320
+    method PlayIn(0 args)  @0x7ffc09004570
+    method PlayOut(0 args)  @0x7ffc09004690
+
+  Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass7_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass8_0
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayInCoroutine>d__7
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayOutCoroutine>d__10
+    parents: System.Object
+
+  Gallop.PartsIdleSingleModeLoadingMiniCharaViewer
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Initialize(3 args)  @0x7ffc090047a0
+    method CreateMiniCharaData(3 args) static  @0x7ffc090049e0
+    method PlayIn(1 args)  @0x7ffc09004a80
+    method PlayInCoroutine(1 args)  @0x7ffc09004b90
+    method PlayMotion(1 args)  @0x7ffc09004c90
+    method PlayOut(1 args)  @0x7ffc09005040
+    method PlayOutCoroutine(1 args)  @0x7ffc09005150
+
+  Gallop.PartsIdleSingleModeRemainTime
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Initialize(3 args)  @0x7ffc09005a90
+
+  Gallop.DialogSingleModeSelectTrainingChallengeControl.TransType
+    parents: System.Enum -> System.ValueType -> System.Object
+
+  Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c
+    parents: System.Object
+
+  Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c__DisplayClass12_0
+    parents: System.Object
+
+  Gallop.DialogSingleModeSelectTrainingChallengeControl.<>c__DisplayClass9_0
+    parents: System.Object
+    method <DownloadAndOpenIfNeeded>b__0(0 args)  @0x7ffc093d3c40
+    method <DownloadAndOpenIfNeeded>b__1(1 args)  @0x7ffc093d3ee0
+    method <DownloadAndOpenIfNeeded>b__2(0 args)  @0x7ffc08af20a0
+
+  Gallop.DialogSingleModeSelectTrainingChallengeControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method DownloadAndOpenIfNeeded(3 args) static  @0x7ffc093d1930
+    method Open(4 args) static  @0x7ffc093d1ef0
+    method Setup(4 args)  @0x7ffc093d2040
+    method SetupCursor(0 args)  @0x7ffc093d2fd0
+    method OnEnterClicked(0 args)  @0x7ffc093d3440
+
+  Gallop.DialogSingleModeSelectTrainingChallengeView.TransType
+    parents: System.Enum -> System.ValueType -> System.Object
+
+  Gallop.DialogSingleModeSelectTrainingChallengeView.<>c__DisplayClass65_0
+    parents: System.Object
+
+  Gallop.DialogSingleModeSelectTrainingChallengeView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(5 args)  @0x7ffc093d3f30
+    method SetupRestTime(1 args)  @0x7ffc093d48e0
+    method OnEnterClick(0 args)  @0x7ffc092883c0
+
+  Gallop.PartsIdleSingleModeEntryInfoExpandItem
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(4 args)  @0x7ffc093eba00
+    method UpdateOnShow(0 args)  @0x7ffc093ebb80
+
+  Gallop.StaticVariableDefine.IdleSingleMode
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeNewOpenExamView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Create(2 args) static  @0x7ffc09d30bf0
+    method SetupContents(2 args)  @0x7ffc09d30ce0
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c
+    parents: System.Object
+    method <Open>b__2_0(1 args)  @0x7ffc089cd9c0
+    method <OpenAtShopIfNeeded>b__3_0(0 args)  @0x7ffc09d318b0
+    method <OpenAtShopIfNeeded>b__3_1(0 args)  @0x7ffc05dc5970
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass0_0
+    parents: System.Object
+    method <OpenAtShop>b__0(0 args)  @0x7ffc09d319f0
+    method <OpenAtShop>b__1(0 args)  @0x7ffc09d31ad0
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass1_0
+    parents: System.Object
+    method <OpenAtSingleStart>b__0(0 args)  @0x7ffc09d31c90
+    method <OpenAtSingleStart>b__1(0 args)  @0x7ffc09d31d70
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass2_0
+    parents: System.Object
+    method <Open>b__1(1 args)  @0x7ffc09d31f40
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl.<>c__DisplayClass4_0
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmControl
+    parents: System.Object
+    method OpenAtShop(0 args) static  @0x7ffc09d30d60
+    method OpenAtSingleStart(2 args) static  @0x7ffc09d30e90
+    method Open(1 args) static  @0x7ffc09d30ff0
+    method OpenAtShopIfNeeded(1 args) static  @0x7ffc09d31470
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeTopTransConfirmView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Create(0 args) static  @0x7ffc09d31fb0
+    method SetupContents(0 args)  @0x7ffc09d32110
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass3_0
+    parents: System.Object
+    method <Open>b__0(0 args)  @0x7ffc09d33580
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass4_0
+    parents: System.Object
+    method <OpenAtSingleMode>b__0(0 args)  @0x7ffc09d335c0
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass5_0
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl.<>c__DisplayClass9_0
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(3 args) static  @0x7ffc09d32570
+    method OpenAtSingleMode(1 args) static  @0x7ffc09d32690
+    method CreateInternal(0 args) static  @0x7ffc09d32a40
+    method Setup(3 args)  @0x7ffc09d32b30
+    method SetupAtSingleMode(2 args)  @0x7ffc09d32d20
+    method SetupCore(2 args)  @0x7ffc09d32f50
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailModel
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeRivalDetailScoreItemView
+    parents: Gallop.LoopScrollItemBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamDetailView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(4 args)  @0x7ffc09d345f0
+    method SetupAtSingleMode(2 args)  @0x7ffc09d34620
+    method SetupContents(6 args)  @0x7ffc09d34650
+    method SetupInternal(5 args)  @0x7ffc09d34ab0
+    method SetupRewardItems(2 args)  @0x7ffc09d34f40
+    method SetupHighScore(3 args)  @0x7ffc09d35200
+    method SetupExamClearRate(1 args)  @0x7ffc09d35480
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamListControl.<>c__DisplayClass6_0
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamListControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(2 args) static  @0x7ffc09d356b0
+    method Open(3 args) static  @0x7ffc09d35880
+    method OpenForForceSelect(2 args) static  @0x7ffc09d35a10
+    method Setup(5 args)  @0x7ffc09d35b80
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamListModel
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeExamListView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(3 args)  @0x7ffc09d362d0
+    method SetupContents(0 args)  @0x7ffc09d364f0
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusControl
+    parents: UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Open(1 args) static  @0x7ffc09d424f0
+    method Setup(1 args)  @0x7ffc09d42600
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusModel
+    parents: System.Object
+
+  Gallop.TrainingChallenge.DialogTrainingChallengeScoreBonusView
+    parents: Gallop.DialogInnerBase -> UnityEngine.MonoBehaviour -> UnityEngine.Behaviour -> UnityEngine.Component -> UnityEngine.Object -> System.Object
+    method Setup(2 args)  @0x7ffc09d429c0
+
+  Gallop.IdleSingleModeCheckProgressLogRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeCheckProgressLogResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826ab10
+
+  Gallop.IdleSingleModeCheckProgressLogResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeCheckProgressLogResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeCheckProgressLogTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeEndRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeEndResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826b350
+
+  Gallop.IdleSingleModeEndResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeEndResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeEndTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeMultiRaceReserveDeckRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeMultiRaceReserveDeckResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826bb90
+
+  Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeMultiRaceReserveDeckResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeMultiRaceReserveDeckTask
+    parents: System.Object
+
+  Gallop.IdleSingleModePreStartRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModePreStartResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826c3d0
+
+  Gallop.IdleSingleModePreStartResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModePreStartResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModePreStartTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeResultRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeResultResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826cc10
+
+  Gallop.IdleSingleModeResultResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeResultResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeResultTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeStartRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeStartResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826d450
+
+  Gallop.IdleSingleModeStartResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeStartResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeStartTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeStatusRequest
+    parents: Gallop.RequestBase<Gallop.IdleSingleModeStatusResponse> -> Gallop.RequestCommon -> System.Object
+    method CreateTask(2 args)  @0x7ffc0826dc90
+
+  Gallop.IdleSingleModeStatusResponse.CommonResponse
+    parents: System.Object
+
+  Gallop.IdleSingleModeStatusResponse
+    parents: Gallop.ResponseCommon -> System.Object
+
+  Gallop.IdleSingleModeStatusTask
+    parents: System.Object
+
+  Gallop.IdleSingleModeEndInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeGainInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeLoadInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModePrioritySkill
+    parents: System.Object
+
+  Gallop.IdleSingleModeProgressInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeProgressLogInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeRaceHistory
+    parents: System.Object
+
+  Gallop.IdleSingleModeSignedInt
+    parents: System.Object
+
+  Gallop.IdleSingleModeStartInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeSuccessionFactorGainInfo
+    parents: System.Object
+
+  Gallop.IdleSingleModeSupportCardGainInfo
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeEndInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeEndRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeEndResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeEndResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeGainInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeLoadInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModePreStartRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModePreStartResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModePreStartResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModePrioritySkillFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeProgressInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeProgressLogInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeRaceHistoryFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeResultRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeResultResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeResultResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeSignedIntFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStartInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStartRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStartResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStartResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStatusRequestFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStatusResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeStatusResponse_CommonResponseFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeSuccessionFactorGainInfoFormatter
+    parents: System.Object
+
+  Gallop.MsgPack.Formatters.IdleSingleModeSupportCardGainInfoFormatter
+    parents: System.Object
+
+=== HEAP SCAN (4 of 250 candidates, cap 4) ===
+
+  [umamusume] Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut: 0 instance(s), 44 ms
+
+  [umamusume] Gallop.MasterIdleSingleModeTrainingCut: 1 instance(s), 31 ms
+    instance #0
+      ._db = <Gallop.MasterSingleModeDatabase>
+      ._notFounds = <read err: access violation accessing 0x0>
+      ._lazyPrimaryKeyDictionary = <System.Collections.Generic.Dictionary<System.Int32,Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut>>
+      ._dictionaryWithScenarioId = <System.Collections.Generic.Dictionary<System.Int32,System.Collections.Generic.List<Gallop.MasterIdleSingleModeTrainingCut.IdleSingleModeTrainingCut>>>
+
+  [umamusume] Gallop.ObscuredIdleSingleModeEndInfo: 0 instance(s), 31 ms
+
+  [umamusume] Gallop.ObscuredIdleSingleModeGainInfo: 8 instance(s), 32 ms
+    instance #0
+      .<Speed>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Stamina>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Power>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Wiz>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Guts>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<MaxSpeed>k__BackingField = <object>
+      .<MaxStamina>k__BackingField = <object>
+      .<MaxPower>k__BackingField = <object>
+      .<MaxWiz>k__BackingField = <object>
+      .<MaxGuts>k__BackingField = <object>
+      .<ProperDistanceShort>k__BackingField = <object>
+      .<ProperDistanceMile>k__BackingField = <object>
+      .<ProperDistanceMiddle>k__BackingField = <object>
+      .<ProperDistanceLong>k__BackingField = <object>
+      .<ProperRunningStyleNige>k__BackingField = <object>
+      .<ProperRunningStyleSenko>k__BackingField = <object>
+      .<ProperRunningStyleSashi>k__BackingField = <object>
+      .<ProperRunningStyleOikomi>k__BackingField = <object>
+      .<ProperGroundTurf>k__BackingField = <object>
+      .<ProperGroundDirt>k__BackingField = <object>
+      .<SkillPoint>k__BackingField = <object>
+      .<SkillTipsArray>k__BackingField = <array len=16>
+    instance #1
+      .<Speed>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Stamina>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Power>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Wiz>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Guts>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<MaxSpeed>k__BackingField = <object>
+      .<MaxStamina>k__BackingField = <object>
+      .<MaxPower>k__BackingField = <object>
+      .<MaxWiz>k__BackingField = <object>
+      .<MaxGuts>k__BackingField = <object>
+      .<ProperDistanceShort>k__BackingField = <object>
+      .<ProperDistanceMile>k__BackingField = <object>
+      .<ProperDistanceMiddle>k__BackingField = <object>
+      .<ProperDistanceLong>k__BackingField = <object>
+      .<ProperRunningStyleNige>k__BackingField = <object>
+      .<ProperRunningStyleSenko>k__BackingField = <object>
+      .<ProperRunningStyleSashi>k__BackingField = <object>
+      .<ProperRunningStyleOikomi>k__BackingField = <object>
+      .<ProperGroundTurf>k__BackingField = <object>
+      .<ProperGroundDirt>k__BackingField = <object>
+      .<SkillPoint>k__BackingField = <object>
+      .<SkillTipsArray>k__BackingField = <array len=14>
+    instance #2
+      .<Speed>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Stamina>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Power>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Wiz>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<Guts>k__BackingField = <Gallop.ObscuredIdleSingleModeSignedInt>
+      .<MaxSpeed>k__BackingField = <object>
+      .<MaxStamina>k__BackingField = <object>
+      .<MaxPower>k__BackingField = <object>
+      .<MaxWiz>k__BackingField = <object>
+      .<MaxGuts>k__BackingField = <object>
+      .<ProperDistanceShort>k__BackingField = <object>
+      .<ProperDistanceMile>k__BackingField = <object>
+      .<ProperDistanceMiddle>k__BackingField = <object>
+      .<ProperDistanceLong>k__BackingField = <object>
+      .<ProperRunningStyleNige>k__BackingField = <object>
+      .<ProperRunningStyleSenko>k__BackingField = <object>
+      .<ProperRunningStyleSashi>k__BackingField = <object>
+      .<ProperRunningStyleOikomi>k__BackingField = <object>
+      .<ProperGroundTurf>k__BackingField = <object>
+      .<ProperGroundDirt>k__BackingField = <object>
+      .<SkillPoint>k__BackingField = <object>
+      .<SkillTipsArray>k__BackingField = <array len=2>
+
+[+] scout complete; detach happens now
