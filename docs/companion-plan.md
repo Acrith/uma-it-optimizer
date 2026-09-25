@@ -427,6 +427,11 @@ scheduled; pick a batch, not single items.
    on uploads, "Open Settings" when uploads pause).
 2. The capture card over the game (the design's overlay card): the
    in-game, fully custom presentation. Needs the overlay layer.
+   Confirmed necessary 2026-09-25: Windows 11 turns on Do not disturb
+   automatically while a game or full-screen app runs (borderless counts),
+   so native toasts are held in the notification centre during play. Until
+   the overlay exists: tell users about "priority notifications" (Settings
+   -> System -> Notifications) in Settings or the guide.
 3. The companion's own notification window (branded, outside the game):
    monitor/DPI placement, never steal focus, own Do Not Disturb, stacking.
 
