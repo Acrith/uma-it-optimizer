@@ -461,9 +461,17 @@ scheduled; pick a batch, not single items.
 - One capture agent file shared by the .exe and frida-host.
 
 **Release and distribution**
-- Auto-updater: signing key pair (secret) + public releases repo; the
-  site's update notice already ships (`api/client_versions.py`, bump
-  `LATEST` per release).
+- DONE 2026-09-25: auto-updater, signed (key in the owner's password
+  manager + the companion repo secret), public releases repo
+  `Acrith/umaladder-companion-releases`, `release.yml` on `v*` tags.
+  v0.1.0 -> v0.1.1 updated in one click on the owner's PC. Release
+  checklist: bump the version in `src-tauri/tauri.conf.json`,
+  `src-tauri/Cargo.toml` and `ui/package.json` (the tag must match), edit
+  `release-notes.md`, tag. Windows CI runs on demand only (private-repo
+  minutes count double).
+- Site update notice: add `umaladder-companion` to
+  `api/client_versions.py` `LATEST` (needs a site deploy per release; the
+  in-app updater already covers most users).
 - Code signing: skipped for the beta (cost). Check Microsoft Trusted
   Signing eligibility before a wide release; until then SmartScreen shows
   "unknown publisher" once per version.
