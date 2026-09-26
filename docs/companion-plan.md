@@ -698,6 +698,18 @@ scheduled; pick a batch, not single items.
   (track, racecourse) when it comes back.
 
 **Look and assets**
+- Gold event skills per support card, for the site's skill search
+  (community request 2026-09-27: "No Stopping Me" on SSR Yukino Bijin,
+  "Professor of Curvature" on SSR Kitasan Black; the search indexes hint
+  skills only). Not in master.mdb: `single_mode_hint_gain` is the hint
+  list, and no table links a card to its event golds (they live in the
+  event story assets). Receipts credit them to the Events bucket, and
+  shared golds (Kitasan Black and Tokai Teio both give Professor of
+  Curvature) make inferring them from runs unreliable. GameTora embeds
+  `event_skills` per card in each support page's `__NEXT_DATA__` (e.g.
+  30028: [200362, 200331]); no bulk file, no published terms. Owner: explore
+  other options (e.g. the story assets in the asset survey); an email to
+  GameTora is moot given the images already used from them.
 - Asset survey with an Umamusume asset explorer: racecourse/track
   backgrounds, scenario logos, race grade icons (G1/G2/G3), campaign
   banners; decide what enriches which card before adding any.
