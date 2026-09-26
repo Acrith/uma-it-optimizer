@@ -624,6 +624,17 @@ honest until the planner's prediction covers events and inspiration.
 **Order:** run memory + read at Start (app) → the card with what is
 known → the site endpoint → setup extras from the setup screens.
 
+**Setup reads: two jobs, two triggers (2026-09-27).** Recording the
+setup with the run: one read at Start, from a hook on the Final
+Confirmation's `StartIdleSingleMode` / `StartSingleMode` (everything
+final, nothing missed, free elsewhere; polling only if the hook is not
+found). A live planner that follows picks (not built yet): reads only
+while on the setup screens, triggered by `SingleModeStartViewController`
+hooks (`SetStep(Step)` on entering/moving between steps,
+`SetupCharacterFromTrainedData` on a parent pick, `ReloadSupportCard` on
+a deck change) plus a 1-2 s poll between entering and leaving the setup
+as a safety net. Never a poll on every screen.
+
 **Deferred (owner, 2026-09-27): the run's end state as a veteran.** After
 the Training Log: the skills picked at the shop (ids, SP left), both
 spark rolls and the one kept, and the saved veteran (`TrainedCharaData`
