@@ -579,6 +579,51 @@ read), then 3, which the site's decks and planner can use straight away.
 4-6 ride on the planner work. Release: zero-click plus 1-2 as v0.2.0,
 tested in dev builds first; CI only for the release build.
 
+## Run card and run memory (2026-09-27, owner: "store what the companion collected for the run")
+
+**Verified 2026-09-27 in dev11, owner's PC without Hachimi:** armed on its
+own, picked up a run already in progress (title bar "IT ends 14:23"),
+the finished notification fired on time, opening the Training Log
+captured and uploaded the run with no click. Found and fixed on the way:
+a leftover plugin DLL with Hachimi uninstalled made the app stand down
+(`e38ada6`).
+
+**Run memory.** Each run is kept on disk under its start time (the
+game's `StartTime`, unique per run) with everything learnt about it.
+The game is the source of truth: on every arm the companion reads the
+current run; a different start time means the memory is old and is
+replaced (the PC-restart case: a run done without the companion, then a
+new one). Setup details (focus, prioritized skills, agenda, the parents'
+sparks, the friend card) are attached only when the companion saw that
+exact setup just before Start (same trainee and deck, within minutes).
+A run done wholly without the companion is not recoverable (the game
+shows its Training Log before the next run); the Capture button covers
+it.
+
+**Read early, not late.** The run's `CharaInfo.support_card_array`
+(the deck) read fine right after Start and was freed hours later
+(access violation), so deck, parents and starting stats are read at
+Start (the `it_state` poll that first sees a new start time) and kept in
+the run memory. `it_state` itself stays readable for the whole run.
+
+**The card** (Training, top; Today shows it in place of the last run
+while a run is going):
+- during a run: trainee art, countdown and progress, start/end, scenario;
+  deck with LBs, parents with their key sparks, starting stats; setup
+  extras when known; "runs like this" (below);
+- done: "open the Training Log in the game";
+- no run: "ready", when the last one ended;
+- one status line: watching / plugin captures, Capture as a small
+  fallback, the upload queue as "all uploaded" or "2 waiting · Retry".
+The how-it-works text moves to Settings → Capture.
+
+**"Runs like this"** (site, additive endpoint): runs on the site with
+this trainee and deck: count, typical and best score. Grounded, and
+honest until the planner's prediction covers events and inspiration.
+
+**Order:** run memory + read at Start (app) → the card with what is
+known → the site endpoint → setup extras from the setup screens.
+
 ## Companion backlog (collected feedback, done in batches)
 
 Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;
