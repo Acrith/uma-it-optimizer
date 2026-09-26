@@ -466,6 +466,10 @@ for looping "whose parent did I borrow" is worth keeping. So:
 - **not by default:** the whole borrow lists on every capture; a parent
   search built on other players' data is its own, opt-in feature;
 - **never:** free-text profile comments.
+- Candidate use of the borrow list (not scheduled; wants a real looping
+  case first): rank today's borrowable parents for the trainee being set
+  up (sparks, loops with the player's own parent), computed on the PC
+  while the legacy screen is open and never uploaded.
 
 **Final Confirmation** (`Singleton<DialogManager>._dialogList`, newest
 first; pick by type, not index): the dialog controller is the Start
