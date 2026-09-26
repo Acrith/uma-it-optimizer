@@ -701,6 +701,20 @@ scheduled; pick a batch, not single items.
   bands repeating the face "don't look best"; give them a neutral scene
   (track, racecourse) when it comes back.
 
+**Testers (owner, 2026-09-27)**
+- Owner gathers a small group first (players without Hachimi: the
+  companion's whole path is automatic for them; current .exe users are
+  the natural first testers). Before inviting, in the next release: a
+  "Copy log" button (Settings) and a short tester note (what it does,
+  known limits: Hachimi users, first capture after a game update;
+  SmartScreen/antivirus on an unsigned exe that attaches to the game; how
+  to report). The releases repo is public (the updater needs it), so
+  "closed" means who is pointed at it.
+- Hachimi users wait for the plugin's zero-click (trigger known:
+  `StartShowContent`; test offline first, keep the button; its own
+  release). Open design question: should the companion's timer and setup
+  reads also run when the plugin captures (today it stands down)?
+
 **Look and assets**
 - Gold event skills per support card, for the site's skill search
   (community request 2026-09-27: "No Stopping Me" on SSR Yukino Bijin,
