@@ -426,6 +426,55 @@ Owner's public commitments (Discord, 2026-09-25), binding on the plan:
 - **A native Linux companion will be attempted** (Linux PCs, and the Deck
   in Desktop Mode; nothing draws over Deck Game Mode).
 
+## Scouting 2026-09-26: account, setup and confirmation, no heap scans
+
+Owner's account, game on screen, `tools/memory_extractor/scout_companion.py`
+(logs in `scout_logs/2026-09-26/`, other players' identities redacted).
+Every read goes from a static singleton down plain fields: no `gc.choose`,
+no hooks, the game never paused. Values behind CodeStage `Obscured*`
+decode as `hiddenValue ^ currentCryptoKey` (ObscuredBool: 213 true, 181
+false). Some fields throw an access violation on read (null inner
+pointers, e.g. `_winSaddleArray`, `_tempDataDic` when unused); caught,
+production code skips them.
+
+**Account** (`Gallop.Singleton<WorkDataManager>._instance`):
+| Data | Path | On the owner's account |
+|---|---|---|
+| Support cards | `<SupportCardData>._dataDic` | 197: `_supportCardId`, `_limitBreakCount`, `_level`, `_exp`, `_stock`, favourite |
+| Veteran umas | `<TrainedCharaData>._dataDic` | 258: stats, `_rankScore`, aptitudes, `FactorDataArray` (FactorId, e.g. 203 = Stamina 3★), grandparents in `SuccessionCharaList` (position 10/20), skills, deck, race history, `_winSaddleIdArray`, lock |
+| Characters | `<CharaData>._dataDic` | 41: fans, times trained, bond |
+| Deck presets | `<SupportDeckData>._dataDic` + `SelectedDeckId` | 10 named presets of 5 card ids; swiping presets updates `SelectedDeckId` at once, and editing a card saves straight into `_dataDic` |
+| IT state | `<IdleSingleModeData>` | `StartTime`, `EndTime`, `CharaInfo`, state (empty before Start; to verify after Start) |
+
+**Setup, live while the player picks** (`MonoSingleton<SceneManager>._instance
+._currentViewController` = `HomeHubViewController` →
+`ChildCurrentController` = `SingleModeStartViewController` → `Entry`):
+trainee `CardId`, `ScenarioId`, parents `SuccessionTrainedChara_First/_Second`
+(full sparks, grandparents; a borrowed parent carries its owner's viewer id,
+so "grandparent = the other parent" is visible from ids), friend card
+`SelectFriendCardInfo` (card id, level, LB). The 5 deck slots stay 0 until
+the Final Confirmation, where `SupportSerialIdArray` = the selected preset.
+Also present: the 69 borrowable parents and 79 friend cards, with other
+players' names and comments: a capture keeps card ids, levels and LBs only.
+
+**Final Confirmation** (`Singleton<DialogManager>._dialogList`, newest
+first; pick by type, not index): the dialog controller is the Start
+button delegate's `m_target` = `DialogSingleModeStartConfirmEntrySelectMode`.
+- `_viewModel.DialogSetupParameter`: `ParamRateId` (Training Focus,
+  2 = Stamina here), `PreferenceSkillIdList` (prioritized skills, 10 ids),
+  `UseTp` 15, deck and friend card again, rental cost.
+- Race agenda: `_idleTab._raceSelectContext.ReservedRaceInfo
+  .reserved_race_array`: deck 0 = the agenda the run uses (empty here: goal
+  races only), decks 1–8 = the saved agendas by name, each race
+  `(year, program_id)` (program ids as in the site's masters).
+
+**What it enables.** The planner can follow the setup screen by screen (or
+poll: the reads are cheap) and show the expected result of exactly what is
+on screen; account-valid decks (owned cards at real LB) and parent picks
+(real sparks) come from one account read. Route B polls with a long-lived
+agent that takes the bridge thread per read (`perform(..., "free")`, see
+the exit-hang fix); the plugin reads the same paths in-process.
+
 ## Companion backlog (collected feedback, done in batches)
 
 Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;

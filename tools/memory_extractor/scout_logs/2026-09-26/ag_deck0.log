@@ -1,0 +1,606 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.DialogManager -> _dialogList -> [1] -> _data -> RightButtonCallBack -> m_target -> _idleTab -> _raceSelectContext -> <ReserveRepository>k__BackingField -> _entities -> [0] ===
+  _dialogList: System.Collections.Generic.List<Gallop.DialogCommon>
+  [1]: Gallop.DialogCommon
+  _data: Gallop.DialogCommon.Data
+  RightButtonCallBack: System.Action<Gallop.DialogCommon>
+  m_target: Gallop.DialogSingleModeStartConfirmEntrySelectMode
+  _idleTab: Gallop.PartsSingleModeStartConfirmEntryIdleTabItem
+  _raceSelectContext: Gallop.IdleSingleModeCharaRaceSelectContext
+  <ReserveRepository>k__BackingField: Gallop.SingleModeRaceReserveRepository
+  _entities: ?
+  [0]: Gallop.SingleModeRaceReserveDeckEntity
+  <Gallop.SingleModeRaceReserveDeckEntity>
+      ._reserveDict = <System.Collections.Generic.SortedDictionary<Gallop.SingleModeDefine.DegreeType,System.Collections.Generic.List<Gallop.SingleModeRaceReserveTurnEntity>>>
+        ._keys = <?>
+        ._values = <?>
+        ._set = <System.Collections.Generic.TreeSet<System.Collections.Generic.KeyValuePair<Gallop.SingleModeDefine.DegreeType,System.Collections.Generic.List<Gallop.SingleModeRaceReserveTurnEntity>>>>
+      ._displayData = <?>
+      ._programIdGetter = <Gallop.IdleSingleModeCharaRaceSelectContext>
+        .<ReserveRepository>k__BackingField = <Gallop.SingleModeRaceReserveRepository>
+          ._entities = <? len=9>
+            [0] <Gallop.SingleModeRaceReserveDeckEntity>
+            [1] <Gallop.SingleModeRaceReserveDeckEntity>
+            [2] <Gallop.SingleModeRaceReserveDeckEntity>
+            [3] <Gallop.SingleModeRaceReserveDeckEntity>
+            [4] <Gallop.SingleModeRaceReserveDeckEntity>
+            [5] <Gallop.SingleModeRaceReserveDeckEntity>
+            [6] <Gallop.SingleModeRaceReserveDeckEntity>
+            [7] <Gallop.SingleModeRaceReserveDeckEntity>
+            [8] <Gallop.SingleModeRaceReserveDeckEntity>
+          ._conditionalProgramIdGetter = <Gallop.IdleSingleModeCharaRaceSelectContext>
+            .<ReserveRepository>k__BackingField = <Gallop.SingleModeRaceReserveRepository>
+            .<TurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+            .<DefaultUraTurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+            .<RequestBuilder>k__BackingField = <Gallop.SingleModeRaceReserveRequestBuilder>
+            .<Connect>k__BackingField = <Gallop.IdleSingleModeRaceReserveConnect>
+            .<AutoReapply>k__BackingField = <Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply>
+            .<ReservedRaceInfo>k__BackingField = <Gallop.SingleModeReservedRaceInfo>
+            .<EntryInfo>k__BackingField = <Gallop.SingleModeStartViewController.EntryInfo>
+            .<CharaProperInfo>k__BackingField = <Gallop.PartsSingleModeStartProperFrame.InfoWithBonus>
+            .<SelectRouteRaceProgramId>k__BackingField = 0
+          .<OnUpdateEvent>k__BackingField = <Gallop.EventSubject<Gallop.SingleModeRaceReserveRepository>>
+            ._lock = <System.Object>
+            ._isDisposed = false
+            ._observerList = <System.Collections.Generic.List<System.IObserver<Gallop.SingleModeRaceReserveRepository>>>
+        .<TurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+          .<IsUpdated>k__BackingField = true
+          .<TurnMasters>k__BackingField = <System.Collections.Generic.List<Gallop.MasterSingleModeTurn.SingleModeTurn> count=78>
+            [0] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [1] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [2] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [3] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [4] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [5] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [6] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [7] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [8] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [9] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [10] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [11] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+          .<DegreeEntities>k__BackingField = <System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.SingleModeRaceReserveDegreeTurnEntity> count=4>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <?>
+            {<?>} <?>
+            {<?>} <?>
+          ._getTurnSetId = <System.Func<System.Int32>>
+        .<DefaultUraTurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+          .<IsUpdated>k__BackingField = true
+          .<TurnMasters>k__BackingField = <System.Collections.Generic.List<Gallop.MasterSingleModeTurn.SingleModeTurn> count=78>
+            [0] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [1] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [2] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [3] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [4] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [5] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [6] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [7] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [8] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [9] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [10] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+            [11] <Gallop.MasterSingleModeTurn.SingleModeTurn>
+          .<DegreeEntities>k__BackingField = <System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.SingleModeRaceReserveDegreeTurnEntity> count=4>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <Gallop.SingleModeRaceReserveDegreeTurnEntity>
+            {<?>} <?>
+            {<?>} <?>
+            {<?>} <?>
+          ._getTurnSetId = <System.Func<System.Int32>>
+        .<RequestBuilder>k__BackingField = <Gallop.SingleModeRaceReserveRequestBuilder>
+          ._addProgramsDict = <read err: access violation accessing 0x18>
+          ._cancelProgramsDict = <read err: access violation accessing 0x18>
+          ._programIdGetter = <Gallop.IdleSingleModeCharaRaceSelectContext>
+            .<ReserveRepository>k__BackingField = <Gallop.SingleModeRaceReserveRepository>
+            .<TurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+            .<DefaultUraTurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+            .<RequestBuilder>k__BackingField = <Gallop.SingleModeRaceReserveRequestBuilder>
+            .<Connect>k__BackingField = <Gallop.IdleSingleModeRaceReserveConnect>
+            .<AutoReapply>k__BackingField = <Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply>
+            .<ReservedRaceInfo>k__BackingField = <Gallop.SingleModeReservedRaceInfo>
+            .<EntryInfo>k__BackingField = <Gallop.SingleModeStartViewController.EntryInfo>
+            .<CharaProperInfo>k__BackingField = <Gallop.PartsSingleModeStartProperFrame.InfoWithBonus>
+            .<SelectRouteRaceProgramId>k__BackingField = 0
+          ._reserveRepository = <Gallop.SingleModeRaceReserveRepository>
+            ._entities = <? len=9>
+              [0] <Gallop.SingleModeRaceReserveDeckEntity>
+              [1] <Gallop.SingleModeRaceReserveDeckEntity>
+              [2] <Gallop.SingleModeRaceReserveDeckEntity>
+              [3] <Gallop.SingleModeRaceReserveDeckEntity>
+              [4] <Gallop.SingleModeRaceReserveDeckEntity>
+              [5] <Gallop.SingleModeRaceReserveDeckEntity>
+              [6] <Gallop.SingleModeRaceReserveDeckEntity>
+              [7] <Gallop.SingleModeRaceReserveDeckEntity>
+              [8] <Gallop.SingleModeRaceReserveDeckEntity>
+            ._conditionalProgramIdGetter = <Gallop.IdleSingleModeCharaRaceSelectContext>
+            .<OnUpdateEvent>k__BackingField = <Gallop.EventSubject<Gallop.SingleModeRaceReserveRepository>>
+        .<Connect>k__BackingField = <Gallop.IdleSingleModeRaceReserveConnect>
+          ._reservedRaceInfo = <Gallop.SingleModeReservedRaceInfo>
+            .default_deck_num = 0
+            .needs_default_confirm = 1
+            .reserved_race_array = <? len=9>
+              [0] <Gallop.SingleModeReservedRaceDeck>
+              [1] <Gallop.SingleModeReservedRaceDeck>
+              [2] <Gallop.SingleModeReservedRaceDeck>
+              [3] <Gallop.SingleModeReservedRaceDeck>
+              [4] <Gallop.SingleModeReservedRaceDeck>
+              [5] <Gallop.SingleModeReservedRaceDeck>
+              [6] <Gallop.SingleModeReservedRaceDeck>
+              [7] <Gallop.SingleModeReservedRaceDeck>
+              [8] <Gallop.SingleModeReservedRaceDeck>
+          ._entryInfo = <Gallop.SingleModeStartViewController.EntryInfo>
+            .<CardId>k__BackingField = 101102
+            .<SupportSerialIdArray>k__BackingField = <? len=5>
+              [0] 30052
+              [1] 20021
+              [2] 30074
+              [3] 30087
+              [4] 30113
+            .<RentalSupportCardIdArray>k__BackingField = <? len=5>
+              [0] 0
+              [1] 0
+              [2] 0
+              [3] 0
+              [4] 0
+            .FriendSupportCardPosition = 5
+            ._eventRentalTrainedCharaArray = <? len=0>
+            ._rentalTrainedCharaArray = <? len=69>
+              [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [10] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [11] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            ._singleModeStartSuccessionUserInfoManager = <Gallop.SingleModeStartSuccessionUserInfoManager>
+            .SuccessionTrainedChara_First = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            .SuccessionTrainedChara_Second = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            .<ScenarioId>k__BackingField = 1
+            .<UseEventRental>k__BackingField = <?>
+            .<UseTp>k__BackingField = 15
+            .<UseTpWhenBoostMode>k__BackingField = 15
+            .<EnableTpBoost>k__BackingField = false
+            .<DifficultyId>k__BackingField = 0
+            .<Difficulty>k__BackingField = 0
+            ._paramDict = <System.Collections.Generic.Dictionary<Gallop.GameDefine.ParameterType,Gallop.PartsSingleModeMemberParamaters.ParamSet>>
+            ._cardDressIdSet = <Gallop.CardDressIdSet>
+            .<EnableEventType>k__BackingField = <?>
+            .FriendCardInfoList = <System.Collections.Generic.List<Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>>
+            .SelectFriendCardInfo = <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            .RentalUserInfoArray = <? len=69>
+              [0] <Gallop.UserInfoAtFriend>
+              [1] <Gallop.UserInfoAtFriend>
+              [2] <Gallop.UserInfoAtFriend>
+              [3] <Gallop.UserInfoAtFriend>
+              [4] <Gallop.UserInfoAtFriend>
+              [5] <Gallop.UserInfoAtFriend>
+              [6] <Gallop.UserInfoAtFriend>
+              [7] <Gallop.UserInfoAtFriend>
+              [8] <Gallop.UserInfoAtFriend>
+              [9] <Gallop.UserInfoAtFriend>
+              [10] <Gallop.UserInfoAtFriend>
+              [11] <Gallop.UserInfoAtFriend>
+            .RentalTrainedCharaArray = <? len=69>
+              [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [10] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              [11] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            .EventRentalUserInfoArray = <? len=0>
+            .EventRentalTrainedCharaArray = <? len=0>
+            .<RunningStyle>k__BackingField = <?>
+            .<RouteRaceProgramId>k__BackingField = 0
+        .<AutoReapply>k__BackingField = <Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply>
+          ._autoReapplyDeckIndex = 0 (obscured)
+          ._needConfirmAutoReapply = 213 (obscured)
+        .<ReservedRaceInfo>k__BackingField = <Gallop.SingleModeReservedRaceInfo>
+          .default_deck_num = 0
+          .needs_default_confirm = 1
+          .reserved_race_array = <? len=9>
+            [0] <Gallop.SingleModeReservedRaceDeck>
+            [1] <Gallop.SingleModeReservedRaceDeck>
+            [2] <Gallop.SingleModeReservedRaceDeck>
+            [3] <Gallop.SingleModeReservedRaceDeck>
+            [4] <Gallop.SingleModeReservedRaceDeck>
+            [5] <Gallop.SingleModeReservedRaceDeck>
+            [6] <Gallop.SingleModeReservedRaceDeck>
+            [7] <Gallop.SingleModeReservedRaceDeck>
+            [8] <Gallop.SingleModeReservedRaceDeck>
+        .<EntryInfo>k__BackingField = <Gallop.SingleModeStartViewController.EntryInfo>
+          .<CardId>k__BackingField = 101102
+          .<SupportSerialIdArray>k__BackingField = <? len=5>
+            [0] 30052
+            [1] 20021
+            [2] 30074
+            [3] 30087
+            [4] 30113
+          .<RentalSupportCardIdArray>k__BackingField = <? len=5>
+            [0] 0
+            [1] 0
+            [2] 0
+            [3] 0
+            [4] 0
+          .FriendSupportCardPosition = 5
+          ._eventRentalTrainedCharaArray = <? len=0>
+          ._rentalTrainedCharaArray = <? len=69>
+            [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [10] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [11] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          ._singleModeStartSuccessionUserInfoManager = <Gallop.SingleModeStartSuccessionUserInfoManager>
+            ._managedInfoDic = <System.Collections.Generic.Dictionary<System.Int64,System.ValueTuple<Gallop.UserInfoAtFriend,System.Collections.Generic.HashSet<Gallop.SingleModeStartSuccessionUserInfoManager.UserInfoManageHash>>>>
+          .SuccessionTrainedChara_First = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            ._id = 3010 (obscured)
+            ._isSaved = 213 (obscured)
+            ._viewerId = <redacted>
+            ._ownerViewerId = <redacted>
+            ._ownerTrainedCharaId = 0 (obscured)
+            ._useType = <?>
+            ._cardId = 102701 (obscured)
+            ._nickNameId = 394 (obscured)
+            ._nickNameIdArray = <? len=1>
+              [0] 394 (obscured)
+            ._stamina = 904 (obscured)
+            ._speed = 990 (obscured)
+            ._power = 759 (obscured)
+            ._guts = 542 (obscured)
+            ._wiz = 726 (obscured)
+            ._fans = 788944 (obscured)
+            ._rank = 15 (obscured)
+            ._rankScore = 15622 (obscured)
+            ._runningStyle = 3 (obscured)
+            ._properGroundTurf = 7 (obscured)
+            ._properGroundDirt = 1 (obscured)
+            ._properDistanceShort = 3 (obscured)
+            ._properDistanceMile = 5 (obscured)
+            ._properDistanceMiddle = 7 (obscured)
+            ._properDistanceLong = 7 (obscured)
+            ._properRunningStyleNige = 2 (obscured)
+            ._properRunningStyleSenko = 7 (obscured)
+            ._properRunningStyleSashi = 7 (obscured)
+            ._properRunningStyleOikomi = 3 (obscured)
+            .<SuccessionCount>k__BackingField = 0 (obscured)
+            .<FactorDataArray>k__BackingField = <? len=15>
+              [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [6] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [7] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [8] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [9] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [10] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [11] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+            .<CreateTime>k__BackingField = 0 (obscured)
+            .<ScenarioId>k__BackingField = 2 (obscured)
+            .<TalentLevel>k__BackingField = 5 (obscured)
+            .<CharaGrade>k__BackingField = 10 (obscured)
+            .<Rarity>k__BackingField = 4 (obscured)
+            .<IsLock>k__BackingField = 181 (obscured)
+            ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+            ._cachedCreateTimeTimeStamp = 0 (obscured)
+            ._sortedFactorList = <System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>>
+            ._sortedFactorProfileCardList = <?>
+            ._factorListIncludingSuccession = <?>
+            .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+            .IsSuccessionHistoryInitialized = false
+            .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+            .<AcquiredSkillArray>k__BackingField = <? len=19>
+              [0] <Gallop.WorkSkillData.AcquiredSkill>
+              [1] <Gallop.WorkSkillData.AcquiredSkill>
+              [2] <Gallop.WorkSkillData.AcquiredSkill>
+              [3] <Gallop.WorkSkillData.AcquiredSkill>
+              [4] <Gallop.WorkSkillData.AcquiredSkill>
+              [5] <Gallop.WorkSkillData.AcquiredSkill>
+              [6] <Gallop.WorkSkillData.AcquiredSkill>
+              [7] <Gallop.WorkSkillData.AcquiredSkill>
+              [8] <Gallop.WorkSkillData.AcquiredSkill>
+              [9] <Gallop.WorkSkillData.AcquiredSkill>
+              [10] <Gallop.WorkSkillData.AcquiredSkill>
+              [11] <Gallop.WorkSkillData.AcquiredSkill>
+            .<SupportCardArray>k__BackingField = <? len=6>
+              [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+            .<SingleModeRaceResultArray>k__BackingField = <? len=31>
+              [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [6] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [7] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [8] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [9] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [10] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [11] <Gallop.SingleModeUtils.RaceHistoryInfo>
+            ._winSaddleArray = <? len=25>
+              [0] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [1] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [2] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [3] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [4] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [5] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [6] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [7] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [8] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [9] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [10] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [11] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+            ._winSaddleIdArray = <? len=25>
+              [0] 1 (obscured)
+              [1] 2 (obscured)
+              [2] 4 (obscured)
+              [3] 5 (obscured)
+              [4] 6 (obscured)
+              [5] 10 (obscured)
+              [6] 11 (obscured)
+              [7] 12 (obscured)
+              [8] 13 (obscured)
+              [9] 14 (obscured)
+              [10] 15 (obscured)
+              [11] 16 (obscured)
+            ._cacheCharaId = 1027 (obscured)
+            ._masterCardData = <Gallop.MasterCardData.CardData>
+            ._masterCharaData = <?>
+            ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+            .<SingleTotalRaceNum>k__BackingField = 31
+            ._singleWinNum = 31 (obscured)
+            .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+          .SuccessionTrainedChara_Second = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            ._id = 4168 (obscured)
+            ._isSaved = 213 (obscured)
+            ._viewerId = <redacted>
+            ._ownerViewerId = <redacted>
+            ._ownerTrainedCharaId = 0 (obscured)
+            ._useType = <?>
+            ._cardId = 105901 (obscured)
+            ._nickNameId = 394 (obscured)
+            ._nickNameIdArray = <? len=1>
+              [0] 394 (obscured)
+            ._stamina = 766 (obscured)
+            ._speed = 963 (obscured)
+            ._power = 795 (obscured)
+            ._guts = 598 (obscured)
+            ._wiz = 885 (obscured)
+            ._fans = 733737 (obscured)
+            ._rank = 15 (obscured)
+            ._rankScore = 15357 (obscured)
+            ._runningStyle = 3 (obscured)
+            ._properGroundTurf = 7 (obscured)
+            ._properGroundDirt = 1 (obscured)
+            ._properDistanceShort = 3 (obscured)
+            ._properDistanceMile = 7 (obscured)
+            ._properDistanceMiddle = 7 (obscured)
+            ._properDistanceLong = 3 (obscured)
+            ._properRunningStyleNige = 5 (obscured)
+            ._properRunningStyleSenko = 6 (obscured)
+            ._properRunningStyleSashi = 7 (obscured)
+            ._properRunningStyleOikomi = 3 (obscured)
+            .<SuccessionCount>k__BackingField = 2089 (obscured)
+            .<FactorDataArray>k__BackingField = <? len=18>
+              [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [6] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [7] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [8] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [9] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [10] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              [11] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+            .<CreateTime>k__BackingField = 0 (obscured)
+            .<ScenarioId>k__BackingField = 3 (obscured)
+            .<TalentLevel>k__BackingField = 5 (obscured)
+            .<CharaGrade>k__BackingField = 10 (obscured)
+            .<Rarity>k__BackingField = 3 (obscured)
+            .<IsLock>k__BackingField = 213 (obscured)
+            ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+            ._cachedCreateTimeTimeStamp = 0 (obscured)
+            ._sortedFactorList = <System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>>
+            ._sortedFactorProfileCardList = <?>
+            ._factorListIncludingSuccession = <?>
+            .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+            .IsSuccessionHistoryInitialized = false
+            .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+            .<AcquiredSkillArray>k__BackingField = <? len=21>
+              [0] <Gallop.WorkSkillData.AcquiredSkill>
+              [1] <Gallop.WorkSkillData.AcquiredSkill>
+              [2] <Gallop.WorkSkillData.AcquiredSkill>
+              [3] <Gallop.WorkSkillData.AcquiredSkill>
+              [4] <Gallop.WorkSkillData.AcquiredSkill>
+              [5] <Gallop.WorkSkillData.AcquiredSkill>
+              [6] <Gallop.WorkSkillData.AcquiredSkill>
+              [7] <Gallop.WorkSkillData.AcquiredSkill>
+              [8] <Gallop.WorkSkillData.AcquiredSkill>
+              [9] <Gallop.WorkSkillData.AcquiredSkill>
+              [10] <Gallop.WorkSkillData.AcquiredSkill>
+              [11] <Gallop.WorkSkillData.AcquiredSkill>
+            .<SupportCardArray>k__BackingField = <? len=6>
+              [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+              [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+            .<SingleModeRaceResultArray>k__BackingField = <? len=32>
+              [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [6] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [7] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [8] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [9] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [10] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              [11] <Gallop.SingleModeUtils.RaceHistoryInfo>
+            ._winSaddleArray = <? len=28>
+              [0] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [1] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [2] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [3] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [4] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [5] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [6] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [7] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [8] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [9] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [10] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+              [11] <Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle>
+            ._winSaddleIdArray = <? len=28>
+              [0] 2 (obscured)
+              [1] 3 (obscured)
+              [2] 4 (obscured)
+              [3] 5 (obscured)
+              [4] 6 (obscured)
+              [5] 10 (obscured)
+              [6] 11 (obscured)
+              [7] 13 (obscured)
+              [8] 14 (obscured)
+              [9] 15 (obscured)
+              [10] 17 (obscured)
+              [11] 19 (obscured)
+            ._cacheCharaId = 1059 (obscured)
+            ._masterCardData = <Gallop.MasterCardData.CardData>
+            ._masterCharaData = <?>
+            ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+            .<SingleTotalRaceNum>k__BackingField = 32
+            ._singleWinNum = 32 (obscured)
+            .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+          .<ScenarioId>k__BackingField = 1
+          .<UseEventRental>k__BackingField = <?>
+          .<UseTp>k__BackingField = 15
+          .<UseTpWhenBoostMode>k__BackingField = 15
+          .<EnableTpBoost>k__BackingField = false
+          .<DifficultyId>k__BackingField = 0
+          .<Difficulty>k__BackingField = 0
+          ._paramDict = <System.Collections.Generic.Dictionary<Gallop.GameDefine.ParameterType,Gallop.PartsSingleModeMemberParamaters.ParamSet> count=5>
+            {<?>} <Gallop.PartsSingleModeMemberParamaters.ParamSet>
+            {<?>} <Gallop.PartsSingleModeMemberParamaters.ParamSet>
+            {<?>} <Gallop.PartsSingleModeMemberParamaters.ParamSet>
+            {<?>} <Gallop.PartsSingleModeMemberParamaters.ParamSet>
+            {<?>} <Gallop.PartsSingleModeMemberParamaters.ParamSet>
+            {<?>} <?>
+            {<?>} <?>
+          ._cardDressIdSet = <Gallop.CardDressIdSet>
+            ._cardId = 101102
+            ._dressId = 101116
+          .<EnableEventType>k__BackingField = <?>
+          .FriendCardInfoList = <System.Collections.Generic.List<Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo> count=79>
+            [0] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [1] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [2] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [3] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [4] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [5] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [6] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [7] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [8] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [9] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [10] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            [11] <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+          .SelectFriendCardInfo = <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+            .ViewerId = <redacted>
+            .UserName = <redacted>
+            .SupportCardId = 30054
+            .SupportCardLevel = 50
+            .LimitBreakCount = 4
+            ._skillTriggerTagArray = <read err: access violation accessing 0x18>
+            .FriendState = <?>
+            .LastLoginTime = <redacted>
+          .RentalUserInfoArray = <? len=69>
+            [0] <Gallop.UserInfoAtFriend>
+            [1] <Gallop.UserInfoAtFriend>
+            [2] <Gallop.UserInfoAtFriend>
+            [3] <Gallop.UserInfoAtFriend>
+            [4] <Gallop.UserInfoAtFriend>
+            [5] <Gallop.UserInfoAtFriend>
+            [6] <Gallop.UserInfoAtFriend>
+            [7] <Gallop.UserInfoAtFriend>
+            [8] <Gallop.UserInfoAtFriend>
+            [9] <Gallop.UserInfoAtFriend>
+            [10] <Gallop.UserInfoAtFriend>
+            [11] <Gallop.UserInfoAtFriend>
+          .RentalTrainedCharaArray = <? len=69>
+            [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [10] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [11] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          .EventRentalUserInfoArray = <? len=0>
+          .EventRentalTrainedCharaArray = <? len=0>
+          .<RunningStyle>k__BackingField = <?>
+          .<RouteRaceProgramId>k__BackingField = 0
+        .<CharaProperInfo>k__BackingField = <Gallop.PartsSingleModeStartProperFrame.InfoWithBonus>
+          ._paramWithBonus = <?>
+          ._highlightArrayTargetList = <System.Collections.Generic.List<Gallop.MasterSuccessionFactorEffect.SuccessionFactorEffect.FactorTargetType> count=2>
+            [0] <?>
+            [1] <?>
+          ._turf = <?>
+          ._dirt = <?>
+          ._short = <?>
+          ._mile = <?>
+          ._middle = <?>
+          ._long = <?>
+          ._nige = <?>
+          ._senko = <?>
+          ._sashi = <?>
+          ._oikomi = <?>
+        .<SelectRouteRaceProgramId>k__BackingField = 0
+      .<DeckInfo>k__BackingField = <Gallop.SingleModeReservedRaceDeck>
+        .deck_num = 0
+        .deck_name = ""
+        .race_array = <? len=0>
+      .<DeckIndex>k__BackingField = 0
+      .<DeckName>k__BackingField = "Currently Scheduled Races"
+      .<ReservedRaceCount>k__BackingField = 0
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

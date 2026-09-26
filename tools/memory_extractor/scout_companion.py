@@ -460,6 +460,22 @@ def _find_pid() -> int | None:
 
 def main() -> int:
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
+    # path SINGLETON FIELD [FIELD ...] [--depth N] [--samples N]: follow any
+    # field path from a singleton (fields, or [i] for list items).
+    if mode == "path" and len(sys.argv) > 3:
+        args = sys.argv[2:]
+        opts = {"--depth": 3, "--samples": 5}
+        for flag in list(opts):
+            if flag in args:
+                i = args.index(flag)
+                opts[flag] = int(args[i + 1])
+                del args[i:i + 2]
+        MODES["path"] = {
+            "keywords": r"$^", "must_have_field": r"$^", "max_scans": 0,
+            "singleton": args[0], "path": args[1:],
+            "depth": opts["--depth"], "samples": opts["--samples"],
+            "state": "whatever the path needs",
+        }
     if mode not in MODES:
         print(f"usage: python scout_companion.py {{{'|'.join(MODES)}}}")
         return 2
