@@ -624,6 +624,13 @@ honest until the planner's prediction covers events and inspiration.
 **Order:** run memory + read at Start (app) → the card with what is
 known → the site endpoint → setup extras from the setup screens.
 
+**Deferred (owner, 2026-09-27): the run's end state as a veteran.** After
+the Training Log: the skills picked at the shop (ids, SP left), both
+spark rolls and the one kept, and the saved veteran (`TrainedCharaData`
+by id, its sparks). All read in the 2026-09-26 session (see "Post-run,
+same session"); becomes the run memory's last chapter and feeds the
+parent planner.
+
 ## Companion backlog (collected feedback, done in batches)
 
 Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;
