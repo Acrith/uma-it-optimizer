@@ -1,0 +1,216 @@
+﻿[i] mode decks: run this with the game at: any screen
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== DECKS: candidate classes ===
+
+=== Gallop.WorkDataManager -> <SupportDeckData>k__BackingField ===
+  <SupportDeckData>k__BackingField: Gallop.WorkSupportDeckData
+  <Gallop.WorkSupportDeckData>
+      ._dataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportDeckData.SupportDeckData> count=10>
+        {1} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 1
+            ._deckName = "Auto´╝ƒ"
+            ._supportCardIdArray = <? len=5>
+              [0] 30028 (obscured)
+              [1] 20023 (obscured)
+              [2] 30052 (obscured)
+              [3] 30074 (obscured)
+              [4] 20027 (obscured)
+            ._autoDeckType = <?>
+        {2} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 2
+            ._deckName = "ITRace"
+            ._supportCardIdArray = <? len=5>
+              [0] 20027 (obscured)
+              [1] 30052 (obscured)
+              [2] 30010 (obscured)
+              [3] 30084 (obscured)
+              [4] 20015 (obscured)
+            ._autoDeckType = <?>
+        {3} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 3
+            ._deckName = "ITIdk"
+            ._supportCardIdArray = <? len=5>
+              [0] 30084 (obscured)
+              [1] 20031 (obscured)
+              [2] 30010 (obscured)
+              [3] 20027 (obscured)
+              [4] 30074 (obscured)
+            ._autoDeckType = <?>
+        {4} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 4
+            ._deckName = "It´╝ìUra"
+            ._supportCardIdArray = <? len=5>
+              [0] 30052 (obscured)
+              [1] 20021 (obscured)
+              [2] 30074 (obscured)
+              [3] 30087 (obscured)
+              [4] 30113 (obscured)
+            ._autoDeckType = <?>
+        {5} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 5
+            ._deckName = "WifeNature"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30028 (obscured)
+              [2] 30052 (obscured)
+              [3] 30010 (obscured)
+              [4] 30097 (obscured)
+            ._autoDeckType = <?>
+        {6} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 6
+            ._deckName = "78RB´╝ƒ"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 20023 (obscured)
+              [2] 30074 (obscured)
+              [3] 30010 (obscured)
+              [4] 30052 (obscured)
+            ._autoDeckType = <?>
+        {7} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 7
+            ._deckName = "TeamSirius"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30028 (obscured)
+              [2] 30052 (obscured)
+              [3] 20015 (obscured)
+              [4] 30010 (obscured)
+            ._autoDeckType = <?>
+        {8} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 8
+            ._deckName = "Q15"
+            ._supportCardIdArray = <? len=5>
+              [0] 10058 (obscured)
+              [1] 10029 (obscured)
+              [2] 10007 (obscured)
+              [3] 10028 (obscured)
+              [4] 10012 (obscured)
+            ._autoDeckType = <?>
+        {9} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 9
+            ._deckName = "MANTing"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30010 (obscured)
+              [2] 30039 (obscured)
+              [3] 20015 (obscured)
+              [4] 30052 (obscured)
+            ._autoDeckType = <?>
+        {10} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 10
+            ._deckName = "aaa"
+            ._supportCardIdArray = <? len=5>
+              [0] 20023 (obscured)
+              [1] 30101 (obscured)
+              [2] 30010 (obscured)
+              [3] 30052 (obscured)
+              [4] 20016 (obscured)
+            ._autoDeckType = <?>
+      ._tempDataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportDeckData.SupportDeckData> count=10>
+        {1} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 1
+            ._deckName = "Auto´╝ƒ"
+            ._supportCardIdArray = <? len=5>
+              [0] 30028 (obscured)
+              [1] 20023 (obscured)
+              [2] 30052 (obscured)
+              [3] 30074 (obscured)
+              [4] 20027 (obscured)
+            ._autoDeckType = <?>
+        {2} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 2
+            ._deckName = "ITRace"
+            ._supportCardIdArray = <? len=5>
+              [0] 20027 (obscured)
+              [1] 30052 (obscured)
+              [2] 30010 (obscured)
+              [3] 30084 (obscured)
+              [4] 20015 (obscured)
+            ._autoDeckType = <?>
+        {3} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 3
+            ._deckName = "ITIdk"
+            ._supportCardIdArray = <? len=5>
+              [0] 30084 (obscured)
+              [1] 20031 (obscured)
+              [2] 30010 (obscured)
+              [3] 20027 (obscured)
+              [4] 30074 (obscured)
+            ._autoDeckType = <?>
+        {4} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 4
+            ._deckName = "It´╝ìUra"
+            ._supportCardIdArray = <? len=5>
+              [0] 30052 (obscured)
+              [1] 20021 (obscured)
+              [2] 30074 (obscured)
+              [3] 30087 (obscured)
+              [4] 30113 (obscured)
+            ._autoDeckType = <?>
+        {5} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 5
+            ._deckName = "WifeNature"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30028 (obscured)
+              [2] 30052 (obscured)
+              [3] 30010 (obscured)
+              [4] 30097 (obscured)
+            ._autoDeckType = <?>
+        {6} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 6
+            ._deckName = "78RB´╝ƒ"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 20023 (obscured)
+              [2] 30074 (obscured)
+              [3] 30010 (obscured)
+              [4] 30052 (obscured)
+            ._autoDeckType = <?>
+        {7} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 7
+            ._deckName = "TeamSirius"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30028 (obscured)
+              [2] 30052 (obscured)
+              [3] 20015 (obscured)
+              [4] 30010 (obscured)
+            ._autoDeckType = <?>
+        {8} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 8
+            ._deckName = "Q15"
+            ._supportCardIdArray = <? len=5>
+              [0] 10058 (obscured)
+              [1] 10029 (obscured)
+              [2] 10007 (obscured)
+              [3] 10028 (obscured)
+              [4] 10012 (obscured)
+            ._autoDeckType = <?>
+        {9} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 9
+            ._deckName = "MANTing"
+            ._supportCardIdArray = <? len=5>
+              [0] 30101 (obscured)
+              [1] 30010 (obscured)
+              [2] 30039 (obscured)
+              [3] 20015 (obscured)
+              [4] 30052 (obscured)
+            ._autoDeckType = <?>
+        {10} <Gallop.WorkSupportDeckData.SupportDeckData>
+            ._deckId = 10
+            ._deckName = "aaa"
+            ._supportCardIdArray = <? len=5>
+              [0] 20023 (obscured)
+              [1] 30101 (obscured)
+              [2] 30010 (obscured)
+              [3] 30052 (obscured)
+              [4] 20016 (obscured)
+            ._autoDeckType = <?>
+      .<SelectedDeckId>k__BackingField = 4 (obscured)
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

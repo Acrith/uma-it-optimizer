@@ -1,0 +1,1015 @@
+﻿[i] mode account: run this with the game at: HOME screen, logged in, nothing open
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== ACCOUNT: candidate classes ===
+  [umamusume] Gallop.WorkCardData.CardData.<>c
+  [umamusume] Gallop.WorkCardData.CardData.<>c__DisplayClass85_0
+      <>4__this:Gallop.WorkCardData.CardData, masterDataManager:Gallop.MasterDataManager
+  [umamusume] Gallop.WorkCardData.CardData
+      _masterCard:Gallop.MasterCardData.CardData, _masterRarityCard:Gallop.MasterCardRarityData.CardRarityData, _masterChara:Gallop.MasterCharaData.CharaData, <CardId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TalentLevel>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Rarity>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _hintLevelDic:System.Collections.Generic.Dictionary<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt,CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>, <ChangedModelDressId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CreateTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _speed:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _stamina:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _power:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _guts:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _wiz:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _uniqueSkill:Gallop.WorkSkillData.AcquiredSkill, _acquirableSkillArray:Gallop.WorkSkillData.AcquirableSkill[]
+  [umamusume] Gallop.WorkCardData.<>c__DisplayClass18_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkCardData.<>c__DisplayClass19_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkCardData
+      _dataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkCardData.CardData>, <ReleaseCardIdList>k__BackingField:System.Collections.Generic.List<System.Int32>, <BackableStateStack>k__BackingField:Gallop.BackableStateStack
+  [umamusume] Gallop.WorkChampionsData.ChampionsCharaData
+      <DressId>k__BackingField:System.Int32, <CharaId>k__BackingField:System.Int32, <CardId>k__BackingField:System.Int32, <DefaultDressId>k__BackingField:System.Int32, <NickNameId>k__BackingField:System.Int32, <TeamMemberId>k__BackingField:System.Int32
+  [umamusume] Gallop.WorkCharacterStoryData.CharaStoryData
+      _episodeId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isRead:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool
+  [umamusume] Gallop.WorkCharacterStoryData.<>c
+  [umamusume] Gallop.WorkCharacterStoryData
+      DisplayRewardInfoArray:Gallop.DisplayRewardInfo[], AddPresentNum:System.Int32, _dataDict:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkCharacterStoryData.CharaStoryData>
+  [umamusume] Gallop.WorkCharaData.CharaData
+      _id:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _trainingNum:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <LovePoint>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <LovePointPool>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <FanNum>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredULong, _isInTerm:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _masterCharaData:Gallop.MasterCharaData.CharaData
+  [umamusume] Gallop.WorkCharaData.<>c
+  [umamusume] Gallop.WorkCharaData
+      _dataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkCharaData.CharaData>
+  [umamusume] Gallop.WorkDirectoryData.DirectoryCardData
+      _id:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _trainedCharaData:Gallop.WorkTrainedCharaData.TrainedCharaData
+  [umamusume] Gallop.WorkGalleryData.WorkGalleryModeCharaData
+      _charaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _cardId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _cardData:Gallop.MasterCardData.CardData, _cardRarityData:Gallop.MasterCardRarityData.CardRarityData, <LimitBreakCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TalentLevel>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkHeroesData.CharacterRaceRecordInfo
+      ResultInfo:Gallop.WorkHeroesData.RaceRecord[]
+  [umamusume] Gallop.WorkHomeFavoriteData.CharaDressPair
+      <CharaId>k__BackingField:System.Int32, <DressId>k__BackingField:System.Int32
+  [umamusume] Gallop.WorkRoomMatchData.RestrictCharaData.<>c
+  [umamusume] Gallop.WorkRoomMatchData.RestrictCharaData
+      _charaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _dressIdList:System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>
+  [umamusume] Gallop.WorkRoomMatchData.RoomMatchTrainedCharaData
+      _joinType:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _memberId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.SupportRentalType
+      value__:System.Int32
+  [umamusume] Gallop.WorkSingleModeCharaData.EquipSupportCard
+      <Position>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SupportCardId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <LimitBreakCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Exp>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <RentalType>k__BackingField:Gallop.WorkSingleModeCharaData.SupportRentalType
+  [umamusume] Gallop.WorkSingleModeCharaData.SkillTips
+      <GroupId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Rarity>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Level>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.Evaluation.GroupOutingInfo
+      CharaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, IsOuting:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, StoryStep:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.Evaluation.<>c
+  [umamusume] Gallop.WorkSingleModeCharaData.Evaluation
+      _targetId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _value:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isOuting:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _storyStep:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isAppear:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, GroupOutingInfoList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.Evaluation.GroupOutingInfo>, _guestCharaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _interestState:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _soulEventState:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _soulThresholdId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.SuccessionFactorInfo.Info.<>c
+  [umamusume] Gallop.WorkSingleModeCharaData.SuccessionFactorInfo.Info
+      <Position>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <FactorIdList>k__BackingField:System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>
+  [umamusume] Gallop.WorkSingleModeCharaData.SuccessionFactorInfo.<>c__DisplayClass5_0
+      data:Gallop.SuccessionEffectedFactor
+  [umamusume] Gallop.WorkSingleModeCharaData.SuccessionFactorInfo
+      <InfoList>k__BackingField:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SuccessionFactorInfo.Info>
+  [umamusume] Gallop.WorkSingleModeCharaData.GuestOutingInfo.<>c
+  [umamusume] Gallop.WorkSingleModeCharaData.GuestOutingInfo
+      SupportCardId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, StoryStep:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, GroupOutingInfoList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.Evaluation.GroupOutingInfo>
+  [umamusume] Gallop.WorkSingleModeCharaData.SuccessionCharaInfo
+      <TrainedCharaId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _changedModelDressId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.SkillUpgradeCondition
+      <Id>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TotalCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CurrentCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkSingleModeCharaData.UpgradeSkillSet
+      OriginSkillId:System.Int32, DescriptionList:System.Collections.Generic.List<Gallop.MasterSkillUpgradeDescription.SkillUpgradeDescription>
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass157_0
+      skillData:Gallop.MasterSkillData.SkillData
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass263_0
+      result:Gallop.DialogSingleModeSkillUpgradeSelect.SelectResult
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass265_0
+      destEvaluation:Gallop.UraEvaluationInfo
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass266_0
+      srcEvaluation:Gallop.TeamEvaluationInfo
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass267_0
+      srcEvaluation:Gallop.LiveEvaluationInfo
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass275_0
+      supportCardId:System.Int32
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass276_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass292_0
+      maxValue:Gallop.RaceDefine.ProperGrade
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass296_0
+      skillData:Gallop.MasterSkillData.SkillData
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass297_0
+      skillData:Gallop.MasterSkillData.SkillData
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass303_0
+      skillUpgradeConditionId:System.Int32
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass304_0
+      upgradeSkillDescriptionList:System.Collections.Generic.List<Gallop.MasterSkillUpgradeDescription.SkillUpgradeDescription>
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass304_1
+      a:Gallop.MasterAvailableSkillSet.AvailableSkillSet
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass306_0
+      skillSet:Gallop.MasterAvailableSkillSet.AvailableSkillSet
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass307_0
+      skillId:System.Int32
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass308_0
+      skillId:System.Int32, skillSet:Gallop.MasterAvailableSkillSet.AvailableSkillSet, <>4__this:Gallop.WorkSingleModeCharaData
+  [umamusume] Gallop.WorkSingleModeCharaData.<>c__DisplayClass313_0
+      skillId:System.Int32, masterSkillData:Gallop.MasterSkillData.SkillData
+  [umamusume] Gallop.WorkSingleModeCharaData
+      _id:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _cardId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _cardData:Gallop.MasterCardData.CardData, _cardRarityData:Gallop.MasterCardRarityData.CardRarityData, <SuccessionTrainedCharaInfoFirst>k__BackingField:Gallop.WorkSingleModeCharaData.SuccessionCharaInfo, <SuccessionTrainedCharaInfoSecond>k__BackingField:Gallop.WorkSingleModeCharaData.SuccessionCharaInfo, <TalentLevel>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <LimitBreakCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, SaveNickNameId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, AcquiredNickNameIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], <EquipSupportCardArray>k__BackingField:Gallop.WorkSingleModeCharaData.EquipSupportCard[], _charaGrade:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <ChangedModelDressId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _hp:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _maxHp:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _speed:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _stamina:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _power:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _guts:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _wiz:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxSpeed>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxStamina>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxPower>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxGuts>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <MaxWiz>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <DefaultMaxSpeed>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <DefaultMaxStamina>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <DefaultMaxPower>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <DefaultMaxGuts>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <DefaultMaxWiz>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _entryProgramId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _scenarioId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _difficultyId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _difficulty:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isDifficultyTpBoost:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _routeId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _startTime:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <TrainingEventType>k__BackingField:Gallop.SingleModeDefine.TrainingEventType, _acquiredSkillList:System.Collections.Generic.List<Gallop.WorkSkillData.AcquiredSkill>, _disableSkillIdList:System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>, _skillTipsList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SkillTips>, <SkillPoint>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _trainingLevelDic:System.Collections.Generic.Dictionary<Gallop.TrainingDefine.TrainingCommandId,System.Int32>, _properDistanceShort:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceMile:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceMiddle:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceLong:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleNige:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleSenko:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleSashi:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleOikomi:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properGroundTurf:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properGroundDirt:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _runningStyle:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _eventShortcutType:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _fanCount:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _evaluationList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.Evaluation>, _reservedRaceProgramId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <UpdateReservedPaceProgramId>k__BackingField:Gallop.EventSubject<System.Int32>, _motivation:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _charaEffectIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], _routeRaceIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], SuccessionFactor:Gallop.WorkSingleModeCharaData.SuccessionFactorInfo, <IsShortRace>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, <ScenarioProgress>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, GuestOutingInfoList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.GuestOutingInfo>, <Race>k__BackingField:Gallop.WorkSingleModeRaceData, SkillUpgradeList:System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SkillUpgradeCondition>, <WorkScenarioURA>k__BackingField:Gallop.WorkSingleModeScenarioURA, <TeamRace>k__BackingField:Gallop.WorkSingleModeScenarioTeamRace, <RaceReserveContext>k__BackingField:Gallop.SingleModeRaceReserve.Context, <WorkScenarioFree>k__BackingField:Gallop.WorkSingleModeScenarioFree, <ScenarioLive>k__BackingField:Gallop.WorkSingleModeScenarioLive, <ScenarioVenus>k__BackingField:Gallop.WorkSingleModeScenarioVenus
+  [umamusume] Gallop.WorkSupportCardData.SupportCardData.<>c
+  [umamusume] Gallop.WorkSupportCardData.SupportCardData.<>c__DisplayClass76_0
+      level:System.Int32
+  [umamusume] Gallop.WorkSupportCardData.SupportCardData
+      _masterSupportCard:Gallop.MasterSupportCardData.SupportCardData, _masterChara:Gallop.MasterCharaData.CharaData, _masterSupportCardLimit:Gallop.MasterSupportCardLimit.SupportCardLimit, _masterSupportCardLevel:Gallop.MasterSupportCardLevel.SupportCardLevel, _masterSupportCardEffectList:System.Collections.Generic.List<Gallop.MasterSupportCardEffectTable.SupportCardEffectTable>, _masterUniqueEffect:Gallop.MasterSupportCardUniqueEffect.SupportCardUniqueEffect, _supportCardId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _level:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _limitBreakCount:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _maxLevel:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _createTime:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _exp:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _stock:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <IsFavoriteLock>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _bestTraining:Gallop.MasterSupportCardData.TrainingType, <SkillTriggerTagArray>k__BackingField:Gallop.SkillDefine.SkillTriggerTag[]
+  [umamusume] Gallop.WorkSupportCardData.<>c__DisplayClass10_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkSupportCardData.<>c__DisplayClass11_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkSupportCardData.<>c__DisplayClass9_0
+      charaId:System.Int32
+  [umamusume] Gallop.WorkSupportCardData
+      _dataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportCardData.SupportCardData>, <BackableStateStack>k__BackingField:Gallop.BackableStateStack
+  [umamusume] Gallop.WorkSupportDeckData.AutoDeckType
+      value__:System.Int32
+  [umamusume] Gallop.WorkSupportDeckData.SupportDeckData
+      _deckId:System.Int32, _deckName:System.String, _supportCardIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], _autoDeckType:Gallop.WorkSupportDeckData.AutoDeckType
+  [umamusume] Gallop.WorkSupportDeckData.<>c
+  [umamusume] Gallop.WorkSupportDeckData.<>c__DisplayClass15_0
+      workSupportCardData:Gallop.WorkSupportCardData
+  [umamusume] Gallop.WorkSupportDeckData.<>c__DisplayClass17_0
+      onComplete:System.Action
+  [umamusume] Gallop.WorkSupportDeckData
+      _dataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportDeckData.SupportDeckData>, _tempDataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportDeckData.SupportDeckData>, <SelectedDeckId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkTeamBuildingData.CollectionCharaInfo
+      _charaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isUsed:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _isNew:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.UseType
+      value__:System.Int32
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaPosition
+      value__:System.Int32
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData.UpgradeHistory
+      <FactorId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <UpgradeDate>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData.<>c
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData.<>c__DisplayClass11_0
+      factorId:System.Int32
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData.<>c__DisplayClass12_0
+      refTime:System.Int64
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData
+      <FactorLv>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <FactorId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _baseFactorId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _upgradeHistoryList:System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData.UpgradeHistory>
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.<>c
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.<>c__DisplayClass35_0
+      <>4__this:Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData, serverData:Gallop.SuccessionChara, i:System.Int32, <>9__1:System.Func<Gallop.FactorExtend,System.Boolean>
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData
+      _positionId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CardId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Rarity>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Level>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _rank:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <FactorDataArray>k__BackingField:Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData[], _sortedFactorList:System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>, _sortedFactorListForProfileCard:System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>, _ownerViewerId:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _isPlayer:System.Boolean, _winSaddleArray:Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle[], _winSaddleIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[]
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.<>c
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.<>c__DisplayClass209_0
+      factorInfoArray:Gallop.FactorInfo[], i:System.Int32, <>9__0:System.Func<Gallop.FactorExtend,System.Boolean>
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.<>c__DisplayClass219_0
+      <>4__this:Gallop.WorkTrainedCharaData.TrainedCharaData, refTime:System.Int64
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData.<>c__DisplayClass219_1
+      successionFactor:Gallop.MasterSuccessionFactor.SuccessionFactor
+  [umamusume] Gallop.WorkTrainedCharaData.TrainedCharaData
+      _id:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _isSaved:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _viewerId:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _ownerViewerId:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _ownerTrainedCharaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _useType:Gallop.WorkTrainedCharaData.TrainedCharaData.UseType, _cardId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _nickNameId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _nickNameIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], _stamina:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _speed:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _power:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _guts:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _wiz:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _fans:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _rank:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _rankScore:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _runningStyle:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properGroundTurf:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properGroundDirt:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceShort:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceMile:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceMiddle:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properDistanceLong:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleNige:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleSenko:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleSashi:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _properRunningStyleOikomi:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SuccessionCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <FactorDataArray>k__BackingField:Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData[], <CreateTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <ScenarioId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TalentLevel>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CharaGrade>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Rarity>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <IsLock>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool, _favoriteData:Gallop.WorkTrainedCharaData.FavoriteData, _cachedCreateTimeTimeStamp:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong, _sortedFactorList:System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>, _sortedFactorProfileCardList:System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>, _factorListIncludingSuccession:System.Collections.Generic.List<Gallop.MasterSuccessionFactor.SuccessionFactor>, <SuccessionCharaList>k__BackingField:System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>, IsSuccessionHistoryInitialized:System.Boolean, <SuccessionHistoryList>k__BackingField:System.Collections.Generic.List<Gallop.SuccessionHistory>, <AcquiredSkillArray>k__BackingField:Gallop.WorkSkillData.AcquiredSkill[], <SupportCardArray>k__BackingField:Gallop.WorkTrainedCharaData.SupportCardData[], <SingleModeRaceResultArray>k__BackingField:Gallop.SingleModeUtils.RaceHistoryInfo[], _winSaddleArray:Gallop.MasterSingleModeWinsSaddle.SingleModeWinsSaddle[], _winSaddleIdArray:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], _cacheCharaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _masterCardData:Gallop.MasterCardData.CardData, _masterCharaData:Gallop.MasterCharaData.CharaData, _masterCardRarityData:Gallop.MasterCardRarityData.CardRarityData, <SingleTotalRaceNum>k__BackingField:System.Int32, _singleWinNum:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TrainedCharaDataAccessor>k__BackingField:Gallop.ITrainedCharaDataAccessor
+  [umamusume] Gallop.WorkTrainedCharaData.SupportCardData
+      <Position>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <SupportCardId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <LimitBreakCount>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <Exp>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkTrainedCharaData.FavoriteData.FavoriteType
+      value__:System.Int32
+  [umamusume] Gallop.WorkTrainedCharaData.FavoriteData
+      TrainedCharaId:System.Int32, Type:Gallop.WorkTrainedCharaData.FavoriteData.FavoriteType, Memo:System.String
+  [umamusume] Gallop.WorkTrainedCharaData
+      _dataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.TrainedCharaData>, _allDataDic:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.TrainedCharaData>, <List>k__BackingField:System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData>, _favoriteDataDict:System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.FavoriteData>
+  [umamusume] Gallop.WorkTrainingChallengeData.SupportRankingExamId
+      value__:System.Int32
+  [umamusume] Gallop.WorkTrophyData.CharaIdList
+      _charaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _winCount:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.WorkDataUtil.PresetEntryCharaData
+      _entryId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _runningStyle:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _trainedCharaId:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _viewerId:CodeStage.AntiCheat.ObscuredTypes.ObscuredLong
+
+=== Gallop.WorkDataManager (no heap scan) ===
+  static Gallop.Singleton<Gallop.WorkDataManager>._instance: Gallop.WorkDataManager
+  instance via static _instance
+  members (56):
+    <UserData>k__BackingField: Gallop.WorkUserData
+    <FriendData>k__BackingField: Gallop.WorkFriendData
+    <CardData>k__BackingField: Gallop.WorkCardData
+    <SupportCardData>k__BackingField: Gallop.WorkSupportCardData
+    <CharaData>k__BackingField: Gallop.WorkCharaData
+    <DressData>k__BackingField: Gallop.WorkDressData
+    <MusicData>k__BackingField: Gallop.WorkMusicData
+    <ItemData>k__BackingField: Gallop.WorkItemData
+    <TrainedCharaData>k__BackingField: Gallop.WorkTrainedCharaData
+    <SingleMode>k__BackingField: Gallop.WorkSingleModeData
+    <PaymentItemData>k__BackingField: Gallop.WorkPaymentItemData
+    <MainStoryData>k__BackingField: Gallop.WorkMainStoryData
+    <CharacterStoryData>k__BackingField: Gallop.WorkCharacterStoryData
+    <ExtraStoryData>k__BackingField: Gallop.WorkExtraStoryData
+    <PieceData>k__BackingField: Gallop.WorkPieceData
+    <MissionData>k__BackingField: Gallop.WorkMissionData
+    <CircleChatData>k__BackingField: Gallop.WorkCircleChatData
+    <CircleData>k__BackingField: Gallop.WorkCircleData
+    <Trophy>k__BackingField: Gallop.WorkTrophyData
+    <Exchange>k__BackingField: Gallop.WorkExchangeData
+    <HomeFavorite>k__BackingField: Gallop.WorkHomeFavoriteData
+    <LoginBonusData>k__BackingField: Gallop.WorkLoginBonusData
+    <AnnounceData>k__BackingField: Gallop.WorkAnnounceData
+    <TeamStadiumData>k__BackingField: Gallop.WorkTeamStadiumData
+    <DirectoryData>k__BackingField: Gallop.WorkDirectoryData
+    <ScenarioRecordData>k__BackingField: Gallop.WorkScenarioRecordData
+    <SupportDeckData>k__BackingField: Gallop.WorkSupportDeckData
+    <RaceStateData>k__BackingField: Gallop.WorkRaceStateData
+    <DailyLegendRaceData>k__BackingField: Gallop.WorkDailyLegendRaceData
+    <HonorData>k__BackingField: Gallop.WorkHonorData
+    <LimitedSalesData>k__BackingField: Gallop.WorkLimitedSalesData
+    <AlreadyReadData>k__BackingField: Gallop.WorkAlreadyReadData
+    <LastCheckTime>k__BackingField: Gallop.WorkLastCheckTime
+    <ChampionsData>k__BackingField: Gallop.WorkChampionsData
+    <StoryEventData>k__BackingField: Gallop.WorkStoryEventData
+    <StoryEventMissionData>k__BackingField: Gallop.WorkMissionData
+    <RouletteDerbyData>k__BackingField: Gallop.WorkRouletteDerbyData
+    <ChallengeMatchData>k__BackingField: Gallop.WorkChallengeMatchData
+    <GalleryData>k__BackingField: Gallop.WorkGalleryData
+    <TalkGalleryData>k__BackingField: Gallop.WorkTalkGalleryData
+    <RoomMatchData>k__BackingField: Gallop.WorkRoomMatchData
+    <TransferEventData>k__BackingField: Gallop.WorkTransferEventData
+    <PracticeRaceData>k__BackingField: Gallop.WorkPracticeRaceData
+    <JukeboxData>k__BackingField: Gallop.WorkJukeboxData
+    <ValentineData>k__BackingField: Gallop.WorkValentineData
+    <CampaignData>k__BackingField: Gallop.WorkCampaignData
+    <CampaignWalkingData>k__BackingField: Gallop.WorkCampaignWalkingData
+    <TrainingChallengeData>k__BackingField: Gallop.WorkTrainingChallengeData
+    <FanRaidData>k__BackingField: Gallop.WorkFanRaidData
+    <HeroesData>k__BackingField: Gallop.WorkHeroesData
+    <TeamBuildingData>k__BackingField: Gallop.WorkTeamBuildingData
+    <CollectRaidData>k__BackingField: Gallop.WorkCollectRaidData
+    <MapEventData>k__BackingField: Gallop.WorkMapEventData
+    <FactorResearchData>k__BackingField: Gallop.WorkFactorResearchData
+    <OptionData>k__BackingField: Gallop.WorkOptionData
+    <IdleSingleModeData>k__BackingField: Gallop.WorkIdleSingleModeData
+
+  --- <SupportCardData>k__BackingField ---
+    <Gallop.WorkSupportCardData>
+          ._dataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportCardData.SupportCardData> count=197>
+            {10001} <Gallop.WorkSupportCardData.SupportCardData>
+                ._masterSupportCard = <Gallop.MasterSupportCardData.SupportCardData>
+                  .Id = 10001
+                  .CharaId = 1001
+                  .Rarity = 1
+                  .ExchangeItemId = 48
+                  .EffectTableId = 10001
+                  .UniqueEffectId = 0
+                  .CommandType = 1
+                  .CommandId = 103
+                  .SupportCardType = 1
+                  .SkillSetId = 9081001
+                  .DetailPosX = 0
+                  .DetailPosY = -1100000
+                  .DetailScale = 10000
+                  .DetailRotZ = 0
+                  .StartDate = 1614124800
+                  .OutingMax = 0
+                  .EffectId = 0
+                  ._charaIdListCache = <System.Collections.Generic.List<System.Int32>>
+                ._masterChara = <Gallop.MasterCharaData.CharaData>
+                  .Id = 1001
+                  .BirthYear = 1995
+                  .BirthMonth = 5
+                  .BirthDay = 2
+                  .LastYear = 0
+                  .Sex = 1
+                  .ImageColorMain = "FCA7FF"
+                  .ImageColorSub = "FF58D9"
+                  .UiColorMain = "EE6DCB"
+                  .UiColorSub = "FFDEF9"
+                  .UiTrainingColor1 = "FF7FDD"
+                  .UiTrainingColor2 = "F759CD"
+                  .UiBorderColor = "F759CD"
+                  .UiNumColor1 = "FF7FDD"
+                  .UiNumColor2 = "FA50CD"
+                  .UiTurnColor = "FA50CD"
+                  .UiWipeColor1 = "FCCAEE"
+                  .UiWipeColor2 = "FCE3F5"
+                  .UiWipeColor3 = "FDEDFE"
+                  .UiSpeechColor1 = "FF7FDD"
+                  .UiSpeechColor2 = "FF7FDD"
+                  .UiNameplateColor1 = "FF7CDC"
+                  .UiNameplateColor2 = "FEB4EA"
+                  .Height = 1
+                  .Bust = 2
+                  .Scale = 158
+                  .Skin = 1
+                  .Shape = 0
+                  .Socks = 3
+                  .PersonalDress = 0
+                  .TailModelId = 1
+                  .RaceRunningType = 1
+                  .EarRandomTimeMin = 110
+                  .EarRandomTimeMax = 220
+                  .TailRandomTimeMin = 30
+                  .TailRandomTimeMax = 90
+                  .StoryEarRandomTimeMin = 275
+                  .StoryEarRandomTimeMax = 425
+                  .StoryTailRandomTimeMin = 130
+                  .StoryTailRandomTimeMax = 250
+                  .AttachmentModelId = -1
+                  .MiniMayuShaderType = 0
+                  .StartDate = 1483228800
+                  .CharaCategory = 0
+                  .LoveRankLimit = 12
+                ._masterSupportCardLimit = <Gallop.MasterSupportCardLimit.SupportCardLimit>
+                  .Rarity = 1
+                  .Limit0 = 20
+                  .Limit1 = 25
+                  .Limit2 = 30
+                  .Limit3 = 35
+                  .Limit4 = 40
+                ._masterSupportCardLevel = <Gallop.MasterSupportCardLevel.SupportCardLevel>
+                  .Id = 1007
+                  .Rarity = 1
+                  .Level = 7
+                  .TotalExp = 120
+                ._masterSupportCardEffectList = <System.Collections.Generic.List<Gallop.MasterSupportCardEffectTable.SupportCardEffectTable> count=7>
+                  [0] <Gallop.MasterSupportCardEffectTable.SupportCardEffectTable>
+                  [1] <Gallop.MasterSupportCardEffectTable.SupportCardEffectTable>
+                ._masterUniqueEffect = <?>
+                ._supportCardId = 10001 (obscured)
+                ._level = 7 (obscured)
+                ._limitBreakCount = 4 (obscured)
+                ._maxLevel = 40 (obscured)
+                ._createTime = 1751076934 (obscured)
+                ._exp = 130 (obscured)
+                ._stock = 0 (obscured)
+                .<IsFavoriteLock>k__BackingField = 181 (obscured)
+                ._bestTraining = <?>
+                .<SkillTriggerTagArray>k__BackingField = <? len=11>
+                  [0] <?>
+                  [1] <?>
+            {10002} <Gallop.WorkSupportCardData.SupportCardData>
+                ._masterSupportCard = <Gallop.MasterSupportCardData.SupportCardData>
+                  .Id = 10002
+                  .CharaId = 1002
+                  .Rarity = 1
+                  .ExchangeItemId = 48
+                  .EffectTableId = 10002
+                  .UniqueEffectId = 0
+                  .CommandType = 1
+                  .CommandId = 101
+                  .SupportCardType = 1
+                  .SkillSetId = 9081002
+                  .DetailPosX = 0
+                  .DetailPosY = -1100000
+                  .DetailScale = 10000
+                  .DetailRotZ = 0
+                  .StartDate = 1614124800
+                  .OutingMax = 0
+                  .EffectId = 0
+                  ._charaIdListCache = <System.Collections.Generic.List<System.Int32>>
+                ._masterChara = <Gallop.MasterCharaData.CharaData>
+                  .Id = 1002
+                  .BirthYear = 1994
+                  .BirthMonth = 5
+                  .BirthDay = 1
+                  .LastYear = 0
+                  .Sex = 1
+                  .ImageColorMain = "8FE78D"
+                  .ImageColorSub = "FBFF3B"
+                  .UiColorMain = "29BD70"
+                  .UiColorSub = "FFCE48"
+                  .UiTrainingColor1 = "4BD18C"
+                  .UiTrainingColor2 = "27B36B"
+                  .UiBorderColor = "27B36B"
+                  .UiNumColor1 = "4BD18C"
+                  .UiNumColor2 = "27B36B"
+                  .UiTurnColor = "27B36B"
+                  .UiWipeColor1 = "BDF2D6"
+                  .UiWipeColor2 = "D4F2E2"
+                  .UiWipeColor3 = "FFF5CC"
+                  .UiSpeechColor1 = "4BD18C"
+                  .UiSpeechColor2 = "4BD18C"
+                  .UiNameplateColor1 = "43C883"
+                  .UiNameplateColor2 = "82ECB5"
+                  .Height = 1
+                  .Bust = 0
+                  .Scale = 161
+                  .Skin = 1
+                  .Shape = 1
+                  .Socks = 6
+                  .PersonalDress = 0
+                  .TailModelId = 1
+                  .RaceRunningType = 1
+                  .EarRandomTimeMin = 170
+                  .EarRandomTimeMax = 270
+                  .TailRandomTimeMin = 180
+                  .TailRandomTimeMax = 310
+                  .StoryEarRandomTimeMin = 275
+                  .StoryEarRandomTimeMax = 425
+                  .StoryTailRandomTimeMin = 180
+                  .StoryTailRandomTimeMax = 310
+                  .AttachmentModelId = -1
+                  .MiniMayuShaderType = 0
+                  .StartDate = 1483228800
+                  .CharaCategory = 0
+                  .LoveRankLimit = 12
+                ._masterSupportCardLimit = <Gallop.MasterSupportCardLimit.SupportCardLimit>
+                  .Rarity = 1
+                  .Limit0 = 20
+                  .Limit1 = 25
+                  .Limit2 = 30
+                  .Limit3 = 35
+                  .Limit4 = 40
+                ._masterSupportCardLevel = <Gallop.MasterSupportCardLevel.SupportCardLevel>
+                  .Id = 1040
+                  .Rarity = 1
+                  .Level = 40
+                  .TotalExp = 40510
+                ._masterSupportCardEffectList = <System.Collections.Generic.List<Gallop.MasterSupportCardEffectTable.SupportCardEffectTable> count=7>
+                  [0] <Gallop.MasterSupportCardEffectTable.SupportCardEffectTable>
+                  [1] <Gallop.MasterSupportCardEffectTable.SupportCardEffectTable>
+                ._masterUniqueEffect = <?>
+                ._supportCardId = 10002 (obscured)
+                ._level = 40 (obscured)
+                ._limitBreakCount = 4 (obscured)
+                ._maxLevel = 40 (obscured)
+                ._createTime = 1751076934 (obscured)
+                ._exp = 40510 (obscured)
+                ._stock = 2 (obscured)
+                .<IsFavoriteLock>k__BackingField = 181 (obscured)
+                ._bestTraining = <?>
+                .<SkillTriggerTagArray>k__BackingField = <? len=17>
+                  [0] <?>
+                  [1] <?>
+          .<BackableStateStack>k__BackingField = <Gallop.BackableStateStack>
+            ._stack = <Gallop.FixedSizedStack<Gallop.IBackable>>
+              .Items = <? len=10>
+                [0] <?>
+                [1] <?>
+              .Count = 0
+              ._capacity = 10
+              ._head = 0
+              ._lock = <System.Object>
+
+  --- <CharaData>k__BackingField ---
+    <Gallop.WorkCharaData>
+          ._dataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkCharaData.CharaData> count=41>
+            {1001} <Gallop.WorkCharaData.CharaData>
+                ._id = 1001 (obscured)
+                ._trainingNum = 6 (obscured)
+                .<LovePoint>k__BackingField = 96 (obscured)
+                .<LovePointPool>k__BackingField = 0 (obscured)
+                .<FanNum>k__BackingField = 2065255 (obscured)
+                ._isInTerm = 213 (obscured)
+                ._masterCharaData = <?>
+            {1003} <Gallop.WorkCharaData.CharaData>
+                ._id = 1003 (obscured)
+                ._trainingNum = 9 (obscured)
+                .<LovePoint>k__BackingField = 159 (obscured)
+                .<LovePointPool>k__BackingField = 0 (obscured)
+                .<FanNum>k__BackingField = 4201955 (obscured)
+                ._isInTerm = 213 (obscured)
+                ._masterCharaData = <?>
+
+  --- <TrainedCharaData>k__BackingField ---
+    <Gallop.WorkTrainedCharaData>
+          ._dataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.TrainedCharaData> count=258>
+            {182} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 182 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 105601 (obscured)
+                ._nickNameId = 98 (obscured)
+                ._nickNameIdArray = <? len=17>
+                  [0] 2 (obscured)
+                  [1] 7 (obscured)
+                ._stamina = 718 (obscured)
+                ._speed = 902 (obscured)
+                ._power = 785 (obscured)
+                ._guts = 266 (obscured)
+                ._wiz = 379 (obscured)
+                ._fans = 248776 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9107 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 7 (obscured)
+                ._properGroundDirt = 2 (obscured)
+                ._properDistanceShort = 2 (obscured)
+                ._properDistanceMile = 5 (obscured)
+                ._properDistanceMiddle = 7 (obscured)
+                ._properDistanceLong = 7 (obscured)
+                ._properRunningStyleNige = 1 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 7 (obscured)
+                ._properRunningStyleOikomi = 2 (obscured)
+                .<SuccessionCount>k__BackingField = 51 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=5>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 1 (obscured)
+                .<IsLock>k__BackingField = 213 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=15>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=10>
+                  [0] 1 (obscured)
+                  [1] 6 (obscured)
+                ._cacheCharaId = 1056 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 105601
+                  .CharaId = 1056
+                  .DefaultRarity = 1
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 105601
+                  .TalentSpeed = 0
+                  .TalentStamina = 20
+                  .TalentPow = 10
+                  .TalentGuts = 0
+                  .TalentWiz = 0
+                  .TalentGroupId = 105601
+                  .BgId = 30
+                  .GetPieceId = 105601
+                  .RunningStyle = 3
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 15
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+            {190} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 190 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 101001 (obscured)
+                ._nickNameId = 55 (obscured)
+                ._nickNameIdArray = <? len=15>
+                  [0] 2 (obscured)
+                  [1] 21 (obscured)
+                ._stamina = 393 (obscured)
+                ._speed = 1087 (obscured)
+                ._power = 626 (obscured)
+                ._guts = 357 (obscured)
+                ._wiz = 526 (obscured)
+                ._fans = 247663 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9280 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 8 (obscured)
+                ._properGroundDirt = 6 (obscured)
+                ._properDistanceShort = 7 (obscured)
+                ._properDistanceMile = 7 (obscured)
+                ._properDistanceMiddle = 5 (obscured)
+                ._properDistanceLong = 2 (obscured)
+                ._properRunningStyleNige = 5 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 3 (obscured)
+                ._properRunningStyleOikomi = 1 (obscured)
+                .<SuccessionCount>k__BackingField = 2 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 3 (obscured)
+                .<IsLock>k__BackingField = 181 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=18>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=11>
+                  [0] 7 (obscured)
+                  [1] 21 (obscured)
+                ._cacheCharaId = 1010 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 101001
+                  .CharaId = 1010
+                  .DefaultRarity = 3
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 101001
+                  .TalentSpeed = 20
+                  .TalentStamina = 0
+                  .TalentPow = 0
+                  .TalentGuts = 0
+                  .TalentWiz = 10
+                  .TalentGroupId = 101001
+                  .BgId = 8
+                  .GetPieceId = 101001
+                  .RunningStyle = 2
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 18
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+          ._allDataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.TrainedCharaData> count=258>
+            {182} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 182 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 105601 (obscured)
+                ._nickNameId = 98 (obscured)
+                ._nickNameIdArray = <? len=17>
+                  [0] 2 (obscured)
+                  [1] 7 (obscured)
+                ._stamina = 718 (obscured)
+                ._speed = 902 (obscured)
+                ._power = 785 (obscured)
+                ._guts = 266 (obscured)
+                ._wiz = 379 (obscured)
+                ._fans = 248776 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9107 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 7 (obscured)
+                ._properGroundDirt = 2 (obscured)
+                ._properDistanceShort = 2 (obscured)
+                ._properDistanceMile = 5 (obscured)
+                ._properDistanceMiddle = 7 (obscured)
+                ._properDistanceLong = 7 (obscured)
+                ._properRunningStyleNige = 1 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 7 (obscured)
+                ._properRunningStyleOikomi = 2 (obscured)
+                .<SuccessionCount>k__BackingField = 51 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=5>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 1 (obscured)
+                .<IsLock>k__BackingField = 213 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=15>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=10>
+                  [0] 1 (obscured)
+                  [1] 6 (obscured)
+                ._cacheCharaId = 1056 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 105601
+                  .CharaId = 1056
+                  .DefaultRarity = 1
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 105601
+                  .TalentSpeed = 0
+                  .TalentStamina = 20
+                  .TalentPow = 10
+                  .TalentGuts = 0
+                  .TalentWiz = 0
+                  .TalentGroupId = 105601
+                  .BgId = 30
+                  .GetPieceId = 105601
+                  .RunningStyle = 3
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 15
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+            {190} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 190 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 101001 (obscured)
+                ._nickNameId = 55 (obscured)
+                ._nickNameIdArray = <? len=15>
+                  [0] 2 (obscured)
+                  [1] 21 (obscured)
+                ._stamina = 393 (obscured)
+                ._speed = 1087 (obscured)
+                ._power = 626 (obscured)
+                ._guts = 357 (obscured)
+                ._wiz = 526 (obscured)
+                ._fans = 247663 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9280 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 8 (obscured)
+                ._properGroundDirt = 6 (obscured)
+                ._properDistanceShort = 7 (obscured)
+                ._properDistanceMile = 7 (obscured)
+                ._properDistanceMiddle = 5 (obscured)
+                ._properDistanceLong = 2 (obscured)
+                ._properRunningStyleNige = 5 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 3 (obscured)
+                ._properRunningStyleOikomi = 1 (obscured)
+                .<SuccessionCount>k__BackingField = 2 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 3 (obscured)
+                .<IsLock>k__BackingField = 181 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=18>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=11>
+                  [0] 7 (obscured)
+                  [1] 21 (obscured)
+                ._cacheCharaId = 1010 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 101001
+                  .CharaId = 1010
+                  .DefaultRarity = 3
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 101001
+                  .TalentSpeed = 20
+                  .TalentStamina = 0
+                  .TalentPow = 0
+                  .TalentGuts = 0
+                  .TalentWiz = 10
+                  .TalentGroupId = 101001
+                  .BgId = 8
+                  .GetPieceId = 101001
+                  .RunningStyle = 2
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 18
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+          .<List>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData> count=258>
+            [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 182 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 105601 (obscured)
+                ._nickNameId = 98 (obscured)
+                ._nickNameIdArray = <? len=17>
+                  [0] 2 (obscured)
+                  [1] 7 (obscured)
+                ._stamina = 718 (obscured)
+                ._speed = 902 (obscured)
+                ._power = 785 (obscured)
+                ._guts = 266 (obscured)
+                ._wiz = 379 (obscured)
+                ._fans = 248776 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9107 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 7 (obscured)
+                ._properGroundDirt = 2 (obscured)
+                ._properDistanceShort = 2 (obscured)
+                ._properDistanceMile = 5 (obscured)
+                ._properDistanceMiddle = 7 (obscured)
+                ._properDistanceLong = 7 (obscured)
+                ._properRunningStyleNige = 1 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 7 (obscured)
+                ._properRunningStyleOikomi = 2 (obscured)
+                .<SuccessionCount>k__BackingField = 51 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=5>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 1 (obscured)
+                .<IsLock>k__BackingField = 213 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=15>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=10>
+                  [0] 1 (obscured)
+                  [1] 6 (obscured)
+                ._cacheCharaId = 1056 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 105601
+                  .CharaId = 1056
+                  .DefaultRarity = 1
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 105601
+                  .TalentSpeed = 0
+                  .TalentStamina = 20
+                  .TalentPow = 10
+                  .TalentGuts = 0
+                  .TalentWiz = 0
+                  .TalentGroupId = 105601
+                  .BgId = 30
+                  .GetPieceId = 105601
+                  .RunningStyle = 3
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 15
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+            [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+                ._id = 190 (obscured)
+                ._isSaved = 213 (obscured)
+                ._viewerId = <redacted>
+                ._ownerViewerId = <redacted>
+                ._ownerTrainedCharaId = 0 (obscured)
+                ._useType = <?>
+                ._cardId = 101001 (obscured)
+                ._nickNameId = 55 (obscured)
+                ._nickNameIdArray = <? len=15>
+                  [0] 2 (obscured)
+                  [1] 21 (obscured)
+                ._stamina = 393 (obscured)
+                ._speed = 1087 (obscured)
+                ._power = 626 (obscured)
+                ._guts = 357 (obscured)
+                ._wiz = 526 (obscured)
+                ._fans = 247663 (obscured)
+                ._rank = 12 (obscured)
+                ._rankScore = 9280 (obscured)
+                ._runningStyle = 2 (obscured)
+                ._properGroundTurf = 8 (obscured)
+                ._properGroundDirt = 6 (obscured)
+                ._properDistanceShort = 7 (obscured)
+                ._properDistanceMile = 7 (obscured)
+                ._properDistanceMiddle = 5 (obscured)
+                ._properDistanceLong = 2 (obscured)
+                ._properRunningStyleNige = 5 (obscured)
+                ._properRunningStyleSenko = 7 (obscured)
+                ._properRunningStyleSashi = 3 (obscured)
+                ._properRunningStyleOikomi = 1 (obscured)
+                .<SuccessionCount>k__BackingField = 2 (obscured)
+                .<FactorDataArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                .<CreateTime>k__BackingField = 0 (obscured)
+                .<ScenarioId>k__BackingField = 1 (obscured)
+                .<TalentLevel>k__BackingField = 2 (obscured)
+                .<CharaGrade>k__BackingField = 9 (obscured)
+                .<Rarity>k__BackingField = 3 (obscured)
+                .<IsLock>k__BackingField = 181 (obscured)
+                ._favoriteData = <?>
+                ._cachedCreateTimeTimeStamp = 0 (obscured)
+                ._sortedFactorList = <?>
+                ._sortedFactorProfileCardList = <?>
+                ._factorListIncludingSuccession = <?>
+                .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData> count=6>
+                  [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                  [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>
+                .IsSuccessionHistoryInitialized = false
+                .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory> count=0>
+                .<AcquiredSkillArray>k__BackingField = <? len=11>
+                  [0] <Gallop.WorkSkillData.AcquiredSkill>
+                  [1] <Gallop.WorkSkillData.AcquiredSkill>
+                .<SupportCardArray>k__BackingField = <? len=6>
+                  [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                  [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                .<SingleModeRaceResultArray>k__BackingField = <? len=18>
+                  [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                  [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                ._winSaddleArray = <read err: access violation accessing 0x18>
+                ._winSaddleIdArray = <? len=11>
+                  [0] 7 (obscured)
+                  [1] 21 (obscured)
+                ._cacheCharaId = 1010 (obscured)
+                ._masterCardData = <Gallop.MasterCardData.CardData>
+                  .Id = 101001
+                  .CharaId = 1010
+                  .DefaultRarity = 3
+                  .LimitedChara = 0
+                  .AvailableSkillSetId = 101001
+                  .TalentSpeed = 20
+                  .TalentStamina = 0
+                  .TalentPow = 0
+                  .TalentGuts = 0
+                  .TalentWiz = 10
+                  .TalentGroupId = 101001
+                  .BgId = 8
+                  .GetPieceId = 101001
+                  .RunningStyle = 2
+                ._masterCharaData = <?>
+                ._masterCardRarityData = <?>
+                .<SingleTotalRaceNum>k__BackingField = 18
+                ._singleWinNum = -1 (obscured)
+                .<TrainedCharaDataAccessor>k__BackingField = <Gallop.PlayerTrainedCharaDataAccessor>
+          ._favoriteDataDict = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.FavoriteData> count=40>
+            {182} <Gallop.WorkTrainedCharaData.FavoriteData>
+                .TrainedCharaId = 182
+                .Type = <?>
+                .Memo = ""
+            {379} <Gallop.WorkTrainedCharaData.FavoriteData>
+                .TrainedCharaId = 379
+                .Type = <?>
+                .Memo = ""
+
+  --- <CharacterStoryData>k__BackingField ---
+    <Gallop.WorkCharacterStoryData>
+          .DisplayRewardInfoArray = <read err: access violation accessing 0x18>
+          .AddPresentNum = 0
+          ._dataDict = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkCharacterStoryData.CharaStoryData> count=206>
+            {1} <Gallop.WorkCharacterStoryData.CharaStoryData>
+                ._episodeId = 1 (obscured)
+                ._isRead = 213 (obscured)
+            {2} <Gallop.WorkCharacterStoryData.CharaStoryData>
+                ._episodeId = 2 (obscured)
+                ._isRead = 213 (obscured)
+
+  --- <SupportDeckData>k__BackingField ---
+    <Gallop.WorkSupportDeckData>
+          ._dataDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSupportDeckData.SupportDeckData> count=10>
+            {1} <Gallop.WorkSupportDeckData.SupportDeckData>
+                ._deckId = 1
+                ._deckName = "Auto´╝ƒ"
+                ._supportCardIdArray = <? len=5>
+                  [0] 30028 (obscured)
+                  [1] 20023 (obscured)
+                ._autoDeckType = <?>
+            {2} <Gallop.WorkSupportDeckData.SupportDeckData>
+                ._deckId = 2
+                ._deckName = "ITRace"
+                ._supportCardIdArray = <? len=5>
+                  [0] 20027 (obscured)
+                  [1] 30052 (obscured)
+                ._autoDeckType = <?>
+          ._tempDataDic = <read err: access violation accessing 0x18>
+          .<SelectedDeckId>k__BackingField = 4 (obscured)
+
+=== HEAP SCAN (0 of 90 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

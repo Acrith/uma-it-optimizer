@@ -1,0 +1,593 @@
+﻿[i] mode itprefs: run this with the game at: the Final Confirmation dialog open on the Independent Training tab
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== ITPREFS: candidate classes ===
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveSetControl, context:Gallop.SingleModeRaceReserve.IContext, onClose:System.Action<Gallop.SingleModeReservedRace[],Gallop.SingleModeReservedRace[],System.Action>, <>9__12:System.Action, <>9__11:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_1
+      addReservedArray:Gallop.SingleModeReservedRace[], cancelReservedArray:Gallop.SingleModeReservedRace[], CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReserveSetControl.<>c__DisplayClass4_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetControl
+      _listsControl:Gallop.DialogIdleSingleModeRaceReserveSetListControl, _view:Gallop.DialogSingleModeRaceReserveReserveSetView, _model:Gallop.DialogIdleSingleModeRaceReserveSetModel
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveSetListControl, degreeType:Gallop.SingleModeDefine.DegreeType, context:Gallop.SingleModeRaceReserve.IContext, <>9__1:System.Action<Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeDefine.DegreeType,System.Int32>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_1
+      listItem:Gallop.DialogSingleModeRaceListItem, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReserveSetListControl.<>c__DisplayClass6_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListControl
+      _listItemParent:UnityEngine.Transform, _listItemList:System.Collections.Generic.List<Gallop.DialogSingleModeRaceListItem>, <OnItemClicked>k__BackingField:System.Action<Gallop.MasterSingleModeProgram.SingleModeProgram,System.Int32,Gallop.SingleModeDefine.DegreeType>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel.<>c__DisplayClass51_0
+      turn:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetListItemViewModel
+      <DegreeType>k__BackingField:Gallop.SingleModeDefine.DegreeType, <DisplayTurn>k__BackingField:System.Int32, <Program>k__BackingField:Gallop.MasterSingleModeProgram.SingleModeProgram, <IsUnnecessaryGlowFrame>k__BackingField:System.Boolean, <ProgramEntryState>k__BackingField:Gallop.SingleModeDefine.ProgramEntryState, _context:Gallop.SingleModeRaceReserve.IContext, _deckIndex:System.Int32, _routeRaceList:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>, _restrictTurnList:System.Collections.Generic.IReadOnlyList<System.Int32>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo
+      <RaceProgram>k__BackingField:Gallop.MasterSingleModeProgram.SingleModeProgram, <TargetTurn>k__BackingField:System.Int32, <DegreeType>k__BackingField:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel.<>c__DisplayClass64_0
+      RequestBuilder:Gallop.SingleModeRaceReserveRequestBuilder
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveSetModel
+      _degreeDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData>, _nextReservedTurn:System.Int32, _prevReservedTurn:System.Int32, _charaId:System.Int32, _selectRouteRaceProgramId:System.Int32, <ScenarioId>k__BackingField:System.Int32, <Context>k__BackingField:Gallop.SingleModeRaceReserve.IContext, <DeckIndex>k__BackingField:System.Int32, <RouteProgramList>k__BackingField:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>, <RestrictTurnList>k__BackingField:System.Collections.Generic.IReadOnlyList<System.Int32>, <CurrentDegree>k__BackingField:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.IdleSingleModeRaceReserveConnect.<>c__DisplayClass7_0
+      deckNum:System.Int32, <>4__this:Gallop.IdleSingleModeRaceReserveConnect, onSuccess:System.Action
+  [umamusume] Gallop.IdleSingleModeRaceReserveConnect
+      _reservedRaceInfo:Gallop.SingleModeReservedRaceInfo, _entryInfo:Gallop.SingleModeStartViewController.EntryInfo
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm.<>c__DisplayClass7_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetAutoReapplyConfirm
+      _presetItem:Gallop.PartsSingleModeRaceReservePresetItemView, _onDecide:System.Action<Gallop.DialogCommon>, _onCancel:System.Action<Gallop.DialogCommon>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, onClose:System.Action<System.Boolean>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_1
+      dialog:Gallop.DialogCommon, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass10_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass13_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32, onLoadFinish:System.Action, <>9__5:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_1
+      result:Gallop.SingleModeRaceReserve.BuildResult, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass14_0, <>9__4:System.Action
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass15_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, basePresetIndex:System.Int32, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+      context:Gallop.IdleSingleModeCharaRaceSelectContext, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_1
+      index:System.Int32, presetIndex:System.Int32, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+      context:Gallop.IdleSingleModeCharaRaceSelectContext, baseDeckIndex:System.Int32, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetControl, basePresetIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_1
+      index:System.Int32, CS$<>8__locals1:Gallop.DialogIdleSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetControl
+      _view:Gallop.DialogSingleModeRaceReservePresetView, _model:Gallop.DialogSingleModeRaceReservePresetModel, _entryInfo:Gallop.SingleModeStartViewController.EntryInfo, _context:Gallop.IdleSingleModeCharaRaceSelectContext, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass12_0
+      onClose:System.Action<System.Boolean>, <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetInfoControl, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReservePresetInfoControl, raceData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[]
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl.<>c__DisplayClass14_1
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.DialogIdleSingleModeRaceReservePresetInfoControl
+      _listCoreControl:Gallop.IdleSingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReservePresetInfoView, _model:Gallop.DialogSingleModeRaceReservePresetInfoModelFuture, _context:Gallop.IdleSingleModeCharaRaceSelectContext, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass9_0
+      <>4__this:Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl, entryInfo:Gallop.SingleModeStartViewController.EntryInfo, context:Gallop.IdleSingleModeCharaRaceSelectContext, deckIndex:System.Int32, <>9__3:System.Action<Gallop.SingleModeReservedRace[],Gallop.SingleModeReservedRace[],System.Action>
+  [umamusume] Gallop.DialogIdleSingleModeRaceReserveReservedRaceListControl
+      _view:Gallop.DialogSingleModeRaceReserveReservedRaceListView, _model:Gallop.DialogSingleModeRaceReserveReservedRaceListModel
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl.Param
+      UseLoopScroll:System.Boolean, IsShowableTitle:System.Boolean, ItemViewParamGetter:Gallop.SingleModeRaceReserveListCoreView.IItemViewParamGetter, IsDetailAtReserved:System.Boolean, RouteRaceList:System.Collections.Generic.IReadOnlyList<Gallop.DialogIdleSingleModeRaceReserveSetModel.RouteRaceProgramInfo>
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl.<>c__DisplayClass7_0
+      <>4__this:Gallop.IdleSingleModeRaceReserveListCoreControl, context:Gallop.IdleSingleModeCharaRaceSelectContext, param:Gallop.IdleSingleModeRaceReserveListCoreControl.Param
+  [umamusume] Gallop.IdleSingleModeRaceReserveListCoreControl
+      _view:Gallop.SingleModeRaceReserveListCoreView, _model:Gallop.SingleModeRaceReserveListCoreModel, <OnItemUpdate>k__BackingField:System.Action<System.Int32,Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkillModel
+      <ChangeTargetSkillId>k__BackingField:System.Int32, <SelectedSkillIdList>k__BackingField:System.Collections.Generic.IReadOnlyList<System.Int32>
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill.SingleModeAutoPlaySkillSelectorModel.<>c
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill.SingleModeAutoPlaySkillSelectorModel.<>c__DisplayClass1_0
+      changeTargetSkillId:System.Int32, selectedSkillIdList:System.Collections.Generic.IReadOnlyList<System.Int32>
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill.SingleModeAutoPlaySkillSelectorModel
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill.SkillSearchSelectorModel.<>c
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill.SkillSearchSelectorModel
+  [umamusume] Gallop.DialogSingleModeAutoPlaySelectPreferenceSkill
+      _selectableSkillList:Gallop.PartsSingleModeAutoPlaySelectableSkillList, _filterSkillName:Gallop.PartsSingleModeAutoPlayFilterSkillName, _onDecide:System.Action<System.Int32>, _preferenceSkillModel:Gallop.SingleModeAutoPlaySkillSelectorModelBase
+  [umamusume] Gallop.ISingleModeAutoPlaySelectedPreferenceSkillAccessor
+  [umamusume] Gallop.ISingleModeAutoPlaySelectablePreferenceSkillAccessor
+  [umamusume] Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem.<>c__DisplayClass7_0
+      <>4__this:Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem, skillData:Gallop.MasterSkillData.SkillData
+  [umamusume] Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem
+      _bgImage:Gallop.ImageCommon, _skillIcon:Gallop.SkillIcon, _skillName:Gallop.TextCommon, _skillDetailButton:Gallop.ButtonCommon, _selectButton:Gallop.ButtonCommon, _resetButton:Gallop.ButtonCommon, _isDrawNeedSkillPoint:System.Boolean
+  [umamusume] Gallop.SingleModeMainData.RaceReserveCancelData
+      <IsTargetReserve>k__BackingField:System.Boolean, <Turn>k__BackingField:System.Int32, <ProgramId>k__BackingField:System.Int32, <IsCurrentTurn>k__BackingField:System.Boolean
+  [umamusume] Gallop.SingleModeMainTurnStartChecker.<ShowRaceReserveCancel>d__22
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.SingleModeMainTurnStartChecker
+  [umamusume] Gallop.SingleModeMainTurnStartChecker.<ShowRaceReserved>d__21
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.SingleModeMainTurnStartChecker, streamData:Gallop.SingleModeMainTurnStartChecker.StreamData
+  [umamusume] Gallop.ISingleModeRaceReserveConnect
+  [umamusume] Gallop.SingleModeRaceReserveConnect.RequestParam
+      DeckNum:System.Int32, DeckName:System.String, AddRaces:Gallop.SingleModeReservedRace[], CancelRaces:Gallop.SingleModeReservedRace[]
+  [umamusume] Gallop.SingleModeRaceReserveConnect.IRequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.URARequester.<>c__DisplayClass0_0
+      onSuccess:System.Action<Gallop.SingleModeReservedRaceDeck[]>
+  [umamusume] Gallop.SingleModeRaceReserveConnect.URARequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.TeamRequester.<>c__DisplayClass0_0
+      onSuccess:System.Action<Gallop.SingleModeReservedRaceDeck[]>
+  [umamusume] Gallop.SingleModeRaceReserveConnect.TeamRequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.FreeRequester.<>c__DisplayClass0_0
+      onSuccess:System.Action<Gallop.SingleModeReservedRaceDeck[]>
+  [umamusume] Gallop.SingleModeRaceReserveConnect.FreeRequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.LiveRequester.<>c__DisplayClass0_0
+      onSuccess:System.Action<Gallop.SingleModeReservedRaceDeck[]>
+  [umamusume] Gallop.SingleModeRaceReserveConnect.LiveRequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.VenusRequester.<>c__DisplayClass0_0
+      onSuccess:System.Action<Gallop.SingleModeReservedRaceDeck[]>
+  [umamusume] Gallop.SingleModeRaceReserveConnect.VenusRequester
+  [umamusume] Gallop.SingleModeRaceReserveConnect.<>c__DisplayClass15_0
+      <>4__this:Gallop.SingleModeRaceReserveConnect, onSuccess:System.Action
+  [umamusume] Gallop.SingleModeRaceReserveConnect
+      _context:Gallop.SingleModeRaceReserve.Context, _requester:Gallop.SingleModeRaceReserveConnect.IRequester, _isInitialized:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserveTurnEntity
+      ServerData:Gallop.SingleModeReservedRace, Program:Gallop.MasterSingleModeProgram.SingleModeProgram, Turn:System.Int32, _getter:Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.DisplayData
+      <G1Count>k__BackingField:System.Int32, <G2Count>k__BackingField:System.Int32, <G3Count>k__BackingField:System.Int32, <ThumbnailRaceIds>k__BackingField:System.Collections.Generic.List<System.Int32>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass21_0
+      ignoreReservePredicate:System.Predicate<Gallop.SingleModeReservedRace>, turnRepository:Gallop.SingleModeRaceReserveTurnRepository, conditionalPorgramIdGetter:Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass21_1
+      programMaster:Gallop.MasterSingleModeProgram, CS$<>8__locals1:Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass21_0
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass21_2
+      group:System.Linq.IGrouping<Gallop.SingleModeDefine.DegreeType,Gallop.SingleModeReservedRace>, CS$<>8__locals2:Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass21_1
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass23_0
+      activeProgramId:System.Int32, useAlternativeProgramId:System.Boolean, <>4__this:Gallop.SingleModeRaceReserveDeckEntity
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass24_0
+      turn:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass26_0
+      predicate:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>, <>9__3:System.Func<Gallop.SingleModeRaceReserveTurnEntity,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass26_1
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass26_2
+      degree:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass27_0
+      predicate:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>, getProgram:System.Func<Gallop.SingleModeRaceReserveTurnEntity,Gallop.MasterSingleModeProgram.SingleModeProgram>, <>9__1:System.Func<Gallop.SingleModeRaceReserveTurnEntity,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass27_1
+      degree:Gallop.SingleModeDefine.DegreeType, CS$<>8__locals1:Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass27_0
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass28_0
+      predicate:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>, turn:System.Int32, <>9__2:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>, <>9__3:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass29_0
+      predicate:System.Predicate<Gallop.SingleModeRaceReserveTurnEntity>, <>9__0:System.Func<Gallop.SingleModeRaceReserveTurnEntity,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass33_0
+      turn:System.Int32, <>9__0:System.Func<Gallop.SingleModeRaceReserveTurnEntity,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity.<>c__DisplayClass34_0
+      masterManager:Gallop.MasterDataManager
+  [umamusume] Gallop.SingleModeRaceReserveDeckEntity
+      _reserveDict:System.Collections.Generic.SortedDictionary<Gallop.SingleModeDefine.DegreeType,System.Collections.Generic.List<Gallop.SingleModeRaceReserveTurnEntity>>, _displayData:Gallop.SingleModeRaceReserveDeckEntity.DisplayData, _programIdGetter:Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter, <DeckInfo>k__BackingField:Gallop.SingleModeReservedRaceDeck, <DeckIndex>k__BackingField:System.Int32, <DeckName>k__BackingField:System.String, <ReservedRaceCount>k__BackingField:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveDefine
+  [umamusume] Gallop.SingleModeRaceReserveRepository.<>c__DisplayClass10_0
+      <>4__this:Gallop.SingleModeRaceReserveRepository, turnRepository:Gallop.SingleModeRaceReserveTurnRepository
+  [umamusume] Gallop.SingleModeRaceReserveRepository
+      _entities:Gallop.SingleModeRaceReserveDeckEntity[], _conditionalProgramIdGetter:Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter, <OnUpdateEvent>k__BackingField:Gallop.EventSubject<Gallop.SingleModeRaceReserveRepository>
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass16_0
+      year:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass17_0
+      <>4__this:Gallop.SingleModeRaceReserveRequestBuilder, isNext:System.Boolean, turn:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass18_0
+      useAlternativeProgramId:System.Boolean, <>4__this:Gallop.SingleModeRaceReserveRequestBuilder
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass18_1
+      activeProgramId:System.Int32, CS$<>8__locals1:Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass18_0
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass20_0
+      turn:System.Int32, <>9__0:System.Func<System.Collections.Generic.KeyValuePair<System.Int32,System.Int32>,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder.<>c__DisplayClass22_0
+      useActiveProgramId:System.Boolean, <>4__this:Gallop.SingleModeRaceReserveRequestBuilder
+  [umamusume] Gallop.SingleModeRaceReserveRequestBuilder
+      _addProgramsDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,System.Collections.Generic.SortedList<System.Int32,System.Int32>>, _cancelProgramsDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,System.Collections.Generic.SortedList<System.Int32,System.Int32>>, _programIdGetter:Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter, _reserveRepository:Gallop.SingleModeRaceReserveRepository
+  [umamusume] Gallop.SingleModeRaceReserveDegreeTurnEntity.<>c
+  [umamusume] Gallop.SingleModeRaceReserveDegreeTurnEntity.<>c__DisplayClass11_0
+      month:System.Int32, half:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveDegreeTurnEntity
+      <FirstTurn>k__BackingField:System.Int32, <LastTurn>k__BackingField:System.Int32, <TurnMasters>k__BackingField:Gallop.MasterSingleModeTurn.SingleModeTurn[]
+  [umamusume] Gallop.SingleModeRaceReserveTurnRepository.<>c
+  [umamusume] Gallop.SingleModeRaceReserveTurnRepository
+      <IsUpdated>k__BackingField:System.Boolean, <TurnMasters>k__BackingField:System.Collections.Generic.List<Gallop.MasterSingleModeTurn.SingleModeTurn>, <DegreeEntities>k__BackingField:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.SingleModeRaceReserveDegreeTurnEntity>, _getTurnSetId:System.Func<System.Int32>
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelConfirm.<>c__DisplayClass5_0
+      onCancel:System.Action, context:Gallop.SingleModeRaceReserve.Context, degree:Gallop.SingleModeDefine.DegreeType, deckIndex:System.Int32, turn:System.Int32, onOk:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelConfirm.<>c__DisplayClass5_1
+      dialogInnner:Gallop.DialogCommon, CS$<>8__locals1:Gallop.DialogSingleModeRaceReserveCancelConfirm.<>c__DisplayClass5_0, <>9__3:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelConfirm
+      _listItem:Gallop.PartsSingleModeReserveRaceListItem
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectConfirmControl.<>c__DisplayClass4_0
+      reservedData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[], titleCache:Gallop.DialogSingleModeRaceReserveTitleCache, context:Gallop.SingleModeRaceReserve.Context, deckIndex:System.Int32, requestData:Gallop.SingleModeReservedRace[], onUpdateList:System.Action, <>4__this:Gallop.DialogSingleModeRaceReserveCancelSelectConfirmControl, onClosed:System.Action, <>9__5:System.Action, <>9__4:System.Action, <>9__3:System.Action, <>9__6:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectConfirmControl
+      _listCoreControl:Gallop.SingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReserveCancelSelectConfirmView, _model:Gallop.DialogSingleModeRaceReserveCancelSelectConfirmModel
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectConfirmModel
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectConfirmView.<>c__DisplayClass14_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectConfirmView
+      _reservedNumText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, <OnLeftButtonClicked>k__BackingField:System.Action, <OnRightButtonClicked>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectControl.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectControl.<>c__DisplayClass5_0
+      reservedData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[], <>4__this:Gallop.DialogSingleModeRaceReserveCancelSelectControl, titleCache:Gallop.DialogSingleModeRaceReserveTitleCache, deckIndex:System.Int32, onUpdateList:System.Action, <>9__4:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectControl
+      _listCoreControl:Gallop.SingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReserveCancelSelectView, _model:Gallop.DialogSingleModeRaceReserveCancelSelectModel
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectModel
+      _reservedData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[], _context:Gallop.SingleModeRaceReserve.Context, <DeckIndex>k__BackingField:System.Int32, <BadgeIndexes>k__BackingField:System.Collections.Generic.SortedList<System.Int32,System.Int32>
+  [umamusume] Gallop.DialogSingleModeRaceReserveCancelSelectView
+      _reservedNumText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, <OnCancelClicked>k__BackingField:System.Action, <OnCancelAllClicked>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass0_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass1_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass2_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass3_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass4_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon.<>c__DisplayClass5_0
+      onClosed:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveCommon
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedControl.<>c__DisplayClass8_0
+      <>4__this:Gallop.DialogSingleModeRaceReserveReservedControl, context:Gallop.SingleModeRaceReserve.Context, <>9__6:System.Action, <>9__7:System.Action, <>9__8:System.Action<System.Boolean>, <>9__9:System.Action<System.Int32>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedControl.<>c__DisplayClass8_1
+      reserveData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[], CS$<>8__locals1:Gallop.DialogSingleModeRaceReserveReservedControl.<>c__DisplayClass8_0
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedControl
+      _listCoreControl:Gallop.SingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReserveReservedView, _model:Gallop.DialogSingleModeRaceReserveReservedModel, _onUpdate:System.Action, _onClosed:System.Action<System.Boolean>
+  [umamusume] Gallop.DialogSingleModeRaceReserveTitleCache
+      _titleDict:System.Collections.Generic.Dictionary<System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32>,System.String>, _context:Gallop.SingleModeRaceReserve.Context
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedModel
+      _context:Gallop.SingleModeRaceReserve.Context, <DeckIndex>k__BackingField:System.Int32, <TitleCache>k__BackingField:Gallop.DialogSingleModeRaceReserveTitleCache, <IsUpdated>k__BackingField:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReserveTitleCacheFuture
+      _titleDict:System.Collections.Generic.Dictionary<System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32>,System.String>, _context:Gallop.SingleModeRaceReserve.IContext
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedModelFuture
+      _context:Gallop.SingleModeRaceReserve.Context, <DeckIndex>k__BackingField:System.Int32, <TitleCache>k__BackingField:Gallop.DialogSingleModeRaceReserveTitleCache, <IsUpdated>k__BackingField:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass6_0
+      <>4__this:Gallop.DialogSingleModeRaceReserveReservedRaceListControl, context:Gallop.SingleModeRaceReserve.Context, onClosed:System.Action<System.ValueTuple<System.Boolean,System.Boolean>>, <>9__6:System.Action<System.Int32>, <>9__7:System.Action<System.Boolean>, <>9__8:System.Action<Gallop.DialogCommon>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass6_1
+      confirmDialog:Gallop.DialogCommon
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass7_0
+      <>4__this:Gallop.DialogSingleModeRaceReserveReservedRaceListControl, degreeType:Gallop.SingleModeDefine.DegreeType, turn:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListControl.<>c__DisplayClass8_0
+      <>4__this:Gallop.DialogSingleModeRaceReserveReservedRaceListControl, onComplete:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListControl
+      _view:Gallop.DialogSingleModeRaceReserveReservedRaceListView, _model:Gallop.DialogSingleModeRaceReserveReservedRaceListModel, _context:Gallop.SingleModeRaceReserve.Context, _whiteMask:UnityEngine.GameObject, _isSteamMenu:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListItemView
+      _disableTitleText:Gallop.TextCommon, _titleText:Gallop.TextCommon, _disableRoot:UnityEngine.GameObject, _button:Gallop.ButtonCommon, _buttonImage:Gallop.ImageCommon, _raceRawImage:Gallop.RawImageCommon, _selectImage:Gallop.ImageCommon, _plusImage:Gallop.ImageCommon, _targetImage:Gallop.ImageCommon, _reserveImage:Gallop.ImageCommon, _grayOutColor:UnityEngine.Color, _rootObj:UnityEngine.GameObject, <Entity>k__BackingField:Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Entity, <OnClicked>k__BackingField:System.Action<Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Entity>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Type
+      value__:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.RestrictType
+      value__:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.RestrictTurnInfo
+      <Turn>k__BackingField:System.Int32, <RestrictType>k__BackingField:Gallop.DialogSingleModeRaceReserveReservedRaceListModel.RestrictType
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Entity
+      Degree:Gallop.SingleModeDefine.DegreeType, Turn:System.Int32, ProgramId:System.Int32, IsDisable:System.Boolean, ImageFilaname:System.String, IsTarget:System.Boolean, IsReserve:System.Boolean, IsSelect:System.Boolean, IsGrayout:System.Boolean, Title:System.String
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.DegreeData
+      <Entites>k__BackingField:System.Collections.Generic.List<Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Entity>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.<>c__DisplayClass62_0
+      turnMaster:Gallop.MasterSingleModeTurn.SingleModeTurn
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel.<>c__DisplayClass64_0
+      onSuccess:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListModel
+      _degreeDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.DialogSingleModeRaceReserveReservedRaceListModel.DegreeData>, _routeRaces:System.Collections.Generic.IEnumerable<Gallop.MasterSingleModeRouteRace.SingleModeRouteRace>, _isTargetLabelEnabled:System.Boolean, _dispDegree:Gallop.SingleModeDefine.DegreeType, <DispTurn>k__BackingField:System.Int32, _currentTurn:System.Int32, _restrictTurnList:System.Collections.Generic.IReadOnlyList<Gallop.DialogSingleModeRaceReserveReservedRaceListModel.RestrictTurnInfo>, _getRouteRaceFunc:System.Func<System.Int32,Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>, <Context>k__BackingField:Gallop.SingleModeRaceReserve.IContext, <DeckIndex>k__BackingField:System.Int32, <IsUpdated>k__BackingField:System.Boolean, <IsPresetButtonActive>k__BackingField:System.Boolean, <IsPrevTurnEnabled>k__BackingField:System.Boolean, <ListType>k__BackingField:Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Type, <IsReserveResetButtonActive>k__BackingField:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedRaceListView
+      _toggleGroupCommon:Gallop.FlickToggleGroupCommon, _itemViewRootObj:UnityEngine.GameObject, _itemView:Gallop.DialogSingleModeRaceReserveReservedRaceListItemView, _flickableObject:Gallop.FlickableObject, _presetButton:Gallop.ButtonCommon, _reserveResetButton:Gallop.ButtonCommon, _dialog:Gallop.DialogCommon, _itemViewList:System.Collections.Generic.List<Gallop.DialogSingleModeRaceReserveReservedRaceListItemView>, _animationComp:Gallop.LandscapeModeBandMenuDialogAnimation, _activeItemViews:System.Collections.Generic.List<Gallop.DialogSingleModeRaceReserveReservedRaceListItemView>, <OnToggleChanged>k__BackingField:System.Action<System.Int32>, <OnCenterClicked>k__BackingField:System.Action, <OnClosed>k__BackingField:System.Action<System.Boolean>, <OnItemClicked>k__BackingField:System.Action<Gallop.DialogSingleModeRaceReserveReservedRaceListModel.Entity>, <OnPresetClicked>k__BackingField:System.Action, <OnReserveResetClicked>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveReservedView
+      _presetButton:Gallop.ButtonCommon, _selectCancelButton:Gallop.ButtonCommon, _reservedNum:Gallop.TextCommon, _emptyText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, <OnLeftClicked>k__BackingField:System.Action, <OnRightClicked>k__BackingField:System.Action, <OnPresetButton>k__BackingField:System.Action, <OnSelectCancelButton>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl.<>c__DisplayClass17_0
+      programId:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl.<>c__DisplayClass6_0
+      <>4__this:Gallop.DialogSingleModeRaceReserveReserveSetControl, context:Gallop.SingleModeRaceReserve.Context, onUpdateList:System.Action<System.Int32>, <>9__11:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl.<>c__DisplayClass6_1
+      program:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl.<>c__DisplayClass8_0
+      reservedProgram:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetControl
+      _listsControl:Gallop.DialogSingleModeRaceReserveReserveSetListControl, _view:Gallop.DialogSingleModeRaceReserveReserveSetView, _model:Gallop.DialogSingleModeRaceReserveReserveSetModel, _deplicatePureProgramIdFindPrograms:System.Collections.Generic.List<Gallop.MasterSingleModeProgram.SingleModeProgram>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetListControl.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetListControl
+      _listCores:Gallop.SingleModeRaceReserveListCoreControl[], _dialog:Gallop.DialogCommon, _deckIndex:System.Int32, _degree:Gallop.SingleModeDefine.DegreeType, _hasReservedProgram:System.Boolean, _itemViewParamGetter:Gallop.SingleModeRaceReserveListCoreView.ItemViewProgramIdParamGetter, <ActiveList>k__BackingField:Gallop.SingleModeRaceReserveListCoreControl, <OnItemClicked>k__BackingField:System.Action<System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData
+      _entity:Gallop.SingleModeRaceReserveDegreeTurnEntity, Turn:System.Int32, PrevData:Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData, NextData:Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetModel.<>c__DisplayClass63_0
+      programs:System.Collections.Generic.List<Gallop.MasterSingleModeProgram.SingleModeProgram>, <>4__this:Gallop.DialogSingleModeRaceReserveReserveSetModel
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetModel
+      _degreeDict:System.Collections.Generic.Dictionary<Gallop.SingleModeDefine.DegreeType,Gallop.DialogSingleModeRaceReserveReserveSetModel.DegreeData>, _nextReservedTurn:System.Int32, _prevReservedTurn:System.Int32, <CurrentDegree>k__BackingField:Gallop.SingleModeDefine.DegreeType, <ReservedProgram>k__BackingField:Gallop.MasterSingleModeProgram.SingleModeProgram, <DeckIndex>k__BackingField:System.Int32, <Context>k__BackingField:Gallop.SingleModeRaceReserve.Context
+  [umamusume] Gallop.DialogSingleModeRaceReserveReserveSetView
+      _titleText:Gallop.TextCommon, _toggleGroupCommon:Gallop.FlickToggleGroupCommon, _flickableObject:Gallop.FlickableObject, _leftButton:Gallop.ButtonCommon, _leftSkipButton:Gallop.ButtonCommon, _rightButton:Gallop.ButtonCommon, _rightSkipButton:Gallop.ButtonCommon, _reserveRaceListButton:Gallop.ButtonCommon, _emptyText:Gallop.TextCommon, _dialog:Gallop.DialogCommon, <OnToggleChanged>k__BackingField:System.Action<System.Int32>, <OnLeftButtonClicked>k__BackingField:System.Action, <OnRightButtonClicked>k__BackingField:System.Action, <OnLeftSkipButtonClicked>k__BackingField:System.Action, <OnRightSkipButtonClicked>k__BackingField:System.Action, <OnCancelClicked>k__BackingField:System.Action, <OnReserveClicked>k__BackingField:System.Action, <OnReserveRaceListClicked>k__BackingField:System.Action, <OnClosed>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReserveResetConfirm.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReserveResetConfirm
+      _messageText:Gallop.TextCommon, _onDecide:System.Action<Gallop.DialogCommon>, _isSingleMode:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass10_0
+      onClose:System.Action<System.Boolean>, <>4__this:Gallop.DialogSingleModeRaceReservePresetControl
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass11_0
+      <>4__this:Gallop.DialogSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass12_0
+      <>4__this:Gallop.DialogSingleModeRaceReservePresetControl, targetPresetIndex:System.Int32, onLoadFinish:System.Action, <>9__5:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass12_1
+      result:Gallop.SingleModeRaceReserve.BuildResult, CS$<>8__locals1:Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass12_0, <>9__4:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass13_0
+      <>4__this:Gallop.DialogSingleModeRaceReservePresetControl, basePresetIndex:System.Int32, targetPresetIndex:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+      context:Gallop.SingleModeRaceReserve.Context, <>4__this:Gallop.DialogSingleModeRaceReservePresetControl
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass8_1
+      index:System.Int32, CS$<>8__locals1:Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass8_0
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+      context:Gallop.SingleModeRaceReserve.Context, <>4__this:Gallop.DialogSingleModeRaceReservePresetControl, basePresetIndex:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass9_1
+      index:System.Int32, CS$<>8__locals1:Gallop.DialogSingleModeRaceReservePresetControl.<>c__DisplayClass9_0
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetControl
+      _view:Gallop.DialogSingleModeRaceReservePresetView, _model:Gallop.DialogSingleModeRaceReservePresetModel, _isReserveChanged:System.Boolean, _isSaveExecute:System.Boolean, _context:Gallop.SingleModeRaceReserve.Context, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetDeckNameEdit.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetDeckNameEdit.<>c__DisplayClass7_0
+      <>4__this:Gallop.DialogSingleModeRaceReservePresetDeckNameEdit, context:Gallop.SingleModeRaceReserve.IContext, deckIndex:System.Int32, onNameUpdated:System.Action<System.String>, defaultName:System.String, dialog:Gallop.DialogCommon
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetDeckNameEdit.<>c__DisplayClass7_1
+      text:System.String, x:Gallop.DialogCommon, CS$<>8__locals1:Gallop.DialogSingleModeRaceReservePresetDeckNameEdit.<>c__DisplayClass7_0
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetDeckNameEdit
+      _inputField:Gallop.InputFieldCommon
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoControl.Type
+      value__:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoControl.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoControl.<>c__DisplayClass11_0
+      <>4__this:Gallop.DialogSingleModeRaceReservePresetInfoControl, currentTurn:System.Int32, reserveData:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[]
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoControl.<>c__DisplayClass9_0
+      onClose:System.Action<System.Boolean>, <>4__this:Gallop.DialogSingleModeRaceReservePresetInfoControl, deckIndex:System.Int32, context:Gallop.SingleModeRaceReserve.Context
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoControl
+      _listCoreControl:Gallop.SingleModeRaceReserveListCoreControl, _view:Gallop.DialogSingleModeRaceReservePresetInfoView, _model:Gallop.DialogSingleModeRaceReservePresetInfoModel, _disposables:Gallop.CompositeDisposable
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoModel
+      <Type>k__BackingField:Gallop.DialogSingleModeRaceReservePresetInfoControl.Type, <LeftButtonText>k__BackingField:System.String, <RightButtonText>k__BackingField:System.String, <TitleText>k__BackingField:System.String, <IsUpdated>k__BackingField:System.Boolean, <TitleCache>k__BackingField:Gallop.DialogSingleModeRaceReserveTitleCache, <Context>k__BackingField:Gallop.SingleModeRaceReserve.Context, <Repository>k__BackingField:Gallop.SingleModeRaceReserveRepository, <DeckEntity>k__BackingField:Gallop.SingleModeRaceReserveDeckEntity, <DeckIndex>k__BackingField:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoModelFuture
+      <Type>k__BackingField:Gallop.DialogSingleModeRaceReservePresetInfoControl.Type, <LeftButtonText>k__BackingField:System.String, <RightButtonText>k__BackingField:System.String, <TitleText>k__BackingField:System.String, <IsUpdated>k__BackingField:System.Boolean, <TitleCache>k__BackingField:Gallop.DialogSingleModeRaceReserveTitleCacheFuture, <Context>k__BackingField:Gallop.SingleModeRaceReserve.IContext, <Repository>k__BackingField:Gallop.SingleModeRaceReserveRepository, <DeckEntity>k__BackingField:Gallop.SingleModeRaceReserveDeckEntity, <DeckIndex>k__BackingField:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetInfoView
+      _presetNameText:Gallop.TextCommon, _emptyText:Gallop.TextCommon, _presetButton:Gallop.ButtonCommon, _copyButton:Gallop.ButtonCommon, _selectCancelButton:Gallop.ButtonCommon, _editButton:Gallop.ButtonCommon, _infoContentsRoot:UnityEngine.GameObject, _settingContentsRoot:UnityEngine.GameObject, _reservedNumText:Gallop.TextCommon, _type:Gallop.DialogSingleModeRaceReservePresetInfoControl.Type, _dialog:Gallop.DialogCommon, <OnClosed>k__BackingField:System.Action, <OnCopyClicked>k__BackingField:System.Action, <OnSelectCancelClicked>k__BackingField:System.Action, <OnPresetEditClicked>k__BackingField:System.Action, <OnEditClicked>k__BackingField:System.Action, <onSaveClicked>k__BackingField:System.Action, <OnPresetNameEditClicked>k__BackingField:System.Action
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel.BuildResult
+      IsTargetRaceTurn:System.Boolean, IsPrevTurn:System.Boolean
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel.<>c
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel.<>c__DisplayClass33_0
+      programMaster:Gallop.MasterSingleModeProgram, turnRepository:Gallop.SingleModeRaceReserveTurnRepository, turn:System.Int32
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel.<>c__DisplayClass37_0
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel.<>c__DisplayClass37_1
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetModel
+      <CurrentDeckEntity>k__BackingField:Gallop.SingleModeRaceReserveDeckEntity, <CurrentDeckExceptPrevEntity>k__BackingField:Gallop.SingleModeRaceReserveDeckEntity, <PresetDeckEntityList>k__BackingField:System.Collections.Generic.List<Gallop.SingleModeRaceReserveDeckEntity>, <CurrentDeckItemParam>k__BackingField:Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter, <PresetDeckItemParamList>k__BackingField:System.Collections.Generic.List<Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter>, <TempSelectedDefaultPresetIndex>k__BackingField:System.Int32, _context:Gallop.SingleModeRaceReserve.IContext, _targetRouteRaces:System.Collections.Generic.IEnumerable<Gallop.MasterSingleModeRouteRace.SingleModeRouteRace>
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetOverwriteConfirm.<>c__DisplayClass10_0
+      onCancel:System.Action, onExecution:System.Action, <>4__this:Gallop.DialogSingleModeRaceReservePresetOverwriteConfirm, context:Gallop.SingleModeRaceReserve.Context, baseParam:Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter, targetParam:Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetOverwriteConfirm.<>c__DisplayClass8_0
+      onCancel:System.Action, onExecution:System.Action, onClickInfoButton:System.Action<System.Int32>, baseParam:Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter, targetParam:Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetOverwriteConfirm
+      _basePresetItem:Gallop.PartsSingleModeRaceReservePresetItemView, _targetPresetItem:Gallop.PartsSingleModeRaceReservePresetItemView, _presetToPresetTextRoot:UnityEngine.GameObject, _presetToCurrentTextRoot:UnityEngine.GameObject
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetView.<>c__DisplayClass11_0
+      updateItem:System.Action<Gallop.LoopScrollItemBase>
+  [umamusume] Gallop.DialogSingleModeRaceReservePresetView
+      OnClose:System.Action<Gallop.DialogCommon>, _listHeaderObject:UnityEngine.GameObject, _copyNotificationText:Gallop.TextCommon, _copyTriangleObject:UnityEngine.GameObject, _currentPresetItemView:Gallop.PartsSingleModeRaceReservePresetItemView, _scroll:Gallop.LoopScroll, _dialog:Gallop.DialogCommon
+  [umamusume] Gallop.PartsSingleModeRaceReservePresetItemView.SetupParameter
+      DeckIndex:System.Int32, ThumbnailFileNameList:System.Collections.Generic.List<System.String>, PresetName:System.String, TotalRaceCount:System.Int32, RaceCounts:System.ValueTuple<System.Int32,System.Int32,System.Int32>
+  [umamusume] Gallop.PartsSingleModeRaceReservePresetItemView
+      OnClickSaveButton:System.Action, OnClickLoadButton:System.Action, OnClickInfoButton:System.Action, _thumbnailList:System.Collections.Generic.List<Gallop.RawImageCommon>, _presetNameText:Gallop.TextCommon, _totalRaceCountText:Gallop.TextCommon, _raceCounTextList:System.Collections.Generic.List<Gallop.TextCommon>, _saveButton:Gallop.ButtonCommon, _loadButton:Gallop.ButtonCommon, _infoButton:Gallop.ButtonCommon, _g1RaceCountText:Gallop.TextCommon, _g2RaceCountText:Gallop.TextCommon, _g3RaceCountText:Gallop.TextCommon
+  [umamusume] Gallop.SingleModeRaceReserveListCoreControl
+      _view:Gallop.SingleModeRaceReserveListCoreView, _model:Gallop.SingleModeRaceReserveListCoreModel, <EnabledDefaultClicked>k__BackingField:System.Boolean, <OnItemClicked>k__BackingField:System.Action<System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeRaceReserveListCoreTurnItemView>, <OnItemUpdate>k__BackingField:System.Action<System.Int32,Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.SingleModeRaceReserveListCoreModel
+      _paramGetter:Gallop.SingleModeRaceReserveListCoreView.IItemViewParamGetter, _isAllContentsInvalid:System.Boolean, _currentTurn:System.Int32, <IsDetailAtReserved>k__BackingField:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserveListCoreRaceItemView
+      _core:Gallop.DialogSingleModeRaceListItem, _selectNum:Gallop.PartsSelectNum
+  [umamusume] Gallop.SingleModeRaceReserveListCoreTurnItemView
+      _titleRoot:UnityEngine.Transform, _blueLabelImage:Gallop.ImageCommon, _orangeLabelImage:Gallop.ImageCommon, _greenLabelImage:Gallop.ImageCommon, _titleText:Gallop.TextCommon, _raceItemView:Gallop.SingleModeRaceReserveListCoreRaceItemView
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.AbstractScrollView
+      _scroll:Gallop.ScrollRectCommon, _itemView:Gallop.SingleModeRaceReserveListCoreTurnItemView
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ScrollViewImpl.<>c
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ScrollViewImpl.<>c__DisplayClass6_0
+      turn:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ScrollViewImpl.<>c__DisplayClass8_0
+      program:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ScrollViewImpl
+      _itemViews:System.Collections.Generic.List<Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.LoopScrollViewImpl.<>c__DisplayClass1_0
+      onUpdate:System.Action<System.Int32,Gallop.SingleModeRaceReserveListCoreTurnItemView>
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.LoopScrollViewImpl
+      _loopScroll:Gallop.LoopScroll
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.IItemViewParamGetter
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ItemViewShardAllParamGetter
+      _param:Gallop.DialogSingleModeRaceListItem.Param
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.ItemViewProgramIdParamGetter
+      _param:Gallop.DialogSingleModeRaceListItem.Param, _paramDict:System.Collections.Generic.Dictionary<System.Int32,Gallop.DialogSingleModeRaceListItem.Param>
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.Param
+      Context:Gallop.SingleModeRaceReserve.Context, UseLoopScroll:System.Boolean, IsShowableTitle:System.Boolean, IsShowableRecommend:System.Boolean, ItemViewParamGetter:Gallop.SingleModeRaceReserveListCoreView.IItemViewParamGetter, IsCursorEnabled:System.Boolean, IsDetailAtReserved:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.<>c__DisplayClass43_0
+      programs:System.Collections.Generic.List<Gallop.MasterSingleModeProgram.SingleModeProgram>, <>4__this:Gallop.SingleModeRaceReserveListCoreView, degreeType:Gallop.SingleModeDefine.DegreeType, displayTurn:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.<>c__DisplayClass44_0
+      entities:System.ValueTuple<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram>[], <>4__this:Gallop.SingleModeRaceReserveListCoreView
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.<>c__DisplayClass53_0
+      result:Gallop.SingleModeRaceReserveListCoreTurnItemView, index:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView.<>c__DisplayClass54_0
+      <>4__this:Gallop.SingleModeRaceReserveListCoreView, index:System.Int32, program:Gallop.MasterSingleModeProgram.SingleModeProgram, itemView:Gallop.SingleModeRaceReserveListCoreTurnItemView
+  [umamusume] Gallop.SingleModeRaceReserveListCoreView
+      _scrollViewImpl:Gallop.SingleModeRaceReserveListCoreView.ScrollViewImpl, _loopScrollViewImpl:Gallop.SingleModeRaceReserveListCoreView.LoopScrollViewImpl, _turnItemView:Gallop.SingleModeRaceReserveListCoreTurnItemView, _items:System.Collections.Generic.List<Gallop.SingleModeRaceReserveListCoreTurnItemView>, _getDialogRaceListItemViewModel:System.Func<Gallop.SingleModeDefine.DegreeType,System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.IDialogRaceListItemViewModel>, _context:Gallop.SingleModeRaceReserve.Context, _currentCorsorIndex:System.Int32, _isShowableTitle:System.Boolean, _isShowbleRecommend:System.Boolean, <ScrollImpl>k__BackingField:Gallop.SingleModeRaceReserveListCoreView.AbstractScrollView, <CursorEnabled>k__BackingField:System.Boolean, <OnItemClicked>k__BackingField:System.Action<System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeRaceReserveListCoreTurnItemView,System.Int32>, <OnLongTapped>k__BackingField:System.Action<Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.SingleModeDefine.DegreeType,System.Int32>, <OnItemUpdate>k__BackingField:System.Action<System.Int32,Gallop.SingleModeRaceReserveListCoreTurnItemView>, <OnListItemParamGetter>k__BackingField:System.Func<System.Int32,Gallop.MasterSingleModeProgram.SingleModeProgram,Gallop.DialogSingleModeRaceListItem.Param>
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass0_0
+      masterProgram:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass1_0
+      routeRaceList:System.Collections.Generic.List<Gallop.MasterSingleModeRouteRace.SingleModeRouteRace>, scenarioId:System.Int32, <>9__5:System.Func<Gallop.MasterSingleModeProgram.SingleModeProgram,System.Boolean>
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass1_1
+      x:Gallop.MasterSingleModeProgram.SingleModeProgram, CS$<>8__locals1:Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass1_0
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass2_0
+      scenarioId:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserveUtil.<>c__DisplayClass6_0
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.SingleModeRaceReserveUtil
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply
+      _autoReapplyDeckIndex:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, _needConfirmAutoReapply:CodeStage.AntiCheat.ObscuredTypes.ObscuredBool
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapplyControl
+      _context:Gallop.SingleModeRaceReserve.Context
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveConnectExtentions.<>c__DisplayClass0_0
+      onSuccess:System.Action
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveConnectExtentions.<>c__DisplayClass1_0
+      finished:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveConnectExtentions.<>c__DisplayClass2_0
+      onSuccess:System.Action
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveConnectExtentions.<ExecuteCancelRequestYield>d__1
+      <>1__state:System.Int32, <>2__current:System.Object, self:Gallop.SingleModeRaceReserve.Context, deckIndex:System.Int32, entities:System.Collections.Generic.IEnumerable<Gallop.SingleModeRaceReserveTurnEntity>
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceReserveConnectExtentions
+  [umamusume] Gallop.SingleModeRaceReserve.IConditionalProgramIdGetter
+  [umamusume] Gallop.SingleModeRaceReserve.BuildResult
+      IsTargetRaceTurn:System.Boolean, IsPrevTurn:System.Boolean, IsOverTurn:System.Boolean, IsNotFound:System.Boolean, IsReserveRestricted:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserve.TempData
+      CurrentTurn:System.Int32, CurrentDegree:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.SingleModeRaceReserve.IContext
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass40_0
+      <>4__this:Gallop.SingleModeRaceReserve.Context, degree:Gallop.SingleModeDefine.DegreeType
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass42_0
+      degree:Gallop.SingleModeDefine.DegreeType, turn:System.Int32, workSingleMode:Gallop.WorkSingleModeData
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass42_1
+      turnSetId:System.Int32, degreeType:Gallop.SingleModeDefine.DegreeType, displayTurn:System.Int32, singleModeProgram:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass43_0
+      srcProgram:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass44_0
+      <>4__this:Gallop.SingleModeRaceReserve.Context, turn:System.Int32
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass48_0
+      onSuccess:System.Action
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass56_0
+      lastTurn:System.Int32, isOverTurn:System.Boolean, workSingleMode:Gallop.WorkSingleModeData, isNotFount:System.Boolean, currentTurn:System.Int32, isPrevTurn:System.Boolean, <>4__this:Gallop.SingleModeRaceReserve.Context, targetRouteRaces:Gallop.MasterSingleModeRouteRace.SingleModeRouteRace[], isTargetRaceTurn:System.Boolean
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass56_1
+      turnEntity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass56_2
+      turnEntity:Gallop.SingleModeRaceReserveTurnEntity, CS$<>8__locals1:Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass56_0
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass57_0
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.SingleModeRaceReserve.Context.<>c__DisplayClass57_1
+      entity:Gallop.SingleModeRaceReserveTurnEntity
+  [umamusume] Gallop.SingleModeRaceReserve.Context
+      <EntryViewModel>k__BackingField:Gallop.SingleModeRaceEntryViewModel, <ReserveRepository>k__BackingField:Gallop.SingleModeRaceReserveRepository, <TurnRepository>k__BackingField:Gallop.SingleModeRaceReserveTurnRepository, <DefaultUraTurnRepository>k__BackingField:Gallop.SingleModeRaceReserveTurnRepository, <RequestBuilder>k__BackingField:Gallop.SingleModeRaceReserveRequestBuilder, <Connect>k__BackingField:Gallop.ISingleModeRaceReserveConnect, <AutoReapply>k__BackingField:Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply, <Temp>k__BackingField:Gallop.SingleModeRaceReserve.TempData
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass0_0
+      programId:System.Int32[]
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass0_1
+      master:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass2_0
+      types:Gallop.SingleModeDefine.RacePermissionType[]
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass2_1
+      master:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass3_0
+      types:Gallop.RaceDefine.Grade[]
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass3_1
+      master:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass4_0
+      pairs:System.Collections.Generic.IEnumerable<System.ValueTuple<System.Int32,System.Int32>>
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass4_1
+      program:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass6_0
+      charaPrograms:System.Collections.Generic.IEnumerable<Gallop.MasterSingleModeCharaProgram.SingleModeCharaProgram>
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions.<>c__DisplayClass6_1
+      master:Gallop.MasterSingleModeProgram.SingleModeProgram
+  [umamusume] Gallop.SingleModeRaceReserve.SingleModeRaceFilter.RaceProgramFilterExtensions
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckRequest
+      scenario_id:System.Int32, multi_race_reserve_deck:Gallop.SingleModeMultiRaceReserveDeck
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+      reserved_race_info:Gallop.SingleModeReservedRaceInfo
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse
+      data:Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeFreeMultiRaceReserveRequest
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.SingleModeFreeMultiRaceReserveResponse.CommonResponse
+      reserved_race_array:Gallop.SingleModeReservedRaceDeck[]
+  [umamusume.Http] Gallop.SingleModeFreeMultiRaceReserveResponse
+      data:Gallop.SingleModeFreeMultiRaceReserveResponse.CommonResponse
+  [umamusume.Http] Gallop.SingleModeFreeMultiRaceReserveTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.SingleModeFreeMultiRaceReserveResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.SingleModeFreeMultiRaceReserveResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeLiveMultiRaceReserveRequest
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.SingleModeLiveMultiRaceReserveResponse.CommonResponse
+      reserved_race_array:Gallop.SingleModeReservedRaceDeck[]
+  [umamusume.Http] Gallop.SingleModeLiveMultiRaceReserveResponse
+      data:Gallop.SingleModeLiveMultiRaceReserveResponse.CommonResponse
+  [umamusume.Http] Gallop.SingleModeLiveMultiRaceReserveTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.SingleModeLiveMultiRaceReserveResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.SingleModeLiveMultiRaceReserveResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveRequest
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveResponse.CommonResponse
+      reserved_race_array:Gallop.SingleModeReservedRaceDeck[]
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveResponse
+      data:Gallop.SingleModeMultiRaceReserveResponse.CommonResponse
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.SingleModeMultiRaceReserveResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.SingleModeMultiRaceReserveResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeTeamMultiRaceReserveRequest
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.SingleModeTeamMultiRaceReserveResponse.CommonResponse
+      reserved_race_array:Gallop.SingleModeReservedRaceDeck[]
+  [umamusume.Http] Gallop.SingleModeTeamMultiRaceReserveResponse
+      data:Gallop.SingleModeTeamMultiRaceReserveResponse.CommonResponse
+  [umamusume.Http] Gallop.SingleModeTeamMultiRaceReserveTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.SingleModeTeamMultiRaceReserveResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.SingleModeTeamMultiRaceReserveResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeVenusMultiRaceReserveRequest
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.SingleModeVenusMultiRaceReserveResponse.CommonResponse
+      reserved_race_array:Gallop.SingleModeReservedRaceDeck[], venus_data_set:Gallop.SingleModeVenusDataSet
+  [umamusume.Http] Gallop.SingleModeVenusMultiRaceReserveResponse
+      data:Gallop.SingleModeVenusMultiRaceReserveResponse.CommonResponse
+  [umamusume.Http] Gallop.SingleModeVenusMultiRaceReserveTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.SingleModeVenusMultiRaceReserveResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.SingleModeVenusMultiRaceReserveResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveDeck
+      deck_num:System.Int32, deck_name:System.String, add_race_array:Gallop.SingleModeReservedRace[], cancel_race_array:Gallop.SingleModeReservedRace[], is_default:System.Int32
+  [umamusume.Http] Gallop.SingleModeMultiRaceReserveRequestCommon
+      multi_race_reserve_deck:Gallop.SingleModeMultiRaceReserveDeck
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeFreeMultiRaceReserveRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeFreeMultiRaceReserveResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeFreeMultiRaceReserveResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeLiveMultiRaceReserveRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeLiveMultiRaceReserveResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeLiveMultiRaceReserveResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeMultiRaceReserveDeckFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeMultiRaceReserveRequestCommonFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeMultiRaceReserveRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeMultiRaceReserveResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeMultiRaceReserveResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeTeamMultiRaceReserveRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeTeamMultiRaceReserveResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeTeamMultiRaceReserveResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeVenusMultiRaceReserveRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeVenusMultiRaceReserveResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.SingleModeVenusMultiRaceReserveResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+
+=== Gallop.DialogManager -> _dialogList -> [0] -> _data -> RightButtonCallBack -> m_target -> _viewModel -> <DialogSetupParameter>k__BackingField -> <PreferenceSkillIdList>k__BackingField ===
+  _dialogList: System.Collections.Generic.List<Gallop.DialogCommon>
+  [0]: Gallop.DialogCommon
+  _data: Gallop.DialogCommon.Data
+  RightButtonCallBack: System.Action<Gallop.DialogCommon>
+  m_target: Gallop.DialogSingleModeStartConfirmEntrySelectMode
+  _viewModel: Gallop.DialogSingleModeStartConfirmEntrySelectModeViewModel
+  <DialogSetupParameter>k__BackingField: Gallop.DialogSingleModeStartConfirmEntrySelectModeViewModel.SetupParameter
+  <PreferenceSkillIdList>k__BackingField: System.Collections.Generic.List<System.Int32>
+  <System.Collections.Generic.List<System.Int32> count=10>
+      [0] 200352
+      [1] 201112
+      [2] 200492
+      [3] 200362
+      [4] 201591
+      [5] 202152
+      [6] 202092
+      [7] 202031
+      [8] 200581
+      [9] 200451
+
+=== HEAP SCAN (0 of 301 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

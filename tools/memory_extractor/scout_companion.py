@@ -14,6 +14,26 @@ Together they answer the three unknowns that gate plugin v2:
               is an option.
               Game state: Training Log popup OPEN after an IT run.
 
+  account     The account's collections through the game's own data
+              singleton (Gallop.WorkDataManager, a static field away):
+              support cards with limit breaks, trained umas, characters.
+              No heap scan: counts plus a few sample entries.
+              Game state: HOME screen, logged in. Nothing open.
+
+  itsetup     The Independent Training state (WorkIdleSingleModeData
+              and friends) the same way: trainee, parents, deck, times.
+              Game state: IT setup screen (before Start), or a run going.
+
+  view        The current screen's controller, through the scene manager
+              singleton: what a setup screen holds before Start (the
+              trainee, parents, deck being chosen). No heap scan.
+              Game state: any screen; run it once per screen.
+
+  entry       Only the career/IT setup selection (the setup controller's
+              Entry: trainee, parents, deck, borrowed card, scenario),
+              followed by its exact path from the scene manager.
+              Game state: a career / IT setup screen.
+
   career      What is resident during a MANUAL career at the skill
               purchase screen: SingleModeChara, owned skills, hint tips
               and levels, SP. Confirms the SP planner can be fed live.
@@ -33,6 +53,8 @@ Usage:
     python scout_companion.py collection > scout_collection.log
     python scout_companion.py dialog     > scout_dialog.log
     python scout_companion.py career     > scout_career.log
+    python scout_companion.py account    > scout_account.log
+    python scout_companion.py itsetup    > scout_itsetup.log
 
 Keep the logs; they are the input to the plugin work.
 """
@@ -50,6 +72,81 @@ PROCESS_NAME = "UmamusumePrettyDerby.exe"
 # Per mode: which class names to list, which field names mark a class
 # as worth a heap scan, and how many scans we allow ourselves.
 MODES = {
+    # account / itsetup walk from the WorkDataManager singleton: no heap
+    # scan. `keywords` lists classes from metadata; `targets` picks which
+    # of the singleton's members to open.
+    "account": {
+        "keywords": r"^gallop\.work.*(support|trainedchara|chara|card)",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "targets": r"support|trainedchara|chara",
+        "state": "HOME screen, logged in, nothing open",
+    },
+    "view": {
+        "keywords": r"singlemode.*(start|select|entry|deck|succession)|(chara|deck|support).*select",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "targets": r"^_currentViewController$",
+        "singleton": "Gallop.SceneManager",
+        "depth": 4,
+        "state": "any screen (once per screen)",
+    },
+    "entry": {
+        "keywords": r"$^",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "singleton": "Gallop.SceneManager",
+        "path": ["_currentViewController", "<ChildCurrentController>k__BackingField",
+                 "<Entry>k__BackingField"],
+        "depth": 5,
+        "state": "a career / IT setup screen",
+    },
+    "decks": {
+        "keywords": r"$^",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "path": ["<SupportDeckData>k__BackingField"],
+        "depth": 4,
+        "samples": 10,
+        "state": "any screen",
+    },
+    "dialogs": {
+        "keywords": r"$^",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "singleton": "Gallop.DialogManager",
+        "targets": r"dialog|list|stack|queue",
+        "depth": 3,
+        "state": "a dialog open",
+    },
+    "startconfirm": {
+        "keywords": r"$^",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "singleton": "Gallop.DialogManager",
+        "path": ["_dialogList", "[0]", "_data", "RightButtonCallBack", "m_target"],
+        "depth": 3,
+        "samples": 10,
+        "state": "the career / IT Final Confirmation dialog open",
+    },
+    "itprefs": {
+        "keywords": r"racereserve|reservepreset|preferenceskill",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "singleton": "Gallop.DialogManager",
+        "path": ["_dialogList", "[0]", "_data", "RightButtonCallBack", "m_target", "_viewModel",
+                 "<DialogSetupParameter>k__BackingField", "<PreferenceSkillIdList>k__BackingField"],
+        "depth": 2,
+        "samples": 20,
+        "state": "the Final Confirmation dialog open on the Independent Training tab",
+    },
+    "itsetup": {
+        "keywords": r"^gallop\.work.*idle|idlesinglemode.*(entry|start|deck|setup|load|progress)",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "targets": r"idle|<singlemode>",
+        "state": "IT setup screen (before Start), or a run in progress",
+    },
     "collection": {
         "keywords": r"supportcard|support_card",
         "must_have_field": r"limit_break|support_card_id|favorite|exp\b|stock",
@@ -81,6 +178,164 @@ setTimeout(() => {
       const MUST_HAVE = new RegExp(%(must_have)s, 'i');
       const MAX_SCANS = %(max_scans)d;
       const MODE = %(mode)s;
+      const TARGETS = %(targets)s ? new RegExp(%(targets)s, 'i') : null;
+      const SINGLETON = %(singleton)s;
+      const DEPTH = %(depth)d;
+      const PATH = %(path)s;
+
+      // Obscured* wrappers keep value ^ key.
+      function obscured(v) {
+        try { return (v.field('hiddenValue').value ^ v.field('currentCryptoKey').value) | 0; }
+        catch (e) { return undefined; }
+      }
+      const tname = v => { try { return v.class.type.name; } catch (e) { return '?'; } };
+
+      // A short, safe description of a value: scalars as-is, strings,
+      // Obscured decoded, collections as their size plus SAMPLES entries,
+      // objects as their fields down to `depth`.
+      const SAMPLES = %(samples)d;
+      function describe(v, depth, indent) {
+        const pad = '  '.repeat(indent);
+        if (v === null || v === undefined) return 'null';
+        if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+        if (typeof v === 'string') return JSON.stringify(v);
+        if (typeof v === 'bigint' || (v.toString && v.constructor && v.constructor.name === 'Int64')) return v.toString();
+        if (v.content !== undefined) return JSON.stringify(v.content);
+        const ob = obscured(v);
+        if (ob !== undefined) return String(ob) + ' (obscured)';
+        const tn = tname(v);
+        if (v.length !== undefined && v.get) {                 // Il2Cpp.Array
+          const out = ['<' + tn + ' len=' + v.length + '>'];
+          for (let i = 0; i < Math.min(SAMPLES, v.length); i++)
+            out.push(pad + '  [' + i + '] ' + describe(v.get(i), depth - 1, indent + 2));
+          return out.join('\n');
+        }
+        if (depth <= 0) return '<' + tn + '>';
+        let fields = [];
+        try { fields = ownAndInherited(v.class); }
+        catch (e) { return '<' + tn + '>'; }
+        // List<T> and Dictionary<K,V>: show the size and a few entries.
+        const has = n => fields.some(f => f.name === n);
+        if (has('_items') && has('_size')) {
+          const size = v.field('_size').value, items = v.field('_items').value;
+          const out = ['<' + tn + ' count=' + size + '>'];
+          for (let i = 0; i < Math.min(SAMPLES, size); i++)
+            out.push(pad + '  [' + i + '] ' + describe(items.get(i), depth - 1, indent + 2));
+          return out.join('\n');
+        }
+        if (has('_entries') && has('_count')) {
+          const count = v.field('_count').value, entries = v.field('_entries').value;
+          const out = ['<' + tn + ' count=' + count + '>'];
+          let shown = 0;
+          for (let i = 0; entries && i < entries.length && shown < SAMPLES; i++) {
+            const e = entries.get(i);
+            let key;
+            try { key = e.field('key').value; } catch (x) { continue; }
+            out.push(pad + '  {' + describe(key, 0, 0) + '} ' + describe(e.field('value').value, depth - 1, indent + 2));
+            shown++;
+          }
+          return out.join('\n');
+        }
+        const out = ['<' + tn + '>'];
+        fields.forEach(f => {
+          let r;
+          try { r = describe(v.field(f.name).value, depth - 1, indent + 1); }
+          catch (e) { r = '<read err: ' + e.message + '>'; }
+          out.push(pad + '  .' + f.name + ' = ' + r);
+        });
+        return out.join('\n');
+      }
+
+      // Instance fields of a class and its game-side parents (a child
+      // view slot often lives on a base controller); Unity's and .NET's
+      // own base classes are left out.
+      function ownAndInherited(klass) {
+        const out = [];
+        for (let c = klass; c; c = c.parent) {
+          const cn = (c.type && c.type.name) || c.name || '';
+          if (c !== klass && /^(UnityEngine|System)\./.test(cn)) break;
+          c.fields.forEach(f => { if (!f.isStatic && !f.isLiteral && !f.isThreadStatic) out.push(f); });
+        }
+        return out;
+      }
+
+      function findClass(images, fullName) {
+        for (const { img } of images) {
+          for (const k of img.classes) {
+            if (((k.type && k.type.name) || k.name) === fullName) return k;
+          }
+        }
+        return null;
+      }
+
+      function singletonOf(images, name) {
+        const k = findClass(images, name);
+        if (!k) return null;
+        for (let c = k; c; c = c.parent) {
+          for (const f of c.fields) {
+            if (f.isStatic && ((f.type && f.type.name) || '') === name) {
+              try { return f.value; } catch (e) {}
+            }
+          }
+        }
+        try { return k.method('get_Instance').invoke(); } catch (e) { return null; }
+      }
+
+      // From the singleton down PATH (field names), then describe the end.
+      function followPath(images) {
+        send({type: 'header', text: '=== ' + SINGLETON + ' -> ' + PATH.join(' -> ') + ' ==='});
+        let v = singletonOf(images, SINGLETON);
+        for (const name of PATH) {
+          if (!v || (v.isNull && v.isNull())) { send({type: 'text', text: '  null before ' + name}); return; }
+          const idx = /^\[(\d+)\]$/.exec(name);
+          try {
+            if (idx) {
+              // List<T> keeps its items in _items; arrays index directly.
+              const arr = v.get ? v : v.field('_items').value;
+              v = arr.get(Number(idx[1]));
+            } else {
+              v = v.field(name).value;
+            }
+          }
+          catch (e) { send({type: 'text', text: '  no ' + name + ' on ' + tname(v) + ': ' + e.message}); return; }
+          send({type: 'text', text: '  ' + name + ': ' + tname(v)});
+        }
+        describe(v, DEPTH, 1).split('\n').forEach(line => send({type: 'text', text: '  ' + line}));
+      }
+
+      // The singleton: a static field of its own type on the class or a
+      // parent (Singleton<T>), else a static get_Instance().
+      function walkSingleton(images, targets) {
+        const name = SINGLETON;
+        send({type: 'header', text: '=== ' + name + ' (no heap scan) ==='});
+        const k = findClass(images, name);
+        if (!k) { send({type: 'text', text: '  class not found'}); return; }
+        let inst = null, how = '';
+        for (let c = k; c && !inst; c = c.parent) {
+          c.fields.forEach(f => {
+            if (!f.isStatic || inst) return;
+            const ft = (f.type && f.type.name) || '';
+            send({type: 'text', text: '  static ' + ((c.type && c.type.name) || c.name) + '.' + f.name + ': ' + ft});
+            if (ft === name) { try { inst = f.value; how = 'static ' + f.name; } catch (e) {} }
+          });
+        }
+        if (!inst) {
+          try { inst = k.method('get_Instance').invoke(); how = 'get_Instance()'; } catch (e) {}
+        }
+        if (!inst || inst.isNull && inst.isNull()) { send({type: 'text', text: '  no instance found'}); return; }
+        send({type: 'text', text: '  instance via ' + how});
+        const members = ownAndInherited(inst.class);
+        send({type: 'text', text: '  members (' + members.length + '):'});
+        members.forEach(f => send({type: 'text', text: '    ' + f.name + ': ' + ((f.type && f.type.name) || '?')}));
+        members.filter(f => targets.test(f.name) || targets.test((f.type && f.type.name) || '')).forEach(f => {
+          send({type: 'text', text: ''});
+          send({type: 'text', text: '  --- ' + f.name + ' ---'});
+          let text;
+          try { text = describe(inst.field(f.name).value, DEPTH, 2); }
+          catch (e) { text = '<read err: ' + e.message + '>'; }
+          text.split('\n').forEach(line => send({type: 'text', text: '    ' + line}));
+        });
+      }
 
       const IMAGES = [];
       for (const asm of ['umamusume', 'umamusume.Http', 'Assembly-CSharp']) {
@@ -131,6 +386,13 @@ setTimeout(() => {
             });
           } catch (e) { send({type: 'text', text: '    (methods unreadable: ' + e.message + ')'}); }
         });
+      }
+
+      // ─── 2b. account / itsetup: walk from the WorkDataManager singleton ──
+      if (PATH.length) {
+        followPath(IMAGES);
+      } else if (TARGETS) {
+        walkSingleton(IMAGES, TARGETS);
       }
 
       // ─── 3. heap-scan a short list: costly, capped ──
@@ -249,6 +511,11 @@ def main() -> int:
         "must_have": json.dumps(spec["must_have_field"]),
         "max_scans": spec["max_scans"],
         "mode": json.dumps(mode),
+        "targets": json.dumps(spec.get("targets", "")),
+        "singleton": json.dumps(spec.get("singleton", "Gallop.WorkDataManager")),
+        "depth": spec.get("depth", 4),
+        "path": json.dumps(spec.get("path", [])),
+        "samples": spec.get("samples", 2),
     }
     session = frida.attach(pid)
     script = session.create_script(BRIDGE_JS.read_text(encoding="utf-8") + "\n" + agent)

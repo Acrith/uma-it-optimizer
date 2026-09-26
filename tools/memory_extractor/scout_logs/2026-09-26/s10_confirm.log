@@ -1,0 +1,1322 @@
+﻿[i] mode startconfirm: run this with the game at: the career / IT Final Confirmation dialog open
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== STARTCONFIRM: candidate classes ===
+
+=== Gallop.DialogManager -> _dialogList -> [0] -> _data -> RightButtonCallBack -> m_target ===
+  _dialogList: System.Collections.Generic.List<Gallop.DialogCommon>
+  [0]: Gallop.DialogCommon
+  _data: Gallop.DialogCommon.Data
+  RightButtonCallBack: System.Action<Gallop.DialogCommon>
+  m_target: Gallop.DialogSingleModeStartConfirmEntrySelectMode
+  <Gallop.DialogSingleModeStartConfirmEntrySelectMode>
+      ._toggleGroupCommon = <Gallop.FlickToggleGroupCommon>
+        .<InitWithAwake>k__BackingField = true
+        ._toggleArray = <? len=2>
+          [0] <Gallop.ToggleCommon>
+          [1] <Gallop.ToggleCommon>
+        ._toggleBg = <Gallop.ImageCommon>
+          ._defaultColor = <?>
+          ._isSetupedDefaultColor = true
+          ._mulColor = <?>
+          ._isIgnoreParentColor = false
+          .<recieveColor>k__BackingField = <?>
+          ._atlasName = "PreIn"
+          ._spriteName = "utx_tab_base_00_sl"
+          ._materialPath = ""
+        ._onSelectCallback = <System.Action<System.Int32>>
+        ._numBadgeDict = <read err: access violation accessing 0x18>
+        ._maxFlickIndex = -1
+      ._tabScrollRect = <UnityEngine.RectTransform>
+      ._normalTab = <Gallop.PartsSingleModeStartConfirmEntryNormalTabItem>
+        ._entryInfoItem = <Gallop.PartsSingleModeStartConfirmEntryInfoItem>
+          ._selectedCharacterButton = <Gallop.CharacterButton>
+          ._dressName = <Gallop.TextCommon>
+          ._characterName = <Gallop.TextCommon>
+          ._runStyleButton = <Gallop.ButtonCommon>
+          ._runStyleImage = <Gallop.ImageCommon>
+          ._successionSlotFirst = <Gallop.PartsSingleModeStartSuccessionSlot>
+          ._successionSlotSecond = <Gallop.PartsSingleModeStartSuccessionSlot>
+          ._successionRootLayoutElement = <UnityEngine.UI.LayoutElement>
+          ._successionContentsTransform = <UnityEngine.RectTransform>
+          ._supportCardButtonArray = <? len=6>
+            [0] <Gallop.CharacterButton>
+            [1] <Gallop.CharacterButton>
+            [2] <Gallop.CharacterButton>
+            [3] <Gallop.CharacterButton>
+            [4] <Gallop.CharacterButton>
+            [5] <Gallop.CharacterButton>
+          ._supportRootLayoutElement = <UnityEngine.UI.LayoutElement>
+          ._supportContentsTransform = <UnityEngine.RectTransform>
+          ._difficultyMultiRoot = <UnityEngine.RectTransform>
+          ._difficultyMultiParent = <UnityEngine.RectTransform>
+          ._trainingChallengeRoot = <UnityEngine.RectTransform>
+          ._examIndex = <Gallop.TextCommon>
+          ._examName = <Gallop.TextCommon>
+          ._storyEventRoot = <UnityEngine.RectTransform>
+          ._storyEventBonusDetailButton = <Gallop.ButtonCommon>
+          ._storyEventBonusParts = <Gallop.PartsStoryEventTotalEpBonus>
+          ._storyEventBonusCharaRoot = <UnityEngine.RectTransform>
+          ._storyEventBonusCharaBaseRoot = <UnityEngine.GameObject>
+          ._challengeMatchHintBase = <UnityEngine.GameObject>
+          ._challengeMatchHintText = <Gallop.TextCommon>
+          ._setupParameter = <?>
+          ._entryInfo = <?>
+          ._resourceHash = <?>
+          ._singleModeDifficultyEffectInfo = <?>
+          ._tabType = <?>
+      ._idleTab = <Gallop.PartsSingleModeStartConfirmEntryIdleTabItem>
+        ._rootRectTransform = <UnityEngine.RectTransform>
+        ._entryInfoExpandItem = <Gallop.PartsIdleSingleModeEntryInfoExpandItem>
+          ._rootRectTransform = <UnityEngine.RectTransform>
+          ._partsRectTransforms = <? len=6>
+            [0] <UnityEngine.RectTransform>
+            [1] <UnityEngine.RectTransform>
+            [2] <UnityEngine.RectTransform>
+            [3] <UnityEngine.RectTransform>
+            [4] <UnityEngine.RectTransform>
+            [5] <UnityEngine.RectTransform>
+          ._entryInfoItem = <Gallop.PartsSingleModeStartConfirmEntryInfoItem>
+          ._expandButton = <Gallop.ButtonCommon>
+          ._expandButtonOffObject = <UnityEngine.GameObject>
+          .<IsExpand>k__BackingField = false
+          ._onExpandState = <System.Action>
+        ._paramRateToggleGroupCommon = <Gallop.ToggleGroupCommon>
+          ._toggleArray = <? len=3>
+            [0] <Gallop.ToggleCommon>
+            [1] <Gallop.ToggleCommon>
+            [2] <Gallop.ToggleCommon>
+          ._onSelectCallback = <System.Action<System.Int32>>
+        ._raceReservePreset = <Gallop.PartsSingleModeRaceReservePresetItemView>
+          .OnClickSaveButton = <?>
+          .OnClickLoadButton = <?>
+          .OnClickInfoButton = <System.Action>
+          ._thumbnailList = <System.Collections.Generic.List<Gallop.RawImageCommon>>
+          ._presetNameText = <Gallop.TextCommon>
+          ._totalRaceCountText = <Gallop.TextCommon>
+          ._raceCounTextList = <System.Collections.Generic.List<Gallop.TextCommon>>
+          ._saveButton = <Gallop.ButtonCommon>
+          ._loadButton = <Gallop.ButtonCommon>
+          ._infoButton = <Gallop.ButtonCommon>
+          ._g1RaceCountText = <Gallop.TextCommon>
+          ._g2RaceCountText = <Gallop.TextCommon>
+          ._g3RaceCountText = <Gallop.TextCommon>
+          ._rectTransform = <?>
+          .<ItemIndex>k__BackingField = -999
+          .<ItemIndexMayOver>k__BackingField = -999
+          .<ScrollViewport>k__BackingField = <?>
+        ._raceReservePresetEditButton = <Gallop.ButtonCommon>
+          ._onLongTap = <UnityEngine.Events.UnityEvent>
+          ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          ._invalidateMaterial = <?>
+          ._canvasGroup = <?>
+          ._uiType = <?>
+          ._isPlayScaleAnimeCurrent = true
+          .<LongTapTime>k__BackingField = 0.4000000059604645
+          ._scaleTarget = <?>
+          ._seType = <?>
+          ._tagetText = <Gallop.TextCommon>
+          .<IsShowButtonTapEffect>k__BackingField = true
+          ._autoButtonCollisionSize = true
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._flickHandler = <?>
+          .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+          ._touchTime = 0
+          ._isNowTouch = false
+          ._isLongTap = false
+          ._isAutoShowPushEffect = true
+          ._runtimeLongTapEventCount = 0
+          ._runtimeLongTapEndEventCount = 0
+          ._hasTargetText = true
+          ._collisionRectTrans = <UnityEngine.RectTransform>
+          ._onSetCollisionSize = <?>
+          ._targetGraphicDefaultColor = <?>
+          ._prevIsAnimating = false
+          ._isEnable = true
+          ._disableColor = <?>
+          ._isColorInitialized = true
+          ._forceLongTapEnable = false
+          .<_isAnimPaused>k__BackingField = false
+          ._buttonAnimation = <Gallop.ButtonCommonAnimation>
+          ._onEnter = <?>
+          ._onDown = <?>
+          ._onLongTapRepeat = <?>
+          ._onLongTapRepeatCounter = 0
+          ._onExit = <?>
+          ._onUp = <?>
+          ._onGetClickPos = <?>
+          ._onUpOnce = <?>
+          ._onClickOnce = <?>
+          ._isTappedLockedUI = false
+          ._isCallingLongTap = false
+          ._highlightedAtlasName = ""
+          ._highlightedSpriteName = ""
+          ._pressedAtlasName = ""
+          ._pressedSpriteName = ""
+        ._preferenceSkillRootRectTransform = <UnityEngine.RectTransform>
+        ._selectPreferenceSkillButton = <Gallop.ButtonCommon>
+          ._onLongTap = <UnityEngine.Events.UnityEvent>
+          ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          ._invalidateMaterial = <?>
+          ._canvasGroup = <?>
+          ._uiType = <?>
+          ._isPlayScaleAnimeCurrent = true
+          .<LongTapTime>k__BackingField = 0.4000000059604645
+          ._scaleTarget = <?>
+          ._seType = <?>
+          ._tagetText = <Gallop.TextCommon>
+          .<IsShowButtonTapEffect>k__BackingField = true
+          ._autoButtonCollisionSize = true
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._flickHandler = <?>
+          .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+          ._touchTime = 0
+          ._isNowTouch = false
+          ._isLongTap = false
+          ._isAutoShowPushEffect = true
+          ._runtimeLongTapEventCount = 0
+          ._runtimeLongTapEndEventCount = 0
+          ._hasTargetText = true
+          ._collisionRectTrans = <?>
+          ._onSetCollisionSize = <?>
+          ._targetGraphicDefaultColor = <?>
+          ._prevIsAnimating = false
+          ._isEnable = true
+          ._disableColor = <?>
+          ._isColorInitialized = true
+          ._forceLongTapEnable = false
+          .<_isAnimPaused>k__BackingField = false
+          ._buttonAnimation = <Gallop.ButtonCommonAnimation>
+          ._onEnter = <?>
+          ._onDown = <?>
+          ._onLongTapRepeat = <?>
+          ._onLongTapRepeatCounter = 0
+          ._onExit = <?>
+          ._onUp = <?>
+          ._onGetClickPos = <?>
+          ._onUpOnce = <?>
+          ._onClickOnce = <?>
+          ._isTappedLockedUI = false
+          ._isCallingLongTap = false
+          ._highlightedAtlasName = ""
+          ._highlightedSpriteName = ""
+          ._pressedAtlasName = ""
+          ._pressedSpriteName = ""
+        ._selectedSkillListParent = <UnityEngine.RectTransform>
+        ._selectedPreferenceSkillListItemBase = <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          ._bgImage = <Gallop.ImageCommon>
+          ._skillIcon = <Gallop.SkillIcon>
+          ._skillName = <Gallop.TextCommon>
+          ._skillDetailButton = <Gallop.ButtonCommon>
+          ._selectButton = <Gallop.ButtonCommon>
+          ._resetButton = <Gallop.ButtonCommon>
+          ._isDrawNeedSkillPoint = false
+        ._guideButton = <Gallop.ButtonCommon>
+          ._onLongTap = <UnityEngine.Events.UnityEvent>
+          ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          ._invalidateMaterial = <?>
+          ._canvasGroup = <?>
+          ._uiType = <?>
+          ._isPlayScaleAnimeCurrent = true
+          .<LongTapTime>k__BackingField = 0.4000000059604645
+          ._scaleTarget = <?>
+          ._seType = <?>
+          ._tagetText = <?>
+          .<IsShowButtonTapEffect>k__BackingField = true
+          ._autoButtonCollisionSize = true
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._flickHandler = <?>
+          .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+          ._touchTime = 0
+          ._isNowTouch = false
+          ._isLongTap = false
+          ._isAutoShowPushEffect = true
+          ._runtimeLongTapEventCount = 0
+          ._runtimeLongTapEndEventCount = 0
+          ._hasTargetText = false
+          ._collisionRectTrans = <UnityEngine.RectTransform>
+          ._onSetCollisionSize = <?>
+          ._targetGraphicDefaultColor = <?>
+          ._prevIsAnimating = false
+          ._isEnable = true
+          ._disableColor = <?>
+          ._isColorInitialized = true
+          ._forceLongTapEnable = false
+          .<_isAnimPaused>k__BackingField = false
+          ._buttonAnimation = <Gallop.ButtonCommonAnimation>
+          ._onEnter = <?>
+          ._onDown = <?>
+          ._onLongTapRepeat = <?>
+          ._onLongTapRepeatCounter = 0
+          ._onExit = <?>
+          ._onUp = <?>
+          ._onGetClickPos = <?>
+          ._onUpOnce = <?>
+          ._onClickOnce = <?>
+          ._isTappedLockedUI = false
+          ._isCallingLongTap = false
+          ._highlightedAtlasName = ""
+          ._highlightedSpriteName = ""
+          ._pressedAtlasName = ""
+          ._pressedSpriteName = ""
+        .<OnChangeParamRateIndex>k__BackingField = <System.Action<System.Int32>>
+        .<OnChangePreferenceSkillIdList>k__BackingField = <System.Action<System.Collections.Generic.IReadOnlyList<System.Int32>>>
+        .<OnChangeReservedRaceInfo>k__BackingField = <System.Action<Gallop.SingleModeReservedRaceInfo,Gallop.SingleModeReservedRace[]>>
+        .<OnChangeRouteRaceProgramId>k__BackingField = <System.Action<System.Int32>>
+        ._raceSelectContext = <Gallop.IdleSingleModeCharaRaceSelectContext>
+          .<ReserveRepository>k__BackingField = <Gallop.SingleModeRaceReserveRepository>
+          .<TurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+          .<DefaultUraTurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+          .<RequestBuilder>k__BackingField = <Gallop.SingleModeRaceReserveRequestBuilder>
+          .<Connect>k__BackingField = <Gallop.IdleSingleModeRaceReserveConnect>
+          .<AutoReapply>k__BackingField = <Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply>
+          .<ReservedRaceInfo>k__BackingField = <Gallop.SingleModeReservedRaceInfo>
+          .<EntryInfo>k__BackingField = <Gallop.SingleModeStartViewController.EntryInfo>
+          .<CharaProperInfo>k__BackingField = <Gallop.PartsSingleModeStartProperFrame.InfoWithBonus>
+          .<SelectRouteRaceProgramId>k__BackingField = 0
+        ._skillItemList = <System.Collections.Generic.List<Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem> count=10>
+          [0] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [1] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [2] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [3] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [4] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [5] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [6] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [7] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [8] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+          [9] <Gallop.PartsSingleModeAutoPlaySelectedPreferenceSkillListItem>
+        ._tempPreferenceSkillIdList = <System.Collections.Generic.List<System.Int32> count=10>
+          [0] 200352
+          [1] 201112
+          [2] 200492
+          [3] 200362
+          [4] 201591
+          [5] 202152
+          [6] 202092
+          [7] 202031
+          [8] 200581
+          [9] 200451
+        ._resourceHash = <?>
+        ._isDialogOpen = true
+      ._scenarioImage = <Gallop.RawImageCommon>
+        ._defaultColor = <?>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        ._isSetupedDefaultColor = true
+        ._material = <?>
+        ._rendererTexture = <?>
+        ._mulColor = <?>
+        ._materialPath = ""
+      ._scenarioTitleText = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = true
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = ""
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._scenarioTipsButton = <Gallop.ButtonCommon>
+        ._onLongTap = <UnityEngine.Events.UnityEvent>
+          .m_InvokeArray = <read err: access violation accessing 0x18>
+        ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          .m_InvokeArray = <read err: access violation accessing 0x18>
+        ._invalidateMaterial = <?>
+        ._canvasGroup = <?>
+        ._uiType = <?>
+        ._isPlayScaleAnimeCurrent = true
+        .<LongTapTime>k__BackingField = 0.4000000059604645
+        ._scaleTarget = <?>
+        ._seType = <?>
+        ._tagetText = <Gallop.TextCommon>
+          ._isIgnoreParentColor = false
+          .<recieveColor>k__BackingField = <?>
+          .<_recieveColorOld>k__BackingField = <?>
+          .<IsOverwritten>k__BackingField = false
+          .m_fontSizeFormat = <?>
+          ._fontColor = <?>
+          ._outline = <Gallop.OutlineCommon>
+          ._outlineColor = <?>
+          ._outlineSize = <?>
+          .IsOverrideOutlineColor = false
+          .OverrideOutlineColor = <?>
+          ._verticalGradientColor = <?>
+          .<GradientColor1>k__BackingField = <?>
+          .<GradientColor2>k__BackingField = <?>
+          ._gradient = <?>
+          .m_fontType = <?>
+          .m_textid = <?>
+          .m_textid_str = "Common0148"
+          ._defaultColor = <?>
+          ._fontFileName = ""
+          ._isSetupedDefaultColor = true
+          ._mulColor = <?>
+          ._controller = <Gallop.CustomTextController>
+          ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color>>
+          ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData>>
+          ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon>>
+          ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex>>
+          ._iconTagImageRequest = false
+          ._updateCustomTagCoroutine = <?>
+          ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+          ._overrideIconSize = <?>
+        .<IsShowButtonTapEffect>k__BackingField = true
+        ._autoButtonCollisionSize = true
+        ._notificationText = <read err: access violation accessing 0x10>
+        ._flickHandler = <?>
+        .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+        ._touchTime = 0
+        ._isNowTouch = false
+        ._isLongTap = false
+        ._isAutoShowPushEffect = true
+        ._runtimeLongTapEventCount = 0
+        ._runtimeLongTapEndEventCount = 0
+        ._hasTargetText = true
+        ._collisionRectTrans = <UnityEngine.RectTransform>
+        ._onSetCollisionSize = <?>
+        ._targetGraphicDefaultColor = <?>
+        ._prevIsAnimating = false
+        ._isEnable = true
+        ._disableColor = <?>
+        ._isColorInitialized = true
+        ._forceLongTapEnable = false
+        .<_isAnimPaused>k__BackingField = false
+        ._buttonAnimation = <Gallop.ButtonCommonAnimation>
+          .ScaleTarget = <UnityEngine.RectTransform>
+          .DefaultScale = <?>
+          .OnStartForwardAnim = <?>
+          .OnCompleteForwardAnim = <?>
+          .OnStartBackwardAnim = <?>
+          .OnCompleteBackwardAnim = <System.Action>
+          ._scaleTweener = <?>
+          ._tweenParam = <Gallop.TweenAnimation.Parameter>
+        ._onEnter = <?>
+        ._onDown = <?>
+        ._onLongTapRepeat = <?>
+        ._onLongTapRepeatCounter = 0
+        ._onExit = <?>
+        ._onUp = <?>
+        ._onGetClickPos = <?>
+        ._onUpOnce = <?>
+        ._onClickOnce = <?>
+        ._isTappedLockedUI = false
+        ._isCallingLongTap = false
+        ._highlightedAtlasName = ""
+        ._highlightedSpriteName = ""
+        ._pressedAtlasName = ""
+        ._pressedSpriteName = ""
+      ._footerObjParent = <UnityEngine.GameObject>
+      ._confirmText = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = true
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = ""
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=1>
+          [0] <?>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._beforeTP = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = true
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = ""
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._afterTP = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = true
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = ""
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._useRentalRoot = <UnityEngine.GameObject>
+      ._notUseRentalRoot = <UnityEngine.GameObject>
+      ._needMoney = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = false
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = "None"
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._currentMoney = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = false
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = true
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = "None"
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._discountIcon = <UnityEngine.GameObject>
+      ._tpBoostRoot = <UnityEngine.RectTransform>
+      ._partsTpBoost = <Gallop.PartsSingleModeStartTpBoost>
+        ._checkbox = <Gallop.ToggleCommon>
+          ._seType = <?>
+          ._lineImage = <?>
+          ._offImage = <Gallop.ImageCommon>
+          ._tapArea = <?>
+          ._isBeep = false
+          .hasTargetText = false
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._tagetText = <?>
+        ._text = <Gallop.TextCommon>
+          ._isIgnoreParentColor = false
+          .<recieveColor>k__BackingField = <?>
+          .<_recieveColorOld>k__BackingField = <?>
+          .<IsOverwritten>k__BackingField = false
+          .m_fontSizeFormat = <?>
+          ._fontColor = <?>
+          ._outline = <?>
+          ._outlineColor = <?>
+          ._outlineSize = <?>
+          .IsOverrideOutlineColor = false
+          .OverrideOutlineColor = <?>
+          ._verticalGradientColor = <?>
+          .<GradientColor1>k__BackingField = <?>
+          .<GradientColor2>k__BackingField = <?>
+          ._gradient = <?>
+          .m_fontType = <?>
+          .m_textid = <?>
+          .m_textid_str = "None"
+          ._defaultColor = <?>
+          ._fontFileName = ""
+          ._isSetupedDefaultColor = false
+          ._mulColor = <?>
+          ._controller = <Gallop.CustomTextController>
+          ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color>>
+          ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData>>
+          ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon>>
+          ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex>>
+          ._iconTagImageRequest = false
+          ._updateCustomTagCoroutine = <?>
+          ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+          ._overrideIconSize = <?>
+        ._bgImage = <Gallop.ImageCommon>
+          ._defaultColor = <?>
+          ._isSetupedDefaultColor = false
+          ._mulColor = <?>
+          ._isIgnoreParentColor = false
+          .<recieveColor>k__BackingField = <?>
+          ._atlasName = "Common"
+          ._spriteName = "utx_frm_list_base_spacial_00_sl"
+          ._materialPath = ""
+        ._infoButton = <Gallop.ButtonCommon>
+          ._onLongTap = <UnityEngine.Events.UnityEvent>
+          ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          ._invalidateMaterial = <?>
+          ._canvasGroup = <?>
+          ._uiType = <?>
+          ._isPlayScaleAnimeCurrent = true
+          .<LongTapTime>k__BackingField = 0.4000000059604645
+          ._scaleTarget = <?>
+          ._seType = <?>
+          ._tagetText = <?>
+          .<IsShowButtonTapEffect>k__BackingField = true
+          ._autoButtonCollisionSize = true
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._flickHandler = <?>
+          .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+          ._touchTime = 0
+          ._isNowTouch = false
+          ._isLongTap = false
+          ._isAutoShowPushEffect = true
+          ._runtimeLongTapEventCount = 0
+          ._runtimeLongTapEndEventCount = 0
+          ._hasTargetText = false
+          ._collisionRectTrans = <?>
+          ._onSetCollisionSize = <?>
+          ._targetGraphicDefaultColor = <?>
+          ._prevIsAnimating = false
+          ._isEnable = true
+          ._disableColor = <?>
+          ._isColorInitialized = false
+          ._forceLongTapEnable = false
+          .<_isAnimPaused>k__BackingField = false
+          ._buttonAnimation = <?>
+          ._onEnter = <?>
+          ._onDown = <?>
+          ._onLongTapRepeat = <?>
+          ._onLongTapRepeatCounter = 0
+          ._onExit = <?>
+          ._onUp = <?>
+          ._onGetClickPos = <?>
+          ._onUpOnce = <?>
+          ._onClickOnce = <?>
+          ._isTappedLockedUI = false
+          ._isCallingLongTap = false
+          ._highlightedAtlasName = ""
+          ._highlightedSpriteName = ""
+          ._pressedAtlasName = ""
+          ._pressedSpriteName = ""
+        ._storyEvent = <Gallop.PartsSingleModeStartTpBoost.StoryEventView>
+          ._iconsRoot = <UnityEngine.RectTransform>
+        ._difficulty = <Gallop.PartsSingleModeStartTpBoost.DifficultyView>
+          ._iconRawImage = <Gallop.RawImageCommon>
+        ._trainingChallenge = <Gallop.PartsSingleModeStartTpBoost.TrainingChallengeView>
+          ._iconImage = <Gallop.ImageCommon>
+        ._factorResearch = <Gallop.PartsSingleModeStartTpBoost.FactorResearchView>
+          ._iconImage = <Gallop.ImageCommon>
+        ._param = <?>
+      ._tpBoostMarkRoot = <UnityEngine.GameObject>
+      ._tpBoostMarkText = <Gallop.TextCommon>
+        ._isIgnoreParentColor = false
+        .<recieveColor>k__BackingField = <?>
+        .<_recieveColorOld>k__BackingField = <?>
+        .<IsOverwritten>k__BackingField = false
+        .m_fontSizeFormat = <?>
+        ._fontColor = <?>
+        ._outline = <?>
+        ._outlineColor = <?>
+        ._outlineSize = <?>
+        .IsOverrideOutlineColor = false
+        .OverrideOutlineColor = <?>
+        ._verticalGradientColor = <?>
+        .<GradientColor1>k__BackingField = <?>
+        .<GradientColor2>k__BackingField = <?>
+        ._gradient = <?>
+        .m_fontType = <?>
+        .m_textid = <?>
+        .m_textid_str = "None"
+        ._defaultColor = <?>
+        ._fontFileName = ""
+        ._isSetupedDefaultColor = false
+        ._mulColor = <?>
+        ._controller = <Gallop.CustomTextController>
+          ._textIdStrOld = <read err: access violation accessing 0x10>
+          .m_fontSizeFormatOld = <?>
+          .<FontColorOld>k__BackingField = <?>
+          .<OutlineColorOld>k__BackingField = <?>
+          .<OutlineSizeOld>k__BackingField = <?>
+          .<VerticalGradientColorOld>k__BackingField = <?>
+        ._colorTagDefaultColorList = <System.Collections.Generic.List<UnityEngine.Color> count=0>
+        ._iconTagDataList = <System.Collections.Generic.List<Gallop.TextCommon.IconTagData> count=0>
+        ._iconTagImageList = <System.Collections.Generic.List<Gallop.ImageCommon> count=0>
+        ._vertexList = <System.Collections.Generic.List<UnityEngine.UIVertex> count=0>
+        ._iconTagImageRequest = false
+        ._updateCustomTagCoroutine = <?>
+        ._customTagMultiLineOriginText = <read err: access violation accessing 0x10>
+        ._overrideIconSize = <?>
+      ._flickableObject = <Gallop.FlickableObject>
+        ._flickHandle = <Gallop.FlickHandler>
+          ._isPlaySe = true
+          ._draggingSec = 0.20014968514442444
+          ._isTouch = false
+          ._eventCallback = <System.Action<Gallop.FlickHandler.FlickStatus>>
+          ._flickThresholdX = 20
+          ._flickThresholdY = 30
+        ._parentLockableBehaviour = <Gallop.DialogCommon>
+          ._dialogRootCanvas = <UnityEngine.Canvas>
+          ._inputBlock = <Gallop.ButtonCommon>
+          ._dialogObjArray = <? len=4>
+            [0] <Gallop.DialogObject>
+            [1] <Gallop.DialogObject>
+            [2] <Gallop.DialogObject>
+            [3] <Gallop.DialogObject>
+          ._flMaskObjPrefab = <UnityEngine.GameObject>
+          ._circleMask = <Gallop.ImageCommon>
+          ._contentsRootTf = <UnityEngine.RectTransform>
+          .<IsOutsideClick>k__BackingField = true
+          .<IsCancelClick>k__BackingField = true
+          .<IsBackPushed>k__BackingField = false
+          ._currentDialogObj = <Gallop.DialogObject>
+          ._isDispClosing = false
+          ._isDispClosed = false
+          ._isCloseAnimation = false
+          ._flMask = <AnimateToUnity.AnRoot>
+          ._openSequenceAtRightWindow = <?>
+          ._openSequence = <DG.Tweening.Sequence>
+          ._closeSequence = <?>
+          .CanvasChanged = <?>
+          ._contentsRoot = <?>
+          ._data = <Gallop.DialogCommon.Data>
+          ._inputLocker = <Gallop.LockCounter>
+          ._lockables = <System.Collections.Generic.List<Gallop.ILockable>>
+        ._eventCallback = <System.Action<Gallop.FlickHandler.FlickStatus>>
+      ._currentTabType = <?>
+      ._viewModel = <Gallop.DialogSingleModeStartConfirmEntrySelectModeViewModel>
+        .<DialogSetupParameter>k__BackingField = <Gallop.DialogSingleModeStartConfirmEntrySelectModeViewModel.SetupParameter>
+          .<UseTp>k__BackingField = 15
+          .<SupportCardDataArray>k__BackingField = <? len=5>
+            [0] <Gallop.DialogSingleModeStartConfirmEntry.SingleModeSupportCardData>
+            [1] <Gallop.DialogSingleModeStartConfirmEntry.SingleModeSupportCardData>
+            [2] <Gallop.DialogSingleModeStartConfirmEntry.SingleModeSupportCardData>
+            [3] <Gallop.DialogSingleModeStartConfirmEntry.SingleModeSupportCardData>
+            [4] <Gallop.DialogSingleModeStartConfirmEntry.SingleModeSupportCardData>
+          .<FriendSupportCardData>k__BackingField = <Gallop.WorkSupportCardData.SupportCardData>
+          .FriendSupportCardPosition = 5
+          .UseRental = true
+          .IsEnableFreeRental = true
+          .RentalCost = 4940
+          .RentalIsCircleMember = false
+          .RentalIsDiscountCampaign = false
+          .FactorResearchEventId = 0
+          .<SingleModeSelectedDifficultyInfo>k__BackingField = <Gallop.SingleModeSelectedDifficultyInfo>
+          .<EnableUseTpCampaign>k__BackingField = true
+          .<EnableTpBoost>k__BackingField = false
+          .<EnableChallengeMatch>k__BackingField = false
+          .<ChallengeMatchBonusFactorLvFirst>k__BackingField = 0
+          .<ChallengeMatchBonusFactorLvSecond>k__BackingField = 0
+          .<ParamRateId>k__BackingField = 2
+          .<PreferenceSkillIdList>k__BackingField = <System.Collections.Generic.List<System.Int32>>
+        .<EntryInfo>k__BackingField = <Gallop.SingleModeStartViewController.EntryInfo>
+          .<CardId>k__BackingField = 101102
+          .<SupportSerialIdArray>k__BackingField = <? len=5>
+            [0] 30052
+            [1] 20021
+            [2] 30074
+            [3] 30087
+            [4] 30113
+          .<RentalSupportCardIdArray>k__BackingField = <? len=5>
+            [0] 0
+            [1] 0
+            [2] 0
+            [3] 0
+            [4] 0
+          .FriendSupportCardPosition = 5
+          ._eventRentalTrainedCharaArray = <? len=0>
+          ._rentalTrainedCharaArray = <? len=69>
+            [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          ._singleModeStartSuccessionUserInfoManager = <Gallop.SingleModeStartSuccessionUserInfoManager>
+          .SuccessionTrainedChara_First = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          .SuccessionTrainedChara_Second = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          .<ScenarioId>k__BackingField = 1
+          .<UseEventRental>k__BackingField = <?>
+          .<UseTp>k__BackingField = 15
+          .<UseTpWhenBoostMode>k__BackingField = 15
+          .<EnableTpBoost>k__BackingField = false
+          .<DifficultyId>k__BackingField = 0
+          .<Difficulty>k__BackingField = 0
+          ._paramDict = <System.Collections.Generic.Dictionary<Gallop.GameDefine.ParameterType,Gallop.PartsSingleModeMemberParamaters.ParamSet>>
+          ._cardDressIdSet = <Gallop.CardDressIdSet>
+          .<EnableEventType>k__BackingField = <?>
+          .FriendCardInfoList = <System.Collections.Generic.List<Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>>
+          .SelectFriendCardInfo = <Gallop.SingleModeStartViewController.EntryInfo.FriendCardInfo>
+          .RentalUserInfoArray = <? len=69>
+            [0] <Gallop.UserInfoAtFriend>
+            [1] <Gallop.UserInfoAtFriend>
+            [2] <Gallop.UserInfoAtFriend>
+            [3] <Gallop.UserInfoAtFriend>
+            [4] <Gallop.UserInfoAtFriend>
+            [5] <Gallop.UserInfoAtFriend>
+            [6] <Gallop.UserInfoAtFriend>
+            [7] <Gallop.UserInfoAtFriend>
+            [8] <Gallop.UserInfoAtFriend>
+            [9] <Gallop.UserInfoAtFriend>
+          .RentalTrainedCharaArray = <? len=69>
+            [0] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [1] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [2] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [3] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [4] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [5] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [6] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [7] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [8] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+            [9] <Gallop.WorkTrainedCharaData.TrainedCharaData>
+          .EventRentalUserInfoArray = <? len=0>
+          .EventRentalTrainedCharaArray = <? len=0>
+          .<RunningStyle>k__BackingField = <?>
+          .<RouteRaceProgramId>k__BackingField = 0
+        .<IdleSingleModeStartInfo>k__BackingField = <Gallop.IdleSingleModeStartInfo>
+          .training_policy_ground_type = 1
+          .training_policy_param_rate_set_id = 2
+          .priority_skill_array = <? len=10>
+            [0] <Gallop.IdleSingleModePrioritySkill>
+            [1] <Gallop.IdleSingleModePrioritySkill>
+            [2] <Gallop.IdleSingleModePrioritySkill>
+            [3] <Gallop.IdleSingleModePrioritySkill>
+            [4] <Gallop.IdleSingleModePrioritySkill>
+            [5] <Gallop.IdleSingleModePrioritySkill>
+            [6] <Gallop.IdleSingleModePrioritySkill>
+            [7] <Gallop.IdleSingleModePrioritySkill>
+            [8] <Gallop.IdleSingleModePrioritySkill>
+            [9] <Gallop.IdleSingleModePrioritySkill>
+          .race_array = <? len=8>
+            [0] <Gallop.SingleModeReservedRace>
+            [1] <Gallop.SingleModeReservedRace>
+            [2] <Gallop.SingleModeReservedRace>
+            [3] <Gallop.SingleModeReservedRace>
+            [4] <Gallop.SingleModeReservedRace>
+            [5] <Gallop.SingleModeReservedRace>
+            [6] <Gallop.SingleModeReservedRace>
+            [7] <Gallop.SingleModeReservedRace>
+        .<ReservedRaceInfo>k__BackingField = <Gallop.SingleModeReservedRaceInfo>
+          .default_deck_num = 0
+          .needs_default_confirm = 1
+          .reserved_race_array = <? len=9>
+            [0] <Gallop.SingleModeReservedRaceDeck>
+            [1] <Gallop.SingleModeReservedRaceDeck>
+            [2] <Gallop.SingleModeReservedRaceDeck>
+            [3] <Gallop.SingleModeReservedRaceDeck>
+            [4] <Gallop.SingleModeReservedRaceDeck>
+            [5] <Gallop.SingleModeReservedRaceDeck>
+            [6] <Gallop.SingleModeReservedRaceDeck>
+            [7] <Gallop.SingleModeReservedRaceDeck>
+            [8] <Gallop.SingleModeReservedRaceDeck>
+      ._isInitNormalTab = false
+      ._isInitIdleTab = true
+      ._currentTp = 100
+      ._isStarted = false
+      ._rightButtonPointerEventData = <?>
+      ._dialogCommon = <Gallop.DialogCommon>
+        ._dialogRootCanvas = <UnityEngine.Canvas>
+        ._inputBlock = <Gallop.ButtonCommon>
+          ._onLongTap = <UnityEngine.Events.UnityEvent>
+          ._onLongTapEnd = <UnityEngine.Events.UnityEvent>
+          ._invalidateMaterial = <?>
+          ._canvasGroup = <?>
+          ._uiType = <?>
+          ._isPlayScaleAnimeCurrent = false
+          .<LongTapTime>k__BackingField = 0.4000000059604645
+          ._scaleTarget = <?>
+          ._seType = <?>
+          ._tagetText = <?>
+          .<IsShowButtonTapEffect>k__BackingField = true
+          ._autoButtonCollisionSize = true
+          ._notificationText = <read err: access violation accessing 0x10>
+          ._flickHandler = <?>
+          .<CallExitCallbackIsLockOrDisable>k__BackingField = false
+          ._touchTime = 0
+          ._isNowTouch = false
+          ._isLongTap = false
+          ._isAutoShowPushEffect = true
+          ._runtimeLongTapEventCount = 0
+          ._runtimeLongTapEndEventCount = 0
+          ._hasTargetText = false
+          ._collisionRectTrans = <UnityEngine.RectTransform>
+          ._onSetCollisionSize = <?>
+          ._targetGraphicDefaultColor = <?>
+          ._prevIsAnimating = false
+          ._isEnable = true
+          ._disableColor = <?>
+          ._isColorInitialized = true
+          ._forceLongTapEnable = false
+          .<_isAnimPaused>k__BackingField = false
+          ._buttonAnimation = <Gallop.ButtonCommonAnimation>
+          ._onEnter = <?>
+          ._onDown = <?>
+          ._onLongTapRepeat = <?>
+          ._onLongTapRepeatCounter = 0
+          ._onExit = <?>
+          ._onUp = <?>
+          ._onGetClickPos = <?>
+          ._onUpOnce = <?>
+          ._onClickOnce = <?>
+          ._isTappedLockedUI = false
+          ._isCallingLongTap = false
+          ._highlightedAtlasName = ""
+          ._highlightedSpriteName = ""
+          ._pressedAtlasName = ""
+          ._pressedSpriteName = ""
+        ._dialogObjArray = <? len=4>
+          [0] <Gallop.DialogObject>
+          [1] <Gallop.DialogObject>
+          [2] <Gallop.DialogObject>
+          [3] <Gallop.DialogObject>
+        ._flMaskObjPrefab = <UnityEngine.GameObject>
+        ._circleMask = <Gallop.ImageCommon>
+          ._defaultColor = <?>
+          ._isSetupedDefaultColor = true
+          ._mulColor = <?>
+          ._isIgnoreParentColor = false
+          .<recieveColor>k__BackingField = <?>
+          ._atlasName = ""
+          ._spriteName = ""
+          ._materialPath = ""
+        ._contentsRootTf = <UnityEngine.RectTransform>
+        .<IsOutsideClick>k__BackingField = true
+        .<IsCancelClick>k__BackingField = true
+        .<IsBackPushed>k__BackingField = false
+        ._currentDialogObj = <Gallop.DialogObject>
+          ._type = <?>
+          ._rootParentObj = <UnityEngine.GameObject>
+          ._baseObj = <UnityEngine.GameObject>
+          ._baseRectTransform = <UnityEngine.RectTransform>
+          ._rootRectTransform = <?>
+          ._text = <Gallop.TextCommon>
+          ._headerRoot = <UnityEngine.GameObject>
+          ._headerTitle = <Gallop.TextCommon>
+          ._buttonRoot = <UnityEngine.RectTransform>
+          ._centerButton = <Gallop.ButtonCommon>
+          ._rightButton = <Gallop.ButtonCommon>
+          ._leftButton = <Gallop.ButtonCommon>
+          ._webViewRect = <UnityEngine.RectTransform>
+          ._footerText = <Gallop.TextCommon>
+          ._defaultBaseObjectTransformOffsetMin = <?>
+        ._isDispClosing = false
+        ._isDispClosed = false
+        ._isCloseAnimation = false
+        ._flMask = <AnimateToUnity.AnRoot>
+          ._parameter = <AnimateToUnity.AnRootParameter>
+          ._meshParameterGroup = <AnimateToUnity.AnMeshParameterGroup>
+          ._rootMotion = <AnimateToUnity.AnMotion>
+          ._dataList = <System.Collections.Generic.List<AnimateToUnity.AnBase>>
+          ._motionList = <System.Collections.Generic.List<AnimateToUnity.AnMotion>>
+          ._objectList = <System.Collections.Generic.List<AnimateToUnity.AnObjectBase>>
+          ._finalizeTargetDataList = <System.Collections.Generic.List<AnimateToUnity.AnBase>>
+          ._currentCreateDataIndex = 2
+          ._dataTable = <System.Collections.Hashtable>
+          ._meshRendererTable = <System.Collections.Hashtable>
+          ._meshFilterTable = <System.Collections.Hashtable>
+          ._colliderTable = <System.Collections.Hashtable>
+          ._textMeshTable = <System.Collections.Hashtable>
+          ._transform = <UnityEngine.Transform>
+          ._topObject = <UnityEngine.GameObject>
+          ._topObjectTransform = <UnityEngine.Transform>
+          ._topObjectCurrentLocalPosition = <?>
+          ._topObjectCurrentLocalRotate = <?>
+          ._topObjectCurrentLocalScale = <?>
+          ._parentObject = <UnityEngine.GameObject>
+          ._parentObjectTransform = <UnityEngine.RectTransform>
+          ._initializeFlag = false
+          ._isDestroy = false
+          ._selectedFlag = false
+          ._sortOrderInterval = 1
+          ._sortOrderCount = 1
+          ._sortOderCountForDrawTextLater = 5
+          ._defaultSortOffset = 20000
+          ._defaultStencilRefOffset = 0
+          ._defaultStencilCompareFunc = <?>
+          ._stencilRefInterval = 3
+          ._stencilRefCount = 0
+          ._defaultDepthOffset = 0
+          ._defaultScaleOffset = 0
+          ._defaultScaleValue = 1
+          ._defaultColliderThickness = 1
+          ._drawTextLater = false
+          ._screenBaseRightPosition = <?>
+          ._screenBaseLeftPosition = <?>
+          ._screenBaseAspect = 0.5625
+          ._screenReferenceSize = <?>
+          ._screenReferenceFixSize = <?>
+          ._screenReferenceAspect = 0.5625
+          ._screenEdgeRightPosition = <?>
+          ._screenEdgeLeftPosition = <?>
+          ._screenEdgeSize = <?>
+          ._screenEdgeAspect = 0.5625
+          ._screenMarginRightPosition = <?>
+          ._screenMarginLeftPosition = <?>
+          ._screenMarginSize = <?>
+          ._screenMarginOffset = <?>
+          ._screenMarginAspect = 0.5625
+          ._ignoreMargin = false
+          ._screenRightPosition = <?>
+          ._screenLeftPosition = <?>
+          ._screenSize = <?>
+          ._screenOffset = <?>
+          ._screenScale = 1
+          ._screenVirtualSize = <?>
+          ._baseScreenSize = <?>
+          ._screenCastType = <?>
+          ._baseCameraSize = 1
+          ._fitScreen = false
+          ._screenSizeChangeFlag = false
+          ._deltaTime = 0.0333360992372036
+          ._syncTime = 1410.041259765625
+          ._useCustomSyncTime = false
+          ._customSyncTime = 0
+          ._useCustomDeltaTime = false
+          ._customDeltaTime = 0
+          ._updateInterval = 0
+          ._updateGroup = 0
+          ._currentUpdateState = 0
+          ._meshInfoParameterGroupMaterialTable = <System.Collections.Hashtable>
+          ._tempVector3_0 = <?>
+          ._isWriteAlphaChannel = false
+          ._visible = true
+          ._visibleInHierarchy = true
+        ._openSequenceAtRightWindow = <?>
+        ._openSequence = <DG.Tweening.Sequence>
+          .sequencedTweens = <System.Collections.Generic.List<DG.Tweening.Tween>>
+          ._sequencedObjs = <System.Collections.Generic.List<DG.Tweening.Core.ABSSequentiable>>
+          .lastTweenInsertTime = 0
+          .timeScale = 1
+          .isBackwards = false
+          .id = <?>
+          .stringId = <read err: access violation accessing 0x10>
+          .intId = -999
+          .target = <?>
+          .updateType = <?>
+          .isIndependentUpdate = true
+          .onPlay = <?>
+          .onPause = <?>
+          .onRewind = <?>
+          .onUpdate = <?>
+          .onStepComplete = <?>
+          .onComplete = <?>
+          .onKill = <?>
+          .onWaypointChange = <?>
+          .isFrom = false
+          .isBlendable = false
+          .isRecyclable = false
+          .isSpeedBased = false
+          .autoKill = false
+          .duration = 0.3500000238418579
+          .loops = 1
+          .loopType = <?>
+          .delay = 0
+          .<isRelative>k__BackingField = false
+          .easeType = <?>
+          .customEase = <?>
+          .easeOvershootOrAmplitude = 1.7015800476074219
+          .easePeriod = 0
+          .typeofT1 = <?>
+          .typeofT2 = <?>
+          .typeofTPlugOptions = <?>
+          .<active>k__BackingField = true
+          .isSequenced = false
+          .sequenceParent = <?>
+          .activeId = 46
+          .specialStartupMode = <?>
+          .creationLocked = true
+          .startupDone = true
+          .<playedOnce>k__BackingField = true
+          .<position>k__BackingField = 0.3500000238418579
+          .fullDuration = 0.3500000238418579
+          .completedLoops = 1
+          .isPlaying = false
+          .isComplete = true
+          .elapsedDelay = 0
+          .delayComplete = true
+          .miscInt = -1
+          .tweenType = <?>
+          .sequencedPosition = 0
+          .sequencedEndPosition = 0
+          .onStart = <?>
+        ._closeSequence = <?>
+        .CanvasChanged = <?>
+        ._contentsRoot = <?>
+        ._data = <Gallop.DialogCommon.Data>
+          .DialogType = <?>
+          .HeaderSortOrderOffset = -1
+          .LeftButtonText = "Cancel"
+          .RightButtonText = "Start Career!"
+          .RightButtonNoInteractableNotiffication = <read err: access violation accessing 0x10>
+          .CenterButtonText = <read err: access violation accessing 0x10>
+          .LeftButtonColor = <?>
+          .RightButtonColor = <?>
+          .CenterButtonColor = <?>
+          .ObjParentType = <?>
+          .DispStackType = <?>
+          .LeftButtonCallBack = <System.Action<Gallop.DialogCommon>>
+          .RightButtonCallBack = <System.Action<Gallop.DialogCommon>>
+          .CenterButtonCallBack = <?>
+          .LeftButtonDefaultInteractable = true
+          .RightButtonDefaultInteractable = true
+          .CenterButtonDefaultInteractable = true
+          .BeginCloseCallBack = <?>
+          .DispAfterClosingCallBack = <?>
+          .RemoveCallBack = <?>
+          .DestroyCallBack = <?>
+          .BeginOpenCallback = <?>
+          .OpenCallBack = <System.Action<Gallop.DialogCommon>>
+          .OutsideCallBack = <?>
+          .Text = <read err: access violation accessing 0x10>
+          .TextPositionOffset = <?>
+          .AutoClose = false
+          .EnableOutsideClick = true
+          .HideBGImage = false
+          .DisableAnimation = false
+          .DisableAnimationDialogInContents = false
+          .DisableAnimationDialogInFooterButton = false
+          .EnableEvacuation = true
+          .EvacuationCanvas = <UnityEngine.Canvas>
+          .OnChangeSortingOrder = <?>
+          .OpenSe = <?>
+          .CancelSe = <?>
+          .IsPlayOpenSe = true
+          .OnPushBackKey = <?>
+          .FooterText = ""
+          .IsFooterNotificationText = false
+          .FooterTextFontSize = <?>
+          .FooterTextColor = <?>
+          .StartRect = <?>
+          .IsCenterStartRect = false
+          .<DialogHash>k__BackingField = <?>
+          .WebViewRectOffset = <?>
+          .BgAlphaRate = 1
+          .UseLandScapePrefab = false
+          .FormType = <?>
+          .Title = "Final Confirmation"
+          .ContentsObject = <UnityEngine.GameObject>
+          ._dialog = <Gallop.DialogCommon>
+        ._inputLocker = <Gallop.LockCounter>
+          ._counter = <Gallop.LockCounter.Counter>
+        ._lockables = <System.Collections.Generic.List<Gallop.ILockable> count=0>
+      ._onCloseDialogCallback = <System.Action<Gallop.RaceDefine.RunningStyle>>
+      ._dialogData = <Gallop.DialogCommon.Data>
+        .DialogType = <?>
+        .HeaderSortOrderOffset = -1
+        .LeftButtonText = "Cancel"
+        .RightButtonText = "Start Career!"
+        .RightButtonNoInteractableNotiffication = <read err: access violation accessing 0x10>
+        .CenterButtonText = <read err: access violation accessing 0x10>
+        .LeftButtonColor = <?>
+        .RightButtonColor = <?>
+        .CenterButtonColor = <?>
+        .ObjParentType = <?>
+        .DispStackType = <?>
+        .LeftButtonCallBack = <System.Action<Gallop.DialogCommon>>
+        .RightButtonCallBack = <System.Action<Gallop.DialogCommon>>
+        .CenterButtonCallBack = <?>
+        .LeftButtonDefaultInteractable = true
+        .RightButtonDefaultInteractable = true
+        .CenterButtonDefaultInteractable = true
+        .BeginCloseCallBack = <?>
+        .DispAfterClosingCallBack = <?>
+        .RemoveCallBack = <?>
+        .DestroyCallBack = <?>
+        .BeginOpenCallback = <?>
+        .OpenCallBack = <System.Action<Gallop.DialogCommon>>
+        .OutsideCallBack = <?>
+        .Text = <read err: access violation accessing 0x10>
+        .TextPositionOffset = <?>
+        .AutoClose = false
+        .EnableOutsideClick = true
+        .HideBGImage = false
+        .DisableAnimation = false
+        .DisableAnimationDialogInContents = false
+        .DisableAnimationDialogInFooterButton = false
+        .EnableEvacuation = true
+        .EvacuationCanvas = <UnityEngine.Canvas>
+        .OnChangeSortingOrder = <?>
+        .OpenSe = <?>
+        .CancelSe = <?>
+        .IsPlayOpenSe = true
+        .OnPushBackKey = <?>
+        .FooterText = ""
+        .IsFooterNotificationText = false
+        .FooterTextFontSize = <?>
+        .FooterTextColor = <?>
+        .StartRect = <?>
+        .IsCenterStartRect = false
+        .<DialogHash>k__BackingField = <?>
+        .WebViewRectOffset = <?>
+        .BgAlphaRate = 1
+        .UseLandScapePrefab = false
+        .FormType = <?>
+        .Title = "Final Confirmation"
+        .ContentsObject = <UnityEngine.GameObject>
+        ._dialog = <Gallop.DialogCommon>
+          ._dialogRootCanvas = <UnityEngine.Canvas>
+          ._inputBlock = <Gallop.ButtonCommon>
+          ._dialogObjArray = <? len=4>
+            [0] <Gallop.DialogObject>
+            [1] <Gallop.DialogObject>
+            [2] <Gallop.DialogObject>
+            [3] <Gallop.DialogObject>
+          ._flMaskObjPrefab = <UnityEngine.GameObject>
+          ._circleMask = <Gallop.ImageCommon>
+          ._contentsRootTf = <UnityEngine.RectTransform>
+          .<IsOutsideClick>k__BackingField = true
+          .<IsCancelClick>k__BackingField = true
+          .<IsBackPushed>k__BackingField = false
+          ._currentDialogObj = <Gallop.DialogObject>
+          ._isDispClosing = false
+          ._isDispClosed = false
+          ._isCloseAnimation = false
+          ._flMask = <AnimateToUnity.AnRoot>
+          ._openSequenceAtRightWindow = <?>
+          ._openSequence = <DG.Tweening.Sequence>
+          ._closeSequence = <?>
+          .CanvasChanged = <?>
+          ._contentsRoot = <?>
+          ._data = <Gallop.DialogCommon.Data>
+          ._inputLocker = <Gallop.LockCounter>
+          ._lockables = <System.Collections.Generic.List<Gallop.ILockable>>
+      ._overrideDialogHash = <?>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

@@ -1,0 +1,377 @@
+﻿[i] mode itsetup: run this with the game at: IT setup screen (before Start), or a run in progress
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== ITSETUP: candidate classes ===
+  [umamusume] Gallop.ObscuredIdleSingleModeLoadInfo
+      <SingleModeCharaLight>k__BackingField:Gallop.SingleModeCharaLight, <PlayingState>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <StartTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <EndTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString
+  [umamusume] Gallop.ObscuredIdleSingleModeLoadInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressInfo
+      <CharaInfo>k__BackingField:Gallop.SingleModeChara, <StartTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <EndTime>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredString, <StoryEventMissionList>k__BackingField:Gallop.UserMission[], <StoryEventCharaBonusList>k__BackingField:Gallop.StoryEventCharaBonus[]
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressLogInfo
+      <CharaEffectLogArray>k__BackingField:Gallop.ObscuredCharaEffectLog[], <SupportCardGainInfoArray>k__BackingField:Gallop.ObscuredIdleSingleModeSupportCardGainInfo[], <EventGainInfo>k__BackingField:Gallop.ObscuredIdleSingleModeGainInfo, <SuccessionGainInfo>k__BackingField:Gallop.ObscuredIdleSingleModeGainInfo, <SuccessionFactorGainArray>k__BackingField:Gallop.ObscuredIdleSingleModeSuccessionFactorGainInfo[], <RaceHistoryArray>k__BackingField:Gallop.IdleSingleModeRaceHistory[], <GainSkillIdArray>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt[], <TotalSkillPoint>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt
+  [umamusume] Gallop.ObscuredIdleSingleModeProgressLogInfoExtensions
+  [umamusume] Gallop.ObscuredIdleSingleModeStartInfo
+      <TrainingPolicyGroundType>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TrainingPolicyParamRateSetId>k__BackingField:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <PrioritySkillArray>k__BackingField:Gallop.ObscuredIdleSingleModePrioritySkill[], <RaceArray>k__BackingField:Gallop.SingleModeReservedRace[]
+  [umamusume] Gallop.ObscuredIdleSingleModeStartInfoExtensions
+  [umamusume] Gallop.WorkIdleSingleModeData.PlayingState
+      value__:System.Int32
+  [umamusume] Gallop.WorkIdleSingleModeData
+      _state:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <CharaInfo>k__BackingField:Gallop.SingleModeChara, <StartTime>k__BackingField:System.Int64, <EndTime>k__BackingField:System.Int64, _singleModePlayingState:CodeStage.AntiCheat.ObscuredTypes.ObscuredInt, <TrainingEventType>k__BackingField:Gallop.SingleModeDefine.TrainingEventType, <ProgressLogInfo>k__BackingField:Gallop.ObscuredIdleSingleModeProgressLogInfo, _workCharaData:Gallop.WorkSingleModeCharaData
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass12_0
+      wipePlayInComplete:System.Boolean, miniCharaPlayInComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass13_0
+      onComplete:System.Action, <>4__this:Gallop.IdleSingleModeCustomLoadingController
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass14_0
+      wipePlayOutComplete:System.Boolean, miniCharaPlayOutComplete:System.Boolean
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<HideWipeFlashCoroutine>d__14
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModeCustomLoadingController, <>8__1:Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass14_0, onComplete:System.Action
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController.<ShowWipeFlashCoroutine>d__12
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModeCustomLoadingController, <>8__1:Gallop.IdleSingleModeCustomLoadingController.<>c__DisplayClass12_0, onComplete:System.Action
+  [umamusume] Gallop.IdleSingleModeCustomLoadingController
+      _wipePlayer:Gallop.FlashPlayer, _miniCharaViewer:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer
+  [umamusume] Gallop.IdleSingleModePlayCutViewController.<CuttControllerRestart>d__25
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.IdleSingleModePlayCutViewController
+  [umamusume] Gallop.PartsIdleSingleModeResultLogRaceRewardList.SetupParameter
+      <RaceRewardArray>k__BackingField:Gallop.RaceRewardData[], <RaceRewardCampaignArray>k__BackingField:Gallop.RaceRewardData[], <RaceRewardLimitArray>k__BackingField:Gallop.RaceRewardLimitData[], <CampaignIdArray>k__BackingField:System.Int32[], <SubscriptionEffectIdArray>k__BackingField:System.Int32[]
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass7_0
+      isCompleteMotion:System.Boolean
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass8_0
+      <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayInCoroutine>d__7
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, <>8__1:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<>c__DisplayClass7_0, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer.<PlayOutCoroutine>d__10
+      <>1__state:System.Int32, <>2__current:System.Object, <>4__this:Gallop.PartsIdleSingleModeLoadingMiniCharaViewer, onComplete:System.Action
+  [umamusume] Gallop.PartsIdleSingleModeLoadingMiniCharaViewer
+      _image:Gallop.RawImageCommon, _imageCanvasGroup:UnityEngine.CanvasGroup, _charaId:System.Int32, _miniCharaViewer:Gallop.MiniCharaViewer
+  [umamusume] Gallop.PartsIdleSingleModeEntryInfoExpandItem
+      _rootRectTransform:UnityEngine.RectTransform, _partsRectTransforms:UnityEngine.RectTransform[], _entryInfoItem:Gallop.PartsSingleModeStartConfirmEntryInfoItem, _expandButton:Gallop.ButtonCommon, _expandButtonOffObject:UnityEngine.GameObject, <IsExpand>k__BackingField:System.Boolean, _onExpandState:System.Action
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogRequest
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogResponse
+      data:Gallop.IdleSingleModeCheckProgressLogResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeCheckProgressLogTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeCheckProgressLogResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeCheckProgressLogResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckRequest
+      scenario_id:System.Int32, multi_race_reserve_deck:Gallop.SingleModeMultiRaceReserveDeck
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+      reserved_race_info:Gallop.SingleModeReservedRaceInfo
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckResponse
+      data:Gallop.IdleSingleModeMultiRaceReserveDeckResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeMultiRaceReserveDeckTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeMultiRaceReserveDeckResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModePreStartRequest
+      scenario_id:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModePreStartResponse.CommonResponse
+      reserved_race_info:Gallop.SingleModeReservedRaceInfo, last_idle_single_mode_start_info:Gallop.IdleSingleModeStartInfo
+  [umamusume.Http] Gallop.IdleSingleModePreStartResponse
+      data:Gallop.IdleSingleModePreStartResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModePreStartTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModePreStartResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModePreStartResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeStartRequest
+      single_mode_start_request_common:Gallop.SingleModeStartRequestCommon, start_info:Gallop.IdleSingleModeStartInfo
+  [umamusume.Http] Gallop.IdleSingleModeStartResponse.CommonResponse
+      progress_info:Gallop.IdleSingleModeProgressInfo, tp_info:Gallop.TpInfo, user_item_array:Gallop.UserItem[], mission_list:Gallop.UserMission[], story_event_mission_list:Gallop.UserMission[], story_event_chara_bonus_list:Gallop.StoryEventCharaBonus[], add_trained_chara_array:Gallop.TrainedChara[]
+  [umamusume.Http] Gallop.IdleSingleModeStartResponse
+      data:Gallop.IdleSingleModeStartResponse.CommonResponse
+  [umamusume.Http] Gallop.IdleSingleModeStartTask
+      postData:System.Byte[], onSuccess:System.Action<Gallop.IdleSingleModeStartResponse>, onError:System.Action<Cute.Http.ErrorType,System.Int32,Gallop.IdleSingleModeStartResponse>, headers:System.Collections.Generic.Dictionary<System.String,System.String>, request:Cute.Http.IWebRequest
+  [umamusume.Http] Gallop.IdleSingleModeLoadInfo
+      single_mode_chara_light:Gallop.SingleModeCharaLight, playing_state:System.Int32, start_time:System.String, end_time:System.String
+  [umamusume.Http] Gallop.IdleSingleModeProgressInfo
+      chara_info:Gallop.SingleModeChara, start_time:System.String, end_time:System.String, story_event_mission_list:Gallop.UserMission[], story_event_chara_bonus_list:Gallop.StoryEventCharaBonus[]
+  [umamusume.Http] Gallop.IdleSingleModeProgressLogInfo
+      chara_effect_log_array:Gallop.CharaEffectLog[], support_card_gain_info_array:Gallop.IdleSingleModeSupportCardGainInfo[], event_gain_info:Gallop.IdleSingleModeGainInfo, succession_gain_info:Gallop.IdleSingleModeGainInfo, succession_factor_gain_array:Gallop.IdleSingleModeSuccessionFactorGainInfo[], race_history_array:Gallop.IdleSingleModeRaceHistory[], gain_skill_id_array:System.Int32[], total_skill_point:System.Int32
+  [umamusume.Http] Gallop.IdleSingleModeStartInfo
+      training_policy_ground_type:System.Int32, training_policy_param_rate_set_id:System.Int32, priority_skill_array:Gallop.IdleSingleModePrioritySkill[], race_array:Gallop.SingleModeReservedRace[]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeCheckProgressLogResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeLoadInfoFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeMultiRaceReserveDeckResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModePreStartResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeProgressInfoFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeProgressLogInfoFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartInfoFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartRequestFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+  [umamusume.Http] Gallop.MsgPack.Formatters.IdleSingleModeStartResponse_CommonResponseFormatter
+      ____keyMapping:MessagePack.Internal.AutomataDictionary, ____stringByteKeys:System.Byte[][]
+
+=== Gallop.WorkDataManager (no heap scan) ===
+  static Gallop.Singleton<Gallop.WorkDataManager>._instance: Gallop.WorkDataManager
+  instance via static _instance
+  members (56):
+    <UserData>k__BackingField: Gallop.WorkUserData
+    <FriendData>k__BackingField: Gallop.WorkFriendData
+    <CardData>k__BackingField: Gallop.WorkCardData
+    <SupportCardData>k__BackingField: Gallop.WorkSupportCardData
+    <CharaData>k__BackingField: Gallop.WorkCharaData
+    <DressData>k__BackingField: Gallop.WorkDressData
+    <MusicData>k__BackingField: Gallop.WorkMusicData
+    <ItemData>k__BackingField: Gallop.WorkItemData
+    <TrainedCharaData>k__BackingField: Gallop.WorkTrainedCharaData
+    <SingleMode>k__BackingField: Gallop.WorkSingleModeData
+    <PaymentItemData>k__BackingField: Gallop.WorkPaymentItemData
+    <MainStoryData>k__BackingField: Gallop.WorkMainStoryData
+    <CharacterStoryData>k__BackingField: Gallop.WorkCharacterStoryData
+    <ExtraStoryData>k__BackingField: Gallop.WorkExtraStoryData
+    <PieceData>k__BackingField: Gallop.WorkPieceData
+    <MissionData>k__BackingField: Gallop.WorkMissionData
+    <CircleChatData>k__BackingField: Gallop.WorkCircleChatData
+    <CircleData>k__BackingField: Gallop.WorkCircleData
+    <Trophy>k__BackingField: Gallop.WorkTrophyData
+    <Exchange>k__BackingField: Gallop.WorkExchangeData
+    <HomeFavorite>k__BackingField: Gallop.WorkHomeFavoriteData
+    <LoginBonusData>k__BackingField: Gallop.WorkLoginBonusData
+    <AnnounceData>k__BackingField: Gallop.WorkAnnounceData
+    <TeamStadiumData>k__BackingField: Gallop.WorkTeamStadiumData
+    <DirectoryData>k__BackingField: Gallop.WorkDirectoryData
+    <ScenarioRecordData>k__BackingField: Gallop.WorkScenarioRecordData
+    <SupportDeckData>k__BackingField: Gallop.WorkSupportDeckData
+    <RaceStateData>k__BackingField: Gallop.WorkRaceStateData
+    <DailyLegendRaceData>k__BackingField: Gallop.WorkDailyLegendRaceData
+    <HonorData>k__BackingField: Gallop.WorkHonorData
+    <LimitedSalesData>k__BackingField: Gallop.WorkLimitedSalesData
+    <AlreadyReadData>k__BackingField: Gallop.WorkAlreadyReadData
+    <LastCheckTime>k__BackingField: Gallop.WorkLastCheckTime
+    <ChampionsData>k__BackingField: Gallop.WorkChampionsData
+    <StoryEventData>k__BackingField: Gallop.WorkStoryEventData
+    <StoryEventMissionData>k__BackingField: Gallop.WorkMissionData
+    <RouletteDerbyData>k__BackingField: Gallop.WorkRouletteDerbyData
+    <ChallengeMatchData>k__BackingField: Gallop.WorkChallengeMatchData
+    <GalleryData>k__BackingField: Gallop.WorkGalleryData
+    <TalkGalleryData>k__BackingField: Gallop.WorkTalkGalleryData
+    <RoomMatchData>k__BackingField: Gallop.WorkRoomMatchData
+    <TransferEventData>k__BackingField: Gallop.WorkTransferEventData
+    <PracticeRaceData>k__BackingField: Gallop.WorkPracticeRaceData
+    <JukeboxData>k__BackingField: Gallop.WorkJukeboxData
+    <ValentineData>k__BackingField: Gallop.WorkValentineData
+    <CampaignData>k__BackingField: Gallop.WorkCampaignData
+    <CampaignWalkingData>k__BackingField: Gallop.WorkCampaignWalkingData
+    <TrainingChallengeData>k__BackingField: Gallop.WorkTrainingChallengeData
+    <FanRaidData>k__BackingField: Gallop.WorkFanRaidData
+    <HeroesData>k__BackingField: Gallop.WorkHeroesData
+    <TeamBuildingData>k__BackingField: Gallop.WorkTeamBuildingData
+    <CollectRaidData>k__BackingField: Gallop.WorkCollectRaidData
+    <MapEventData>k__BackingField: Gallop.WorkMapEventData
+    <FactorResearchData>k__BackingField: Gallop.WorkFactorResearchData
+    <OptionData>k__BackingField: Gallop.WorkOptionData
+    <IdleSingleModeData>k__BackingField: Gallop.WorkIdleSingleModeData
+
+  --- <SingleMode>k__BackingField ---
+    <Gallop.WorkSingleModeData>
+          ._storyInfoListDic = <System.Collections.Generic.Dictionary<Gallop.SingleModeEventPlayTiming,System.Collections.Generic.List<Gallop.WorkSingleModeData.EventInfo>> count=0>
+            {<?>} <?>
+            {<?>} <?>
+          ._isExistPlayingData = false
+          ._isPlaying = true
+          ._totalTurnNum = 1 (obscured)
+          .<Character>k__BackingField = <?>
+          ._raceConditions = <System.Collections.Generic.List<Gallop.WorkSingleModeData.RaceCondition> count=0>
+          ._homeInfo = <Gallop.WorkSingleModeHomeInfo>
+            ._turnInfoListDic = <read err: access violation accessing 0x18>
+            ._disableCommandIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._availableContinueNum = 0 (obscured)
+            ._availableFreeContinueNum = 0 (obscured)
+            ._freeContinueNum = 0 (obscured)
+            ._prevFreeContinueTime = 0 (obscured)
+            ._shortenedRaceState = 0 (obscured)
+          ._addMusicId = 0 (obscured)
+          ._state = 0 (obscured)
+          ._playingState = 0 (obscured)
+          ._scenarioIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=4>
+            [0] 1 (obscured)
+            [1] 2 (obscured)
+          ._difficultyInfoList = <System.Collections.Generic.List<Gallop.WorkSingleModeData.DifficultyInfo> count=0>
+          ._changeParameterInfo = <Gallop.WorkSingleModeChangeParameterInfo>
+            .<Speed>k__BackingField = 0 (obscured)
+            .<Stamina>k__BackingField = 0 (obscured)
+            .<Power>k__BackingField = 0 (obscured)
+            .<Guts>k__BackingField = 0 (obscured)
+            .<Wiz>k__BackingField = 0 (obscured)
+            .<Hp>k__BackingField = 0 (obscured)
+            .<Motivation>k__BackingField = 0 (obscured)
+            .<SkillPoint>k__BackingField = 0 (obscured)
+            .<FanNum>k__BackingField = 0 (obscured)
+            .<MaxSpeed>k__BackingField = 0 (obscured)
+            .<MaxStamina>k__BackingField = 0 (obscured)
+            .<MaxPower>k__BackingField = 0 (obscured)
+            .<MaxGuts>k__BackingField = 0 (obscured)
+            .<MaxWiz>k__BackingField = 0 (obscured)
+            .<MaxHp>k__BackingField = 0 (obscured)
+            ._properGroundTurf = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properGroundDirt = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properDistanceShort = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properDistanceMile = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properDistanceMiddle = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properDistanceLong = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properRunStyleNige = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properRunStyleSenko = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properRunStyleSashi = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._properRunStyleOikomi = <Gallop.WorkSingleModeChangeParameterInfo.Proper>
+              ._diffLevel = 0 (obscured)
+              ._currentLevel = 0 (obscured)
+            ._charaGrade = 0 (obscured)
+            ._disableCommandIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._addSkillList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._resolveSkillList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._addSkillLevelList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.SkillLevel> count=0>
+            ._addSkillMatchBonusList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.SkillLevel> count=0>
+            ._addSkillTipsList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._currentSkillTipsLevelDict = <read err: access violation accessing 0x18>
+            ._evaluationChangeList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.EvaluationData> count=0>
+            ._prevCharaParamDic = <read err: access violation accessing 0x18>
+            ._prevCharaMaxParamDic = <read err: access violation accessing 0x18>
+            ._addCharaEffectIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._removeCharaEffectIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            ._trainingLevelupList = <System.Collections.Generic.List<Gallop.TrainingDefine.TrainingCommandId> count=0>
+            .<SuccessionDataList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.Succession> count=0>
+            ._outingCharaNameList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredString> count=0>
+            ._outingGroupNameList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredString> count=0>
+            ._appearCharaIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<DeletedRouteRaceId>k__BackingField = 0 (obscured)
+            .<ForcedRunStyle>k__BackingField = 0 (obscured)
+            .<LimitStatusTypeList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitCharaEffectIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<HasCharaEffectIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<InvalidCharaEffectIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitTipsSkillIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitGetSkillIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitLevelSkillIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitEvaluationCharaIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<NotUpEvaluationCharaIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<NotUpEvaluationSupportCardIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<NotDownEvaluationCharaIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LimitCommandIdList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .TeamRaceSemiMemberStatusList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.TeamRaceMember> count=0>
+            .TeamRaceSemiMemberList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.TeamRaceMember> count=0>
+            .TeamRaceJoinMemberList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.TeamRaceMember> count=0>
+            .TeamRaceLeaveMemberList = <System.Collections.Generic.List<Gallop.WorkSingleModeChangeParameterInfo.TeamRaceMember> count=0>
+            .<TeamRaceRankingUp>k__BackingField = 0 (obscured)
+            .<TeamRaceRankingDown>k__BackingField = 0 (obscured)
+            .<TeamRaceTeamStatusUpDictionary>k__BackingField = <read err: access violation accessing 0x18>
+            .<TeamRaceTotalPower>k__BackingField = 0 (obscured)
+            ._scenarioFreeUseItemIdList = <System.Collections.Generic.List<System.Int32> count=0>
+            ._scenarioFreeEventShopItemAddList = <System.Collections.Generic.List<Gallop.SingleModeFreePickUpItem> count=0>
+            .<TscRankingUpDown>k__BackingField = 0 (obscured)
+            ._scenarioFreeCommandInfo = <System.Collections.Generic.List<Gallop.SingleModeFreeCommandInfo> count=0>
+            .<Performance>k__BackingField = <Gallop.WorkSingleModeScenarioLive.PerformanceData>
+              .<Vocal>k__BackingField = 0 (obscured)
+              .<Passion>k__BackingField = 0 (obscured)
+              .<Dance>k__BackingField = 0 (obscured)
+              .<Visual>k__BackingField = 0 (obscured)
+              .<Mental>k__BackingField = 0 (obscured)
+            .<PerformanceMax>k__BackingField = <Gallop.WorkSingleModeScenarioLive.PerformanceData>
+              .<Vocal>k__BackingField = 0 (obscured)
+              .<Passion>k__BackingField = 0 (obscured)
+              .<Dance>k__BackingField = 0 (obscured)
+              .<Visual>k__BackingField = 0 (obscured)
+              .<Mental>k__BackingField = 0 (obscured)
+            .<LimitPerformanceTypeList>k__BackingField = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+            .<LiveGetMusicId>k__BackingField = 0 (obscured)
+            .LiveMemberJoinCharaIdList = <System.Collections.Generic.List<System.Int32> count=0>
+            ._scenarioVenusSpiritInfoList = <System.Collections.Generic.List<Gallop.SingleModeVenusSpiritInfo> count=0>
+            ._appearVenus = 181 (obscured)
+            ._scenarioVenusUsedSpirit = 181 (obscured)
+            ._scenarioVenusInfoLevelUp = 0 (obscured)
+          ._raceHistoryInfoList = <System.Collections.Generic.List<Gallop.SingleModeUtils.RaceHistoryInfo> count=0>
+          .<WinSaddleArray>k__BackingField = <? len=0>
+          .GroupLogPool = <Gallop.SingleModeLogPool>
+            ._logGroupPool = <System.Collections.Generic.List<Gallop.SingleModeLogPool.SingleModeLogPoolInfoGroup> count=0>
+            ._currentGroup = <?>
+            ._currentEventInfoType = <?>
+            ._eventTitleName = ""
+            ._privateForceMergeTextToPrev = false
+            ._tmpStrBuild = <System.Text.StringBuilder>
+              .m_ChunkChars = <? len=16>
+                [0] 0
+                [1] 0
+              .m_ChunkPrevious = <?>
+              .m_ChunkLength = 0
+              .m_ChunkOffset = 0
+              .m_MaxCapacity = 2147483647
+          ._isStepTurn = 0 (obscured)
+          .<IsStepTurnByStory>k__BackingField = 0 (obscured)
+          .<IsDisplayedRouteClear>k__BackingField = 0 (obscured)
+          .<IsForceChangeViewMonthStartView>k__BackingField = 0 (obscured)
+          .<SelectedTrainingCommandId>k__BackingField = 0 (obscured)
+          .<RentalCount>k__BackingField = 0 (obscured)
+          ._prevFreeRentalTime = 0 (obscured)
+          ._successionEventInfo = <?>
+          .<RaceStartResultInfoData>k__BackingField = <Gallop.WorkSingleModeData.RaceStartResultInfo>
+            .StartInfo = <?>
+            .RaceScenario = <read err: access violation accessing 0x10>
+            .RewardInfo = <?>
+            .CharaInfo = <?>
+            .AddTrophyInfo = <?>
+            .TrophyRewardInfo = <?>
+            .PrevGradeType = <?>
+          .RacePieceCampaignInfoList = <System.Collections.Generic.List<Gallop.WorkSingleModeData.RacePieceCampaignInfo> count=0>
+          .StoryEventBonusDict = <read err: access violation accessing 0x18>
+          .<ResumeFactorSelect>k__BackingField = <?>
+          .<SkillUpgradeFactorSelect>k__BackingField = <?>
+          .EventChoiceRewardDict = <read err: access violation accessing 0x18>
+          ._cachedRewardEventId = 0
+          ._defaultRunningStyleArray = <? len=4>
+            [0] <Gallop.DefaultRunningStyle>
+                .card_id = 100601
+                .running_style = 2
+            [1] <Gallop.DefaultRunningStyle>
+                .card_id = 100602
+                .running_style = 2
+          .<IsUmaplan>k__BackingField = 0 (obscured)
+          ._logAdditiveBuffer = ""
+
+  --- <IdleSingleModeData>k__BackingField ---
+    <Gallop.WorkIdleSingleModeData>
+          ._state = 0 (obscured)
+          .<CharaInfo>k__BackingField = <?>
+          .<StartTime>k__BackingField = 0
+          .<EndTime>k__BackingField = 0
+          ._singleModePlayingState = 0 (obscured)
+          .<TrainingEventType>k__BackingField = <?>
+          .<ProgressLogInfo>k__BackingField = <?>
+          ._workCharaData = <?>
+
+=== HEAP SCAN (0 of 60 candidates, cap 0) ===
+
+[+] scout complete; detach happens now
