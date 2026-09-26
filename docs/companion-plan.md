@@ -635,6 +635,16 @@ hooks (`SetStep(Step)` on entering/moving between steps,
 a deck change) plus a 1-2 s poll between entering and leaving the setup
 as a safety net. Never a poll on every screen.
 
+**Next batch after v0.2.1 (owner, 2026-09-27): the setup on the site.**
+The setup travels with the run: an optional `setup` block in `it.run`
+(capture-schema; plugin and .exe receipts: not captured), added by the
+companion at capture when its IT timer holds that run's setup. The site
+stores it and shows it on the run, public like the rest of the run:
+the borrowed parent's lender ("Borrowed from X · uma.moe"), the friend
+card's lender, Training Focus, prioritized skills (named), race agenda
+(named). Owner: "this can lead into more searchable things": runs
+filterable by focus, agenda and skills later.
+
 **Deferred (owner, 2026-09-27): the run's end state as a veteran.** After
 the Training Log: the skills picked at the shop (ids, SP left), both
 spark rolls and the one kept, and the saved veteran (`TrainedCharaData`
