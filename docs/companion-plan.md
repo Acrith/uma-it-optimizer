@@ -443,6 +443,7 @@ production code skips them.
 | Support cards | `<SupportCardData>._dataDic` | 197: `_supportCardId`, `_limitBreakCount`, `_level`, `_exp`, `_stock`, favourite |
 | Veteran umas | `<TrainedCharaData>._dataDic` | 258: stats, `_rankScore`, aptitudes, `FactorDataArray` (FactorId, e.g. 203 = Stamina 3★), grandparents in `SuccessionCharaList` (position 10/20), skills, deck, race history, `_winSaddleIdArray`, lock |
 | Characters | `<CharaData>._dataDic` | 41: fans, times trained, bond |
+| Trainee cards | `<CardData>._dataDic` | 54 owned: `CardId`, `Rarity` (stars), `TalentLevel` (potential), base stats, unique skill, hint levels; checked against the trainee-select screen |
 | Deck presets | `<SupportDeckData>._dataDic` + `SelectedDeckId` | 10 named presets of 5 card ids; swiping presets updates `SelectedDeckId` at once, and editing a card saves straight into `_dataDic` |
 | IT state | `<IdleSingleModeData>` | `StartTime`, `EndTime`, `CharaInfo`, state (empty before Start; to verify after Start) |
 
