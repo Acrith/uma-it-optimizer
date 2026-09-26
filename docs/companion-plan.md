@@ -527,6 +527,58 @@ on screen; account-valid decks (owned cards at real LB) and parent picks
 agent that takes the bridge thread per read (`perform(..., "free")`, see
 the exit-hang fix); the plugin reads the same paths in-process.
 
+## Where things stand, 2026-09-26 (re-evaluation)
+
+**Done and verified in game.** Route B zero-click capture, in the app
+(`a6a1beb`, dev build only, not released): a fresh end of run captured
+and uploaded with no click, the game exits cleanly with it attached. The
+exit hang is solved (bridge thread, `perform(..., "free")`). Everything a
+planner needs is readable without heap scans: account, live setup, Final
+Confirmation, start/end time, skill shop, both spark rolls, the saved
+veteran, Team Trials rewards.
+
+**The one new building block.** Every feature below is "read a few paths
+at the right moment". So the next piece of infrastructure is a
+**reader**: the long-lived agent answers the host's requests ("read the
+setup entry", "read the account") with small JSON, each read taking the
+bridge thread for itself (`perform(..., "free")`), with triggers from hooks
+the watcher already has or from polling while a screen is open. The plugin
+gets the same reads in-process (route A parity, one schema per read in
+`capture-schema`, like `it.run`). Build it once; each feature is then a
+schema plus a view.
+
+**Candidates, by value for effort** (none scheduled; pick a batch):
+1. **IT timer.** Read `StartTime`/`EndTime` when a run starts: "ends at
+   04:19" in the title bar and a notification when it is done (the overlay
+   card later). Small, visible every day. Trigger: the watcher is attached
+   anyway; poll `IdleSingleModeData._state` or hook the start response.
+2. **Team Trials capture.** `TeamStadiumAllRaceEndInfo` when the races
+   end: presents, `RewardSummaryInfo`, carats (`add_fcoin`) into Rewards,
+   which already has the "Team Trials: not tracked yet" row. Small.
+3. **Account sync (opt-in).** Owned trainees (stars, potential), support
+   cards at their LB, veterans with sparks. Unlocks "decks I can actually
+   build" on the site's decks page and planner, and real parents for the
+   planner. Medium; privacy: the player's own data only, uploaded on
+   request.
+4. **Live setup panel.** Follow `Entry` screen by screen and show the
+   planner's prediction for exactly what is on screen (trainee, parents,
+   deck, focus, agenda). Medium-large: needs the predictor locally or a
+   site endpoint; the site's planner predicts card rows only today
+   (Events/Inspiration buckets unmodelled).
+5. **SP planner at the skill shop.** The shop's list (ids, hint levels,
+   discounted costs, what is picked, SP left) feeds the SP planner live,
+   IT and manual careers alike. Medium; the planner's presets exist.
+6. **Spark reroll advice.** Both rolls are readable before the choice.
+   Needs a spark valuation first (research, not code).
+7. **Route A parity.** The plugin reads the same paths; zero-click in the
+   plugin (it captures on a button today).
+
+**Suggested order.** Reader, then 1 and 2 as its first two uses (small,
+daily value, and they exercise both triggers: a hook and an end-of-screen
+read), then 3, which the site's decks and planner can use straight away.
+4-6 ride on the planner work. Release: zero-click plus 1-2 as v0.2.0,
+tested in dev builds first; CI only for the release build.
+
 ## Companion backlog (collected feedback, done in batches)
 
 Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;
