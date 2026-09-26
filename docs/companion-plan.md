@@ -500,6 +500,26 @@ score and MVP. Carats not seen yet (none dropped): expect `add_fcoin` or a
 carat item in a present; the first TT session with a carat drop confirms.
 Balance check: `<UserData>.ChargeCoin` + `FreeCoin` = the carats on screen.
 
+**Zero-click, first fresh end of run** (2026-09-26, no Hachimi,
+`frida-host watch`): `StartShowContent` fired when the owner opened the
+Training Log after the run; the capture ran 3 s later and matched the
+screen (stats, fans, 36 races, every item count). Uploaded as run 16574.
+
+**Post-run, same session.** Skill shop
+(`SceneManager._currentViewController` = `SingleModeSkillLearningViewController`):
+`RemainingPoint` and `_skillInfoList` (per skill: id, hint level,
+discounted cost `CalcNeedPoint`, `IsSelected` before confirming; the
+owner's 22 picks summed to 2,841 = 2,907 − 66). After buying:
+`WorkDataManager.<SingleMode>.<Character>` (`SkillPoint` 66, 19 acquired
+skills, 32 hints, stats and caps); the same view serves manual careers.
+Sparks (`SingleModeResultViewController._sequence._sequenceParts`):
+`<Factor>._model._factorSelectInfoList` = roll 1 (`lottery_id` 1),
+`<FactorLottery>._model._factorSelectInfo` = the 30 TP reroll
+(`lottery_id` 2); `factor_id`'s last digit is the stars. The game then
+asks which roll to keep; the saved veteran (`TrainedCharaData` #3061,
+read by key) carried the chosen roll 1. A planner can advise at the one
+TP decision: reroll or not, and which roll to keep.
+
 **What it enables.** The planner can follow the setup screen by screen (or
 poll: the reads are cheap) and show the expected result of exactly what is
 on screen; account-valid decks (owned cards at real LB) and parent picks

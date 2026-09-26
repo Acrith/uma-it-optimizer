@@ -288,8 +288,20 @@ setTimeout(() => {
         for (const name of PATH) {
           if (!v || (v.isNull && v.isNull())) { send({type: 'text', text: '  null before ' + name}); return; }
           const idx = /^\[(\d+)\]$/.exec(name);
+          const key = /^\{(-?\d+)\}$/.exec(name);
           try {
-            if (idx) {
+            if (key) {
+              // Dictionary<int, T>: scan _entries for the key.
+              const entries = v.field('_entries').value, want = Number(key[1]);
+              let hit = null;
+              for (let i = 0; i < entries.length && !hit; i++) {
+                const e = entries.get(i);
+                let k; try { k = e.field('key').value; } catch (x) { continue; }
+                if (Number(k) === want) hit = e.field('value').value;
+              }
+              if (!hit) throw new Error('no key ' + want);
+              v = hit;
+            } else if (idx) {
               // List<T> keeps its items in _items; arrays index directly.
               const arr = v.get ? v : v.field('_items').value;
               v = arr.get(Number(idx[1]));

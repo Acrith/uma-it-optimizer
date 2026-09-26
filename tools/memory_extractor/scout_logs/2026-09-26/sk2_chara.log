@@ -1,0 +1,318 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.WorkDataManager -> <SingleMode>k__BackingField -> <Character>k__BackingField ===
+  <SingleMode>k__BackingField: Gallop.WorkSingleModeData
+  <Character>k__BackingField: Gallop.WorkSingleModeCharaData
+  <Gallop.WorkSingleModeCharaData>
+      ._id = 970 (obscured)
+      ._cardId = 101102 (obscured)
+      ._cardData = <Gallop.MasterCardData.CardData>
+        .Id = 101102
+        .CharaId = 1011
+        .DefaultRarity = 3
+        .LimitedChara = 0
+        .AvailableSkillSetId = 101102
+        .TalentSpeed = 0
+        .TalentStamina = 15
+        .TalentPow = 0
+        .TalentGuts = 0
+        .TalentWiz = 15
+        .TalentGroupId = 101102
+        .BgId = 270
+        .GetPieceId = 101102
+        .RunningStyle = 3
+      ._cardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+        .Id = 10110203
+        .CardId = 101102
+        .Rarity = 3
+        .RaceDressId = 101116
+        .SkillSet = 11110103
+        .Speed = 91
+        .Stamina = 83
+        .Pow = 97
+        .Guts = 79
+        .Wiz = 100
+        .MaxSpeed = 1200
+        .MaxStamina = 1200
+        .MaxPow = 1200
+        .MaxGuts = 1200
+        .MaxWiz = 1200
+        .ProperDistanceShort = 1
+        .ProperDistanceMile = 7
+        .ProperDistanceMiddle = 6
+        .ProperDistanceLong = 7
+        .ProperRunningStyleNige = 2
+        .ProperRunningStyleSenko = 7
+        .ProperRunningStyleSashi = 7
+        .ProperRunningStyleOikomi = 2
+        .ProperGroundTurf = 7
+        .ProperGroundDirt = 1
+        .GetDressId1 = 101
+        .GetDressId2 = 101116
+        ._charaId = 1011
+      .<SuccessionTrainedCharaInfoFirst>k__BackingField = <Gallop.WorkSingleModeCharaData.SuccessionCharaInfo>
+        .<TrainedCharaId>k__BackingField = 3010 (obscured)
+        ._changedModelDressId = 0 (obscured)
+      .<SuccessionTrainedCharaInfoSecond>k__BackingField = <Gallop.WorkSingleModeCharaData.SuccessionCharaInfo>
+        .<TrainedCharaId>k__BackingField = 3060 (obscured)
+        ._changedModelDressId = 0 (obscured)
+      .<TalentLevel>k__BackingField = 5 (obscured)
+      .<LimitBreakCount>k__BackingField = 3 (obscured)
+      .SaveNickNameId = 0 (obscured)
+      .AcquiredNickNameIdArray = <? len=0>
+      .<EquipSupportCardArray>k__BackingField = <? len=6>
+        [0] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+        [1] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+        [2] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+        [3] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+        [4] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+        [5] <Gallop.WorkSingleModeCharaData.EquipSupportCard>
+      ._charaGrade = 10 (obscured)
+      .<ChangedModelDressId>k__BackingField = 0 (obscured)
+      ._hp = 10 (obscured)
+      ._maxHp = 100 (obscured)
+      ._speed = 736 (obscured)
+      ._stamina = 845 (obscured)
+      ._power = 521 (obscured)
+      ._guts = 481 (obscured)
+      ._wiz = 659 (obscured)
+      .<MaxSpeed>k__BackingField = 1400 (obscured)
+      .<MaxStamina>k__BackingField = 1507 (obscured)
+      .<MaxPower>k__BackingField = 1403 (obscured)
+      .<MaxGuts>k__BackingField = 1401 (obscured)
+      .<MaxWiz>k__BackingField = 1406 (obscured)
+      .<DefaultMaxSpeed>k__BackingField = 1200 (obscured)
+      .<DefaultMaxStamina>k__BackingField = 1200 (obscured)
+      .<DefaultMaxPower>k__BackingField = 1200 (obscured)
+      .<DefaultMaxGuts>k__BackingField = 1200 (obscured)
+      .<DefaultMaxWiz>k__BackingField = 1200 (obscured)
+      ._entryProgramId = 0 (obscured)
+      ._scenarioId = 1 (obscured)
+      ._difficultyId = 0 (obscured)
+      ._difficulty = 0 (obscured)
+      ._isDifficultyTpBoost = 0 (obscured)
+      ._routeId = 10 (obscured)
+      ._startTime = 0 (obscured)
+      .<TrainingEventType>k__BackingField = <?>
+      ._acquiredSkillList = <System.Collections.Generic.List<Gallop.WorkSkillData.AcquiredSkill> count=19>
+        [0] <Gallop.WorkSkillData.AcquiredSkill>
+        [1] <Gallop.WorkSkillData.AcquiredSkill>
+        [2] <Gallop.WorkSkillData.AcquiredSkill>
+        [3] <Gallop.WorkSkillData.AcquiredSkill>
+        [4] <Gallop.WorkSkillData.AcquiredSkill>
+        [5] <Gallop.WorkSkillData.AcquiredSkill>
+        [6] <Gallop.WorkSkillData.AcquiredSkill>
+        [7] <Gallop.WorkSkillData.AcquiredSkill>
+        [8] <Gallop.WorkSkillData.AcquiredSkill>
+        [9] <Gallop.WorkSkillData.AcquiredSkill>
+        [10] <Gallop.WorkSkillData.AcquiredSkill>
+        [11] <Gallop.WorkSkillData.AcquiredSkill>
+        [12] <Gallop.WorkSkillData.AcquiredSkill>
+        [13] <Gallop.WorkSkillData.AcquiredSkill>
+        [14] <Gallop.WorkSkillData.AcquiredSkill>
+        [15] <Gallop.WorkSkillData.AcquiredSkill>
+        [16] <Gallop.WorkSkillData.AcquiredSkill>
+        [17] <Gallop.WorkSkillData.AcquiredSkill>
+        [18] <Gallop.WorkSkillData.AcquiredSkill>
+      ._disableSkillIdList = <System.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt> count=0>
+      ._skillTipsList = <System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SkillTips> count=32>
+        [0] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [1] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [2] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [3] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [4] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [5] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [6] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [7] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [8] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [9] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [10] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [11] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [12] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [13] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [14] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [15] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [16] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [17] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [18] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [19] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [20] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [21] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [22] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [23] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [24] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [25] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [26] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [27] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [28] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [29] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [30] <Gallop.WorkSingleModeCharaData.SkillTips>
+        [31] <Gallop.WorkSingleModeCharaData.SkillTips>
+      .<SkillPoint>k__BackingField = 66 (obscured)
+      ._trainingLevelDic = <System.Collections.Generic.Dictionary<Gallop.TrainingDefine.TrainingCommandId,System.Int32> count=10>
+        {<?>} 1
+        {<?>} 1
+        {<?>} 1
+        {<?>} 1
+        {<?>} 1
+        {<?>} 5
+        {<?>} 5
+        {<?>} 5
+        {<?>} 5
+        {<?>} 5
+        {<?>} 0
+        {<?>} 0
+        {<?>} 0
+        {<?>} 0
+        {<?>} 0
+        {<?>} 0
+        {<?>} 0
+      ._properDistanceShort = 1 (obscured)
+      ._properDistanceMile = 7 (obscured)
+      ._properDistanceMiddle = 7 (obscured)
+      ._properDistanceLong = 7 (obscured)
+      ._properRunningStyleNige = 2 (obscured)
+      ._properRunningStyleSenko = 7 (obscured)
+      ._properRunningStyleSashi = 7 (obscured)
+      ._properRunningStyleOikomi = 3 (obscured)
+      ._properGroundTurf = 7 (obscured)
+      ._properGroundDirt = 1 (obscured)
+      ._runningStyle = 3 (obscured)
+      ._eventShortcutType = 1 (obscured)
+      ._fanCount = 710308 (obscured)
+      ._evaluationList = <System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.Evaluation> count=10>
+        [0] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [1] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [2] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [3] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [4] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [5] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [6] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [7] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [8] <Gallop.WorkSingleModeCharaData.Evaluation>
+        [9] <Gallop.WorkSingleModeCharaData.Evaluation>
+      ._reservedRaceProgramId = 0 (obscured)
+      .<UpdateReservedPaceProgramId>k__BackingField = <Gallop.EventSubject<System.Int32>>
+        ._lock = <System.Object>
+        ._isDisposed = false
+        ._observerList = <System.Collections.Generic.List<System.IObserver<System.Int32>>>
+      ._motivation = 5 (obscured)
+      ._charaEffectIdArray = <? len=0>
+      ._routeRaceIdArray = <? len=11>
+        [0] 100 (obscured)
+        [1] 101 (obscured)
+        [2] 102 (obscured)
+        [3] 103 (obscured)
+        [4] 104 (obscured)
+        [5] 105 (obscured)
+        [6] 106 (obscured)
+        [7] 107 (obscured)
+        [8] 108 (obscured)
+        [9] 109 (obscured)
+        [10] 110 (obscured)
+      .SuccessionFactor = <Gallop.WorkSingleModeCharaData.SuccessionFactorInfo>
+        .<InfoList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SuccessionFactorInfo.Info>>
+      .<IsShortRace>k__BackingField = 181 (obscured)
+      .<ScenarioProgress>k__BackingField = 0 (obscured)
+      .GuestOutingInfoList = <System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.GuestOutingInfo> count=0>
+      .<Race>k__BackingField = <Gallop.WorkSingleModeRaceData>
+        ._character = <Gallop.WorkSingleModeCharaData>
+        ._cachePrograms = <Gallop.SingleModeProgramCache>
+        ._lotteryProgramDataDict = <System.Collections.Generic.Dictionary<System.Int32,System.Collections.Generic.List<Gallop.WorkSingleModeRaceData.LotteryProgramData>>>
+      .SkillUpgradeList = <System.Collections.Generic.List<Gallop.WorkSingleModeCharaData.SkillUpgradeCondition> count=0>
+      .<WorkScenarioURA>k__BackingField = <Gallop.WorkSingleModeScenarioURA>
+        ._versusLevel = 1 (obscured)
+      .<TeamRace>k__BackingField = <Gallop.WorkSingleModeScenarioTeamRace>
+        .<TeamName>k__BackingField = ""
+        .<TeamNameId>k__BackingField = 0
+        .<FinalWinType>k__BackingField = <?>
+        ._isBossBattle = false
+        ._addMusicId = 0 (obscured)
+        .<TeamParameterRankSpeed>k__BackingField = <?>
+        .<TeamParameterRankStamina>k__BackingField = <?>
+        .<TeamParameterRankPower>k__BackingField = <?>
+        .<TeamParameterRankGuts>k__BackingField = <?>
+        .<TeamParameterRankWiz>k__BackingField = <?>
+        .<GuidePartnerCount>k__BackingField = 0
+        .<IsScoutEnable>k__BackingField = false
+        ._teamTotalPower = 0 (obscured)
+        .<TeamRanking>k__BackingField = 0 (obscured)
+        .<TeamHonorName>k__BackingField = ""
+        .<TeamHonorId>k__BackingField = 0 (obscured)
+        ._teamMemberList = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioTeamRace.TeamMember>>
+        .DeckDataList = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioTeamRace.DeckData>>
+        .TeamRaceDeckTeamMemberList = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioTeamRace.TeamMember>>
+        .RunRaceDeckDataList = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioTeamRace.RunRaceDeckData>>
+        .<SelectedTeamRaceSetId>k__BackingField = 0
+        .SingleTeamResultList = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioTeamRace.SingleTeamRaceResult>>
+        .<TeamFrameOrderArray>k__BackingField = <read err: access violation accessing 0x18>
+        .<OpponentListArray>k__BackingField = <read err: access violation accessing 0x18>
+        .<SelectedOpponent>k__BackingField = <?>
+        .<TeamEventEffectInfo>k__BackingField = <?>
+        .<TeamRaceHistoryArray>k__BackingField = <read err: access violation accessing 0x18>
+        .<SkillTipsArray>k__BackingField = <read err: access violation accessing 0x18>
+        .<SoulSkillTipsDictionary>k__BackingField = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSingleModeScenarioTeamRace.SoulSkillInfo>>
+        .<SpSoulSkillTipsDictionary>k__BackingField = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkSingleModeScenarioTeamRace.SoulSkillInfo>>
+        ._deckBuilder = <Gallop.SingleModeScenarioTeamRaceDeckBuilder>
+        .<PlayerMemberCount>k__BackingField = 0
+        .<GameQuality>k__BackingField = <?>
+        .<TeamEditFlag>k__BackingField = <?>
+      .<RaceReserveContext>k__BackingField = <Gallop.SingleModeRaceReserve.Context>
+        .<EntryViewModel>k__BackingField = <?>
+        .<ReserveRepository>k__BackingField = <Gallop.SingleModeRaceReserveRepository>
+        .<TurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+        .<DefaultUraTurnRepository>k__BackingField = <Gallop.SingleModeRaceReserveTurnRepository>
+        .<RequestBuilder>k__BackingField = <Gallop.SingleModeRaceReserveRequestBuilder>
+        .<Connect>k__BackingField = <Gallop.SingleModeRaceReserveConnect>
+        .<AutoReapply>k__BackingField = <Gallop.SingleModeRaceReserve.SingleModeRaceReserveAutoReapply>
+        .<Temp>k__BackingField = <?>
+      .<WorkScenarioFree>k__BackingField = <Gallop.WorkSingleModeScenarioFree>
+        ._coinNum = 0 (obscured)
+        ._gainedCoinNum = 0 (obscured)
+        ._userItemInfoArray = <read err: access violation accessing 0x18>
+        ._shopId = 0 (obscured)
+        ._saleValue = 0 (obscured)
+        ._pickUpItemInfoArray = <read err: access violation accessing 0x18>
+        ._singleModeFreeItemEffectArray = <read err: access violation accessing 0x18>
+        ._winPoints = 0 (obscured)
+        ._singleModeRivalRaceInfoArray = <read err: access violation accessing 0x18>
+        ._twinkleRaceRanking = 0 (obscured)
+        ._singleModeFreeTwinkleRaceNpcInfoList = <?>
+        ._tempSingleModeFreeTwinkleRaceNpcInfoList = <?>
+        ._singleModeTwikleRaceNpcResultList = <?>
+        ._lastCheckWinptNoticeTurn = <?>
+        .<LastShopOpenTurn>k__BackingField = 0 (obscured)
+        .<UncheckedEventAchievementId>k__BackingField = 0 (obscured)
+        ._lastTrainingEffectValue = 0
+      .<ScenarioLive>k__BackingField = <Gallop.WorkSingleModeScenarioLive>
+        .<NextMusicIdArray>k__BackingField = <? len=0>
+        .<TotalMusicIdArray>k__BackingField = <? len=0>
+        .<NextLiveBonusEffect>k__BackingField = <Gallop.WorkSingleModeScenarioLive.LiveBonusEffect>
+        .<CurrentLiveBonusEffect>k__BackingField = <Gallop.WorkSingleModeScenarioLive.LiveBonusEffect>
+        .<CurrentLiveBonusMusicIdArray>k__BackingField = <? len=0>
+        .<TreeSquareInfoArray>k__BackingField = <? len=0>
+        .<ReservedTreeSquareId>k__BackingField = 0 (obscured)
+        .<TrainingBonusArray>k__BackingField = <? len=0>
+        ._performance = <Gallop.WorkSingleModeScenarioLive.PerformanceData>
+        ._performanceMax = <Gallop.WorkSingleModeScenarioLive.PerformanceData>
+        .<EvaluationInfoList>k__BackingField = <?>
+        .<LiveResultList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkSingleModeScenarioLive.LiveResultData>>
+      .<ScenarioVenus>k__BackingField = <Gallop.WorkSingleModeScenarioVenus>
+        ._spiritInfoArray = <read err: access violation accessing 0x18>
+        ._venusSpiritActiveEffectInfoArray = <read err: access violation accessing 0x18>
+        ._venusCharaInfoArray = <read err: access violation accessing 0x18>
+        ._venusCharaCommandInfoArray = <read err: access violation accessing 0x18>
+        ._venusRaceHistoryArray = <read err: access violation accessing 0x18>
+        ._raceStartInfo = <?>
+        ._raceScenario = <?>
+        ._venusRaceCondition = <?>
+        ._liveItemId = 0
+        ._raceRewardInfo = <?>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now
