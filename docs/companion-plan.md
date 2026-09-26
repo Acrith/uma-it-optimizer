@@ -633,7 +633,11 @@ while on the setup screens, triggered by `SingleModeStartViewController`
 hooks (`SetStep(Step)` on entering/moving between steps,
 `SetupCharacterFromTrainedData` on a parent pick, `ReloadSupportCard` on
 a deck change) plus a 1-2 s poll between entering and leaving the setup
-as a safety net. Never a poll on every screen.
+as a safety net. Never a poll on every screen. Verified 2026-09-27 (dev22): on a real Start,
+`OnClickStartButton` and `CheckParameterOnStart` fire (agenda 27 races
+read, setup attached 19 s later when the run appeared);
+`StartIdleSingleMode` never fires (inlined by the C++ compiler): hook
+methods called through delegates (button handlers), not small internals.
 
 **Next batch after v0.2.1 (owner, 2026-09-27): the setup on the site.**
 The setup travels with the run: an optional `setup` block in `it.run`
