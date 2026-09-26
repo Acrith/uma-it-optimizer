@@ -680,6 +680,12 @@ scheduled; pick a batch, not single items.
 - Asset survey with an Umamusume asset explorer: racecourse/track
   backgrounds, scenario logos, race grade icons (G1/G2/G3), campaign
   banners; decide what enriches which card before adding any.
+  Owner, 2026-09-27: a chibi per trainee for the run card at narrow
+  widths, where the portrait steps out and the top right stays empty.
+  GameTora serves no chibis under guessable paths (full art and thumbs
+  only); extract from the game data. Found on the way: GameTora race
+  banners (`media.gametora.com/umamusume/races/banners/en/<id>.png`), for
+  the race agenda.
 - Assets today (v0.1.4): trainee art and head icons from GameTora's CDN,
   score badges (`rank-icons`) and stat grades (`rank-icons-simple`) from
   the site, stat and currency icons bundled in `ui/public/icons`.
