@@ -1,0 +1,107 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.WorkDataManager -> <IdleSingleModeData>k__BackingField ===
+  <IdleSingleModeData>k__BackingField: Gallop.WorkIdleSingleModeData
+  <Gallop.WorkIdleSingleModeData>
+      ._state = 1 (obscured)
+      .<CharaInfo>k__BackingField = <Gallop.SingleModeChara>
+        .single_mode_chara_id = 970
+        .card_id = 101102
+        .chara_grade = 1
+        .speed = 91
+        .stamina = 188
+        .power = 97
+        .wiz = 105
+        .guts = 79
+        .vital = 100
+        .max_speed = 1400
+        .max_stamina = 1480
+        .max_power = 1400
+        .max_wiz = 1404
+        .max_guts = 1400
+        .default_max_speed = 1200
+        .default_max_stamina = 1200
+        .default_max_power = 1200
+        .default_max_wiz = 1200
+        .default_max_guts = 1200
+        .max_vital = 100
+        .motivation = 3
+        .fans = 1
+        .rarity = 3
+        .race_program_id = 0
+        .reserve_race_program_id = 0
+        .race_running_style = 3
+        .is_short_race = 0
+        .talent_level = 5
+        .skill_array = <? len=1>
+          [0] <Gallop.SkillData>
+        .disable_skill_id_array = <? len=0>
+        .skill_tips_array = <? len=2>
+          [0] <Gallop.SkillTips>
+          [1] <Gallop.SkillTips>
+        .support_card_array = <? len=6>
+          [0] <Gallop.SingleModeSupportCard>
+          [1] <Gallop.SingleModeSupportCard>
+          [2] <Gallop.SingleModeSupportCard>
+          [3] <Gallop.SingleModeSupportCard>
+          [4] <Gallop.SingleModeSupportCard>
+          [5] <Gallop.SingleModeSupportCard>
+        .succession_trained_chara_id_1 = 3010
+        .succession_trained_chara_id_2 = 3060
+        .proper_distance_short = 1
+        .proper_distance_mile = 7
+        .proper_distance_middle = 7
+        .proper_distance_long = 7
+        .proper_running_style_nige = 2
+        .proper_running_style_senko = 7
+        .proper_running_style_sashi = 7
+        .proper_running_style_oikomi = 3
+        .proper_ground_turf = 7
+        .proper_ground_dirt = 1
+        .turn = 1
+        .skill_point = 0
+        .short_cut_state = 1
+        .state = 0
+        .playing_state = 1
+        .scenario_id = 1
+        .route_id = 10
+        .start_time = "2026-09-26 01:29:03"
+        .evaluation_info_array = <? len=10>
+          [0] <Gallop.EvaluationInfo>
+          [1] <Gallop.EvaluationInfo>
+          [2] <Gallop.EvaluationInfo>
+          [3] <Gallop.EvaluationInfo>
+          [4] <Gallop.EvaluationInfo>
+          [5] <Gallop.EvaluationInfo>
+        .training_level_info_array = <? len=10>
+          [0] <Gallop.TrainingLevelInfo>
+          [1] <Gallop.TrainingLevelInfo>
+          [2] <Gallop.TrainingLevelInfo>
+          [3] <Gallop.TrainingLevelInfo>
+          [4] <Gallop.TrainingLevelInfo>
+          [5] <Gallop.TrainingLevelInfo>
+        .nickname_id_array = <? len=0>
+        .chara_effect_id_array = <? len=0>
+        .route_race_id_array = <? len=11>
+          [0] 100
+          [1] 101
+          [2] 102
+          [3] 103
+          [4] 104
+          [5] 105
+        .guest_outing_info_array = <? len=0>
+        .skill_upgrade_info_array = <? len=0>
+      .<StartTime>k__BackingField = 1790386143
+      .<EndTime>k__BackingField = 1790389143
+      ._singleModePlayingState = 0 (obscured)
+      .<TrainingEventType>k__BackingField = <?>
+      .<ProgressLogInfo>k__BackingField = <?>
+      ._workCharaData = <?>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

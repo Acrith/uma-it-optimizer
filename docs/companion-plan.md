@@ -482,6 +482,23 @@ button delegate's `m_target` = `DialogSingleModeStartConfirmEntrySelectMode`.
   races only), decks 1–8 = the saved agendas by name, each race
   `(year, program_id)` (program ids as in the site's masters).
 
+**After Start** (`WorkDataManager.<IdleSingleModeData>`): `_state` 1,
+`StartTime`/`EndTime` as unix seconds (exactly 50 min apart), and
+`CharaInfo` = the run's starting position (stats after parent bonuses,
+caps, aptitudes, deck, parents' trained ids, `route_race_id_array`
+goals, `start_time`). Enough for an exact countdown and the "planned" half
+of plan vs actual.
+
+**Team Trials rewards** (`WorkDataManager.<TeamStadiumData>
+.<TeamStadiumAllRaceEndInfo>`, filled once the races finish):
+`WinningRewardContentArray` (per round: item category/id/num, box colour;
+the owner's round-2 present was item 110 support points ×1000),
+`RewardSummaryInfo` (`add_item_list`, `add_fcoin` = free carats,
+cards, pieces; the class the career-end lead named), `CampaignIdArray`,
+score and MVP. Carats not seen yet (none dropped): expect `add_fcoin` or a
+carat item in a present; the first TT session with a carat drop confirms.
+Balance check: `<UserData>.ChargeCoin` + `FreeCoin` = the carats on screen.
+
 **What it enables.** The planner can follow the setup screen by screen (or
 poll: the reads are cheap) and show the expected result of exactly what is
 on screen; account-valid decks (owned cards at real LB) and parent picks

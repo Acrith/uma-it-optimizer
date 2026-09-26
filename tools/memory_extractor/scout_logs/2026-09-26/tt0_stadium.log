@@ -1,0 +1,89 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.WorkDataManager -> <TeamStadiumData>k__BackingField ===
+  <TeamStadiumData>k__BackingField: Gallop.WorkTeamStadiumData
+  <Gallop.WorkTeamStadiumData>
+      .<TeamStadiumInfo>k__BackingField = <Gallop.TeamStadiumInfo>
+        .<Id>k__BackingField = 1
+        .<RaceStatus>k__BackingField = <?>
+        .<TeamStadiumUser>k__BackingField = <Gallop.TeamStadiumUser>
+          .team_class = 6
+          .best_team_class = 6
+          .best_point = 934445
+        .<Ranking>k__BackingField = <Gallop.TeamStadiumRanking>
+          .term_id = 20260921
+          .viewer_id = <redacted>
+          .team_class = 6
+          .best_point = 891496
+          .rank = 41694
+        .<BorderLine>k__BackingField = <Gallop.TeamStadiumBorderLine>
+          .promotion_rank = 0
+          .demotion_rank = 27341
+          .keep_rank = 27340
+          .promotion_point = 0
+          .demotion_point = 988215
+          .keep_point = 988222
+        .<TeamClassChangeState>k__BackingField = <?>
+        .<RewardInfoArray>k__BackingField = <? len=0>
+        .<TermState>k__BackingField = <?>
+      .<TeamStadiumDeckInfo>k__BackingField = <Gallop.TeamStadiumDeckInfo>
+        ._memberList = <System.Collections.Generic.List<Gallop.TeamStadiumDeckInfo.MemberInfo> count=15>
+          [0] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          [1] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          [2] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          [3] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          [4] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          [5] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+        .OnChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+          ._lock = <System.Object>
+          ._isDisposed = false
+          ._observerList = <System.Collections.Generic.List<System.IObserver<Gallop.TeamStadiumDeckInfo.MemberInfo>>>
+      .<TeamStadiumStatus>k__BackingField = <Gallop.TeamStadiumStatus>
+        .<CurrentState>k__BackingField = <?>
+        .<MyDeckInfo>k__BackingField = <?>
+        .<OpponentData>k__BackingField = <?>
+        .<Result>k__BackingField = <?>
+        .<SupportCartBonus>k__BackingField = 0
+        .<SimulateRaceRound>k__BackingField = 0
+      .<OpponentDataList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTeamStadiumData.OpponentData> count=0>
+      .<TeamStadiumFriendRankingInfo>k__BackingField = <Gallop.TeamStadiumFriendRankingInfo>
+        .<FriendRankingList>k__BackingField = <System.Collections.Generic.List<Gallop.TeamStadiumRanking> count=0>
+        .<SummaryUserInfoList>k__BackingField = <System.Collections.Generic.List<Gallop.UserInfoAtFriend> count=0>
+        .<UserFriendList>k__BackingField = <System.Collections.Generic.List<Gallop.UserFriend> count=0>
+      .<TeamStadiumTeamClassRankingInfo>k__BackingField = <Gallop.TeamStadiumTeamClassRankingInfo>
+        .<TeamClassRankingList>k__BackingField = <System.Collections.Generic.List<Gallop.TeamStadiumRanking> count=0>
+        .<SummaryUserInfoList>k__BackingField = <System.Collections.Generic.List<Gallop.UserInfoAtFriend> count=0>
+        .<AllTeamClassRankingList>k__BackingField = <System.Collections.Generic.List<Gallop.TeamStadiumRanking> count=0>
+        .<AllSummaryUserInfoList>k__BackingField = <System.Collections.Generic.List<Gallop.UserInfoAtFriend> count=0>
+      .<TeamStadiumRankingUserDetailsInfo>k__BackingField = <Gallop.TeamStadiumRankingUserDetailsInfo>
+        .<RankingUserDetailsDic>k__BackingField = <read err: access violation accessing 0x18>
+      .<TeamStadiumAllRaceEndInfo>k__BackingField = <?>
+      .<TeamStadiumMenuBgmInfo>k__BackingField = <Gallop.WorkTeamStadiumData.TeamStadiumMenuBgmData>
+        .<IsSelectedBgm>k__BackingField = true
+        .<CurrentBgmId>k__BackingField = 1
+        .CueSheet = "snd_bgm_CS007"
+        .CueName = "snd_bgm_CS007_team"
+      .<TeamStadiumSupportCardBonusInfo>k__BackingField = <Gallop.TeamStadiumSupportCardBonusInfo>
+        .<SupportCardBonusList>k__BackingField = <System.Collections.Generic.List<Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus> count=7>
+          [0] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+          [1] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+          [2] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+          [3] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+          [4] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+          [5] <Gallop.TeamStadiumSupportCardBonusInfo.SupportCardBonus>
+        .<_totalSupportCardBonus>k__BackingField = 1500
+      .<TeamEvaluationUpdateRankRewardArray>k__BackingField = <read err: access violation accessing 0x18>
+      .<UpdateTeamRankInfo>k__BackingField = <Gallop.WorkTeamStadiumData.TeamStadiumUpdateTeamRankInfo>
+        .<BeforeRank>k__BackingField = <?>
+        .<AfterRank>k__BackingField = <?>
+      .<NeedNotifyBadge>k__BackingField = false
+      .<StadiumRaceCharaIdArray>k__BackingField = <? len=0>
+      .<PrevMemberList>k__BackingField = <System.Collections.Generic.List<Gallop.TeamStadiumDeckInfo.MemberInfo> count=0>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

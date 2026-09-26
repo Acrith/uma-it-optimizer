@@ -1,0 +1,874 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.WorkDataManager -> <TeamStadiumData>k__BackingField -> <TeamStadiumStatus>k__BackingField ===
+  <TeamStadiumData>k__BackingField: Gallop.WorkTeamStadiumData
+  <TeamStadiumStatus>k__BackingField: Gallop.TeamStadiumStatus
+  <Gallop.TeamStadiumStatus>
+      .<CurrentState>k__BackingField = <?>
+      .<MyDeckInfo>k__BackingField = <Gallop.TeamStadiumDeckInfo>
+        ._memberList = <System.Collections.Generic.List<Gallop.TeamStadiumDeckInfo.MemberInfo> count=15>
+          [0] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 1
+              .MemberId = 1
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+          [1] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 1
+              .MemberId = 2
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+          [2] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 1
+              .MemberId = 3
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+          [3] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 2
+              .MemberId = 1
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+          [4] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 2
+              .MemberId = 2
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+          [5] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+              .RaceNumber = 2
+              .MemberId = 3
+              ._onChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+              ._trainedCharaData = <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._runningStyle = <?>
+        .OnChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+          ._lock = <System.Object>
+          ._isDisposed = false
+          ._observerList = <System.Collections.Generic.List<System.IObserver<Gallop.TeamStadiumDeckInfo.MemberInfo>> count=0>
+      .<OpponentData>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+        .<OpponentViewerId>k__BackingField = <redacted>
+        .<EvaluationPoint>k__BackingField = 297359 (obscured)
+        .<UserData>k__BackingField = <Gallop.WorkTeamStadiumData.UserData>
+          .<ViewerId>k__BackingField = 2000875875 (obscured)
+          .<UserName>k__BackingField = 0 (obscured)
+          .<HonorIconModel>k__BackingField = <Gallop.HonorModel>
+            .<HonorId>k__BackingField = 410201
+            .<Step>k__BackingField = 0
+          .<LastLoginTime>k__BackingField = 0 (obscured)
+          .<CarrotStone>k__BackingField = <Gallop.WorkUserData.CarrotStoneInfo>
+            .<ChargeCoin>k__BackingField = 0 (obscured)
+            .<FreeCoin>k__BackingField = 0 (obscured)
+            .<UpdateSubject>k__BackingField = <Gallop.EventSubject<Gallop.WorkUserData.CarrotStoneInfo>>
+          .<TrainerPoint>k__BackingField = <Gallop.WorkUserData.TrainerPointInfo>
+            ._lastUpdatedTp = 0 (obscured)
+            ._maxRecoveryTime = 0 (obscured)
+            .<MaxTp>k__BackingField = 0
+          .<RacePoint>k__BackingField = <Gallop.WorkUserData.RacePointInfo>
+            ._lastUpdatedRp = 0 (obscured)
+            ._maxRecoveryTime = 0 (obscured)
+            .<MaxRp>k__BackingField = 0
+          .<Progress>k__BackingField = <Gallop.WorkUserData.ProgressInfo>
+            .<VoiceNum>k__BackingField = 0
+            .<ActNum>k__BackingField = 0
+            .<GoodEndNum>k__BackingField = 0
+            .<TeamStadiumWinCount>k__BackingField = 0
+            .<SingleModePlayCount>k__BackingField = 0
+            .<SingleModeCharacterEventCount>k__BackingField = 0
+            .<SingleModeSupportCardEventCount>k__BackingField = 0
+            .<SingleModeMainScenarioEventCount>k__BackingField = 0
+            .<HomeTalkReadCount>k__BackingField = 0
+            .<CharaStoryNum>k__BackingField = 0
+            .<MainStoryNum>k__BackingField = 0
+            .<HighestRankScore>k__BackingField = 0
+          .<TutorialStep>k__BackingField = 1000 (obscured)
+          .<BonusFollowNum>k__BackingField = 40 (obscured)
+          .<LeaderCharaId>k__BackingField = 1007 (obscured)
+          .<LeaderDressId>k__BackingField = 100701 (obscured)
+          .<PartnerTrainedCharadId>k__BackingField = 2224 (obscured)
+          .<SupportCardId>k__BackingField = 30028 (obscured)
+          .<Fan>k__BackingField = 86923750 (obscured)
+          .<Birth>k__BackingField = 0 (obscured)
+          .<Comment>k__BackingField = 0 (obscured)
+          .<CreateTime>k__BackingField = 0 (obscured)
+          .<DirectoryLevel>k__BackingField = 76 (obscured)
+          .<DirectoryScore>k__BackingField = 2537664 (obscured)
+          ._gender = 1 (obscured)
+          .<TrainerBirthDay>k__BackingField = 0 (obscured)
+          .<BestTeamEvaluationPoint>k__BackingField = 297359 (obscured)
+          .<OptinUserBirth>k__BackingField = 0 (obscured)
+          .<DmaState>k__BackingField = 0 (obscured)
+          .<CountryType>k__BackingField = 0
+          .<ParentalConsent>k__BackingField = 0
+        .<DeckInfo>k__BackingField = <Gallop.TeamStadiumDeckInfo>
+          ._memberList = <System.Collections.Generic.List<Gallop.TeamStadiumDeckInfo.MemberInfo> count=15>
+            [0] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+            [1] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+            [2] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+            [3] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+            [4] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+            [5] <Gallop.TeamStadiumDeckInfo.MemberInfo>
+          .OnChanged = <Gallop.EventSubject<Gallop.TeamStadiumDeckInfo.MemberInfo>>
+            ._lock = <System.Object>
+            ._isDisposed = false
+            ._observerList = <System.Collections.Generic.List<System.IObserver<Gallop.TeamStadiumDeckInfo.MemberInfo>>>
+        .<WinningRewardGuaranteeStatus>k__BackingField = 0 (obscured)
+        .<ServerData>k__BackingField = <Gallop.TeamStadiumOpponent>
+          .strength = 3
+          .opponent_viewer_id = 749325185379
+          .evaluation_point = 297359
+          .user_info = <Gallop.UserInfoAtFriend>
+            .viewer_id = <redacted>
+            .name = <redacted>
+            .honor_data = <Gallop.HonorData>
+            .last_login_time = <redacted>
+            .leader_chara_id = <redacted>
+            .support_card_id = 30028
+            .comment = <redacted>
+            .fan = <?>
+            .directory_level = 72
+            .rank_score = <redacted>
+            .team_stadium_win_count = <redacted>
+            .single_mode_play_count = <redacted>
+            .team_evaluation_point = 0
+            .best_team_evaluation_point = 297359
+            .friend_state = 0
+            .circle_info = <?>
+            .circle_user = <?>
+            .user_support_card = <?>
+            .leader_chara_dress_id = 100701
+            .user_trained_chara = <?>
+            .state = 0
+          .team_data_array = <? len=15>
+            [0] <Gallop.TeamStadiumTeamData>
+            [1] <Gallop.TeamStadiumTeamData>
+            [2] <Gallop.TeamStadiumTeamData>
+            [3] <Gallop.TeamStadiumTeamData>
+            [4] <Gallop.TeamStadiumTeamData>
+            [5] <Gallop.TeamStadiumTeamData>
+          .trained_chara_array = <? len=15>
+            [0] <Gallop.TrainedChara>
+            [1] <Gallop.TrainedChara>
+            [2] <Gallop.TrainedChara>
+            [3] <Gallop.TrainedChara>
+            [4] <Gallop.TrainedChara>
+            [5] <Gallop.TrainedChara>
+          .winning_reward_guarantee_status = 0
+        ._trainedCharaDic = <System.Collections.Generic.Dictionary<System.Int32,Gallop.WorkTrainedCharaData.TrainedCharaData> count=15>
+          {1024} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1024 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 101701 (obscured)
+              ._nickNameId = 78 (obscured)
+              ._nickNameIdArray = <? len=62>
+                [0] 2 (obscured)
+                [1] 7 (obscured)
+                [2] 8 (obscured)
+                [3] 22 (obscured)
+                [4] 24 (obscured)
+                [5] 26 (obscured)
+              ._stamina = 1119 (obscured)
+              ._speed = 1200 (obscured)
+              ._power = 1170 (obscured)
+              ._guts = 646 (obscured)
+              ._wiz = 607 (obscured)
+              ._fans = 870509 (obscured)
+              ._rank = 17 (obscured)
+              ._rankScore = 18219 (obscured)
+              ._runningStyle = 3 (obscured)
+              ._properGroundTurf = 8 (obscured)
+              ._properGroundDirt = 1 (obscured)
+              ._properDistanceShort = 3 (obscured)
+              ._properDistanceMile = 6 (obscured)
+              ._properDistanceMiddle = 7 (obscured)
+              ._properDistanceLong = 7 (obscured)
+              ._properRunningStyleNige = 6 (obscured)
+              ._properRunningStyleSenko = 8 (obscured)
+              ._properRunningStyleSashi = 7 (obscured)
+              ._properRunningStyleOikomi = 5 (obscured)
+              .<SuccessionCount>k__BackingField = 0 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 4 (obscured)
+              .<TalentLevel>k__BackingField = 3 (obscured)
+              .<CharaGrade>k__BackingField = 10 (obscured)
+              .<Rarity>k__BackingField = 4 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=15>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=36>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=35>
+                [0] 1 (obscured)
+                [1] 2 (obscured)
+                [2] 4 (obscured)
+                [3] 5 (obscured)
+                [4] 6 (obscured)
+                [5] 7 (obscured)
+              ._cacheCharaId = 1017 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 36
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+          {1045} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1045 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 104101 (obscured)
+              ._nickNameId = 235 (obscured)
+              ._nickNameIdArray = <? len=23>
+                [0] 7 (obscured)
+                [1] 16 (obscured)
+                [2] 20 (obscured)
+                [3] 34 (obscured)
+                [4] 38 (obscured)
+                [5] 42 (obscured)
+              ._stamina = 585 (obscured)
+              ._speed = 1524 (obscured)
+              ._power = 877 (obscured)
+              ._guts = 578 (obscured)
+              ._wiz = 1121 (obscured)
+              ._fans = 257033 (obscured)
+              ._rank = 20 (obscured)
+              ._rankScore = 20080 (obscured)
+              ._runningStyle = 2 (obscured)
+              ._properGroundTurf = 7 (obscured)
+              ._properGroundDirt = 1 (obscured)
+              ._properDistanceShort = 7 (obscured)
+              ._properDistanceMile = 6 (obscured)
+              ._properDistanceMiddle = 2 (obscured)
+              ._properDistanceLong = 1 (obscured)
+              ._properRunningStyleNige = 7 (obscured)
+              ._properRunningStyleSenko = 7 (obscured)
+              ._properRunningStyleSashi = 2 (obscured)
+              ._properRunningStyleOikomi = 1 (obscured)
+              .<SuccessionCount>k__BackingField = 0 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=11>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 3 (obscured)
+              .<TalentLevel>k__BackingField = 5 (obscured)
+              .<CharaGrade>k__BackingField = 9 (obscured)
+              .<Rarity>k__BackingField = 4 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=19>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=14>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=10>
+                [0] 8 (obscured)
+                [1] 20 (obscured)
+                [2] 22 (obscured)
+                [3] 23 (obscured)
+                [4] 49 (obscured)
+                [5] 60 (obscured)
+              ._cacheCharaId = 1041 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 14
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+          {1049} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1049 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 105201 (obscured)
+              ._nickNameId = 236 (obscured)
+              ._nickNameIdArray = <? len=23>
+                [0] 16 (obscured)
+                [1] 20 (obscured)
+                [2] 22 (obscured)
+                [3] 33 (obscured)
+                [4] 34 (obscured)
+                [5] 35 (obscured)
+              ._stamina = 461 (obscured)
+              ._speed = 1444 (obscured)
+              ._power = 1207 (obscured)
+              ._guts = 703 (obscured)
+              ._wiz = 959 (obscured)
+              ._fans = 187401 (obscured)
+              ._rank = 19 (obscured)
+              ._rankScore = 19652 (obscured)
+              ._runningStyle = 3 (obscured)
+              ._properGroundTurf = 3 (obscured)
+              ._properGroundDirt = 7 (obscured)
+              ._properDistanceShort = 7 (obscured)
+              ._properDistanceMile = 7 (obscured)
+              ._properDistanceMiddle = 1 (obscured)
+              ._properDistanceLong = 1 (obscured)
+              ._properRunningStyleNige = 1 (obscured)
+              ._properRunningStyleSenko = 2 (obscured)
+              ._properRunningStyleSashi = 7 (obscured)
+              ._properRunningStyleOikomi = 6 (obscured)
+              .<SuccessionCount>k__BackingField = 0 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=7>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 3 (obscured)
+              .<TalentLevel>k__BackingField = 5 (obscured)
+              .<CharaGrade>k__BackingField = 8 (obscured)
+              .<Rarity>k__BackingField = 3 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=17>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=11>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=5>
+                [0] 30 (obscured)
+                [1] 37 (obscured)
+                [2] 169 (obscured)
+                [3] 81 (obscured)
+                [4] 120 (obscured)
+              ._cacheCharaId = 1052 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 11
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+          {1053} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1053 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 100402 (obscured)
+              ._nickNameId = 236 (obscured)
+              ._nickNameIdArray = <? len=21>
+                [0] 7 (obscured)
+                [1] 16 (obscured)
+                [2] 21 (obscured)
+                [3] 38 (obscured)
+                [4] 92 (obscured)
+                [5] 98 (obscured)
+              ._stamina = 475 (obscured)
+              ._speed = 1552 (obscured)
+              ._power = 911 (obscured)
+              ._guts = 627 (obscured)
+              ._wiz = 1305 (obscured)
+              ._fans = 309737 (obscured)
+              ._rank = 24 (obscured)
+              ._rankScore = 21862 (obscured)
+              ._runningStyle = 1 (obscured)
+              ._properGroundTurf = 7 (obscured)
+              ._properGroundDirt = 4 (obscured)
+              ._properDistanceShort = 7 (obscured)
+              ._properDistanceMile = 7 (obscured)
+              ._properDistanceMiddle = 6 (obscured)
+              ._properDistanceLong = 5 (obscured)
+              ._properRunningStyleNige = 7 (obscured)
+              ._properRunningStyleSenko = 5 (obscured)
+              ._properRunningStyleSashi = 1 (obscured)
+              ._properRunningStyleOikomi = 1 (obscured)
+              .<SuccessionCount>k__BackingField = 1 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=8>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 3 (obscured)
+              .<TalentLevel>k__BackingField = 4 (obscured)
+              .<CharaGrade>k__BackingField = 9 (obscured)
+              .<Rarity>k__BackingField = 3 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=19>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=6>
+                [0] 10 (obscured)
+                [1] 15 (obscured)
+                [2] 17 (obscured)
+                [3] 18 (obscured)
+                [4] 21 (obscured)
+                [5] 49 (obscured)
+              ._cacheCharaId = 1004 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 12
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+          {1057} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1057 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 100201 (obscured)
+              ._nickNameId = 236 (obscured)
+              ._nickNameIdArray = <? len=29>
+                [0] 2 (obscured)
+                [1] 7 (obscured)
+                [2] 10 (obscured)
+                [3] 16 (obscured)
+                [4] 20 (obscured)
+                [5] 21 (obscured)
+              ._stamina = 722 (obscured)
+              ._speed = 1458 (obscured)
+              ._power = 747 (obscured)
+              ._guts = 649 (obscured)
+              ._wiz = 1273 (obscured)
+              ._fans = 251305 (obscured)
+              ._rank = 20 (obscured)
+              ._rankScore = 20203 (obscured)
+              ._runningStyle = 1 (obscured)
+              ._properGroundTurf = 7 (obscured)
+              ._properGroundDirt = 1 (obscured)
+              ._properDistanceShort = 4 (obscured)
+              ._properDistanceMile = 7 (obscured)
+              ._properDistanceMiddle = 7 (obscured)
+              ._properDistanceLong = 5 (obscured)
+              ._properRunningStyleNige = 7 (obscured)
+              ._properRunningStyleSenko = 8 (obscured)
+              ._properRunningStyleSashi = 3 (obscured)
+              ._properRunningStyleOikomi = 1 (obscured)
+              .<SuccessionCount>k__BackingField = 0 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 3 (obscured)
+              .<TalentLevel>k__BackingField = 5 (obscured)
+              .<CharaGrade>k__BackingField = 9 (obscured)
+              .<Rarity>k__BackingField = 3 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=16>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=11>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=7>
+                [0] 14 (obscured)
+                [1] 15 (obscured)
+                [2] 34 (obscured)
+                [3] 45 (obscured)
+                [4] 46 (obscured)
+                [5] 63 (obscured)
+              ._cacheCharaId = 1002 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 11
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+          {1061} <Gallop.WorkTrainedCharaData.TrainedCharaData>
+              ._id = 1061 (obscured)
+              ._isSaved = 213 (obscured)
+              ._viewerId = <redacted>
+              ._ownerViewerId = <redacted>
+              ._ownerTrainedCharaId = 0 (obscured)
+              ._useType = <?>
+              ._cardId = 100701 (obscured)
+              ._nickNameId = 235 (obscured)
+              ._nickNameIdArray = <? len=33>
+                [0] 2 (obscured)
+                [1] 7 (obscured)
+                [2] 22 (obscured)
+                [3] 26 (obscured)
+                [4] 30 (obscured)
+                [5] 34 (obscured)
+              ._stamina = 957 (obscured)
+              ._speed = 1278 (obscured)
+              ._power = 1232 (obscured)
+              ._guts = 667 (obscured)
+              ._wiz = 555 (obscured)
+              ._fans = 391825 (obscured)
+              ._rank = 17 (obscured)
+              ._rankScore = 18296 (obscured)
+              ._runningStyle = 4 (obscured)
+              ._properGroundTurf = 7 (obscured)
+              ._properGroundDirt = 1 (obscured)
+              ._properDistanceShort = 1 (obscured)
+              ._properDistanceMile = 5 (obscured)
+              ._properDistanceMiddle = 7 (obscured)
+              ._properDistanceLong = 7 (obscured)
+              ._properRunningStyleNige = 1 (obscured)
+              ._properRunningStyleSenko = 7 (obscured)
+              ._properRunningStyleSashi = 7 (obscured)
+              ._properRunningStyleOikomi = 7 (obscured)
+              .<SuccessionCount>k__BackingField = 0 (obscured)
+              .<FactorDataArray>k__BackingField = <? len=9>
+                [0] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [1] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [2] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [3] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [4] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+                [5] <Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData.FactorData>
+              .<CreateTime>k__BackingField = 0 (obscured)
+              .<ScenarioId>k__BackingField = 3 (obscured)
+              .<TalentLevel>k__BackingField = 5 (obscured)
+              .<CharaGrade>k__BackingField = 10 (obscured)
+              .<Rarity>k__BackingField = 4 (obscured)
+              .<IsLock>k__BackingField = 213 (obscured)
+              ._favoriteData = <Gallop.WorkTrainedCharaData.FavoriteData>
+              ._cachedCreateTimeTimeStamp = 0 (obscured)
+              ._sortedFactorList = <?>
+              ._sortedFactorProfileCardList = <?>
+              ._factorListIncludingSuccession = <?>
+              .<SuccessionCharaList>k__BackingField = <System.Collections.Generic.List<Gallop.WorkTrainedCharaData.TrainedCharaData.SuccessionCharaData>>
+              .IsSuccessionHistoryInitialized = false
+              .<SuccessionHistoryList>k__BackingField = <System.Collections.Generic.List<Gallop.SuccessionHistory>>
+              .<AcquiredSkillArray>k__BackingField = <? len=15>
+                [0] <Gallop.WorkSkillData.AcquiredSkill>
+                [1] <Gallop.WorkSkillData.AcquiredSkill>
+                [2] <Gallop.WorkSkillData.AcquiredSkill>
+                [3] <Gallop.WorkSkillData.AcquiredSkill>
+                [4] <Gallop.WorkSkillData.AcquiredSkill>
+                [5] <Gallop.WorkSkillData.AcquiredSkill>
+              .<SupportCardArray>k__BackingField = <? len=6>
+                [0] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [1] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [2] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [3] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [4] <Gallop.WorkTrainedCharaData.SupportCardData>
+                [5] <Gallop.WorkTrainedCharaData.SupportCardData>
+              .<SingleModeRaceResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [1] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [2] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [3] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [4] <Gallop.SingleModeUtils.RaceHistoryInfo>
+                [5] <Gallop.SingleModeUtils.RaceHistoryInfo>
+              ._winSaddleArray = <read err: access violation accessing 0x18>
+              ._winSaddleIdArray = <? len=9>
+                [0] 5 (obscured)
+                [1] 6 (obscured)
+                [2] 10 (obscured)
+                [3] 13 (obscured)
+                [4] 14 (obscured)
+                [5] 15 (obscured)
+              ._cacheCharaId = 1007 (obscured)
+              ._masterCardData = <Gallop.MasterCardData.CardData>
+              ._masterCharaData = <?>
+              ._masterCardRarityData = <Gallop.MasterCardRarityData.CardRarityData>
+              .<SingleTotalRaceNum>k__BackingField = 12
+              ._singleWinNum = -1 (obscured)
+              .<TrainedCharaDataAccessor>k__BackingField = <Gallop.WorkTeamStadiumData.OpponentData>
+      .<Result>k__BackingField = <Gallop.WorkTeamStadiumData.TeamStadiumResult>
+        .<UseItemIdArray>k__BackingField = <? len=0>
+        .<RaceResultArray>k__BackingField = <? len=5>
+          [0] <Gallop.WorkTeamStadiumData.TeamStadiumResult.RaceResult>
+              .<RaceNum>k__BackingField = 1 (obscured)
+              .<Round>k__BackingField = 1 (obscured)
+              .<RaceInstanceId>k__BackingField = 610158 (obscured)
+              .<Weather>k__BackingField = 3 (obscured)
+              .<Season>k__BackingField = 1 (obscured)
+              .<GroundCondition>k__BackingField = 3 (obscured)
+              .<RandomSeed>k__BackingField = 641141695 (obscured)
+              .<RaceScenario>k__BackingField = 0 (obscured)
+              .<TeamTotalScore>k__BackingField = 144165 (obscured)
+              .<RaceHorseDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.RaceHorseData>
+                [1] <Gallop.RaceHorseData>
+                [2] <Gallop.RaceHorseData>
+                [3] <Gallop.RaceHorseData>
+                [4] <Gallop.RaceHorseData>
+                [5] <Gallop.RaceHorseData>
+              .<CharaResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.TeamStadiumRaceCharaResult>
+                [1] <Gallop.TeamStadiumRaceCharaResult>
+                [2] <Gallop.TeamStadiumRaceCharaResult>
+                [3] <Gallop.TeamStadiumRaceCharaResult>
+                [4] <Gallop.TeamStadiumRaceCharaResult>
+                [5] <Gallop.TeamStadiumRaceCharaResult>
+              .<TeamScoreArray>k__BackingField = <? len=0>
+              .<RoundResult>k__BackingField = <?>
+              .<CurrentConsecutiveWinCount>k__BackingField = 0 (obscured)
+              .<BonusRateByNextWin>k__BackingField = 0 (obscured)
+          [1] <Gallop.WorkTeamStadiumData.TeamStadiumResult.RaceResult>
+              .<RaceNum>k__BackingField = 4 (obscured)
+              .<Round>k__BackingField = 2 (obscured)
+              .<RaceInstanceId>k__BackingField = 610215 (obscured)
+              .<Weather>k__BackingField = 2 (obscured)
+              .<Season>k__BackingField = 1 (obscured)
+              .<GroundCondition>k__BackingField = 1 (obscured)
+              .<RandomSeed>k__BackingField = 1868833177 (obscured)
+              .<RaceScenario>k__BackingField = 0 (obscured)
+              .<TeamTotalScore>k__BackingField = 160727 (obscured)
+              .<RaceHorseDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.RaceHorseData>
+                [1] <Gallop.RaceHorseData>
+                [2] <Gallop.RaceHorseData>
+                [3] <Gallop.RaceHorseData>
+                [4] <Gallop.RaceHorseData>
+                [5] <Gallop.RaceHorseData>
+              .<CharaResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.TeamStadiumRaceCharaResult>
+                [1] <Gallop.TeamStadiumRaceCharaResult>
+                [2] <Gallop.TeamStadiumRaceCharaResult>
+                [3] <Gallop.TeamStadiumRaceCharaResult>
+                [4] <Gallop.TeamStadiumRaceCharaResult>
+                [5] <Gallop.TeamStadiumRaceCharaResult>
+              .<TeamScoreArray>k__BackingField = <? len=0>
+              .<RoundResult>k__BackingField = <?>
+              .<CurrentConsecutiveWinCount>k__BackingField = 1 (obscured)
+              .<BonusRateByNextWin>k__BackingField = 200 (obscured)
+          [2] <Gallop.WorkTeamStadiumData.TeamStadiumResult.RaceResult>
+              .<RaceNum>k__BackingField = 5 (obscured)
+              .<Round>k__BackingField = 3 (obscured)
+              .<RaceInstanceId>k__BackingField = 610245 (obscured)
+              .<Weather>k__BackingField = 1 (obscured)
+              .<Season>k__BackingField = 1 (obscured)
+              .<GroundCondition>k__BackingField = 1 (obscured)
+              .<RandomSeed>k__BackingField = 711287928 (obscured)
+              .<RaceScenario>k__BackingField = 0 (obscured)
+              .<TeamTotalScore>k__BackingField = 169983 (obscured)
+              .<RaceHorseDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.RaceHorseData>
+                [1] <Gallop.RaceHorseData>
+                [2] <Gallop.RaceHorseData>
+                [3] <Gallop.RaceHorseData>
+                [4] <Gallop.RaceHorseData>
+                [5] <Gallop.RaceHorseData>
+              .<CharaResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.TeamStadiumRaceCharaResult>
+                [1] <Gallop.TeamStadiumRaceCharaResult>
+                [2] <Gallop.TeamStadiumRaceCharaResult>
+                [3] <Gallop.TeamStadiumRaceCharaResult>
+                [4] <Gallop.TeamStadiumRaceCharaResult>
+                [5] <Gallop.TeamStadiumRaceCharaResult>
+              .<TeamScoreArray>k__BackingField = <? len=1>
+                [0] <Gallop.TeamStadiumResultScoreData>
+              .<RoundResult>k__BackingField = <?>
+              .<CurrentConsecutiveWinCount>k__BackingField = 0 (obscured)
+              .<BonusRateByNextWin>k__BackingField = 0 (obscured)
+          [3] <Gallop.WorkTeamStadiumData.TeamStadiumResult.RaceResult>
+              .<RaceNum>k__BackingField = 3 (obscured)
+              .<Round>k__BackingField = 4 (obscured)
+              .<RaceInstanceId>k__BackingField = 610203 (obscured)
+              .<Weather>k__BackingField = 1 (obscured)
+              .<Season>k__BackingField = 1 (obscured)
+              .<GroundCondition>k__BackingField = 1 (obscured)
+              .<RandomSeed>k__BackingField = 510224920 (obscured)
+              .<RaceScenario>k__BackingField = 0 (obscured)
+              .<TeamTotalScore>k__BackingField = 161260 (obscured)
+              .<RaceHorseDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.RaceHorseData>
+                [1] <Gallop.RaceHorseData>
+                [2] <Gallop.RaceHorseData>
+                [3] <Gallop.RaceHorseData>
+                [4] <Gallop.RaceHorseData>
+                [5] <Gallop.RaceHorseData>
+              .<CharaResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.TeamStadiumRaceCharaResult>
+                [1] <Gallop.TeamStadiumRaceCharaResult>
+                [2] <Gallop.TeamStadiumRaceCharaResult>
+                [3] <Gallop.TeamStadiumRaceCharaResult>
+                [4] <Gallop.TeamStadiumRaceCharaResult>
+                [5] <Gallop.TeamStadiumRaceCharaResult>
+              .<TeamScoreArray>k__BackingField = <? len=0>
+              .<RoundResult>k__BackingField = <?>
+              .<CurrentConsecutiveWinCount>k__BackingField = 1 (obscured)
+              .<BonusRateByNextWin>k__BackingField = 200 (obscured)
+          [4] <Gallop.WorkTeamStadiumData.TeamStadiumResult.RaceResult>
+              .<RaceNum>k__BackingField = 2 (obscured)
+              .<Round>k__BackingField = 5 (obscured)
+              .<RaceInstanceId>k__BackingField = 610170 (obscured)
+              .<Weather>k__BackingField = 3 (obscured)
+              .<Season>k__BackingField = 1 (obscured)
+              .<GroundCondition>k__BackingField = 4 (obscured)
+              .<RandomSeed>k__BackingField = 534386882 (obscured)
+              .<RaceScenario>k__BackingField = 0 (obscured)
+              .<TeamTotalScore>k__BackingField = 160624 (obscured)
+              .<RaceHorseDataArray>k__BackingField = <? len=12>
+                [0] <Gallop.RaceHorseData>
+                [1] <Gallop.RaceHorseData>
+                [2] <Gallop.RaceHorseData>
+                [3] <Gallop.RaceHorseData>
+                [4] <Gallop.RaceHorseData>
+                [5] <Gallop.RaceHorseData>
+              .<CharaResultArray>k__BackingField = <? len=12>
+                [0] <Gallop.TeamStadiumRaceCharaResult>
+                [1] <Gallop.TeamStadiumRaceCharaResult>
+                [2] <Gallop.TeamStadiumRaceCharaResult>
+                [3] <Gallop.TeamStadiumRaceCharaResult>
+                [4] <Gallop.TeamStadiumRaceCharaResult>
+                [5] <Gallop.TeamStadiumRaceCharaResult>
+              .<TeamScoreArray>k__BackingField = <? len=0>
+              .<RoundResult>k__BackingField = <?>
+              .<CurrentConsecutiveWinCount>k__BackingField = 2 (obscured)
+              .<BonusRateByNextWin>k__BackingField = 300 (obscured)
+        .<IsIncludeUnsupportedRace>k__BackingField = false
+        .<WinningRewardInfoArray>k__BackingField = <? len=1>
+          [0] <Gallop.TeamStadiumWinningRewardInfo>
+              .round = 2
+              .box_color_type = 2
+      .<SupportCartBonus>k__BackingField = 0
+      .<SimulateRaceRound>k__BackingField = 0
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

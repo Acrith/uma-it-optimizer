@@ -1,0 +1,305 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.DialogManager -> _dialogList -> [0] -> _data -> RightButtonCallBack -> m_target -> _idleTab -> _raceSelectContext -> <ReservedRaceInfo>k__BackingField ===
+  _dialogList: System.Collections.Generic.List<Gallop.DialogCommon>
+  [0]: Gallop.DialogCommon
+  _data: Gallop.DialogCommon.Data
+  RightButtonCallBack: System.Action<Gallop.DialogCommon>
+  m_target: Gallop.DialogSingleModeStartConfirmEntrySelectMode
+  _idleTab: Gallop.PartsSingleModeStartConfirmEntryIdleTabItem
+  _raceSelectContext: Gallop.IdleSingleModeCharaRaceSelectContext
+  <ReservedRaceInfo>k__BackingField: Gallop.SingleModeReservedRaceInfo
+  <Gallop.SingleModeReservedRaceInfo>
+      .default_deck_num = 0
+      .needs_default_confirm = 1
+      .reserved_race_array = <? len=9>
+        [0] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 0
+            .deck_name = ""
+            .race_array = <? len=27>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+        [1] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 1
+            .deck_name = "Agenda 1"
+            .race_array = <? len=27>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+        [2] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 2
+            .deck_name = "Agenda 2"
+            .race_array = <? len=54>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+              [27] <Gallop.SingleModeReservedRace>
+              [28] <Gallop.SingleModeReservedRace>
+              [29] <Gallop.SingleModeReservedRace>
+              [30] <Gallop.SingleModeReservedRace>
+              [31] <Gallop.SingleModeReservedRace>
+              [32] <Gallop.SingleModeReservedRace>
+              [33] <Gallop.SingleModeReservedRace>
+              [34] <Gallop.SingleModeReservedRace>
+              [35] <Gallop.SingleModeReservedRace>
+              [36] <Gallop.SingleModeReservedRace>
+              [37] <Gallop.SingleModeReservedRace>
+              [38] <Gallop.SingleModeReservedRace>
+              [39] <Gallop.SingleModeReservedRace>
+        [3] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 3
+            .deck_name = "Agenda 3"
+            .race_array = <? len=19>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+        [4] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 4
+            .deck_name = "Agenda 4"
+            .race_array = <? len=15>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+        [5] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 5
+            .deck_name = "Agenda 5"
+            .race_array = <? len=35>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+              [27] <Gallop.SingleModeReservedRace>
+              [28] <Gallop.SingleModeReservedRace>
+              [29] <Gallop.SingleModeReservedRace>
+              [30] <Gallop.SingleModeReservedRace>
+              [31] <Gallop.SingleModeReservedRace>
+              [32] <Gallop.SingleModeReservedRace>
+              [33] <Gallop.SingleModeReservedRace>
+              [34] <Gallop.SingleModeReservedRace>
+        [6] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 6
+            .deck_name = "Agenda 6"
+            .race_array = <? len=30>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+              [27] <Gallop.SingleModeReservedRace>
+              [28] <Gallop.SingleModeReservedRace>
+              [29] <Gallop.SingleModeReservedRace>
+        [7] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 7
+            .deck_name = "Agenda 7"
+            .race_array = <? len=20>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+        [8] <Gallop.SingleModeReservedRaceDeck>
+            .deck_num = 8
+            .deck_name = "RaceParent"
+            .race_array = <? len=33>
+              [0] <Gallop.SingleModeReservedRace>
+              [1] <Gallop.SingleModeReservedRace>
+              [2] <Gallop.SingleModeReservedRace>
+              [3] <Gallop.SingleModeReservedRace>
+              [4] <Gallop.SingleModeReservedRace>
+              [5] <Gallop.SingleModeReservedRace>
+              [6] <Gallop.SingleModeReservedRace>
+              [7] <Gallop.SingleModeReservedRace>
+              [8] <Gallop.SingleModeReservedRace>
+              [9] <Gallop.SingleModeReservedRace>
+              [10] <Gallop.SingleModeReservedRace>
+              [11] <Gallop.SingleModeReservedRace>
+              [12] <Gallop.SingleModeReservedRace>
+              [13] <Gallop.SingleModeReservedRace>
+              [14] <Gallop.SingleModeReservedRace>
+              [15] <Gallop.SingleModeReservedRace>
+              [16] <Gallop.SingleModeReservedRace>
+              [17] <Gallop.SingleModeReservedRace>
+              [18] <Gallop.SingleModeReservedRace>
+              [19] <Gallop.SingleModeReservedRace>
+              [20] <Gallop.SingleModeReservedRace>
+              [21] <Gallop.SingleModeReservedRace>
+              [22] <Gallop.SingleModeReservedRace>
+              [23] <Gallop.SingleModeReservedRace>
+              [24] <Gallop.SingleModeReservedRace>
+              [25] <Gallop.SingleModeReservedRace>
+              [26] <Gallop.SingleModeReservedRace>
+              [27] <Gallop.SingleModeReservedRace>
+              [28] <Gallop.SingleModeReservedRace>
+              [29] <Gallop.SingleModeReservedRace>
+              [30] <Gallop.SingleModeReservedRace>
+              [31] <Gallop.SingleModeReservedRace>
+              [32] <Gallop.SingleModeReservedRace>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now
