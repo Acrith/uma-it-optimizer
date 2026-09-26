@@ -447,8 +447,16 @@ scheduled; pick a batch, not single items.
    monitor/DPI placement, never steal focus, own Do Not Disturb, stacking.
 
 **Overlay and hooks**
-- Exit-hang fix: detach when the game closes, plus a "close the game with
-  the agent attached" test. Blocker for any always-on route-B hook.
+- ~~Exit-hang fix~~ SOLVED 2026-09-26. Cause: frida-il2cpp-bridge's
+  `Il2Cpp.perform` default ("bind") keeps its thread attached to the IL2CPP
+  domain while the script is loaded; Unity's shutdown waits for it forever.
+  Not the hooks: attached with no hook froze too, and killing the host did
+  not unfreeze it. Fix: long-lived agents set up with
+  `perform(..., "free")` and do IL2CPP work only in hook callbacks (game
+  threads). Verified with `frida-host hold`: Hachimi + Alt+F4 and no
+  Hachimi + window X both exit at once. A quit guard (hook
+  `Application.Internal_ApplicationWantsToQuit`, detach) exists as
+  `hold --guard`, optional. Zero-click is unblocked.
 - Zero-click capture: `DialogIdleSingleModeResultLog.StartShowContent`
   (plugin first, then route B after the exit-hang fix). Fresh end-of-run
   case still untested.
