@@ -1,0 +1,243 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.WorkDataManager -> <IdleSingleModeData>k__BackingField -> <CharaInfo>k__BackingField ===
+  <IdleSingleModeData>k__BackingField: Gallop.WorkIdleSingleModeData
+  <CharaInfo>k__BackingField: Gallop.SingleModeChara
+  <Gallop.SingleModeChara>
+      .single_mode_chara_id = 970
+      .card_id = 101102
+      .chara_grade = 1
+      .speed = 91
+      .stamina = 188
+      .power = 97
+      .wiz = 105
+      .guts = 79
+      .vital = 100
+      .max_speed = 1400
+      .max_stamina = 1480
+      .max_power = 1400
+      .max_wiz = 1404
+      .max_guts = 1400
+      .default_max_speed = 1200
+      .default_max_stamina = 1200
+      .default_max_power = 1200
+      .default_max_wiz = 1200
+      .default_max_guts = 1200
+      .max_vital = 100
+      .motivation = 3
+      .fans = 1
+      .rarity = 3
+      .race_program_id = 0
+      .reserve_race_program_id = 0
+      .race_running_style = 3
+      .is_short_race = 0
+      .talent_level = 5
+      .skill_array = <? len=1>
+        [0] <Gallop.SkillData>
+            .skill_id = 110111
+            .level = 1
+      .disable_skill_id_array = <? len=0>
+      .skill_tips_array = <? len=2>
+        [0] <Gallop.SkillTips>
+            .group_id = 90027
+            .rarity = 1
+            .level = 1
+        [1] <Gallop.SkillTips>
+            .group_id = 90059
+            .rarity = 1
+            .level = 2
+      .support_card_array = <? len=6>
+        [0] <Gallop.SingleModeSupportCard>
+            .position = 1
+            .support_card_id = 30052
+            .limit_break_count = 1
+            .exp = 37785
+            .training_partner_state = 0
+            .owner_viewer_id = 0
+            .rental_type = 0
+        [1] <Gallop.SingleModeSupportCard>
+            .position = 2
+            .support_card_id = 20021
+            .limit_break_count = 4
+            .exp = 74990
+            .training_partner_state = 0
+            .owner_viewer_id = 0
+            .rental_type = 0
+        [2] <Gallop.SingleModeSupportCard>
+            .position = 3
+            .support_card_id = 30074
+            .limit_break_count = 4
+            .exp = 118185
+            .training_partner_state = 0
+            .owner_viewer_id = 0
+            .rental_type = 0
+        [3] <Gallop.SingleModeSupportCard>
+            .position = 4
+            .support_card_id = 30087
+            .limit_break_count = 4
+            .exp = 118185
+            .training_partner_state = 0
+            .owner_viewer_id = 0
+            .rental_type = 0
+        [4] <Gallop.SingleModeSupportCard>
+            .position = 5
+            .support_card_id = 30113
+            .limit_break_count = 4
+            .exp = 118185
+            .training_partner_state = 0
+            .owner_viewer_id = 0
+            .rental_type = 0
+        [5] <Gallop.SingleModeSupportCard>
+            .position = 6
+            .support_card_id = 30054
+            .limit_break_count = 4
+            .exp = 118185
+            .training_partner_state = 0
+            .owner_viewer_id = 980561732103
+            .rental_type = 0
+      .succession_trained_chara_id_1 = 3010
+      .succession_trained_chara_id_2 = 3060
+      .proper_distance_short = 1
+      .proper_distance_mile = 7
+      .proper_distance_middle = 7
+      .proper_distance_long = 7
+      .proper_running_style_nige = 2
+      .proper_running_style_senko = 7
+      .proper_running_style_sashi = 7
+      .proper_running_style_oikomi = 3
+      .proper_ground_turf = 7
+      .proper_ground_dirt = 1
+      .turn = 1
+      .skill_point = 0
+      .short_cut_state = 1
+      .state = 0
+      .playing_state = 1
+      .scenario_id = 1
+      .route_id = 10
+      .start_time = "2026-09-26 01:29:03"
+      .evaluation_info_array = <? len=10>
+        [0] <Gallop.EvaluationInfo>
+            .target_id = 1
+            .evaluation = 26
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 1
+            .group_outing_info_array = <? len=0>
+        [1] <Gallop.EvaluationInfo>
+            .target_id = 2
+            .evaluation = 25
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 0
+            .group_outing_info_array = <? len=0>
+        [2] <Gallop.EvaluationInfo>
+            .target_id = 3
+            .evaluation = 20
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 1
+            .group_outing_info_array = <? len=0>
+        [3] <Gallop.EvaluationInfo>
+            .target_id = 4
+            .evaluation = 30
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 1
+            .group_outing_info_array = <? len=0>
+        [4] <Gallop.EvaluationInfo>
+            .target_id = 5
+            .evaluation = 20
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 1
+            .group_outing_info_array = <? len=0>
+        [5] <Gallop.EvaluationInfo>
+            .target_id = 6
+            .evaluation = 20
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 1
+            .group_outing_info_array = <? len=0>
+        [6] <Gallop.EvaluationInfo>
+            .target_id = 101
+            .evaluation = 0
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 0
+            .group_outing_info_array = <? len=0>
+        [7] <Gallop.EvaluationInfo>
+            .target_id = 102
+            .evaluation = 0
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 0
+            .group_outing_info_array = <? len=0>
+        [8] <Gallop.EvaluationInfo>
+            .target_id = 103
+            .evaluation = 0
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 0
+            .group_outing_info_array = <? len=0>
+        [9] <Gallop.EvaluationInfo>
+            .target_id = 106
+            .evaluation = 0
+            .is_outing = 0
+            .story_step = 0
+            .is_appear = 0
+            .group_outing_info_array = <? len=0>
+      .training_level_info_array = <? len=10>
+        [0] <Gallop.TrainingLevelInfo>
+            .command_id = 101
+            .level = 1
+        [1] <Gallop.TrainingLevelInfo>
+            .command_id = 102
+            .level = 1
+        [2] <Gallop.TrainingLevelInfo>
+            .command_id = 103
+            .level = 1
+        [3] <Gallop.TrainingLevelInfo>
+            .command_id = 105
+            .level = 1
+        [4] <Gallop.TrainingLevelInfo>
+            .command_id = 106
+            .level = 1
+        [5] <Gallop.TrainingLevelInfo>
+            .command_id = 601
+            .level = 5
+        [6] <Gallop.TrainingLevelInfo>
+            .command_id = 602
+            .level = 5
+        [7] <Gallop.TrainingLevelInfo>
+            .command_id = 603
+            .level = 5
+        [8] <Gallop.TrainingLevelInfo>
+            .command_id = 604
+            .level = 5
+        [9] <Gallop.TrainingLevelInfo>
+            .command_id = 605
+            .level = 5
+      .nickname_id_array = <? len=0>
+      .chara_effect_id_array = <? len=0>
+      .route_race_id_array = <? len=11>
+        [0] 100
+        [1] 101
+        [2] 102
+        [3] 103
+        [4] 104
+        [5] 105
+        [6] 106
+        [7] 107
+        [8] 108
+        [9] 109
+        [10] 110
+      .guest_outing_info_array = <? len=0>
+      .skill_upgrade_info_array = <? len=0>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

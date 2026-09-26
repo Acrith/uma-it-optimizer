@@ -1,0 +1,20 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.SceneManager -> _currentViewController ===
+  _currentViewController: Gallop.SingleModeResultViewController
+  <Gallop.SingleModeResultViewController>
+      ._isSendFinishAPI = false
+      ._charaViewer = <Gallop.SingleModeResultCharaViewer>
+      ._sequence = <Gallop.SingleModeResultSequence>
+      ._viewId = <?>
+      ._view = <Gallop.SingleModeResultView>
+      ._viewInfo = <?>
+      ._parentSceneController = <Gallop.SingleModeSceneController>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now

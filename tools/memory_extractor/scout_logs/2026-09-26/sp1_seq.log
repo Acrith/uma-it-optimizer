@@ -1,0 +1,90 @@
+﻿[i] mode path: run this with the game at: whatever the path needs
+[+] attaching to PID 7568
+[+] IL2CPP ready, scouting...
+
+=== PATH: candidate classes ===
+
+=== Gallop.SceneManager -> _currentViewController -> _sequence ===
+  _currentViewController: Gallop.SingleModeResultViewController
+  _sequence: Gallop.SingleModeResultSequence
+  <Gallop.SingleModeResultSequence>
+      ._step = <?>
+      ._coroutine = <?>
+      ._canChangeStep = true
+      ._stepActionDic = <System.Collections.Generic.Dictionary<Gallop.SingleModeResultSequence.Step,System.Func<System.Collections.IEnumerator>> count=30>
+        {<?>} <System.Func<System.Collections.IEnumerator>>
+        {<?>} <System.Func<System.Collections.IEnumerator>>
+        {<?>} <System.Func<System.Collections.IEnumerator>>
+        {<?>} <System.Func<System.Collections.IEnumerator>>
+        {<?>} <System.Func<System.Collections.IEnumerator>>
+      ._backKeyActionDic = <System.Collections.Generic.Dictionary<Gallop.SingleModeResultSequence.Step,System.Action> count=1>
+        {<?>} <System.Action>
+        {<?>} <?>
+        {<?>} <?>
+      ._rewardItemInfoList = <?>
+      ._supportCardGainExpList = <System.Collections.Generic.List<System.Int32> count=0>
+      ._resultDataContainer = <?>
+      ._charaViewer = <Gallop.SingleModeResultCharaViewer>
+        ._charaDressId = 101116
+        ._charaId = 1011
+        ._motionName = "_overRun02_loop"
+        ._faceEarMotionName = "overRun02_loop"
+        ._charaSpeed = 6
+        ._charaEyeTracePosition = <?>
+        ._courseId = 10006
+        ._courseSeason = <?>
+        ._courseWeather = <?>
+        ._courseRotation = <?>
+        ._camera = <UnityEngine.Camera>
+        ._cameraRotationY = -48
+        ._cameraHeight = 0.6000000238418579
+        ._cameraLookAtHeight = 1.2000000476837158
+        ._cameraDistance = 3.450000047683716
+        ._lightRotationX = 20
+        ._lightRotationY = 90
+        ._courseObject = <UnityEngine.GameObject>
+        ._characterModelController = <Gallop.SimpleModelController>
+        ._courseLaneAnim = <Gallop.CourseLaneAnim>
+        ._courseBg = <Gallop.CourseBg>
+        ._distance = 306.2057189941406
+        ._particleObj = <UnityEngine.GameObject>
+        ._cameraToEffectPosition = <?>
+        ._imageEffect = <Gallop.GallopCharacterImageEffect>
+        .<EnableUpdate>k__BackingField = true
+        .<EnableCameraUpdate>k__BackingField = false
+      ._sequenceParts = <Gallop.SingleModeResultSequence.SingleModeResultSequenceParts>
+        .<TrainedCharacterDetail>k__BackingField = <Gallop.PartsSingleModeResultTrainedCharacterDetail>
+        .<RankScore>k__BackingField = <Gallop.PartsSingleModeResultRankScore>
+        .<Factor>k__BackingField = <Gallop.PartsSingleModeResultFactor>
+        .<FactorLottery>k__BackingField = <Gallop.PartsSingleModeResultFactorLottery>
+        .<FactorSelect>k__BackingField = <Gallop.PartsSingleModeResultFactorSelect>
+        .<TrainerStatus>k__BackingField = <Gallop.PartsSingleModeResultTrainerStatus>
+        .<RaceHistory>k__BackingField = <Gallop.PartsSingleModeResultRaceHistory>
+        .<SupportCardExpAndItem>k__BackingField = <Gallop.PartsSingleModeResultSupportCardExpAndItem>
+        .<Difficulty>k__BackingField = <Gallop.PartsSingleModeResultDifficulty>
+        .<FanRaid>k__BackingField = <Gallop.PartsSingleModeResultFanRaid>
+        .<StoryEventEp>k__BackingField = <Gallop.PartsSingleModeResultStoryEventEp>
+        .<TrainingChallenge>k__BackingField = <Gallop.PartsSingleModeResultTrainingChallenge>
+        .<DifficultyRandomReward>k__BackingField = <Gallop.PartsSingleModeResultDifficultyRandomReward>
+        .<BlurPanel>k__BackingField = <Gallop.BlurPanel>
+        .<CollectRaid>k__BackingField = <?>
+      ._commonUIParts = <Gallop.SingleModeResultSequence.SingleModeResultCommonUIParts>
+        .<SequencePartsRoot>k__BackingField = <UnityEngine.RectTransform>
+        .<NextButton>k__BackingField = <Gallop.ButtonCommon>
+        .<SkipButton>k__BackingField = <Gallop.ButtonCommon>
+        .<ContentBG>k__BackingField = <Gallop.ImageCommon>
+        .<TitleFlashRoot>k__BackingField = <UnityEngine.RectTransform>
+      ._frameAnimator = <UnityEngine.Animator>
+      ._singleModeFinishRequest = <System.Action<System.Int32,System.Action<Gallop.SingleModeResultDataContainer>>>
+      ._rankScoreModel = <Gallop.PartsSingleModeResultRankScoreModel>
+        ._characterId = 1011
+        ._trainingRank = <?>
+        ._rankScore = 11794
+      ._factorModel = <Gallop.PartsSingleModeResultFactorModel>
+        ._lotteryRemainNum = 1
+        ._factorSelectInfoList = <System.Collections.Generic.List<Gallop.FactorSelectInfo>>
+        ._singleModeResultDataContainer = <?>
+
+=== HEAP SCAN (0 of 0 candidates, cap 0) ===
+
+[+] scout complete; detach happens now
