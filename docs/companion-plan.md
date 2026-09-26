@@ -455,7 +455,17 @@ so "grandparent = the other parent" is visible from ids), friend card
 `SelectFriendCardInfo` (card id, level, LB). The 5 deck slots stay 0 until
 the Final Confirmation, where `SupportSerialIdArray` = the selected preset.
 Also present: the 69 borrowable parents and 79 friend cards, with other
-players' names and comments: a capture keeps card ids, levels and LBs only.
+players' trainer names, viewer ids and profile comments.
+
+Other players' data (owner, 2026-09-26: keep the possibility open). Trainer
+names and ids are public in game and uma.moe indexes parents by them, and
+for looping "whose parent did I borrow" is worth keeping. So:
+- **kept with the run:** the borrowed parent and friend card actually used,
+  with the lender's viewer id and name (link to their uma.moe profile, loop
+  tracking, later "parents that worked for you");
+- **not by default:** the whole borrow lists on every capture; a parent
+  search built on other players' data is its own, opt-in feature;
+- **never:** free-text profile comments.
 
 **Final Confirmation** (`Singleton<DialogManager>._dialogList`, newest
 first; pick by type, not index): the dialog controller is the Start
