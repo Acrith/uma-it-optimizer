@@ -714,7 +714,13 @@ route C) stay the plan.
 `tt_end` missed a session (3 carats in a present); the rewards are
 readable only around the Winnings screen. Fix: hook the result/Winnings
 screen like the Start button (method names from metadata: owner's game,
-any screen, two minutes). Carats in a present are what `carats()` counts.
+any screen, two minutes). Carats in a present are what `carats()` counts. FIXED 2026-09-27
+(dev26, `5a3e191`): `TeamStadiumGrandResultViewController.InitializeWinBox`
+(handed the session's end info; read on leave) plus its buttons OnNext /
+OnClickTop / OnClickRetry; one line per session, verified on three
+sessions with Hachimi loaded (friend points 30, support points 500).
+Carats = item 43, category 90 in the item master. Friend points are not
+counted (owner: not worth it for now).
 
 **Installer:** NSIS installMode both (a tester's Program Files choice
 failed in the per-user installer); test both choices at the next release.
