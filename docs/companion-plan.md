@@ -701,6 +701,24 @@ scheduled; pick a batch, not single items.
   bands repeating the face "don't look best"; give them a neutral scene
   (track, racecourse) when it comes back.
 
+**Hachimi step 1 verified (2026-09-27, owner's Hachimi PC, dev25):** the
+companion attaches alongside Hachimi and our plugin (no stand-down):
+arming, setup at Start, timer, deck/parents kept, zero-click capture with
+Hachimi loaded, the plugin's button on the same log (plugin upload 409,
+companion's pick-up of the plugin file 409: the run exists once), a clean
+Alt+F4 exit with both loaded, a restart in between with the kept setup.
+Step 2 (reads as data in our agent) and step 3 (the plugin as executor,
+route C) stay the plan.
+
+**Team Trials read misses sessions (tester, 2026-09-27):** a 30 s poll of
+`tt_end` missed a session (3 carats in a present); the rewards are
+readable only around the Winnings screen. Fix: hook the result/Winnings
+screen like the Start button (method names from metadata: owner's game,
+any screen, two minutes). Carats in a present are what `carats()` counts.
+
+**Installer:** NSIS installMode both (a tester's Program Files choice
+failed in the per-user installer); test both choices at the next release.
+
 **Testers (owner, 2026-09-27)**
 - Owner gathers a small group first (players without Hachimi: the
   companion's whole path is automatic for them; current .exe users are
