@@ -30,7 +30,7 @@ Nothing personal is kept here. The inputs are files you pass in:
 
 | Rule | Source | Status |
 |---|---|---|
-| White spark generation 20 / 25 / 40% (normal / double circle / gold), 35.4 / 44.3 / 70.9% with all 6 ancestors carrying it | community looping guide; GameTora legacies guide | end values sourced; linear in between assumed |
+| White spark generation 20 / 25 / 40% (normal / double circle / gold), 35.4 / 44.3 / 70.9% with all 6 ancestors carrying it. The rate follows the version bought; the spark is always the group's white (a bought It's On! sparks Ramp Up at the gold rate) | community looping guide; GameTora legacies guide; owner; master: sparks exist only for whites (`succession_factor_effect` hints a white) | end values sourced; linear in between assumed |
 | Inspiration twice per run; white 3/6/9%, pink 1/3/5%, blue 70/80/90%, green 5/10/15%, race 1/2/3% per ancestor, x (1 + affinity / 100) | uma.guide sparks guide | sourced; grandparents at half is an assumption |
 | Affinity: relation points per pair and trio (`succession_relation*`), +3 per G1 win shared parent-parent and parent-grandparent; 51+ circle, 151+ double circle | game tables; community calculators | thresholds match the game's rank table; one published pair was 34 vs 39 here; the total's exact combination unverified |
 | Pinks at the start: 1 / 4 / 7 / 10 lineage stars -> +1 / +2 / +3 / +4 ranks | owner, 2026-09-28, confirmed on the setup screen | verified (Vodka dirt G -> E, Taiki B -> A with 4 stars) |

@@ -9,7 +9,10 @@ Inputs, all passed as paths (nothing personal lives in this repo):
 Rules collected so far (sources in README.md):
 - white spark generation: 20% (normal) / 25% (double circle) / 40% (gold)
   with none of the 6 ancestors carrying it, up to 35.4 / 44.3 / 70.9% with
-  all 6 (loop guide); linear in between is an assumption;
+  all 6 (loop guide); linear in between is an assumption. The rate follows
+  the version the veteran bought, the spark does not: sparks exist only for
+  a group's white skill, so a bought gold (It's On!) or ◎ sparks as that
+  white (Ramp Up), at its own rate;
 - inspiration (twice per run): base by type and stars x (1 + that
   ancestor's affinity / 100); white 3/6/9%, pink 1/3/5%, blue 70/80/90%;
 - pinks at the start: total stars of one aptitude over the lineage,
@@ -30,6 +33,9 @@ PINKS = {"Turf": "turf", "Dirt": "dirt", "Sprint": "short", "Mile": "mile", "Med
          "Long": "long", "Front Runner": "front", "Pace Chaser": "pace", "Late Surger": "late",
          "End Closer": "end"}
 START_PINK_STEPS = (1, 4, 7, 10)  # total stars -> +1..+4 ranks
+
+# White spark generation by the version bought: (none of 6 ancestors, all 6).
+RATES = {"normal": (0.20, 0.354), "double": (0.25, 0.443), "gold": (0.40, 0.709)}
 
 # IT win chance (%) by rank steps below A/A (surface + distance summed) and by
 # position in a run of consecutive races (1st..6th+). Columns AA..GG of the
@@ -78,6 +84,26 @@ class Data:
             if f:
                 out[f[0]] = f[1]
         return out
+
+    def target(self, skill: str) -> tuple[str, str]:
+        """A skill the trainee would buy -> (the spark it can generate, the
+        rate: normal / double / gold). The spark is the one whose hint is a
+        skill of the same group (succession_factor_effect)."""
+        row = self.db.execute(
+            "select s.rarity, s.group_id, s.group_rate from skill_data s join text_data t"
+            " on t.category = 47 and t.\"index\" = s.id where t.text = ? and s.rarity <= 2"
+            " order by s.rarity desc limit 1", (skill,)).fetchone()
+        if row is None:
+            raise KeyError(f"no white or gold skill named {skill!r}")
+        rarity, group, rate = row
+        fg = self.db.execute(
+            "select e.factor_group_id from succession_factor_effect e"
+            " join skill_data s on s.id = e.value_1"
+            " where s.group_id = ? and e.target_type = 41 limit 1", (group,)).fetchone()
+        if fg is None:
+            raise KeyError(f"{skill!r} has no spark")
+        spark = self.factors[str(fg[0] * 100 + 1)][0]
+        return spark, "gold" if rarity == 2 else "double" if rate == 2 else "normal"
 
     def name(self, card: int) -> str:
         c = self.cards.get(str(card), {})
