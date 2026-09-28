@@ -698,33 +698,40 @@ the tray's "IT timer" for an already-visible window, and whenever the
 notification window is fitted.
 Also: dev46 has the persisted setup (35e5625); unreleased.
 
-## Collection page (site, 2026-09-28): v1 rejected, redesign brief
+## Collection page (site, 2026-09-28): v2 built, committed, not deployed
 
-State: `/settings/collection` built locally in uma-it-web (uncommitted:
-`services/collection_view.py`, `settings/templates/settings/collection.html`,
-route in `settings/routes.py`, Profile link, `tests/test_collection_page.py`;
-tests pass). Veteran cards with sparks, spark search (on itself / as a
-parent, k/3), pedigree on click, Trainees and Support cards tabs.
+v1 was rejected ("a shelf, not a tool"). v2 (uma-it-web 9dfe4b6), reviewed
+screen by screen with the owner and community screenshots:
+- **Loop targets** drive the page: the community's sets (Big 4 needed; Next
+  steps, Niche nice to have) plus the player's SP-planner presets (a
+  searchable dropdown; the model already calls them a loop's skill
+  contract). Targets can be added by hand and cycled needed / nice /
+  skipped; local changes say so and can be saved as or into a preset
+  (`/api/skill-presets`).
+- **Veterans**: box overview (targets table: carry it, at 3/3, your hinting
+  cards, missing/thin; blue and pink heatmaps; top whites), then Rows /
+  Matrix / Cards. Every glyph has a readable number: "10/15 · nice 9/33",
+  tokens `RStam 2/3★★` (stars = the veteran's own spark), the Matrix with
+  x/3 in every cell and community abbreviations (RStam, IgSpd, thh, pto...,
+  full name on hover). "+" sparks (RStam+) never count toward x/3; shown
+  beside it as "+n" (they give the hint and a stat, not the spark chance).
+  Cards are parent cards (both parents, grandparents as faces). Drawer:
+  as-a-parent table, stats, aptitudes, lineage with lenders, wins.
+- **Release candidates** never include a trainee's best veteran or the top
+  tenth by rank (the racing roster).
+- **Trainees / support cards** against what Global has (a catalog from the
+  global master.mdb: `tools/analysis/export_collection_catalog.py`; the
+  site's masters carry JP-ahead cards). Cards: "Hints a target" from the
+  training-hint lists only (event and scenario skills are not in them).
+- **Lenders**: a borrowed ancestor links to its lender's profile when one of
+  the player's own runs paired the viewer id with the trainer ID (setup
+  block + receipt); new `lenders` table, filled at upload, backfill command
+  `flask backfill-lenders` to run once after the deploy.
 
-Owner's verdict: "not the best you can do". To fix in the redesign:
-- **Both themes**: colours hard-coded for light; use the site's theme
-  variables and the run page's dark overrides.
-- **Faces**: stand-art crops are wrong. Use GameTora head icons
-  (`characters/icons/chr_icon_<chara>.png`, as the companion's `headUrl`)
-  or the companion's per-card eye table (`ui/src/eyes.json`, `faceCrop`).
-- **Tools, not a shelf** (the data serves looping and the planner):
-  - Veterans: filters by trainee, scenario, rank range, locked, borrowed
-    ancestry, blue/pink by type and stars (e.g. Stamina ★3, Dirt ★2+);
-    loop-preset quick filters (the Big 4 / next steps); "parent-ready"
-    classifiers (targets covered as a parent, k/3); a box overview (spark
-    frequencies, blue-star and pink distribution, what the box lacks);
-    compact list view for 260 rows next to the cards; release candidates
-    (serve no preset).
-  - Trainees: search; filters by stars, potential, aptitudes (dirt/long
-    capable from the game data); owned vs not owned.
-  - Support cards: search; filters by type, rarity, LB (MLB only), level
-    not maxed; owned vs missing; counts per type.
-  - Scale: 260 veterans / 197 cards / 54 trainees: dense list + filters.
+Deploy: needs the owner's go; migration adds one table. Companion
+dacd0bc adds "Open my collection" in Settings (ships with v0.4.1).
+Later: a mobile pass; blue/pink looping (stars over the 3 places, x/9) if
+wanted; the owner's view is that Cards is the least useful view.
 
 ## Where we left off (2026-09-28)
 
