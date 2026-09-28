@@ -760,6 +760,17 @@ loop is run live with the owner, run by run.
 3. Blue/pink looping (stars over the 3 places), if the owner wants it.
 4. Earlier items still open: Training's setup stage showing history; the
    parent analyzer on the site; overlay + SP planner (v0.6).
+5. Several game accounts on one site account (asked by two players): the
+   run's game account from the receipt (the own parents' viewer id, so old
+   runs backfill), one collection per game account, an account switcher on
+   profile / runs / collection / rewards, and the companion sending the
+   account with its sync (a release). Held by the owner: over the
+   two-hour bar. Today one token = one site account; two game accounts
+   on it mix runs, rewards and lenders, and the collection flips.
+6. Debuffer looping preset (community request, a tier chart: Flustered /
+   Subdued / Hesitant per style as "the core twelve", then stamina and
+   velocity debuffs, utility, niche). Held: what is core for a loop is
+   unclear.
 
 **Still unconfirmed in play (happens by itself):** the timer staying on top
 (v0.4.1), faster attach, a Training Log already open at attach, both
@@ -1036,6 +1047,15 @@ failed in the per-user installer); test both choices at the next release.
   30028: [200362, 200331]); no bulk file, no published terms. Owner: explore
   other options (e.g. the story assets in the asset survey); an email to
   GameTora is moot given the images already used from them.
+  Checked 2026-09-28 on 8,928 receipts: a card's event hints are always
+  credited to the Events bucket, never to the card's own. GameTora's lists
+  (the 2026-09-05 snapshot in `references/`) explain ~92% of the Events
+  golds that are not scenario golds; the scenario golds are I Wanna Win
+  with You (every scenario 3 run), Lane Legerdemain (50%), Come What May
+  (31%), and No Stopping Me! / It's On! / Burning Spirit SPD (every
+  scenario 2 run); most of the rest follow the trainee (trainee events).
+  The story-asset route starts with an encrypted asset index (`meta` is
+  not plain SQLite in this client), so it is a decryption job first.
 - Asset survey with an Umamusume asset explorer: racecourse/track
   backgrounds, scenario logos, race grade icons (G1/G2/G3), campaign
   banners; decide what enriches which card before adding any.
