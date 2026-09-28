@@ -753,24 +753,50 @@ backfilled once (7 pairs from 1,165 recent runs).
 protection and rental tie-break, spark rates by the version bought); the
 loop is run live with the owner, run by run.
 
-**Next, when resumed:**
-1. The loop advisor in the companion (reroll compare at the roll screen,
-   targets from the player's presets), built as the loop needs it.
-2. Mobile pass over the Collection page.
-3. Blue/pink looping (stars over the 3 places), if the owner wants it.
-4. Earlier items still open: Training's setup stage showing history; the
-   parent analyzer on the site; overlay + SP planner (v0.6).
-5. Several game accounts on one site account (asked by two players): the
-   run's game account from the receipt (the own parents' viewer id, so old
-   runs backfill), one collection per game account, an account switcher on
-   profile / runs / collection / rewards, and the companion sending the
-   account with its sync (a release). Held by the owner: over the
-   two-hour bar. Today one token = one site account; two game accounts
-   on it mix runs, rewards and lenders, and the collection flips.
-6. Debuffer looping preset (community request, a tier chart: Flustered /
-   Subdued / Hesitant per style as "the core twelve", then stamina and
-   velocity debuffs, utility, niche). Held: what is core for a loop is
-   unclear.
+**Open items (checked against both repos' history, 2026-09-29).** Shipped
+and no longer open: notifications with buttons (0.1.1), the companion's
+own notification window and floating IT timer (0.4.0), zero-click capture
+(0.2.0; alongside Hachimi since 0.4.0), Today's Last Run card with the
+setup and switching views on their own (0.4.0), Team Trials carats (0.4.1),
+request tallies per route (site traffic page), the parent analyzer as the
+Collection page's Parent-ready / Release candidates views, card event
+skills (site, 2026-09-28).
+
+Site
+1. /runs: one render at a time when the cache misses, serving the old page
+   meanwhile (the peak-load weak spot from the September outages).
+2. Planner v2 (`uma-it-web/docs/planner-v2.md`): compose to rating,
+   Suggest as the entry point, a verdict with a measured error band,
+   trainee first; then compare, save/share, "my cards" (now possible from
+   the synced collection), schedule shape. Predictions only where
+   validated on held-out runs.
+3. Collection mobile pass; "Scenario" label for scenario golds on the run
+   page; blue/pink looping if wanted.
+4. Public profiles and a stats page (homepage backlog).
+5. Chores: two stale `test_upload.py` assertions, 25 zero-byte receipts
+   (deliberate one-liner), a second machine (cost call).
+
+Companion
+6. Loop advisor (reroll compare at the roll screen, targets from the
+   player's presets).
+7. Training's setup stage showing history (own and site runs with the
+   same trainee and deck, with sample sizes).
+8. Skill shop read -> SP planner beside the shop (window or in-game), IT
+   and manual careers.
+9. Overlay: the capture card drawn over the game (Windows holds toasts
+   during play), anchoring, click-through.
+10. Captures: bought skills on veterans (unlocks the spark-roll test),
+    carats from manual careers.
+11. Hachimi steps 2-3 (reads as data in our agent; the plugin as executor).
+12. Modules and platforms: the ladder module (umaladder.moe), Linux
+    (frida-host inside Proton, then a native Linux companion).
+13. Assets: a chibi per trainee for the narrow run card, race banners for
+    the agenda, the eye cut-in with a neutral scene.
+14. Release: code signing (Trusted Signing check), the tester group.
+
+Held by the owner: several game accounts on one site account; the
+debuffer looping preset; a notification sound; our own event-skill source
+from the story assets.
 
 **Still unconfirmed in play (happens by itself):** the timer staying on top
 (v0.4.1), faster attach, a Training Log already open at attach, both
