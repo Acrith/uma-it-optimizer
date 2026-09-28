@@ -1056,6 +1056,15 @@ failed in the per-user installer); test both choices at the next release.
   scenario 2 run); most of the rest follow the trainee (trainee events).
   The story-asset route starts with an encrypted asset index (`meta` is
   not plain SQLite in this client), so it is a decryption job first.
+  BUILT 2026-09-28 on GameTora's lists (owner: "they probably know how to
+  gather them"): `tools/analysis/export_card_event_skills.py` writes the
+  site's `enrich/data/card_event_skills.json`; the run page credits an
+  Events hint to the deck card whose events give it ("<card> event"),
+  the Decks/Runs skill search counts event skills (chip says "(event)"),
+  Collection's Hints a target and card search include them. Site
+  ee69940, awaiting deploy. Later, on its own: our own source (decode the
+  story assets) as a drop-in for the same file, to stop depending on
+  GameTora; and labelling scenario golds.
 - Asset survey with an Umamusume asset explorer: racecourse/track
   backgrounds, scenario logos, race grade icons (G1/G2/G3), campaign
   banners; decide what enriches which card before adding any.
