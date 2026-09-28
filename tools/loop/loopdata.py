@@ -118,5 +118,11 @@ class Data:
         return apt
 
 
+def own_veterans(acct: dict) -> list[dict]:
+    """The player's own veterans: a parent borrowed for the current run sits
+    in the same list, marked by its lender (`_ownerViewerId`)."""
+    return [v for v in acct["veterans"] if not v.get("_ownerViewerId")]
+
+
 def load_account(path: str) -> dict:
     return json.load(open(path, encoding="utf-8"))

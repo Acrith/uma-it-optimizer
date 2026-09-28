@@ -16,7 +16,7 @@ import argparse
 import json
 
 from affinity import Affinity, symbol
-from loopdata import Data, load_account
+from loopdata import Data, load_account, own_veterans
 
 DEFAULT_TARGETS = {"Racing Spirit: Stamina": 3, "Racing Spirit: Power": 2, "Uma Stan": 1,
                    "Nimble Navigator": 1, "Pedal to the Metal": 1}
@@ -51,7 +51,7 @@ def main() -> None:
     rental = data.rental(json.load(open(args.rental, encoding="utf-8")))
     targets = {s.strip(): 1 for s in args.targets.split(",")} if args.targets else DEFAULT_TARGETS
     rows = []
-    for v in acct["veterans"]:
+    for v in own_veterans(acct):
         p1 = data.veteran(v)
         for t in acct["trainees"]:
             card = t["<CardId>k__BackingField"]

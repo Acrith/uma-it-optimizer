@@ -16,7 +16,7 @@ import argparse
 import functools
 import json
 
-from loopdata import Data, load_account, win_chance
+from loopdata import Data, load_account, own_veterans, win_chance
 
 YEARS = ["Junior", "Classic", "Senior"]
 
@@ -31,7 +31,7 @@ def main() -> None:
     args = ap.parse_args()
     data, acct = Data(args.master, args.names), load_account(args.account)
     db = data.db
-    own = data.veteran(next(v for v in acct["veterans"] if v["_rankScore"] == args.parent_rank_score))
+    own = data.veteran(next(v for v in own_veterans(acct) if v["_rankScore"] == args.parent_rank_score))
     rental = data.rental(json.load(open(args.rental, encoding="utf-8")))
 
     def g1_races(uma):
