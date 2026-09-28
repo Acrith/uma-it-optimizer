@@ -970,6 +970,8 @@ scheduled; pick a batch, not single items.
    -> System -> Notifications) in Settings or the guide.
 3. The companion's own notification window (branded, outside the game):
    monitor/DPI placement, never steal focus, own Do Not Disturb, stacking.
+4. A sound with notifications (community request, 2026-09-28). Held by
+   the owner until there is a sound worth using.
 
 **Overlay and hooks**
 - ~~Exit-hang fix~~ SOLVED 2026-09-26. Cause: frida-il2cpp-bridge's
