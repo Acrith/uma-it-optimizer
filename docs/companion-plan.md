@@ -735,9 +735,13 @@ wanted; Cards mainly as a shareable screenshot of one parent (owner).
 
 ## Where we left off (2026-09-28, evening)
 
-**Released:** v0.4.1 (collection sync, "Open my collection", IT timer kept
-on top and no longer lost on a game restart or an empty read, setup kept
-across a companion restart, Team Trials carats once). v0.4.0 before it.
+**Released:** v0.4.2 (updates install over the running copy; a leftover
+older copy is shown and can be removed) on top of v0.4.1 (collection sync,
+"Open my collection", IT timer kept on top and no longer lost on a game
+restart or an empty read, setup kept across a companion restart, Team
+Trials carats once). Why 0.4.2: the installer's "just me / all users" mode
+(0.4.0) sent updates of v0.3 per-user copies into Program Files on admin
+accounts (v0.3 never wrote the per-user marker), leaving two apps.
 
 **Site, deployed:** account sync endpoints; the Collection page at
 `/collection` (old `/settings/collection` redirects), in both sidebars for
