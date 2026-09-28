@@ -656,6 +656,181 @@ by id, its sparks). All read in the 2026-09-26 session (see "Post-run,
 same session"); becomes the run memory's last chapter and feeds the
 parent planner.
 
+## Next: v0.5 direction (owner, 2026-09-27)
+
+After v0.4.0. Guiding worry (owner): a planner that predicts where we
+cannot will do damage; predictions need a long validation session, batch
+after batch of runs. So the work is split by how much it claims:
+
+1. **Account sync (opt-in), claims nothing.** Owned trainees (stars,
+   potential), support cards at their real LB, veterans with sparks, all
+   readable from singletons (scouting 2026-09-26). Uploaded to the
+   player's profile only on request. Feeds "decks you can build" and real
+   parents.
+2. **Training's setup stage shows history, not predictions.** While the
+   player sets up, Training follows the picks and shows what actually
+   happened with them: the player's own runs with this trainee and deck
+   (median, best, spread, n) and site-wide runs with the same deck or
+   cards. Every number an observation with its sample size.
+3. **Predictions later, only where validated.** Re-check the forward model
+   (research state 2026-08-13, measured on ~2.2k runs) on the full corpus
+   (17k runs on 2026-09-27, plus focus and skills now read from the game),
+   per scenario and card, on held-out runs; write down where it holds. The
+   planner then shows only those parts, always as a range, and marks the
+   rest "not modelled". Independent of the companion work; batch sessions.
+
+**Account read verified (2026-09-27, owner's game, home screen).** New
+`account` read in `agent/reads.js`, one call, about 3 s, no heap scan, all
+loaded at login (the veteran list was never opened):
+- 54 trainee cards: `CardId`, `Rarity` = stars, `TalentLevel` = potential
+  (4 spot-checks matched the game);
+- 197 support cards: `_supportCardId`, `_limitBreakCount`, `_level` /
+  `_maxLevel`, `_stock` (4 spot-checks incl. facility matched);
+- 260 veterans = the game's "Registered 260/260" (storage full): stats,
+  `_rankScore`, aptitudes, sparks, and `SuccessionCharaList` with 6 entries
+  (positions 10/20 parents, 11/12 and 21/22 grandparents), each with its
+  sparks (top three by rank score, their parents and sparks matched);
+  lock via `<IsLock>` (53 locked);
+- 41 characters.
+Decoding: `ObscuredBool` decodes to 213/181, now read as 1/0;
+`CreateTime` is an `ObscuredString` (not read yet; `_cachedCreateTimeTimeStamp`
+is 0 until the game fills it).
+
+**Account sync design (agreed 2026-09-27).**
+- **What:** trainees (card, stars, potential); support cards (card, LB,
+  level); veterans (trained id, card, rank score, stats, aptitudes, sparks,
+  locked, and the 6 lineage entries with card, sparks and the lender's id).
+  Not: skills, race history, win saddles, the veteran's deck, characters,
+  copies, favourites.
+- **Lender ids kept** (owner: a great grandparent is worth nothing if its
+  owner cannot be found again). They are the game's internal viewer ids
+  (8-11 digits; 884 borrowed lineage entries from 156 lenders on the owner's
+  account), not the 12-digit trainer id uma.moe and profile search use.
+  Resolving: every run with a borrowed parent uploads both ids side by side
+  (setup read: rental entry and lender profile at the same index), so the
+  site can build an internal-id -> trainer-id table; a fixed formula may
+  exist too (check on the site's known pairs).
+- **When:** opt-in setting ("Sync my collection"), then automatic once per
+  game session after attach, only if the collection's hash changed, and at
+  most once per ~6 h per player; plus "Sync now". No polling.
+- **Load (1,000 concurrent players):** ~2-3 syncs per player per day of
+  ~20 KB compressed = ~50 MB/day in; the site already takes ~340 receipts
+  a day. One row per player, replaced on each sync (~20 MB at 1,000
+  players). A daily cap per player answered with 429. Nothing computed at
+  upload; filters and analyses run when a page is opened.
+- **Visibility:** private to the player (decks "cards I own", planner
+  parents, parent analyzer); a "Delete my synced collection" button on the
+  site, offered too when the setting is turned off; never in public stats.
+  Sharing (e.g. on the profile) stays an open option.
+- **Local copy** in the companion too, so an analyzer can work offline.
+
+**Parent analyzer (idea, owner; rides on account sync).** The full set of
+veterans with sparks, own and across the lineage, against the looping
+presets people build: how many parents carry a given set of sparks (on
+themselves or anywhere in the lineage), grouped by use, and the ones that
+serve no loop (candidates to let go). Shape not decided.
+
+**Spark chances (idea, owner).** uma.moe shows the chance of inheriting /
+a spark firing. Our corpus can measure it: each run records which sparks
+fired (`SuccessionFactorGainInfo`) next to the parents' full spark lists
+and compatibility, so observed fire rates per star level and compatibility
+can be counted on 17k runs and set against uma.moe's numbers. With account
+sync: "for this loop, which of your veterans give the best odds of the
+sparks you need". A measurement, not a prediction; still vague as a
+product. Caveat (owner): only the *parents'* sparks that fired are
+captured, not the sparks the new veteran ends up with (the "sparks and
+end state" pass); uma.moe's formulas are the better base, our counts a
+check on them.
+
+## Going public: audit (2026-09-27, read-only, nothing changed)
+
+Owner is weighing making `umaladder-companion` public. Audit of all 96
+commits (one branch, nothing ever deleted):
+
+- **Clean:** no tokens, keys or passwords in any revision; workflows only
+  reference GitHub secrets and run on tags / manual starts (forks cannot
+  reach them); the updater pubkey is public by design; no local paths or
+  usernames anywhere.
+- **Real player data in test files** (current files *and* history):
+  other players' lender ids and trainer names in
+  `crates/capture-schema/fixtures/it_run_cases.json`, `parity/` and
+  `ui/src/mock/tauri.ts`; the owner's own viewer id in `parity/`. (Not
+  listed here: this plan is public.)
+  Tests only need consistent values: swap in fakes.
+- **Author email** `rafcioext@gmail.com` on every commit.
+- **Licence:** workspace says `LicenseRef-Proprietary` (public would mean
+  source-available, no reuse). MIT if reuse should be allowed.
+- **Third-party credit, needed even while private:**
+  `crates/frida-host/agent/il2cpp_bridge.js` is a compiled copy of
+  frida-il2cpp-bridge (vfsfitvnm, MIT); its notice has to ship with it and
+  the released builds lack it. Fix: NOTICE file + header comment.
+- **Staying (owner's call):** game icons, app icons, `data/names.json`.
+
+Suggested path when it happens: credit first; fake ids and names; pick the
+licence; a new public repo from one fresh commit (drops the old history and
+the email); point the release workflow at it. Also: public repos get free
+Actions minutes on standard runners (the CI budget worry).
+
+## Views and the run's moments (design, 2026-09-27)
+
+Why: tester feedback kept asking for the same run in more places (a
+"blank and sad" Training card after upload, an "Uploaded" state that fades
+after 15 s). Each ask is fair on its own; together they would show one run
+in several slightly different ways. So each view owns certain moments of a
+run, and feedback is checked against this map before it is built.
+
+**The moments of a run, and who owns them**
+
+| Moment | View | Shows |
+|---|---|---|
+| 1. Setup (before Start) | Training | what is being picked; later the planner's advice |
+| 2. Running | Training | timer, deck, parents, focus, skills |
+| 3. Done, log not opened | Training | "Open the Training Log" |
+| 4. Just uploaded | Today | Last Run card: result **and** what the run was |
+| 5. Between runs | Today, Rewards | the day (carats, reset, next), history |
+
+- **Training is the run's lifecycle page.** It builds up as the run is set
+  up and runs. The planner is its first stage, not a separate place, so
+  setup lives in one view only.
+- **Today owns the finished run.** Its Last Run card gains the setup the
+  Training card had (deck, parents, focus, skills) once the run uploads;
+  Training then goes back to waiting for the next setup. No "Uploaded"
+  state on Training, and nothing that fades on a timer.
+- **Rewards is history.**
+- The Training list's runs stay as they are (the archive, not a moment).
+
+**Switching views on its own**
+
+- Setup starts → Training. Upload → Today.
+- Only when the window is not in use: hidden in the tray, minimized, or
+  not focused (the player is in the game). Never while the window is
+  focused and was touched in the last few seconds.
+- A setting, on by default.
+
+**Open**
+
+- Whether the planner is Training's first stage (this map) or its own view
+  is the one structural call left; this map assumes the first.
+- Today's Last Run card with the setup is a UI pass: draft in the mock
+  first.
+
+## SP planner beside the skill shop (idea, 2026-09-27)
+
+Owner's idea, instead of a run preview in the companion: once an IT run
+uploads, the SP planner's picks show beside the game's skill shop as a
+single column.
+
+- **v1:** draw the planned list next to the game (a companion window like
+  the IT timer, or drawn in-game by the Hachimi plugin) and update it as
+  the player ticks skills. The skill shop is readable from singletons
+  (scouting 2026-09-26).
+- **Later:** scroll along with the game's list. That means reading the
+  list's scroll position a few times a second, only while the shop is open.
+  Drawing in-game through the plugin would stay aligned more reliably.
+- Belongs with the in-game overlay release, not v0.4.0. Replaces the three
+  preview options that were proposed (full page in the app, site page in a
+  window, quick card): the owner wasn't satisfied with any of them.
+
 ## Companion backlog (collected feedback, done in batches)
 
 Status 2026-09-25: the app runs (Today, Training, Rewards, Settings; tray;
