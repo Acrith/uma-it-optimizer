@@ -67,7 +67,11 @@ def main() -> None:
                           (args.trainee // 100,)).fetchone()[0]
     objectives, need = {}, {}
     for t, pid, top in db.execute("select turn, condition_id, condition_value_1 from single_mode_route_race"
-                                  " where race_set_id=? and condition_id < 10000", (race_set,)):
+                                  " where race_set_id=? and condition_id < 10000 order by sort_id", (race_set,)):
+        # Two races on one turn (Oaks or Derby): the game sets the first as
+        # the goal, and IT does not let the player swap it.
+        if t in objectives:
+            continue
         objectives[t] = db.execute(race_of, (pid,)).fetchone()
         need[t] = top  # finish at least this place (0: just run it)
     # Optional G1s by turn (race_permission: 1 junior, 2 classic, 3 classic+senior, 4 senior).
