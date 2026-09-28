@@ -1062,7 +1062,7 @@ failed in the per-user installer); test both choices at the next release.
   Events hint to the deck card whose events give it ("<card> event"),
   the Decks/Runs skill search counts event skills (chip says "(event)"),
   Collection's Hints a target and card search include them. Site
-  ee69940, awaiting deploy. Later, on its own: our own source (decode the
+  ee69940, deployed 2026-09-28. Later, on its own: our own source (decode the
   story assets) as a drop-in for the same file, to stop depending on
   GameTora; and labelling scenario golds.
 - Asset survey with an Umamusume asset explorer: racecourse/track
