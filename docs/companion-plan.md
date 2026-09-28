@@ -684,6 +684,48 @@ What the first session found:
 First test run started 2026-09-28 (URA, 26-race agenda). Compare after it:
 races won vs plan, and the child's sparks.
 
+## Fixed (2026-09-28, dev47, awaiting the owner's test): IT timer lost always-on-top
+
+Owner: the floating timer "suddenly lost its always-on-top", hidden under
+another window; the tray's "IT timer" did not bring it back. Diagnosis:
+the window was alive, visible and still flagged topmost at its saved
+place (bottom-right, inside the work area), so another topmost window
+(the borderless game) had been activated above it; Windows orders the
+topmost band by activation and the timer never takes focus. Fix
+(companion 4d4d33c): while the timer shows, SetWindowPos HWND_TOPMOST
+(no activate/move/size, async) every ~2 s from the hover loop; also on
+the tray's "IT timer" for an already-visible window, and whenever the
+notification window is fitted.
+Also: dev46 has the persisted setup (35e5625); unreleased.
+
+## Collection page (site, 2026-09-28): v1 rejected, redesign brief
+
+State: `/settings/collection` built locally in uma-it-web (uncommitted:
+`services/collection_view.py`, `settings/templates/settings/collection.html`,
+route in `settings/routes.py`, Profile link, `tests/test_collection_page.py`;
+tests pass). Veteran cards with sparks, spark search (on itself / as a
+parent, k/3), pedigree on click, Trainees and Support cards tabs.
+
+Owner's verdict: "not the best you can do". To fix in the redesign:
+- **Both themes**: colours hard-coded for light; use the site's theme
+  variables and the run page's dark overrides.
+- **Faces**: stand-art crops are wrong. Use GameTora head icons
+  (`characters/icons/chr_icon_<chara>.png`, as the companion's `headUrl`)
+  or the companion's per-card eye table (`ui/src/eyes.json`, `faceCrop`).
+- **Tools, not a shelf** (the data serves looping and the planner):
+  - Veterans: filters by trainee, scenario, rank range, locked, borrowed
+    ancestry, blue/pink by type and stars (e.g. Stamina ★3, Dirt ★2+);
+    loop-preset quick filters (the Big 4 / next steps); "parent-ready"
+    classifiers (targets covered as a parent, k/3); a box overview (spark
+    frequencies, blue-star and pink distribution, what the box lacks);
+    compact list view for 260 rows next to the cards; release candidates
+    (serve no preset).
+  - Trainees: search; filters by stars, potential, aptitudes (dirt/long
+    capable from the game data); owned vs not owned.
+  - Support cards: search; filters by type, rarity, LB (MLB only), level
+    not maxed; owned vs missing; counts per type.
+  - Scale: 260 veterans / 197 cards / 54 trainees: dense list + filters.
+
 ## Where we left off (2026-09-28)
 
 **Released:** v0.4.0 (IT timer window, own notifications, Last Run card
