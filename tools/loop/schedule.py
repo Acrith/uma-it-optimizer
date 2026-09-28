@@ -7,7 +7,8 @@ Every G1 win the child shares with a parent is +3 affinity when the child
 is a parent later (+6 when both parents won it). Objectives are always run
 and never put at risk (must-wins stay at 100%+, top 3/5 at 80%+);
 optional G1s are chosen turn by turn to maximise the expected value
-(value x win chance), with win chances from the IT table by aptitude and
+(value x win chance), a tie going to the rental's race (it stays in the
+lineage while the own parent leaves it), with win chances from the IT table by aptitude and
 races in a row. Aptitudes: the trainee's base raised by the lineage's pinks
 at the start (loopdata.start_aptitudes).
 """
@@ -57,6 +58,12 @@ def main() -> None:
     def value(rid):
         return (3 if rid in own_w else 0) + (3 if rid in ren_w else 0)
 
+    # On a tie, the rental's race: a lender borrowed every generation stays in
+    # the lineage, the own parent leaves it within two. Too small to outweigh
+    # any real difference in expected value.
+    def pref(rid):
+        return value(rid) + (0.001 if rid in ren_w else 0)
+
     name = lambda rid: (db.execute('select text from text_data where category=32 and "index"=?', (rid,)).fetchone() or ["?"])[0]
     turn = lambda year, month, half: (year - 1) * 24 + (month - 1) * 2 + half
     race_of = ("select r.id, cs.ground, cs.distance from single_mode_program p join race_instance ri on ri.id=p.race_instance_id"
@@ -99,14 +106,14 @@ def main() -> None:
             if chance(ground, m, row + 1) < floor:
                 return float("-inf"), ()
             v, rest = best(t + 1, row + 1, used | {rid})
-            gain = 0 if rid in used else value(rid) * min(chance(ground, m, row + 1), 100) / 100
+            gain = 0 if rid in used else pref(rid) * min(chance(ground, m, row + 1), 100) / 100
             return v + gain, ((t, rid, ground, m, "objective"),) + rest
         choices = [best(t + 1, 0, used)]
         for rid, ground, m in options.get(t, []):
             if rid in used:
                 continue
             v, rest = best(t + 1, row + 1, used | {rid})
-            choices.append((v + value(rid) * min(chance(ground, m, row + 1), 100) / 100,
+            choices.append((v + pref(rid) * min(chance(ground, m, row + 1), 100) / 100,
                             ((t, rid, ground, m, f"+{value(rid)}"),) + rest))
         return max(choices, key=lambda c: c[0])
 
