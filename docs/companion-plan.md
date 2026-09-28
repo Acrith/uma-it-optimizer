@@ -731,7 +731,7 @@ screen by screen with the owner and community screenshots:
 Deploy: needs the owner's go; migration adds one table. Companion
 dacd0bc adds "Open my collection" in Settings (ships with v0.4.1).
 Later: a mobile pass; blue/pink looping (stars over the 3 places, x/9) if
-wanted; the owner's view is that Cards is the least useful view.
+wanted; Cards mainly as a shareable screenshot of one parent (owner).
 
 ## Where we left off (2026-09-28)
 
