@@ -48,10 +48,17 @@ class Affinity:
         total = rel(t, p1.chara) + rel(t, p2.chara) + rel(p1.chara, p2.chara) \
             + sum(rel(t, p1.chara, g.chara) for g in p1.parents) + sum(rel(t, p2.chara, g.chara) for g in p2.parents) \
             + sum(self.race(p1, g) for g in p1.parents) + sum(self.race(p2, g) for g in p2.parents) + self.race(p1, p2)
-        members = [(p1, side["p1"], 1.0), (p2, side["p2"], 1.0)]
+        # Each ancestor's own affinity, which scales its inspiration chance.
+        # Fitted on 8,155 IT receipts (inspiration_rates.py): a parent adds
+        # the parent-parent relation; a grandparent has no extra factor.
+        members = []
+        for p, other in ((p1, p2), (p2, p1)):
+            members.append((p, rel(t, p.chara) + rel(p1.chara, p2.chara)
+                            + sum(rel(t, p.chara, g.chara) + self.race(p, g) for g in p.parents)
+                            + self.race(p, other), 1.0))
         for p in (p1, p2):
             for g in p.parents:
-                members.append((g, rel(t, p.chara, g.chara) + self.race(p, g), 0.5))
+                members.append((g, rel(t, p.chara, g.chara) + self.race(p, g), 1.0))
         inbreed = sum(1 for p in (p1, p2) for g in p.parents if g.chara == t)
         return {"total": total, "p1": side["p1"], "p2": side["p2"], "members": members, "inbreed": inbreed}
 

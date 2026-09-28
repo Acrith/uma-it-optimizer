@@ -10,9 +10,9 @@ For each own veteran and each owned trainee (no repeated character, no
 inbreeding), per target: how many of the 6 ancestors carry its spark, the
 chance to generate it at the end (linear between the loop guide's 0/6 and
 6/6 values for the version bought), and the chance to get its hint from
-inspiration (white 3/6/9% per ancestor per event x (1 + affinity/100);
-grandparents at half: an assumption). Score = weight x generation x
-(0.5 + 0.5 x hint).
+inspiration (white 3/6/9% per ancestor per event x (1 + that ancestor's
+affinity/100), grandparents included; measured by inspiration_rates.py).
+Score = weight x generation x (0.5 + 0.5 x hint).
 """
 from __future__ import annotations
 
