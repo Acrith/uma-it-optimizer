@@ -656,6 +656,37 @@ by id, its sparks). All read in the 2026-09-26 session (see "Post-run,
 same session"); becomes the run memory's last chapter and feeds the
 parent planner.
 
+## Where we left off (2026-09-28)
+
+**Released:** v0.4.0 (IT timer window, own notifications, Last Run card
+with deck/parents/focus and card types, view switching, faster attach and
+already-open Training Log, prioritized skills read from the dialog,
+Hachimi alongside, Team Trials on its result screen, installer "just
+me / all users").
+
+**Built, not released (companion repo, local commits):**
+- Team Trials carats counted once (a tester saw +5 in game, 10 logged:
+  the summary already includes the presents). Candidate for v0.4.1;
+  owner holding it an hour or two for more tester feedback.
+- `account` read in the reader (verified against the game, see "Account
+  read verified"); nothing uses it yet.
+
+**Next, when resumed (v0.5):**
+1. Site side of account sync: upload endpoint, one snapshot row per
+   player, daily cap (429), "Delete my synced collection". Build and test
+   locally; deploy only when asked.
+2. Companion side: "Sync my collection" setting, hash + ~6 h throttle,
+   "Sync now", local copy.
+3. Session 2 in game: follow the setup live (during a normal run setup).
+4. Training's setup stage showing history ("runs like this").
+Later: parent analyzer, spark chances, the validation session for
+predictions, overlay + SP planner (v0.6), going public (audit above).
+
+**Still unconfirmed in dev40/v0.4.0 (happens by itself while playing):**
+faster attach (start the game with the companion running), a Training Log
+already open at attach, no view switch while the window is in use, the
+sparks popover without flicker, both installer choices.
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
