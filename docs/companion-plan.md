@@ -698,7 +698,7 @@ the tray's "IT timer" for an already-visible window, and whenever the
 notification window is fitted.
 Also: dev46 has the persisted setup (35e5625); unreleased.
 
-## Collection page (site, 2026-09-28): v2 built, committed, not deployed
+## Collection page (site, 2026-09-28): v2 deployed
 
 v1 was rejected ("a shelf, not a tool"). v2 (uma-it-web 9dfe4b6), reviewed
 screen by screen with the owner and community screenshots:
@@ -728,41 +728,38 @@ screen by screen with the owner and community screenshots:
   block + receipt); new `lenders` table, filled at upload, backfill command
   `flask backfill-lenders` to run once after the deploy.
 
-Deploy: needs the owner's go; migration adds one table. Companion
-dacd0bc adds "Open my collection" in Settings (ships with v0.4.1).
+Deployed 2026-09-28 with its migration (one new table); the companion's
+"Open my collection" shipped in v0.4.1.
 Later: a mobile pass; blue/pink looping (stars over the 3 places, x/9) if
 wanted; Cards mainly as a shareable screenshot of one parent (owner).
 
-## Where we left off (2026-09-28)
+## Where we left off (2026-09-28, evening)
 
-**Released:** v0.4.0 (IT timer window, own notifications, Last Run card
-with deck/parents/focus and card types, view switching, faster attach and
-already-open Training Log, prioritized skills read from the dialog,
-Hachimi alongside, Team Trials on its result screen, installer "just
-me / all users").
+**Released:** v0.4.1 (collection sync, "Open my collection", IT timer kept
+on top and no longer lost on a game restart or an empty read, setup kept
+across a companion restart, Team Trials carats once). v0.4.0 before it.
 
-**Built, not released (companion repo, local commits):**
-- Team Trials carats counted once (a tester saw +5 in game, 10 logged:
-  the summary already includes the presents). Candidate for v0.4.1;
-  owner holding it an hour or two for more tester feedback.
-- `account` read in the reader (verified against the game, see "Account
-  read verified"); nothing uses it yet.
+**Site, deployed:** account sync endpoints; the Collection page at
+`/collection` (old `/settings/collection` redirects), in both sidebars for
+signed-in players, with an empty state that names the companion version
+and says to ask for access (no download link); the lenders table,
+backfilled once (7 pairs from 1,165 recent runs).
 
-**Next, when resumed (v0.5):**
-1. Site side of account sync: upload endpoint, one snapshot row per
-   player, daily cap (429), "Delete my synced collection". Build and test
-   locally; deploy only when asked.
-2. Companion side: "Sync my collection" setting, hash + ~6 h throttle,
-   "Sync now", local copy.
-3. Session 2 in game: follow the setup live (during a normal run setup).
-4. Training's setup stage showing history ("runs like this").
-Later: parent analyzer, spark chances, the validation session for
-predictions, overlay + SP planner (v0.6), going public (audit above).
+**Loop research:** `tools/loop/` (recommender, agenda with objective
+protection and rental tie-break, spark rates by the version bought); the
+loop is run live with the owner, run by run.
 
-**Still unconfirmed in dev40/v0.4.0 (happens by itself while playing):**
-faster attach (start the game with the companion running), a Training Log
-already open at attach, no view switch while the window is in use, the
-sparks popover without flicker, both installer choices.
+**Next, when resumed:**
+1. The loop advisor in the companion (reroll compare at the roll screen,
+   targets from the player's presets), built as the loop needs it.
+2. Mobile pass over the Collection page.
+3. Blue/pink looping (stars over the 3 places), if the owner wants it.
+4. Earlier items still open: Training's setup stage showing history; the
+   parent analyzer on the site; overlay + SP planner (v0.6).
+
+**Still unconfirmed in play (happens by itself):** the timer staying on top
+(v0.4.1), faster attach, a Training Log already open at attach, both
+installer choices.
 
 ## Next: v0.5 direction (owner, 2026-09-27)
 
