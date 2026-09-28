@@ -4,7 +4,8 @@
         --names names.json --parent-rank-score N --trainee CARD_ID [--match both|rental|own]
 
 Every G1 win the child shares with a parent is +3 affinity when the child
-is a parent later (+6 when both parents won it). Objectives are always run;
+is a parent later (+6 when both parents won it). Objectives are always run
+and never put at risk (must-wins stay at 100%+, top 3/5 at 80%+);
 optional G1s are chosen turn by turn to maximise the expected value
 (value x win chance), with win chances from the IT table by aptitude and
 races in a row. Aptitudes: the trainee's base raised by the lineage's pinks
@@ -64,9 +65,11 @@ def main() -> None:
     # Objectives of the trainee's route (the scenario's finals excluded).
     race_set = db.execute("select race_set_id from single_mode_route where chara_id=? and scenario_id=0",
                           (args.trainee // 100,)).fetchone()[0]
-    objectives = {}
-    for t, pid in db.execute("select turn, condition_id from single_mode_route_race where race_set_id=? and condition_id < 10000", (race_set,)):
+    objectives, need = {}, {}
+    for t, pid, top in db.execute("select turn, condition_id, condition_value_1 from single_mode_route_race"
+                                  " where race_set_id=? and condition_id < 10000", (race_set,)):
         objectives[t] = db.execute(race_of, (pid,)).fetchone()
+        need[t] = top  # finish at least this place (0: just run it)
     # Optional G1s by turn (race_permission: 1 junior, 2 classic, 3 classic+senior, 4 senior).
     options: dict[int, list] = {}
     for perm, mo, half, rid, ground, m in db.execute(
@@ -86,6 +89,11 @@ def main() -> None:
             return 0.0, ()
         if t in objectives:
             rid, ground, m = objectives[t]
+            # Never put an objective at risk: a must-win needs a sure win
+            # (100%+), a top 3/5 at least 80%. Failing one may end the run.
+            floor = 100 if need[t] == 1 else 80 if need[t] else 0
+            if chance(ground, m, row + 1) < floor:
+                return float("-inf"), ()
             v, rest = best(t + 1, row + 1, used | {rid})
             gain = 0 if rid in used else value(rid) * min(chance(ground, m, row + 1), 100) / 100
             return v + gain, ((t, rid, ground, m, "objective"),) + rest
