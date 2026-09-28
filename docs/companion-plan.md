@@ -656,6 +656,34 @@ by id, its sparks). All read in the 2026-09-26 session (see "Post-run,
 same session"); becomes the run memory's last chapter and feeds the
 parent planner.
 
+## Loop advisor research (2026-09-28, parallel to v0.5)
+
+Owner's decision: work the loop on the owner's own account by hand, in
+parallel with v0.5, and let it show what the product needs. Nothing is
+built into the app for the loop until the manual version has worked a few
+times. Tools and the rules they use: `tools/loop/` (README there lists each
+rule with its source and how sure it is).
+
+What the first session found:
+- Everything a loop plan needs is readable: the account read (now with G1
+  win saddles for veterans and their ancestors) and one borrowable parent
+  from the setup screen (`rental_one.py`, filtered by trainer id inside
+  the game).
+- The owner's box already held an accidental loop (three characters bred
+  from each other, carrying RS Stamina and Nimble Navigator).
+- Trainee choice balances affinity against fit with the parents' G1s and the
+  Dirt track: a dirt-capable trainee cost ~3 points of hint chance and race
+  affinity but can spark Dirt (needs Dirt A).
+- Rules gathered: pinks at the start (1/4/7/10 stars -> +1..+4 ranks), the IT
+  win-rate table (rank sum + races in a row), inspiration and generation
+  rates; see the README for sources.
+- Open: the affinity total's exact combination (one published pair 34 vs 39
+  here), grandparents' inspiration rate, the pink each veteran gets, and the
+  new veteran's sparks (not in the receipt: read the account after a run).
+
+First test run started 2026-09-28 (URA, 26-race agenda). Compare after it:
+races won vs plan, and the child's sparks.
+
 ## Where we left off (2026-09-28)
 
 **Released:** v0.4.0 (IT timer window, own notifications, Last Run card
