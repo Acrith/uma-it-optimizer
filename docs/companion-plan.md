@@ -794,6 +794,18 @@ Companion
     the agenda, the eye cut-in with a neutral scene.
 14. Release: code signing (Trusted Signing check), the tester group.
 
+**Game closed at start (2026-09-29, the owner and a tester).** The
+automatic collection sync read the account at game start, the same moment
+the watcher attached (both waited only for `cri_ware_unity.dll`); the game
+closed a second later, and the read, taken before login, uploaded an empty
+collection over the stored one. Fixed: the site refuses an empty
+collection (422, deployed `f165347`, protects 0.4.1-0.4.2); the companion
+syncs only a minute after the watcher reads a logged-in game (5 min
+without zero-click) and never uploads a read before login (`49bacf0`).
+v0.4.3 (that, plus the two new trainee names) is ready; tag on the
+owner's go. If games still close at start with the sync off, the
+watcher's attach timing is the next suspect.
+
 Held by the owner: several game accounts on one site account; the
 debuffer looping preset; a notification sound; our own event-skill source
 from the story assets.
