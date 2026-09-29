@@ -735,7 +735,18 @@ wanted; Cards mainly as a shareable screenshot of one parent (owner).
 
 ## Where we left off (2026-09-28, evening)
 
-**Released:** v0.4.2 (updates install over the running copy; a leftover
+**Released:** v0.4.3 (2026-09-29): the collection sync reads only on calm
+screens (Home / running IT, no dialog, a minute after login) and only the
+veterans that changed, through the watcher's session; never uploads a read
+before login; Open my collection checks first only when something may
+have changed; Syncing shows from a full read's start; one art glow for the
+Training and Last Run cards (no band on wide windows); names for the two
+new Global trainees. Live-checked on the owner's PC (launches incl. no
+Hachimi, a loop run, a release, Sync now, Open my collection, the look);
+the logout check is with a tester. First real test of 0.4.2's
+update-in-place.
+
+Before that, v0.4.2 (updates install over the running copy; a leftover
 older copy is shown and can be removed) on top of v0.4.1 (collection sync,
 "Open my collection", IT timer kept on top and no longer lost on a game
 restart or an empty read, setup kept across a companion restart, Team
