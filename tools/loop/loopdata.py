@@ -8,8 +8,8 @@ Inputs, all passed as paths (nothing personal lives in this repo):
 
 Rules collected so far (sources in README.md):
 - white spark generation: 20% (normal) / 25% (double circle) / 40% (gold)
-  with none of the 6 ancestors carrying it, up to 35.4 / 44.3 / 70.9% with
-  all 6 (loop guide); linear in between is an assumption. The rate follows
+  x1.1 per ancestor of the 6 carrying it: 35.4 / 44.3 / 70.9% with all 6
+  (loop guide; uma.moe's lineage planner uses the same curve). The rate follows
   the version the veteran bought, the spark does not: sparks exist only for
   a group's white skill, so a bought gold (It's On!) or ◎ sparks as that
   white (Ramp Up), at its own rate;

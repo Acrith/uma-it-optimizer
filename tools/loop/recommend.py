@@ -8,8 +8,9 @@ Targets are the skills the trainee will buy, by name: a gold (It's On!) or
 
 For each own veteran and each owned trainee (no repeated character, no
 inbreeding), per target: how many of the 6 ancestors carry its spark, the
-chance to generate it at the end (linear between the loop guide's 0/6 and
-6/6 values for the version bought), and the chance to get its hint from
+chance to generate it at the end (the version bought's base, x1.1 per
+ancestor carrying it: the loop sheet's 0/6 and 6/6 values, and uma.moe's
+lineage planner), and the chance to get its hint from
 inspiration (white 3/6/9% per ancestor per event x (1 + that ancestor's
 affinity/100), grandparents included; measured by inspiration_rates.py), the
 scenario's own events (scenario_hints.py, from site receipts: URA Finale
@@ -37,8 +38,8 @@ def score(aff: dict, targets: dict[str, tuple[int, str]], other: dict[str, float
     per, total = {}, 0.0
     for s, (w, kind) in targets.items():
         k = sum(1 for m, _, _ in aff["members"] if s in m.sparks)
-        base, full = RATES[kind]
-        gen = base + (full - base) * k / 6
+        base, _ = RATES[kind]
+        gen = base * 1.1 ** k  # x1.1 per ancestor carrying it (sheet, uma.moe)
         miss = 1.0
         for m, a, f in aff["members"]:
             if s in m.sparks:
