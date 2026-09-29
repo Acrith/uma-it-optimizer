@@ -877,6 +877,41 @@ from the story assets.
 (v0.4.1), faster attach, a Training Log already open at attach, both
 installer choices.
 
+## v0.5 concept: game-aware modules over the game (owner, 2026-09-29)
+
+The app as the display, drawn over Umamusume: a small launcher icon in a
+corner of the game (bottom left) to open any module, and modules that open
+by themselves on their screen (the screen map above says where the player
+is):
+
+| Game screen | Module |
+|---|---|
+| Setup (`SingleModeStart`) | run odds, live: for the parents and trainee as picked, each target's chance to be hinted and to spark |
+| Skill shop (`SingleModeSkillLearning`) | SP planner + each skill's chance to spark if bought (by the version bought) |
+| Spark screen (result steps `ShowFactor` / `ShowFactorSelect`) | roll comparison + the x/3 each roll would give as a parent |
+| Training Log | buy list (hinted targets, prices), from the receipt |
+
+Groundwork, in order: (1) the overlay host: a transparent companion window
+pinned to the game window, launcher + module panels, dismiss/pin; exclusive
+fullscreen to be tried build by build, drawing inside the game through the
+Hachimi plugin as the fallback; (2) the loop math in companion-core
+(affinity, inspiration, generation x1.1 per carrier, scenario and trainee
+event hints), with a parity test against tools/loop; (3) a data bundle
+(card hint and event skills, trainee events, affinity relation tables,
+skill groups and costs), generated from the site's data; (4) loop targets
+stored with the site account; (5) new reads, scouted and live-tested first:
+the skill shop, and veterans' learned skills (ids only: only uniques have
+levels), which also lets us test the spark roll. First vertical slice: the
+spark comparison module (no new read, least math), proving the overlay
+host and the screen routing; then setup odds; then the SP planner. Also
+from testers: click a support card for its skills (the data bundle), box
+history and exports (above), the collection in the app.
+
+What uma.moe already has (seen 2026-09-29): a manual lineage planner (per
+inspiration odds by source, same formulas as ours) and a veterans page
+with learned skills, affinity per veteran and filters, fed by umadump
+uploads.
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
