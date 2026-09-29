@@ -802,9 +802,50 @@ collection over the stored one. Fixed: the site refuses an empty
 collection (422, deployed `f165347`, protects 0.4.1-0.4.2); the companion
 syncs only a minute after the watcher reads a logged-in game (5 min
 without zero-click) and never uploads a read before login (`49bacf0`).
-v0.4.3 (that, plus the two new trainee names) is ready; tag on the
-owner's go. If games still close at start with the sync off, the
-watcher's attach timing is the next suspect.
+Then replaced (companion `a143b6e`, dev49, awaiting the owner's live
+checks) by a sync that reads only on calm screens and only the veterans
+that changed; the timer rules and the list's change counter are gone.
+If games still close at start with the sync off, the watcher's attach
+timing is the next suspect.
+
+**Screen map (2026-09-29, owner's game; plain reads, no hooks).**
+`SceneManager._currentViewController` (`_viewId`) and its
+`<ChildCurrentController>` (`_viewId`); `DialogManager._dialogList`;
+the scene manager's `_isRunChangeView` / `_isRunChangeInHubView` /
+`<IsRunChangeScene>` while a screen change runs.
+
+| Where | view / child | extra |
+|---|---|---|
+| Home, Enhance, Story (tab bar) | HomeHub / Home | `_currentTopState`: MyPage, Character, ... |
+| Veteran list | HomeHub / TrainedCharaList | release confirmation = a `DialogCommon` |
+| IT / career setup | HomeHub / SingleModeStart | |
+| IT running | IdleSingleModePlayCut | |
+| Training Log | SingleModeConfirmComplete | the log is a `DialogCommon` |
+| Skill shop | SingleModeSkillLearning | |
+| Career result | SingleModeResult | `_sequence._step`: ShowRankScore, ShowFactor, ShowFactorLottery / ShowFactorSelect, WaitTrainedDialog (veteran saved: `_resultDataContainer` fills), ShowRaceHistory, ShowTrainerStatus, RewardSupportCard, StoryEventEp (events), ShowFinishDialog, SequenceFinish |
+
+Found on the way: the veteran list (`TrainedCharaData._dataDic`) is
+rebuilt, not edited (its `_version` lands on the same value; opening the
+list rebuilds it), and the count hides a career's end (the rental leaves
+as the veteran is saved); IT state stays 3 (finished) through the result
+and is 0 back on Home. A paused result shows "Spark Selection" on Home's
+Career button. The full collection read spends ~6 s in the game (lineages
+4.5 s, stats 1.4 s, trainees and cards 0.35 s); the id / lender / lock
+index 0.02 s; one veteran in full ~0.025 s. A TP refill during the result
+rebooted the game to the login screen (process alive, databases reopened);
+cause unknown (the game, or reads just before it): next time, test with
+the companion closed.
+
+**Collection sync, calm screens (dev49).** Calm = Home (any tab) or the
+running IT, no dialog, no screen change, two `screen` reads in a row (every
+2 s), a minute after login. Back on a calm screen from anywhere else: the
+index is compared with the local copy (`account.json`); new own veterans
+are read in full and merged, releases and locks applied, then uploaded if
+changed; too different (more than 3 new, half gone) means a full read.
+Full reads: first sync, every 6 h, Sync now (waits for calm). All reads go
+through the watcher's session. Open my collection checks first. Live
+checks pending: dozens of launches, one loop run, a sorting session, a
+logout.
 
 Held by the owner: several game accounts on one site account; the
 debuffer looping preset; a notification sound; our own event-skill source
