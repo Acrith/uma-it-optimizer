@@ -912,6 +912,66 @@ inspiration odds by source, same formulas as ours) and a veterans page
 with learned skills, affinity per veteran and filters, fed by umadump
 uploads.
 
+**Order (owner, 2026-09-30):** all three module mocks first (spark screen,
+SP planner, setup odds), then the full implementation with tests.
+
+### Spark module: mock locked (2026-09-30)
+
+Companion `ui/overlay.html` (`vite --mode mock`), commit 6da3956. What a
+player reads, and why each piece is there:
+
+- **The measure:** per target of the chosen preset, her next child's chance
+  to spark it, with her as a parent: the hint (inspiration from the child's
+  six ancestors at typical affinities, or the looping scenario's own events,
+  or the deck when counted) × the spark roll (20% × 1.1 per carrier, 35% at
+  most for a white). "Needed / child" and "Nice / child" add them up. Early
+  drafts used hand weights and "hint gained vs without her"; both read as
+  an agent telling, not data, and were dropped.
+- **Against the best now:** the same chances with the player's best own
+  parent, and her rank in the box ("#4 of 260 · about your best"). Top
+  parents sit within ~0.1 needed sparks per child of each other, less than
+  affinity moves it (150 → 300: about +0.17), so close calls say "about your
+  best" and point to the setup, where they're won.
+- **Header chips:** For (target preset: the site's saved presets, shared with
+  the SP planner, or the loop sheet's per running style), With (the second
+  parent, searchable: rentals, her alone, own veterans best with her
+  first), In (the scenario her children will run: its own events hint some
+  targets anyway, e.g. Unity Cup's Nimble in every IT run), Deck (not
+  counted by default: a parent is rated on what she carries).
+- **Per roll:** pros and cons as spark pills (targets, distance/surface
+  pinks "fix", running-style pinks and a preset's avoided sparks as cons),
+  the closest veteran in the box and the ones she covers (targets only),
+  "suggested" only when one roll is 0.03+ ahead with no more cons.
+- **One roll:** her own reroll chances (by the version she bought), "at
+  least one of these" for what roll 1 lacks, and the chance a reroll makes
+  her a better parent, exact (her score is a sum over targets; new white
+  sparks come 1★ 42%, 2★ 53%, 3★ 5% in a 259-veteran box).
+- **Weights:** the site's Collection's (needed 1, nice ½, a loop sheet T1.5
+  nice ¼). No per-skill value within "needed" yet: a question for
+  experienced loopers.
+
+Needed to wire it: reads of the rolls, her learned skills (ids and the
+version bought) and her grandparents' sparks; the synced box; per-card hint
+rates, scenario shares and card counts in the data bundle; from the site, a
+token-readable presets endpoint.
+
+**Roadmap from this mock:**
+- **Pink targets** (loop a pink such as Dirt on top of the whites): later
+  release, or on concrete feedback. Presets gain pink targets (the site
+  stores skill ids today, so a pink has nowhere to go), and the module shows
+  lineage stars and the start-aptitude steps (1/4/7/10 stars → +1 to +4
+  ranks) instead of %; the chance to *get* a pink needs the game's pink
+  rule, measurable from synced boxes (final aptitudes vs the pink).
+- **Scenario events by chain:** model each scenario's skill-giving events and
+  their chance to happen (GameTora scenario pages), checked against IT
+  receipts; the thin samples (URA 273, TS Climax 181 runs) need it most.
+- **Card rates:** credit a card only for what it adds over the scenario
+  (matters for the setup module more than for rating a parent).
+- **Reroll model:** sparks taken as independent; test on receipts or boxes
+  whether the game caps a veteran's whites. Star odds should follow her
+  rank (the parenting guide: at SS, 17,500, a white's 3★ goes 5% → 10% and
+  1★ 50% → 20%); the mock uses the box's mix (42/53/5%).
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
