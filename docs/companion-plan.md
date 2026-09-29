@@ -847,6 +847,17 @@ through the watcher's session. Open my collection checks first. Live
 checks pending: dozens of launches, one loop run, a sorting session, a
 logout.
 
+Box history and exports (tester request, 2026-09-29; for a later
+release, designed properly, not a quick log). The calm-screen sync already
+knows each change (new own veterans, released ones, lock changes, from the
+index compare). Keep that as history: every veteran that came and went,
+with its full record at the time (sparks, lineage, rank score) and when,
+on the site per player (the local copy only holds the present). Then
+exports of chosen sets (JSON / CSV: e.g. every released veteran with a
+given spark, or the box on a date) and views on it (how many 3/4/5-star
+copies were tossed before a better one). History cannot be recovered
+backwards: it starts with the release that ships it.
+
 Held by the owner: several game accounts on one site account; the
 debuffer looping preset; a notification sound; our own event-skill source
 from the story assets.
