@@ -22,9 +22,11 @@ Rules collected so far (sources in README.md):
 """
 from __future__ import annotations
 
+import functools
 import json
 import sqlite3
 from dataclasses import dataclass, field
+from pathlib import Path
 
 GRADES = "GFEDCBAS"  # 1..8 in the game's aptitude columns
 
@@ -105,6 +107,29 @@ class Data:
         spark = self.factors[str(fg[0] * 100 + 1)][0]
         return spark, "gold" if rarity == 2 else "double" if rate == 2 else "normal"
 
+    def group(self, skill: str) -> int:
+        """A skill's group (a white, its gold and its ◎ share one): hints are
+        per group."""
+        row = self.db.execute(
+            "select s.group_id from skill_data s join text_data t on t.category = 47"
+            " and t.\"index\" = s.id where t.text = ? limit 1", (skill,)).fetchone()
+        if row is None:
+            raise KeyError(f"no skill named {skill!r}")
+        return row[0]
+
+    def race(self, race_instance: int) -> tuple[int, int, int, str]:
+        """(race id, ground 1 turf / 2 dirt, distance m, name) of a race instance."""
+        return self.db.execute(
+            "select r.id, cs.ground, cs.distance, coalesce(t.text, '?') from race_instance ri"
+            " join race r on r.id = ri.race_id join race_course_set cs on cs.id = r.course_set"
+            " left join text_data t on t.category = 28 and t.\"index\" = ri.id where ri.id = ?",
+            (race_instance,)).fetchone()
+
+    def skill_groups(self, ids) -> set[int]:
+        if not hasattr(self, "_group_of"):
+            self._group_of = dict(self.db.execute("select id, group_id from skill_data"))
+        return {self._group_of[i] for i in ids if i in self._group_of}
+
     def name(self, card: int) -> str:
         c = self.cards.get(str(card), {})
         return f"{c.get('name', card)} {c.get('title', '')}".strip()
@@ -142,6 +167,29 @@ class Data:
             up = sum(1 for step in START_PINK_STEPS if n >= step)
             apt[k] = GRADES[min(GRADES.index(apt[k]) + up, 6)]  # stops at A
         return apt
+
+
+# Trainee events (uma-it-web's trainee_events.json, from GameTora) and the
+# scenario's own event hints (scenario_hints.py, from site receipts).
+WEB_DATA = Path(__file__).resolve().parent / "../../../uma-it-web/uma_it_web/enrich/data"
+SCENARIO_HINTS = Path(__file__).resolve().parent / "data/scenario_event_hints.json"
+
+
+@functools.cache
+def _json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def trainee_events(card: int, path: Path = WEB_DATA / "trainee_events.json") -> list[dict]:
+    """The trainee card's events that hint a skill only when conditions are
+    met: {name, skills [[id, levels]], needs [{rule, races [[instance, year]]}],
+    other [conditions no plan can aim for]}."""
+    return (_json(path)["trainees"].get(str(card)) or {}).get("events", [])
+
+
+def scenario_hint(scenario: int, group: int, path: Path = SCENARIO_HINTS) -> float:
+    """Share of the scenario's runs whose own events hint the skill group."""
+    return (_json(path).get(str(scenario)) or {}).get("groups", {}).get(str(group), 0.0)
 
 
 def own_veterans(acct: dict) -> list[dict]:

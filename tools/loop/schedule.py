@@ -17,10 +17,15 @@ from __future__ import annotations
 import argparse
 import functools
 import json
+import math
 
-from loopdata import Data, load_account, own_veterans, win_chance
+from loopdata import Data, load_account, own_veterans, trainee_events, win_chance
 
 YEARS = ["Junior", "Classic", "Senior"]
+DEFAULT_TARGETS = "Racing Spirit: Stamina,Uma Stan,Nimble Navigator,Pedal to the Metal,Racing Spirit: Power"
+# How much a race an event needs won outweighs affinity: log(win chance)
+# times this, so the plan keeps those races out of streaks first.
+EVENT_WEIGHT = 30
 
 
 def main() -> None:
@@ -30,6 +35,9 @@ def main() -> None:
     ap.add_argument("--parent-rank-score", type=int, required=True, help="the own parent, by rank score")
     ap.add_argument("--trainee", type=int, required=True, help="trainee card id")
     ap.add_argument("--match", choices=["both", "rental", "own"], default="both")
+    ap.add_argument("--targets", default=DEFAULT_TARGETS,
+                    help="skills whose hints the trainee's events should be planned for")
+    ap.add_argument("--no-events", action="store_true", help="plan for affinity only")
     args = ap.parse_args()
     data, acct = Data(args.master, args.names), load_account(args.account)
     db = data.db
@@ -72,7 +80,7 @@ def main() -> None:
     # Objectives of the trainee's route (the scenario's finals excluded).
     race_set = db.execute("select race_set_id from single_mode_route where chara_id=? and scenario_id=0",
                           (args.trainee // 100,)).fetchone()[0]
-    objectives, need = {}, {}
+    objectives, need_place = {}, {}
     for t, pid, top in db.execute("select turn, condition_id, condition_value_1 from single_mode_route_race"
                                   " where race_set_id=? and condition_id < 10000 order by sort_id", (race_set,)):
         # Two races on one turn (Oaks or Derby): the game sets the first as
@@ -80,7 +88,7 @@ def main() -> None:
         if t in objectives:
             continue
         objectives[t] = db.execute(race_of, (pid,)).fetchone()
-        need[t] = top  # finish at least this place (0: just run it)
+        need_place[t] = top  # finish at least this place (0: just run it)
     # Optional G1s by turn (race_permission: 1 junior, 2 classic, 3 classic+senior, 4 senior).
     options: dict[int, list] = {}
     for perm, mo, half, rid, ground, m in db.execute(
@@ -94,44 +102,116 @@ def main() -> None:
             if t not in objectives:
                 options.setdefault(t, []).append((rid, ground, m))
 
-    @functools.lru_cache(None)
-    def best(t, row, used):
-        if t > 72:
-            return 0.0, ()
-        if t in objectives:
-            rid, ground, m = objectives[t]
-            # Never put an objective at risk: a must-win needs a sure win
-            # (100%+), a top 3/5 at least 80%. Failing one may end the run.
-            floor = 100 if need[t] == 1 else 80 if need[t] else 0
-            if chance(ground, m, row + 1) < floor:
-                return float("-inf"), ()
-            v, rest = best(t + 1, row + 1, used | {rid})
-            gain = 0 if rid in used else pref(rid) * min(chance(ground, m, row + 1), 100) / 100
-            return v + gain, ((t, rid, ground, m, "objective"),) + rest
-        choices = [best(t + 1, 0, used)]
-        for rid, ground, m in options.get(t, []):
-            if rid in used:
-                continue
-            v, rest = best(t + 1, row + 1, used | {rid})
-            choices.append((v + pref(rid) * min(chance(ground, m, row + 1), 100) / 100,
-                            ((t, rid, ground, m, f"+{value(rid)}"),) + rest))
-        return max(choices, key=lambda c: c[0])
+    # Races the trainee's own events need, when the event hints a target
+    # (trainee_events.json): each must be entered, and won unless the event
+    # only asks for an entry. Found by turn: an objective on that turn with
+    # the same race covers it; any other race there makes the event
+    # impossible.
+    required: dict[int, tuple] = {}
+    planned, skipped = [], []
+    targets = {data.group(t.strip()) for t in args.targets.split(",")}
+    by_program = ("select race_permission, month, half from single_mode_program"
+                  " where race_instance_id = ? and base_program_id = 0")
+    for e in [] if args.no_events else trainee_events(args.trainee):
+        if not data.skill_groups(s for s, _ in e["skills"]) & targets:
+            continue
+        if e["other"] or not e["needs"] or any(n["rule"] not in ("all", "enter") for n in e["needs"]):
+            skipped.append(e)
+            continue
+        plan, ok = [], True
+        for need in e["needs"]:
+            for ri, year in need["races"]:
+                rid, ground, m, _ = data.race(ri)
+                turns = [turn(y, mo, h) for perm, mo, h in db.execute(by_program, (ri,))
+                         for y in {1: [1], 2: [2], 3: [2, 3], 4: [3]}[perm] if year in (None, y)]
+                t = next((t for t in turns if objectives.get(t, (None,))[0] == rid), turns[0] if turns else None)
+                if t is None or (t in objectives and objectives[t][0] != rid) \
+                        or (t in required and required[t][0] != rid):
+                    ok = False
+                    break
+                plan.append((t, rid, ground, m, need["rule"] == "all"))
+            if not ok:
+                break
+        if not ok:
+            skipped.append(e)
+            continue
+        planned.append((e, plan))
+        for t, rid, ground, m, win in plan:
+            win = win or (t in required and required[t][3])
+            required[t] = (rid, ground, m, win)
 
-    expected, picks = best(1, 0, frozenset())
+    def plan(required):
+        @functools.lru_cache(None)
+        def best(t, row, used):
+            """(score, picks): affinity value x win chance, plus, for a race an
+            event needs won, EVENT_WEIGHT x log(win chance), so the plan first
+            keeps those races out of long streaks."""
+            if t > 72:
+                return 0.0, ()
+            need = required.get(t)
+            event = EVENT_WEIGHT * math.log(max(1, min(100, chance(need[1], need[2], row + 1))) / 100) \
+                if need and need[3] else 0.0
+            if t in objectives:
+                rid, ground, m = objectives[t]
+                # Never put an objective at risk: a must-win needs a sure win
+                # (100%+), a top 3/5 at least 80%. Failing one may end the run.
+                floor = 100 if need_place[t] == 1 else 80 if need_place[t] else 0
+                if chance(ground, m, row + 1) < floor:
+                    return float("-inf"), ()
+                v, rest = best(t + 1, row + 1, used | {rid})
+                gain = 0 if rid in used else pref(rid) * min(chance(ground, m, row + 1), 100) / 100
+                return v + gain + event, ((t, rid, ground, m, "objective"),) + rest
+            if need:
+                rid, ground, m, _ = need
+                v, rest = best(t + 1, row + 1, used | {rid})
+                gain = 0 if rid in used else pref(rid) * min(chance(ground, m, row + 1), 100) / 100
+                return v + gain + event, ((t, rid, ground, m, "event"),) + rest
+            choices = [best(t + 1, 0, used)]
+            for rid, ground, m in options.get(t, []):
+                if rid in used:
+                    continue
+                v, rest = best(t + 1, row + 1, used | {rid})
+                choices.append((v + pref(rid) * min(chance(ground, m, row + 1), 100) / 100,
+                                ((t, rid, ground, m, f"+{value(rid)}"),) + rest))
+            return max(choices, key=lambda c: c[0])
+
+        _, picks = best(1, 0, frozenset())
+        rows, row, prev = {}, 0, None
+        for t, *_ in picks:
+            row = row + 1 if prev == t - 1 else 1
+            prev = t
+            rows[t] = row
+        seen, expected = set(), 0.0
+        for t, rid, ground, m, _ in picks:
+            if rid not in seen:
+                expected += value(rid) * min(chance(ground, m, rows[t]), 100) / 100
+                seen.add(rid)
+        return picks, rows, expected
+
+    picks, rows, expected = plan(required)
     print(f"trainee {data.name(args.trainee)} · starts turf {apt['turf']} dirt {apt['dirt']} short {apt['short']} "
           f"mile {apt['mile']} medium {apt['medium']} long {apt['long']} · matching {args.match}\n")
-    row, prev, most = 0, None, 0
+    most = 0
     for t, rid, ground, m, why in picks:
-        row = row + 1 if prev == t - 1 else 1
-        prev = t
         y, rem = divmod(t - 1, 24)
         mo, h = divmod(rem, 2)
         v = value(rid)
         most += v
         print(f"{YEARS[y]:<7} {mo + 1:>2}/{'early' if h == 0 else 'late ':<5} {name(rid):<30} {'dirt' if ground == 2 else 'turf'} "
-              f"{m}m  in a row {row}  win ~{chance(ground, m, row)}%  {why}{f' (+{v})' if v and why == 'objective' else ''}")
+              f"{m}m  in a row {rows[t]}  win ~{chance(ground, m, rows[t])}%  {why}"
+              f"{f' (+{v})' if v and why in ('objective', 'event') else ''}{'  *event' if t in required and why == 'objective' else ''}")
     print(f"\nchild's race affinity from these G1s: up to +{most}, expected ~+{expected:.0f}")
-
+    skill = lambda sid: (db.execute('select text from text_data where category=47 and "index"=?', (sid,)).fetchone() or ["?"])[0]
+    for e, races in planned:
+        p = math.prod(min(chance(g, m, rows[t]), 100) / 100 for t, _, g, m, win in races if win)
+        hints = ", ".join(f"{skill(s)} +{lv}" for s, lv in e["skills"])
+        print(f"event '{e['name']}' ({hints}): its {len(races)} races are in the plan; all won ~{p:.0%}")
+    for e in skipped:
+        hints = ", ".join(f"{skill(s)} +{lv}" for s, lv in e["skills"])
+        print(f"event '{e['name']}' ({hints}): conditions a plan cannot aim for or cannot meet: {e['needs'] or e['other']}")
+    if planned:
+        _, _, without = plan({})
+        print(f"(without these events the plan would expect ~+{without:.0f} affinity)")
 
 if __name__ == "__main__":
     main()

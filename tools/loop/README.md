@@ -21,7 +21,13 @@ Nothing personal is kept here. The inputs are files you pass in:
   affinity. `--targets "Uma Stan,Nimble Navigator"` to change the targets.
 - `schedule.py`: the agenda that maximises the child's race affinity with
   its two parents (`--match both|rental|own`), objectives included, win
-  chances by aptitude and races in a row.
+  chances by aptitude and races in a row. When one of the trainee's own
+  events hints a target (`--targets`) once races are won, its races go in
+  the plan, kept out of streaks first; it reports the event's chance and
+  what it costs in affinity (`--no-events` plans for affinity only).
+- `scenario_hints.py`: how often each scenario's own events hint a skill,
+  from site receipts (runs where the trainee or a deck card could have given
+  it left out); writes `data/scenario_event_hints.json`.
 - `rental_one.py`: reads a single borrowable parent by trainer id, filtered
   inside the game (the rest of the borrow list never leaves it).
 - `affinity.py`, `loopdata.py`: the affinity model and the shared rules.
@@ -33,6 +39,7 @@ Nothing personal is kept here. The inputs are files you pass in:
 | Rule | Source | Status |
 |---|---|---|
 | White spark generation 20 / 25 / 40% (normal / double circle / gold), 35.4 / 44.3 / 70.9% with all 6 ancestors carrying it. The rate follows the version bought; the spark is always the group's white (a bought It's On! sparks Ramp Up at the gold rate) | community looping guide; GameTora legacies guide; owner; master: sparks exist only for whites (`succession_factor_effect` hints a white) | end values sourced; linear in between assumed |
+| Hints also come from the scenario's own events and the trainee's own events | `data/scenario_event_hints.json` (273 URA Finale receipts: every Racing Spirit skill 31-43% of runs; the other scenarios never); uma-it-web `trainee_events.json` (GameTora trainee pages, `tools/analysis/export_trainee_events.py`: 163 events that hint a skill once races are won, e.g. Vodka's "The Coolest and Number One", Pedal to the Metal +2 for eight wins incl. both Arima Kinen) | measured / sourced; an event's chance is its races' win chances, each first in its streak |
 | Inspiration twice per run; white 3/6/9%, pink 1/3/5%, blue 70/80/90%, green 5/10/15%, race 1/2/3% per ancestor, x (1 + that ancestor's affinity / 100). A parent's affinity: trainee-parent, parent-parent, the trios with its parents, shared G1s with its parents and the other parent. A grandparent's: the trio with its child and the trainee, shared G1s with its child. No extra factor for grandparents: they fire about half as often only because their affinity is lower | uma.guide sparks guide; `inspiration_rates.py` on 8,155 IT receipts | measured 2026-09-28: fired vs predicted within 0.1% (parents) and 2% (grandparents); a flat halving for grandparents predicts half of what fired |
 | Affinity: relation points per pair and trio (`succession_relation*`), +3 per G1 win shared parent-parent and parent-grandparent; 51+ circle, 151+ double circle | game tables; community calculators | thresholds match the game's rank table; one published pair was 34 vs 39 here; the total's exact combination unverified |
 | Pinks at the start: 1 / 4 / 7 / 10 lineage stars -> +1 / +2 / +3 / +4 ranks | owner, 2026-09-28, confirmed on the setup screen | verified (Vodka dirt G -> E, Taiki B -> A with 4 stars) |
