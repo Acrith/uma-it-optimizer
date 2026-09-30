@@ -34,7 +34,16 @@ config.
    ```json
    "load_libraries": ["uma_it_plugin.dll"],
    ```
-   If the array already has entries, just add ours alongside them.
+   If the array already has entries, just add ours alongside them,
+   comma-separated with no comma after the last one:
+   `"load_libraries": ["horseACT.dll", "uma_it_plugin.dll"],`
+
+   Take care with this edit: if Hachimi can't read `config.json` (a
+   missing or extra comma, or an editor saving it as "UTF-8 with BOM"),
+   it starts from its defaults, shows the first-time setup, and saving
+   that writes an empty `load_libraries`, dropping your other mods too.
+   Save as plain UTF-8 and check the commas. The UmaLadder Companion
+   does this step for you and keeps a backup of the file.
 
 **Every run:**
 
@@ -68,6 +77,10 @@ defaults to production; power users running a dev server can edit
 
 ## Failure modes to watch for
 
+- **First-time setup shows again, your other mods are gone** — Hachimi
+  couldn't read `config.json` after an edit (see step 4 above) and
+  reset it. Fix the file, or restore `config.json.bak` if the
+  companion made one, then add the plugin again.
 - **Plugin doesn't log at all** — Hachimi didn't load the DLL. Check
   it's in the same folder as Hachimi's own DLL and that
   `uma_it_plugin.dll` appears in the top-level `load_libraries`
