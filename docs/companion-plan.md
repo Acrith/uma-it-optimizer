@@ -1011,11 +1011,14 @@ on the SP left; the mock merged both into one preset); skill icons bundled
 (the mock links GameTora's, as the site does); rank badges bundled (done).
 Later: pin/avoid from the module, scrolling in step with the game's list.
 
-**Idea parked for the setup module:** a "tracked sparks" view (seen in
-another tool): per target, the version to buy (white/gold) and the carriers,
-her spark chance, and how many will actually generate as a distribution
-("most likely 6 · 24.5%"). At setup the lineage and deck are chosen, so the
-full chain (hint × spark roll) is known per target: that's where it fits.
+**"Tracked sparks" (seen in another tool: per spark the version and the
+carriers, its chance, how many will generate):** at the end of a run the
+spark module's one-roll view already is it, on real data (the version she
+bought, her six ancestors; "Her reroll", "at least one of these", "a better
+parent than roll 1"), without the count chart by choice. The setup module
+covers the other end of the same chain: before anything is bought, each
+target's chance is hint × spark roll, from the chosen parents, deck and
+scenario.
 
 ## Next: v0.5 direction (owner, 2026-09-27)
 
