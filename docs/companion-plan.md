@@ -1017,8 +1017,75 @@ spark module's one-roll view already is it, on real data (the version she
 bought, her six ancestors; "Her reroll", "at least one of these", "a better
 parent than roll 1"), without the count chart by choice. The setup module
 covers the other end of the same chain: before anything is bought, each
-target's chance is hint × spark roll, from the chosen parents, deck and
-scenario.
+target's chance to be hinted, from the chosen parents, deck and scenario.
+
+### Setup module: mock locked (2026-09-30)
+
+Companion `ui/setup.html`, commit 262abf6. Over the career setup's right-hand
+side; 600 px wide, like the other two (one header: title + Loop chip; target
+pills with the pink border; "How it works").
+
+- **Hint only.** Per loop target, the chance this run gets its hint: the
+  scenario's own events (scenario_event_hints.json, card-capable runs
+  excluded), the six ancestors' sparks (3/6/9% × (1 + that ancestor's
+  affinity/100), twice a run) and the deck's cards (site IT runs within the
+  usual race count ± 4, the scenario's where it has 30+). Carriers x/6 beside
+  it: what the spark roll will use after buying. Not hint × spark roll: the
+  product read as a hint chance it isn't.
+- **Pals:** trainer cards' chain golds scale by the deck's pal and group
+  cards (completion ×0.22 / 0.69 / 1.06 / 1.69 for 0 / 1 / 2 / 3+ against the
+  average deck); pals' own golds come every run at any limit break; races
+  barely matter once pals are held fixed.
+- **Fills in as the player goes:** scenario (its events only), trainee (her
+  events), parents (affinity, carriers), deck, Final Confirmation (the
+  agenda). The target rows stay in place and fill; the ones nothing hints
+  fold away once the deck is in. The window only grows downward, in the
+  game's order.
+- **Deck:** what each card hints of the targets, the runs its rates rest on
+  (amber under 30), then cards to try: the player's own in place of the
+  weakest, any card as the friend card ("if you can borrow it"), each with
+  what it raises and ±1 pal, tried in place.
+- **Her events:** a pill per skill her secret events hint; a click opens
+  what each event asks (races to win; other conditions worded and marked
+  "IT decides"). Not in the chances: IT's odds of meeting them aren't
+  measured. Of the 163 secret events (107 trainees, GameTora via the site),
+  114 ask only for races won; about 26 depend on what IT does by itself
+  (event choices, rivals, running style, fans before the Finals).
+- **Agenda (Final Confirmation):** her goals + the agenda. Her events' races
+  x/y on it (also on each pill), her parents' G1s on it with the affinity
+  they'd give her as a parent (+3 per parent that won it, each G1 once), and
+  on demand the schedule by year with checkmarks: ✓ on it, ○ fits but isn't
+  on it, – can't fit (the same turn as another race). **Information only:**
+  no race suggestions in v1 (owner, and a tester: "putting the info right
+  there should be enough").
+
+Needed to wire it: the setup reads (Entry: scenario, trainee, parents,
+friend card; the selected deck preset; the agenda at the Final
+Confirmation) and a scouting pass on when each follows the screen (does the
+scenario/trainee carousel update the value as it swipes, parents on pick or
+on confirm, which setup step the player is on, whether the game pre-fills
+the last setup, whether the agenda read follows edits in the race picker);
+the data bundle (card rates by race window, scenario and trainee events,
+race dates and G1 saddles, affinity tables). Later: fold the deck's cards to
+try once past the deck screen (the confirmation view is ~900 px); a measured
+"seen in X of N IT runs with her" per event from receipts.
+
+**Agenda planning (later, researched 2026-09-30).** tools/loop/schedule.py
+already plans an IT agenda: goals always run, her events' races kept (won
+first in their streak), the rest to her parents' G1s by affinity × win
+chance from the IT win table (aptitudes, races in a row). Against uma.moe's
+"Optimal Races" for the same parents: the same 20 G1s once her goals are
+respected, but uma.moe ignores the trainee even when set (it placed Satsuki
+Sho and Kikuka Sho on her Oka Sho and Shuka Sho goal turns), races in a row
+(5 and 6 in a row in its Classic year, the 6th her long-F Arima Kinen goal)
+and her events. Ours printed its total with repeat wins counted twice (fixed:
+a G1 counts once) and plans both of two alternative events that hint the
+same skill (to fix: plan the cheaper one). The open question is the exchange
+rate between affinity and this run's hints: both end as spark chances, this
+run's once (her PTTM event: pttm hint 66 → ~75%) and affinity's in every
+run she parents (+3 ≈ +1 point of hint chance a run across her and that
+parent's targets), so the planner's one setting is how many runs she'll
+parent.
 
 ## Next: v0.5 direction (owner, 2026-09-27)
 

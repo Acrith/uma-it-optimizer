@@ -191,15 +191,20 @@ def main() -> None:
     picks, rows, expected = plan(required)
     print(f"trainee {data.name(args.trainee)} · starts turf {apt['turf']} dirt {apt['dirt']} short {apt['short']} "
           f"mile {apt['mile']} medium {apt['medium']} long {apt['long']} · matching {args.match}\n")
-    most = 0
+    # A G1 counts once: its saddle is the same the second time (a goal or an
+    # event can make her run it twice).
+    most, won = 0, set()
     for t, rid, ground, m, why in picks:
         y, rem = divmod(t - 1, 24)
         mo, h = divmod(rem, 2)
-        v = value(rid)
+        v = 0 if rid in won else value(rid)
+        again = rid in won and value(rid) > 0
+        won.add(rid)
         most += v
         print(f"{YEARS[y]:<7} {mo + 1:>2}/{'early' if h == 0 else 'late ':<5} {name(rid):<30} {'dirt' if ground == 2 else 'turf'} "
               f"{m}m  in a row {rows[t]}  win ~{chance(ground, m, rows[t])}%  {why}"
-              f"{f' (+{v})' if v and why in ('objective', 'event') else ''}{'  *event' if t in required and why == 'objective' else ''}")
+              f"{f' (+{v})' if v and why in ('objective', 'event') else ''}{' (again: no affinity)' if again else ''}"
+              f"{'  *event' if t in required and why == 'objective' else ''}")
     print(f"\nchild's race affinity from these G1s: up to +{most}, expected ~+{expected:.0f}")
     skill = lambda sid: (db.execute('select text from text_data where category=47 and "index"=?', (sid,)).fetchone() or ["?"])[0]
     for e, races in planned:
