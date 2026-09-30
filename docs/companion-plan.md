@@ -1087,6 +1087,36 @@ run she parents (+3 ≈ +1 point of hint chance a run across her and that
 parent's targets), so the planner's one setting is how many runs she'll
 parent.
 
+### v0.5 reads, checked in the game (2026-09-30)
+
+Companion 596b4af. Followed live with `frida-host poll` (one attach, no
+hooks, reads every 2-3 s, printed on change) through a run's end and the
+next setup, the owner going screen by screen; the game had updated that
+morning and every path still held.
+
+| Screen | Read | What it shows |
+|---|---|---|
+| Skill shop | `shop` | SP left; rows in the game's order (a ○/◎ pair shares a row, a gold sits above its white); hint level, discounted and base cost, ticked. Ticks and SP follow the screen live; ticking a gold ticks its white. After buying, the ticks clear and nothing is marked learned (learned skills: the character) |
+| Career result | `screen.step`, `spark_rolls` | ShowRankScore → ShowFactor → ShowFactorLottery (reroll) → ShowFactorSelect → saved veteran → ShowTrainerStatus → story → ShowFinishDialog. Roll 1 is readable already at ShowRankScore |
+| Setup | `setup.step` | `_currentStep`: RouteSelect, CardSelect, SuccessionSelect, EquipSelect; the Final Confirmation is a dialog over EquipSelect |
+| Scenario / trainee | `setup` | follow the carousel as it moves (no confirm needed); the last trainee comes pre-selected |
+| Parents | `setup.parents`, `setup.preview` | the picked parents change on OK only (pre-filled from the last run); the veteran open in the detail panel before OK (own or rental tab, which slot) follows every click that rests ~2 s (poll speed, not the game's) |
+| Deck | `setup.preset`, `setup.friend` | the selected preset follows swipes at once (its 5 cards); the friend card as picked, with its lender |
+| Final Confirmation | `setup.confirm` | focus, prioritized skills, and the agenda, which follows edits in the race picker before saving |
+
+Found on the way: a rental left pre-filled from the last run has no lender
+(the rental list loads only when opened), so the upload's borrowed parent
+is missing unless the player re-picks it; the fix is a lender cache by the
+rental veteran's id. `_ownerViewerId` decodes to 32 bits (fine as the
+rental flag it is used as; the lender's id comes whole from the rental
+list). The setup read gives parents as ids: own parents' sparks come from
+the collection, a rental's needs a read of that parent when it changes.
+
+Implementation status: the three modules' math is in `ui/src/loop` with
+tests (companion df5c56f; 59 tests, parity fixtures from tools/loop). Next:
+the overlay window and screen routing, then the spark module wired to these
+reads, then setup, then the SP module (planner port with parity).
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
