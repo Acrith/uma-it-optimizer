@@ -9,8 +9,10 @@ WITHOUT the card and substantial WITH it is a chain-completion marker
 (the user's caveat); discovery below finds the ones that do.
 
 Readings from the first corpus pass (proddb11, 8,929 runs):
-- ~100% rows are NOT chains: MLB talent auto-grants the card's gold
-  hint at career start (both pals, Sirius). Filter by eye or LB split.
+- ~100% rows are NOT chains: pal and group cards grant their gold hint in
+  every run, at every limit break (Light Hello and Heirs to the Throne 100%
+  at LB0-4, 2026-09-30; trainer cards show no LB effect either). Filter by
+  card type (support_card_data.support_card_type 2 pal, 3 group).
 - SR Kiryuin validates the method: 83% URA, 0% Unity/GL - pal events
   only fire in the pal's own scenario, matching the pal law.
 - Chain rates are strongly scenario-dependent (Tachyon SSR Speed:
@@ -18,6 +20,11 @@ Readings from the first corpus pass (proddb11, 8,929 runs):
 - Friend/group cards RAISE other cards' completion (Tachyon in GL:
   0 friends 9% -> 3 friends 54%, monotone) - chains contest event
   slots against other trainer cards, not against friends.
+- Pals, not races (2026-09-30, 51 markers, 8,929 runs): with the pal count
+  held fixed, races barely move completion (GL, 2 pals: 19/18/19% for
+  <=24/25-30/31+ races); a raw split by races confounds pals, 0-pal decks
+  racing less. Pooled against an average deck: x0.22 / 0.69 / 1.06 / 1.69
+  for 0 / 1 / 2 / 3+ pal or group cards.
 
 Usage: python chain_rates.py --runs <dir> [--min-n 40]
 """
