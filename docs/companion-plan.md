@@ -1117,6 +1117,39 @@ tests (companion df5c56f; 59 tests, parity fixtures from tools/loop). Next:
 the overlay window and screen routing, then the spark module wired to these
 reads, then setup, then the SP module (planner port with parity).
 
+Update 2026-09-30: the module window, routing, Sparks and Setup are live
+and tested in the game through dev12 (Setup declared done by the owner).
+The SP module is live and checked in a skill shop (dev13 to dev16,
+companion 7909eba + 2d33188):
+
+- `ui/src/planner/data.ts`: uma-it-web's `_planner_data` ported (the
+  estimator, knapsack and lookups; masters bundled from
+  `tools/gen_planner_data.py`, 175 KB). Identical to the Python on all 27
+  of the owner's receipts; four of them are fixtures (a removal, a Fast
+  Learner, a many-gold run).
+- `ui/src/planner/core.ts`: the page's planning core (knapsack, preset
+  ladder, chain toggles, totals, tiers) vendored from PLANNER_JS. Parity
+  fixtures come from the site's own script run under node, with presets
+  that make every rung fire (shed, shed past twelve, admit an avoid,
+  marks, filter, toggles). One known gap is by design: the Python's
+  opening plan ignores Fast Learner, the page's planner doesn't.
+- `ui/src/sp-live.ts`: the live view. The run's receipt comes from the
+  capture queue (the newest of her card since the run started), the
+  shop read gives the game's order, ticks and what she has, and her six
+  ancestors come from the receipt. Plans per Loop and Rest choice are the
+  site's Optimize ("her race" = the style she ran, A+ distances and
+  ground), re-fitted around anything ticked off the plan. It checks the
+  receipt against the shop and re-asks for it while it's missing.
+- Found in the shop: a re-fit around picks off the plan dropped skills
+  already ticked from the plan; the cart (everything ticked or bought) is
+  now the only pin, the preset's needed skills wished for on top. Fast
+  Learner prices were right (the game charges them).
+- Header after the owner's review: SP used and the rating count up with
+  the ticks (SP left = the game's Skill Points), the total now beside the
+  plan's possible max, the picks' cost under the max, "rank N" and the
+  progress line gone; what the re-fit dropped is behind "Show dropped".
+- Sparks fixes confirmed at the spark screen the same day (box ranking).
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
