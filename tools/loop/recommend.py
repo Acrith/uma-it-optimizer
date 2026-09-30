@@ -42,8 +42,11 @@ def score(aff: dict, targets: dict[str, tuple[int, str]], other: dict[str, float
         gen = base * 1.1 ** k  # x1.1 per ancestor carrying it (sheet, uma.moe)
         miss = 1.0
         for m, a, f in aff["members"]:
-            if s in m.sparks:
-                miss *= (1 - INSPIRATION[m.sparks[s]] * (1 + a / 100) * f) ** 2
+            # A "+" spark (Racing Spirit: Power +) gives the plain skill's
+            # hint too, but isn't a carrier for the spark roll.
+            for stars in (m.sparks.get(s), m.sparks.get(f"{s} +")):
+                if stars:
+                    miss *= (1 - INSPIRATION[stars] * (1 + a / 100) * f) ** 2
         miss *= 1 - (other or {}).get(s, 0.0)
         per[s] = (k, gen, 1 - miss)
         total += w * gen * (0.5 + 0.5 * (1 - miss))
