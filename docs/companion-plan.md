@@ -972,6 +972,51 @@ token-readable presets endpoint.
   rank (the parenting guide: at SS, 17,500, a white's 3★ goes 5% → 10% and
   1★ 50% → 20%); the mock uses the box's mix (42/53/5%).
 
+### SP planner module: mock locked (2026-09-30)
+
+Companion `ui/sp.html`, commit 06ef77b. Over the skill shop's right-hand
+panel (Career Profile, ~640 px wide), beside the game's list; 600 px wide.
+
+- **The plan is the site's SP planner** (per_run_detail `_planner_data` +
+  detail_template `PLANNER_JS`), unchanged: the mock ran it headless on a
+  receipt for every choice. Two choices, as chips: **Loop** (a preset's
+  targets, bought first; or none) and **Rest** (where the SP after the
+  targets goes: her race, i.e. the planner's style/distance/ground filter;
+  most rating; or one of the player's SP planner presets), each option with
+  the rating it reaches. Loop presets say what to spark; the leftover is a
+  separate choice, which settles "loop presets vs SP presets".
+- **Header:** the run page's infographic (SP used with what's left under it,
+  score bonus, total with the rank badge, a bar to the next rank, and SS),
+  then the planner's narration, naming the loop targets not hinted this run.
+- **The list reads as the game's:** one list in the shop's order, filled
+  column by column (horizontal pills and tiles read in the wrong order and
+  were dropped). A row: the skill's icon, a pill in the shop's colors (white,
+  gold; a pink border for a loop target, dashed for nice), SP, and her chance
+  to spark it (bold for targets). Hairlines between rows; a long name wraps
+  inside its pill.
+- **One meaning per look:** a box = in the plan; ✓ and struck through =
+  bought; grey = not in the plan (All view only).
+- **Live:** ticks in the game are locked in and the plan re-fits the SP
+  left; a pick off the plan is tagged "your pick" with its cost narrated
+  ("−68 rating against the best plan · dropped Ignited Spirit PWR").
+- **All:** every hinted skill, one scrolling column, rating per SP, sort by
+  shop order or best value; the plan's rows keep contrast.
+- **Dropped on review:** a targets chart and "expected / at least N" figures
+  (spark odds belong to the spark module; the % per row is enough here).
+
+Needed to wire it: the shop read (list order, the +/− selection, live SP);
+the planner ported to the companion with a parity test against the site's;
+Loop + Rest as two steps (pin the loop's targets, then plan the Rest preset
+on the SP left; the mock merged both into one preset); skill icons bundled
+(the mock links GameTora's, as the site does); rank badges bundled (done).
+Later: pin/avoid from the module, scrolling in step with the game's list.
+
+**Idea parked for the setup module:** a "tracked sparks" view (seen in
+another tool): per target, the version to buy (white/gold) and the carriers,
+her spark chance, and how many will actually generate as a distribution
+("most likely 6 · 24.5%"). At setup the lineage and deck are chosen, so the
+full chain (hint × spark roll) is known per target: that's where it fits.
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
