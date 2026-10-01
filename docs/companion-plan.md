@@ -1150,6 +1150,64 @@ companion 7909eba + 2d33188):
   progress line gone; what the re-fit dropped is behind "Show dropped".
 - Sparks fixes confirmed at the spark screen the same day (box ranking).
 
+## After v0.5: roadmap (owner, 2026-10-01)
+
+**Leaderboards and spark statistics** (testers' ideas, owner: "it could be
+still both" of the two kinds below, richer than a copy with what the modules
+already compute). Day / week / lifetime, at least a few runs per player, the
+site's privacy modes respected (anonymous shown as such, private left out).
+- *Luck*: luckiest and unluckiest by 3★ sparks against the expected (by each
+  veteran's own rank: SS doubles a white's 3★ odds), the current streak
+  since a 3★, all-time droughts; white spark luck (sparks against the
+  expected from the skills she had); and two only we can make: inspiration
+  luck (the receipts list which sparks fired each year, against the
+  inspiration model) and hint luck (hints against the measured card rates).
+- *Quality and quantity*: per fixed style set (the loop sheet's Front /
+  Pace / Late / End, so players compare on the same targets), the best roll
+  by the Sparks module's rating, targets carried against how strongly.
+- *A roll against everyone*: where a spark roll ranks among all players'
+  veterans, not only the player's box (helps new players pick a first
+  parent).
+- Data: the receipts (inspiration, hints), the synced collections (sparks,
+  rank, first seen), and the spark screen records (both rolls and her skills
+  at the screen; private table `spark_screens`, filled from v0.5 on: the
+  white-spark and roll boards need it, and it also measures the white spark
+  rate and "+" sparks). The roll the player kept is the veteran the synced
+  collection gains: same card, the exact same sparks (checked on two of the
+  owner's runs, one kept roll 1, one roll 2), so no read of the choice is
+  needed. Luck counts both rolls: the kept one is the better by choice.
+- Also from the same discussion: a borrow finder (rank the rentals the
+  player can take for a goal; later "who to follow" over every player's lent
+  veteran).
+
+**Her events' completion chance** on Setup's event pills at the Final
+Confirmation ("pttm 8/8 · 36%", each race's chance in the popover): the
+product of the IT win chances, which depend only on aptitude against the
+race and the place in a streak (tools/loop/loopdata.py `WIN`; testers: stats
+and the deck don't matter in IT), her aptitudes at the start raised by her
+parents' pinks, the streaks from the agenda's turns (tools/loop/schedule.py
+computes it already). Before showing it: write the table's predictions down,
+then check them against the receipts' race results (and that stats don't
+matter); otherwise measure our own table.
+
+**Known, left for later:** the mouse wheel over a module also scrolls the
+game (the game is the active window and reads the wheel wherever the
+cursor is; modules never take focus). Not a global mouse hook for v0.5 (a
+system-wide input path, an antivirus look on an unsigned app); later an
+opt-in setting, tested first.
+
+**Waiting on feedback: a big preset opened in Sparks** (owner, 2026-10-01).
+A preset with 31 targets opens "Targets no roll carries" into 26 more rows
+in preset order: the 5 carried ones end up scattered and move when the box
+is ticked, and about half the opened rows are 0% in every column (nobody in
+the box carries them: news about the preset, not the screen). The side by
+side view reads better: only what either side carries, the gaps as arrows;
+but its "+ N more targets neither carries" is still plain text. If players
+ask: the opened rows as their own block under the carried ones (which don't
+move), sorted by Best now so the 0% rows sink; the same checkbox and block in
+the side by side view. Small presets (9-14 targets) rarely open more than a
+handful.
+
 ## Next: v0.5 direction (owner, 2026-09-27)
 
 After v0.4.0. Guiding worry (owner): a planner that predicts where we
