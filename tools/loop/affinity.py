@@ -2,7 +2,10 @@
 
 rel(A, B, ...) = sum of relation_point over the relation groups that contain
 every one of the characters. The combination follows what community
-calculators describe; the race part is 3 points per G1 win saddle shared.
+calculators describe; the race part is 3 points per G1 shared, by the win
+saddle's group: a G1 run at another venue (the JBC Classic's four, the
+Takarazuka Kinen at Kyoto) is its own saddle in the same group, and counts as
+the same G1 (players report so; the receipts couldn't tell, 2026-10-01).
 Checked: the symbol thresholds (51 circle, 151 double circle) and the saddle
 grades; one published pair (34) came out 39 here, so treat totals as close,
 not exact.
@@ -22,10 +25,10 @@ class Affinity:
         self.groups: dict[int, set[int]] = collections.defaultdict(set)
         for rt, ch in db.execute("select relation_type, chara_id from succession_relation_member"):
             self.groups[ch].add(rt)
-        # Win saddles that are a single G1 race (grade 100).
-        self.g1 = {sid for (sid,) in db.execute(
-            "select s.id from single_mode_wins_saddle s join race_instance ri on ri.id = s.race_instance_id_1"
-            " join race r on r.id = ri.race_id where s.race_instance_id_2 = 0 and r.grade = 100")}
+        # Win saddles that are a single G1 race (grade 100), to their group.
+        self.g1 = dict(db.execute(
+            "select s.id, s.group_id from single_mode_wins_saddle s join race_instance ri on ri.id = s.race_instance_id_1"
+            " join race r on r.id = ri.race_id where s.race_instance_id_2 = 0 and r.grade = 100"))
         self.rel = functools.lru_cache(None)(self._rel)
 
     def _rel(self, *charas: int) -> int:
@@ -33,7 +36,8 @@ class Affinity:
         return sum(self.point[t] for t in common)
 
     def race(self, a: Uma, b: Uma) -> int:
-        return 3 * len(set(a.wins) & set(b.wins) & self.g1)
+        g1 = self.g1
+        return 3 * len({g1[w] for w in a.wins if w in g1} & {g1[w] for w in b.wins if w in g1})
 
     def evaluate(self, trainee: int, p1: Uma, p2: Uma) -> dict | None:
         """Total and per-member affinity; None when a character repeats."""

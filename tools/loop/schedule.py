@@ -44,14 +44,16 @@ def main() -> None:
     own = data.veteran(next(v for v in own_veterans(acct) if v["_rankScore"] == args.parent_rank_score))
     rental = data.rental(json.load(open(args.rental, encoding="utf-8")))
 
+    # A G1 by its win saddle's group: one run at another venue (the JBC
+    # Classic's four) is the same G1, as affinity.py counts it.
+    g1_saddle, g1_of_race = {}, {}
+    for sid, group, rid in db.execute(
+            "select s.id, s.group_id, ri.race_id from single_mode_wins_saddle s join race_instance ri on ri.id=s.race_instance_id_1"
+            " join race r on r.id=ri.race_id where s.race_instance_id_2=0 and r.grade=100"):
+        g1_saddle[sid], g1_of_race[rid] = group, group
+
     def g1_races(uma):
-        out = set()
-        for sid in uma.wins:
-            r = db.execute("select ri.race_id from single_mode_wins_saddle s join race_instance ri on ri.id=s.race_instance_id_1"
-                           " join race r on r.id=ri.race_id where s.id=? and s.race_instance_id_2=0 and r.grade=100", (sid,)).fetchone()
-            if r:
-                out.add(r[0])
-        return out
+        return {g1_saddle[sid] for sid in uma.wins if sid in g1_saddle}
 
     own_w = g1_races(own) if args.match in ("both", "own") else set()
     ren_w = g1_races(rental) if args.match in ("both", "rental") else set()
@@ -64,13 +66,14 @@ def main() -> None:
         return win_chance(apt["turf"] if ground == 1 else apt["dirt"], dist_grade(m), row)
 
     def value(rid):
-        return (3 if rid in own_w else 0) + (3 if rid in ren_w else 0)
+        g = g1_of_race.get(rid)
+        return (3 if g in own_w else 0) + (3 if g in ren_w else 0)
 
     # On a tie, the rental's race: a lender borrowed every generation stays in
     # the lineage, the own parent leaves it within two. Too small to outweigh
     # any real difference in expected value.
     def pref(rid):
-        return value(rid) + (0.001 if rid in ren_w else 0)
+        return value(rid) + (0.001 if g1_of_race.get(rid) in ren_w else 0)
 
     name = lambda rid: (db.execute('select text from text_data where category=32 and "index"=?', (rid,)).fetchone() or ["?"])[0]
     turn = lambda year, month, half: (year - 1) * 24 + (month - 1) * 2 + half
