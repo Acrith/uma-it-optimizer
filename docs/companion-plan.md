@@ -406,6 +406,45 @@ against the next upload.
   the way of the prefix). To verify: whether Hachimi runs under Proton; if
   it does, Linux Hachimi users get the plugin route (no Frida-in-Wine
   flakiness) and the capture setup manager can install it there too.
+- **Update 2026-10-01: Hachimi and the plugin run under Wine.** A macOS
+  tester plays through CrossOver (Steam in a Wine bottle) with Hachimi and
+  the plugin: capture and upload already work there, as on Linux (the
+  extractor via Proton, or the plugin). What a non-Windows companion would
+  add is the rest (timer, collection sync, spark records, modules). The
+  plugin is the way in: it already runs inside the game under Wine; if it
+  also answered the companion's reads over a local socket (Wine passes it
+  through), a native Linux or macOS companion needs no Frida in Wine. A
+  CrossOver bottle has the same shape as a Proton prefix (only its path and
+  wine binary differ). macOS stays costlier: no Mac to test on, 10x CI
+  minutes, Gatekeeper without paid notarization.
+- **Shape agreed for later, as a side project (owner, 2026-10-01):**
+  1. *One reader, two sources.* The companion asks for a read by name
+     (setup, parents, spark rolls, her skills, shop, collection, screen,
+     IT state, ~15); Frida or the plugin answers with the same JSON.
+  2. *Plugin reads on Windows first*: the reads ported to Rust inside the
+     plugin plus a local server, checked field by field against the Frida
+     reads on the owner's PC (a parity test), shipped to Windows Hachimi
+     users first (no Frida attach when the plugin is there). Testable
+     without any Linux machine, unlike Frida inside Wine.
+  3. *A Linux build* with the plugin as its only reader; Linux-only work
+     left: finding the game in the Proton prefix, the overlay (X11 fine,
+     Wayland via XWayland, never Deck Game Mode). Needs Linux testers.
+  4. *macOS last*: the same build, a CrossOver bottle for the prefix.
+  Cost: every read written twice from then on (Frida JS and plugin Rust),
+  kept in step by the parity test.
+- **Without Hachimi:** Linux keeps capture and upload (the extractor in the
+  Proton prefix); the companion's extras there would need a third source,
+  Frida inside Proton (reuses the reads as they are; only Linux testers can
+  check it), built only if Linux players without Hachimi ask. macOS:
+  Hachimi only, realistically (Frida in CrossOver under Rosetta is a long
+  shot; the extractor was never tried there).
+
+  | | Capture + upload | Companion extras |
+  |---|---|---|
+  | Linux, Hachimi + plugin | yes, today | via the plugin route |
+  | Linux, no Hachimi | yes, today (extractor) | only with a Frida-in-Proton source |
+  | macOS (CrossOver), Hachimi + plugin | yes, today | via the plugin route |
+  | macOS, no Hachimi | unverified | no |
 - **The manual-run SP planner must work without the app window.** Steam
   Deck Game Mode has no second window and no overlay. The career-state
   capture is uploadable and the plan is viewable on the site (any device,
