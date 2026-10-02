@@ -1229,6 +1229,24 @@ computes it already). Before showing it: write the table's predictions down,
 then check them against the receipts' race results (and that stats don't
 matter); otherwise measure our own table.
 
+**Trainees' own non-secret event hints (owner, 2026-10-02: "we shouldn't
+propagate lying data").** The trainee event data (GameTora) lists only the
+secret events that hint skills; a trainee can hint a skill through another
+event of hers (Inari One: Tail Held High in about 20% of her Grand Concert
+runs). Card rates credited such hints to any deck card listing the skill
+(Tazuna Hayakawa [Tracen Reception]'s "Tail Held High 1%" was all Inari One
+runs; her "Watchful Eye 10%" was trainees who always get it: 2% elsewhere).
+Now measured from the receipts (companion tools/gen_card_hints.py
+`trainees`): per character and scenario, a skill's share of her runs through
+events where no deck card's events, the scenario's own events or her secret
+events could give it, kept at 40+ runs, 12+ hits, 10%+ and 5x other trainees'
+share. Thresholds set by split halves: what one half found, the other found
+too (114 of 114; looser ones replicated 88%). A card's rate for such a skill
+is measured on the runs where her trainee doesn't give it (every moved rate
+equals its clean-run rate); subtracting her share instead overshot where it
+was large (Agnes Digital [A Fan's Joy] Wet Conditions 0% against 7% clean).
+Setup counts her share as a source ("her 20%"). 33 characters, 71 pairs.
+
 **Known, left for later:** the mouse wheel over a module also scrolls the
 game (the game is the active window and reads the wheel wherever the
 cursor is; modules never take focus). Not a global mouse hook for v0.5 (a
