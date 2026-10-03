@@ -34,6 +34,58 @@ Nothing personal is kept here. The inputs are files you pass in:
 - `inspiration_rates.py`: checks the inspiration rule on site receipts
   (which sparks fired at each inspiration, by lineage position).
 
+## Simulation (`sim/`)
+
+Days of looping played out from a real box: each run's hints, purchases,
+two spark rolls (the better kept, by the Sparks module's rating) and the new
+veteran back in the box, so later runs can pick it as a parent. It answers
+"which lever is worth it": the trainee, the scenario, rerolls, decoy Racing
+Spirits, borrows. Built 2026-10-01 on the test account; the rules and their
+checks are in `sim.py`'s docstring.
+
+Every script takes the same inputs: `--master` (the game's master.mdb),
+`--account` (the companion's own `account.json`, in its data folder:
+Settings > Your data > Open data folder), `--rental` (`rental_one.py`'s
+file), `--scenario` (1 URA Finale, 2 Unity Cup, 3 Grand Concert).
+`names.json` and `loop_data.json` default to a checkout of
+umaladder-companion beside this repo (`--names`, `--loop-data`).
+
+- `strategies.py <strategies> <days> <runs/day> <borrows/day> <reps>`:
+  strategies side by side (`fiery`, trainee rotations `rot:<main>:<x>:<every
+  n>`, `-bx`/`-bf` for who gets the borrows). `--decoys N` buys N decoy Racing
+  Spirits every run; `--fiery-potential`.
+- `phases.py "<scenario>:<days>:<strategy>|..." <runs/day> <borrows> <reps>`:
+  one scenario after another, the box carried over.
+- `scenarios.py`: the best own pair and rental pair per scenario, with the
+  expected target sparks a run and the chance of a 4+ of 5 parent.
+- `calib_gen.py --data <companion data folder> --master <master.mdb>`: the
+  spark roll model against the player's spark records (sparked vs expected
+  per version and carriers), the "+" in every roll, the box's "+" sparks.
+
+Results of 2026-10-01 (the test account: 259 veterans, Vodka [Fiery Aqua
+Vitae] at potential 5, its usual rental; 10 runs a day, 5 borrows, 200
+replications, 4 weeks):
+
+| | 4+ of 5 parents made | 5/5 made | P(any 5/5) |
+|---|---|---|---|
+| URA, Fiery every run | 27.2 | 1.82 | 82% |
+| URA, no borrows | 24.0 | 1.40 | |
+| URA, Nice Nature every 3rd run (borrows on her) | 24.8 | 1.60 | 80% |
+| Unity Cup, Fiery every run | 37.6 | 3.37 | 98% |
+| URA for 7 days, then Unity Cup for 21 | 34.8 | 2.81 | |
+
+- The trainee is the first lever (4+ parents in 4 weeks: Fiery p5 27.2, Nice
+  Nature [Run & Win] 13.0, Mayano [Scramble Zone] 12.9), then the scenario:
+  the "+" tax exists only in URA (every URA roll turns one Racing Spirit
+  bought into "+", which sparks nothing of its own; Unity Cup's "+" is an
+  Ignited Spirit's, Grand Concert has none), and Unity Cup's own events hint
+  Nimble Navigator every run. Unity Cup without borrows beat URA with them.
+- Rerolling doubles the 4+ and 5/5 chances a run (5.9% -> 11.4% and 0.46% ->
+  0.91%); decoy Racing Spirits matter in URA (none bought: 5/5 impossible).
+- Not verified for Unity Cup: its skill points, Agnes Digital's Uma Stan
+  hint rate there (19 runs), and the spark roll there (calibrated on URA
+  rolls). A few Unity Cup runs and `calib_gen.py` settle it.
+
 ## Rules used, and how sure they are
 
 | Rule | Source | Status |
