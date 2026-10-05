@@ -9,6 +9,14 @@ the same G1 (players report so; the receipts couldn't tell, 2026-10-01).
 Checked: the symbol thresholds (51 circle, 151 double circle) and the saddle
 grades; one published pair (34) came out 39 here, so treat totals as close,
 not exact.
+
+In-breeding (a grandparent of the trainee's own character): the trio
+relation (trainee, parent, that grandparent) counts zero. Measured
+2026-10-05 on 17,893 IT receipts, 6,144 with an in-bred grandparent: its
+whites fired at 8.32% per inspiration against 8.29% predicted with the trio
+at zero and 9.59% with it counted (67,916 trials); its child's at 17.14%
+against 17.14% / 18.43% (59,076). A grandparent's trio averages ~24 points,
+lost from both its own affinity and its child's.
 """
 from __future__ import annotations
 
@@ -35,6 +43,11 @@ class Affinity:
         common = set.intersection(*(self.groups[c] for c in charas))
         return sum(self.point[t] for t in common)
 
+    def trio(self, t: int, p: int, g: int) -> int:
+        """The trio relation; zero for a grandparent of the trainee's own
+        character (in-breeding)."""
+        return 0 if g == t else self.rel(t, p, g)
+
     def race(self, a: Uma, b: Uma) -> int:
         g1 = self.g1
         return 3 * len({g1[w] for w in a.wins if w in g1} & {g1[w] for w in b.wins if w in g1})
@@ -47,10 +60,10 @@ class Affinity:
         rel = self.rel
         side = {}
         for key, p, other in (("p1", p1, p2), ("p2", p2, p1)):
-            side[key] = rel(t, p.chara) + sum(rel(t, p.chara, g.chara) for g in p.parents) \
+            side[key] = rel(t, p.chara) + sum(self.trio(t, p.chara, g.chara) for g in p.parents) \
                 + sum(self.race(p, g) for g in p.parents) + (self.race(p, other) if key == "p1" else 0)
         total = rel(t, p1.chara) + rel(t, p2.chara) + rel(p1.chara, p2.chara) \
-            + sum(rel(t, p1.chara, g.chara) for g in p1.parents) + sum(rel(t, p2.chara, g.chara) for g in p2.parents) \
+            + sum(self.trio(t, p1.chara, g.chara) for g in p1.parents) + sum(self.trio(t, p2.chara, g.chara) for g in p2.parents) \
             + sum(self.race(p1, g) for g in p1.parents) + sum(self.race(p2, g) for g in p2.parents) + self.race(p1, p2)
         # Each ancestor's own affinity, which scales its inspiration chance.
         # Fitted on 8,155 IT receipts (inspiration_rates.py): a parent adds
@@ -58,11 +71,11 @@ class Affinity:
         members = []
         for p, other in ((p1, p2), (p2, p1)):
             members.append((p, rel(t, p.chara) + rel(p1.chara, p2.chara)
-                            + sum(rel(t, p.chara, g.chara) + self.race(p, g) for g in p.parents)
+                            + sum(self.trio(t, p.chara, g.chara) + self.race(p, g) for g in p.parents)
                             + self.race(p, other), 1.0))
         for p in (p1, p2):
             for g in p.parents:
-                members.append((g, rel(t, p.chara, g.chara) + self.race(p, g), 1.0))
+                members.append((g, self.trio(t, p.chara, g.chara) + self.race(p, g), 1.0))
         inbreed = sum(1 for p in (p1, p2) for g in p.parents if g.chara == t)
         return {"total": total, "p1": side["p1"], "p2": side["p2"], "members": members, "inbreed": inbreed}
 
