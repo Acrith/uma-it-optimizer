@@ -19,6 +19,7 @@ Rules (sources: loopdata.py, the companion's rates.ts, and checks
 """
 from __future__ import annotations
 
+import json
 import random
 from dataclasses import dataclass
 
@@ -63,6 +64,28 @@ def deck(name, hints: dict, golds: dict | None = None) -> Deck:
 # Uma Stan by scenario (card_hints.json): Agnes Digital + King Halo; Agnes alone.
 DECKS: tuple = ()
 DECK_KH = DECK_YB = None
+# A deck given as card ids (lineage.py --deck): its rates per target from
+# the companion's card_hints.json (site receipts, per card and scenario).
+DECK_CARDS: list[int] = []
+CARD_HINTS = ""
+
+
+def deck_from_cards(name: str, cards: list[int], sc: int) -> Deck:
+    """Per target: the chance some card of the deck hints it (and the gold),
+    the cards taken as independent, each from its scenario's cell (else all
+    scenarios'). The deck's pal count is not adjusted for."""
+    by_card = json.load(open(CARD_HINTS, encoding="utf-8"))["cards"]
+    hints, golds = {}, {}
+    for t in TARGETS:
+        g = str(world.GROUP[t])
+        miss_h = miss_g = 1.0
+        for c in cards:
+            by = (by_card.get(str(c)) or {}).get("by", {})
+            cell = (by.get(str(sc)) or by.get("0") or {}).get("all") or {}
+            miss_h *= 1 - cell.get("hint", {}).get(g, 0.0)
+            miss_g *= 1 - cell.get("gold", {}).get(g, 0.0)
+        hints[t], golds[t] = 1 - miss_h, 1 - miss_g
+    return deck(name, hints, golds)
 
 
 def set_scenario(sc: int) -> None:
@@ -73,8 +96,20 @@ def set_scenario(sc: int) -> None:
     DECK_KH = deck(f"King Halo friend/{sc}", {"Uma Stan": kh})
     DECK_YB = deck(f"Yukino friend/{sc}", {"Uma Stan": ag, "Nimble Navigator": 0.78}, {"Nimble Navigator": 0.78})
     DECKS = (DECK_KH, DECK_YB)
+    if DECK_CARDS:
+        DECKS = (deck_from_cards(f"deck/{sc}", DECK_CARDS, sc),)
     _SETUP.clear()
     _VALUE_EPOCH[0] += 1
+
+
+# Target weights for choosing and keeping (lineage.py: the active list 1,
+# the candidates not yet looped 0, so their sparks are tracked but don't
+# steer). Missing: 1.
+WEIGHTS: dict[str, float] = {}
+
+
+def weight(t: str) -> float:
+    return WEIGHTS.get(t, 1.0)
 
 
 _VALUE_EPOCH = [0]
@@ -116,11 +151,14 @@ def _setup(card: int, potential: int, p1: Uma, p2: Uma, dk: Deck):
                 if st:
                     miss *= (1 - INSP[st] * (1 + a / 100)) ** 2
         other = 1 - (1 - SCEN[t]) * (1 - event_hint(card, t, ak)) * (1 - dk.hint[i])
+        # The scenario's every-run golds (Unity Cup: It's On!, No Stopping
+        # Me!) come to any trainee: her own gold of those adds nothing.
+        sg = max(dk.gold[i], world.SCEN_GOLD.get(t, 0.0))
         if t in own:
-            h, g = 1.0, 1.0 if own[t] == "gold" else dk.gold[i]
+            h, g = 1.0, 1.0 if own[t] == "gold" else sg
         else:
             h = 1 - miss * (1 - other)
-            g = min(dk.gold[i], h)
+            g = min(sg, h)
         out.append((h, g, k))
     return tuple(out), r["total"]
 
@@ -156,7 +194,7 @@ def expected(card, potential, p1, p2, dk) -> tuple[float, list[float]] | None:
     hints, _ = s
     spare = plus_spare(hints)
     per = [((h - g) * BASE["normal"] + g * BASE["gold"]) * 1.1 ** k * spare[i] for i, (h, g, k) in enumerate(hints)]
-    return sum(per), per
+    return sum(weight(t) * p for t, p in zip(TARGETS, per, strict=True)), per
 
 
 def best_of_two_4plus(per: list[float]) -> float:
@@ -192,7 +230,7 @@ def value(v: Uma) -> float:
             for st in (a.sparks.get(t), a.sparks.get(f"{t} +")):
                 if st:
                     miss *= (1 - INSP[st] * (1 + lvl / 100)) ** 2
-        tot += (1 - miss) * BASE["normal"] * 1.1 ** k
+        tot += weight(t) * (1 - miss) * BASE["normal"] * 1.1 ** k
     v._value = (_VALUE_EPOCH[0], tot)
     return tot
 

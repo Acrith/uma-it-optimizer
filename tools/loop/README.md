@@ -61,6 +61,28 @@ umaladder-companion beside this repo (`--names`, `--loop-data`).
 - `calib_gen.py --data <companion data folder> --master <master.mdb>`: the
   spark roll model against the player's spark records (sparked vs expected
   per version and carriers), the "+" in every roll, the box's "+" sparks.
+- `lineage.py`: the looping process itself, over months (the looping
+  guide's "the parent from (1) + Rental until you hit again"): the own
+  parent is the best veteran by lineage value (the newest child takes over
+  once it beats the old line; one that loses a target never does), the
+  trainee any fit character other than the parents' (so it rotates), the
+  rental or the second-best own line as the other parent; every candidate
+  target tracked, the list growing when a veteran carries all of it.
+  `--deck` takes card ids (rates from the companion's card_hints.json);
+  `--order cheap|tier` picks the next target. Reports the share of
+  replications with a veteran carrying n/n by day 30 / 60 / 90.
+
+First lineage results (2026-10-05, Unity Cup, the test account's deck, 50
+replications, 90 days): adding gold-backed targets first (Ramp Up and
+Nimble from Unity Cup's every-run golds, Playtime's Over! from Light
+Hello, Risky Business, Slick Surge) reached 8/8 in 80%; the sheet's tier
+order (Tail Held High next, no source but the lineage) in 6%, and there the
+rotation roughly doubled the progress of "Fiery every run". The ceiling is
+the three whites no gold or (in Unity Cup) no event hints: Racing Spirit
+Stamina and Power, Uma Stan, at most 35.4% a roll each even at 6/6.
+Not modelled yet: SP limits (every hinted target is bought), SS-rank star
+odds, the trainee's objectives in the race affinity (`schedule.py` has
+them), a URA phase for the Racing Spirits.
 
 Results of 2026-10-01 (the test account: 259 veterans, Vodka [Fiery Aqua
 Vitae] at potential 5, its usual rental; 10 runs a day, 5 borrows, 200
@@ -94,6 +116,7 @@ replications, 4 weeks):
 | Hints also come from the scenario's own events and the trainee's own events | `data/scenario_event_hints.json` (273 URA Finale receipts: every Racing Spirit skill 31-43% of runs; the other scenarios never); uma-it-web `trainee_events.json` (GameTora trainee pages, `tools/analysis/export_trainee_events.py`: 163 events that hint a skill once races are won, e.g. Vodka's "The Coolest and Number One", Pedal to the Metal +2 for eight wins incl. both Arima Kinen) | measured / sourced; an event's chance is its races' win chances, each first in its streak |
 | Inspiration twice per run; white 3/6/9%, pink 1/3/5%, blue 70/80/90%, green 5/10/15%, race 1/2/3% per ancestor, x (1 + that ancestor's affinity / 100). A parent's affinity: trainee-parent, parent-parent, the trios with its parents, shared G1s with its parents and the other parent. A grandparent's: the trio with its child and the trainee, shared G1s with its child. No extra factor for grandparents: they fire about half as often only because their affinity is lower | uma.guide sparks guide; `inspiration_rates.py` on 8,155 IT receipts | measured 2026-09-28: fired vs predicted within 0.1% (parents) and 2% (grandparents); a flat halving for grandparents predicts half of what fired |
 | Affinity: relation points per pair and trio (`succession_relation*`), +3 per G1 win shared parent-parent and parent-grandparent; 51+ circle, 151+ double circle | game tables; community calculators | thresholds match the game's rank table; one published pair was 34 vs 39 here; the total's exact combination unverified |
+| In-breeding (a grandparent of the trainee's own character): that trio's relation counts zero, for the grandparent and its child | community (JP: "その部分は相性0"); 17,893 IT receipts | measured 2026-10-05: in-bred grandparents' whites fired 8.32% per inspiration vs 8.29% predicted (9.59% with the trio counted), 67,916 trials; their children 17.17% vs 17.14% |
 | Pinks at the start: 1 / 4 / 7 / 10 lineage stars -> +1 / +2 / +3 / +4 ranks | owner, 2026-09-28, confirmed on the setup screen | verified (Vodka dirt G -> E, Taiki B -> A with 4 stars) |
 | IT race win chance by summed surface + distance rank and races in a row (A/A 110%, A/E 70%, A/F 50%; 3rd/4th/5th/6th in a row lower) | Japanese IT table (screenshot from the owner) | sourced; the table notes the rank sum is itself assumed |
 | A trainee must reach Dirt A to generate a Dirt spark | community looping guide | sourced |

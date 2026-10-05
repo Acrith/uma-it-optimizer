@@ -32,6 +32,12 @@ _files: dict[str, str] = {}
 SCENARIO = 1
 SCEN: dict[str, float] = {}
 PLUS_TAX = True
+# Skill groups whose GOLD a scenario's own events hint in every run (site
+# receipts, 1,768 of 1,768 Unity Cup runs): It's On! (Ramp Up) and No
+# Stopping Me! (Nimble Navigator). Every trainee gets them there, so a
+# trainee's own gold of either adds nothing in that scenario.
+SCENARIO_GOLD_GROUPS = {2: {20046, 20049}}
+SCEN_GOLD: dict[str, float] = {}
 
 
 def init(master: str, names: str, account: str, rental: str, loop_data: str) -> None:
@@ -87,13 +93,25 @@ def event_hint(card: int, target: str, apt_key: tuple) -> float:
 
 
 def set_scenario(sc: int) -> None:
-    """Switch the looping scenario: its own hints; the Racing Spirit "+"
-    only in URA."""
+    """Switch the looping scenario: its own hints (and the golds it gives
+    every run); the Racing Spirit "+" only in URA."""
     global SCENARIO, PLUS_TAX
     SCENARIO = sc
     SCEN.clear()
     SCEN.update({t: scenario_hint(sc, GROUP[t]) for t in TARGETS})
+    SCEN_GOLD.clear()
+    SCEN_GOLD.update({t: 1.0 for t in TARGETS if GROUP[t] in SCENARIO_GOLD_GROUPS.get(sc, set())})
     PLUS_TAX = sc == 1
+
+
+def set_targets(targets: list[str]) -> None:
+    """Change the targets (lineage.py tracks a longer list): in place, so
+    every module that imported TARGETS sees it; the scenario's hints
+    follow. Call set_scenario again after (sim.set_scenario does both)."""
+    TARGETS[:] = list(targets)
+    GROUP.clear()
+    GROUP.update({t: data.group(t) for t in TARGETS})
+    event_hint.cache_clear()
 
 
 def names() -> dict:
