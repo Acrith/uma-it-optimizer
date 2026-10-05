@@ -1189,6 +1189,60 @@ companion 7909eba + 2d33188):
   progress line gone; what the re-fit dropped is behind "Show dropped".
 - Sparks fixes confirmed at the spark screen the same day (box ranking).
 
+## 0.6: several game accounts (owner, 2026-10-03: "Multi-account support for sure")
+
+Players looping two to four game accounts upload the most runs, and the
+companion still assumes one account: three of the releases from 0.5.6 to
+0.5.10 patched what that broke (the collection on the site, Sparks closed on
+a switched-to account, Skills planning another account's run of the same
+trainee). Of 244 uploaders in the 2026-10-01 copy of the site's runs, 11
+already upload from two or more game accounts (up to four).
+
+**Already account-aware (0.5.x):** the collection sync reads the game account
+(own veterans' viewer id, `account::game_account`) and keeps a copy per
+account on the PC (`accounts/<id>.json`); one account is pinned for the site;
+the release log is per account; the modules follow the Training Log opened
+last (0.5.10, `companion_core::modules::follow`).
+
+**Still one account:** one IT timer for all accounts (a relog shows another
+account's run: "started; ends at 06:01", then back), one last run, one setup
+kept with the run, one "the game shows no run" rule; on the site, one
+collection per user, runs without a game account, rewards per user.
+
+**Where the account comes from:**
+- *A run's receipt carries it:* her own parent's owner (`Parents[]._viewerId`
+  of the one with no `_ownerViewerId`; a run borrows at most one parent), in
+  19,258 of 19,274 receipts. The site can tag every run it has, past ones
+  included, with no new upload.
+- *Live:* the game's user data (`WorkDataManager.<UserData>`, a
+  `Gallop.WorkUserData`), read on the game 2026-10-05: `<ViewerId>` is an
+  `ObscuredLong` (decoded in 64 bits: the reader's `num()` keeps 32 and
+  mangles it; it equals the own veterans' `_viewerId`), `<UserName>` an
+  `ObscuredString` (UTF-16 bytes, each char xor the key's, the key cycling).
+  Read with the IT state every poll, it tells a relog at once instead of
+  after the collection sync's full read.
+
+**Labels:** an account shows as its trainer name from the game, which the
+player can rename. Viewer ids are player ids: never on the site's pages,
+never in this document.
+
+**Order (each step shippable on its own):**
+1. The account in the IT state read (live-tested first, guarded with
+   `part()`); the log notes a switch of account by trainer name. Done
+   2026-10-05 (dev91), with a fix found testing it: a companion started
+   with the player already on Home waited the sync's full minute after
+   login; the first read logged in now means 10 s.
+2. One session per account in the companion: timer, last run, kept setup and
+   spark records per account; the IT timer shows each account's run and each
+   ends with its own notice; the modules follow the logged-in account's run.
+   Captures carry their account (from the receipt).
+3. Site: runs per game account (backfill from receipts), a filter on Runs and
+   Profile.
+4. Site: a collection per game account with a switcher, rewards per account;
+   replaces the single pinned account.
+
+Steps 1-2 are the companion's 0.6.0; 3-4 ship beside it or after.
+
 ## After v0.5: roadmap (owner, 2026-10-01)
 
 **Leaderboards and spark statistics** (testers' ideas, owner: "it could be
