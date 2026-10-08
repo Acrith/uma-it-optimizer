@@ -1235,13 +1235,19 @@ never in this document.
 2. One session per account in the companion: timer, last run, kept setup and
    spark records per account; the IT timer shows each account's run and each
    ends with its own notice; the modules follow the logged-in account's run.
-   Captures carry their account (from the receipt).
+   Captures carry their account (from the receipt). Done: companion 0.6.0
+   (2026-10-08). Each account's timer and last run are parked on a relog and
+   come back with it; uploads and the collection sync carry the trainer name,
+   so the site names the account. Tested by a player on four accounts before
+   the release.
 3. Site: runs per game account (backfill from receipts), a filter on Runs and
-   Profile.
+   Profile. Done and deployed 2026-10-08 (23,942 runs tagged by the backfill).
 4. Site: a collection per game account with a switcher, rewards per account;
-   replaces the single pinned account.
+   replaces the single pinned account. Done and deployed 2026-10-08, with the
+   account chip on every page and Settings › Game accounts.
 
-Steps 1-2 are the companion's 0.6.0; 3-4 ship beside it or after.
+Steps 1-2 are the companion's 0.6.0; 3-4 ship beside it or after. All four
+shipped on 2026-10-08.
 
 ## After v0.5: roadmap (owner, 2026-10-01)
 
