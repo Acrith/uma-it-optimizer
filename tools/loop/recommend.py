@@ -6,8 +6,9 @@
 Targets are the skills the trainee will buy, by name: a gold (It's On!) or
 ◎ counts toward its white's spark (Ramp Up) at the gold / ◎ rate.
 
-For each own veteran and each owned trainee (no repeated character, no
-inbreeding), per target: how many of the 6 ancestors carry its spark, the
+For each own veteran and each owned trainee (no repeated character; an
+in-bred grandparent, of the trainee's own character, is allowed as in the
+game, its trio relation counted zero), per target: how many of the 6 ancestors carry its spark, the
 chance to generate it at the end (the version bought's base, x1.1 per
 ancestor carrying it: the loop sheet's 0/6 and 6/6 values, and uma.moe's
 lineage planner), and the chance to get its hint from
@@ -102,7 +103,7 @@ def main() -> None:
             if min("GFEDCBAS".index(apt["turf"]), "GFEDCBAS".index(apt["medium"])) < "GFEDCBAS".index(args.min_turf_medium):
                 continue
             r = aff.evaluate(card, p1, rental)
-            if not r or r["inbreed"]:
+            if not r:
                 continue
             other = {sp: 1 - (1 - scenario_hint(args.scenario, g)) * (1 - event_hint(data, card, g, apt))
                      for sp, g in groups.items()}
@@ -119,7 +120,8 @@ def main() -> None:
         print(f"#{shown} own parent {data.name(v['_cardId'])} (rank score {v['_rankScore']}; parents "
               f"{', '.join(data.name(g['<CardId>k__BackingField']) for g in v['lineage'] if g['_positionId'] in (10, 20))})")
         print(f"   trainee {data.name(card)} · affinity {r['total']} {symbol(r['total'])} (own side {r['p1']}, rental side {r['p2']})"
-              f" · starts turf {apt['turf']} dirt {apt['dirt']} mile {apt['mile']} medium {apt['medium']} long {apt['long']}")
+              + (f" · in-bred ×{r['inbreed']}" if r["inbreed"] else "")
+              + f" · starts turf {apt['turf']} dirt {apt['dirt']} mile {apt['mile']} medium {apt['medium']} long {apt['long']}")
         def label(n: str) -> str:
             kind = targets[n][1]
             return n.replace("Racing Spirit: ", "RS ") + ("" if kind == "normal" else f" ({kind})")

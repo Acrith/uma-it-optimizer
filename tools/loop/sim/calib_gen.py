@@ -70,7 +70,11 @@ for r in recs:
 base = {"normal": 0.2, "double": 0.25, "gold": 0.4}
 print(len(recs), "runs,", sum(len(r["rolls"]) for r in recs), "rolls,", len(trials), "trials (bought skill with a spark x roll)")
 by = collections.defaultdict(lambda: [0, 0, 0.0])
+# A roll whose "+" landed on the skill can't spark its plain version: not a
+# trial of the plain rate (counting them as misses read the rates ~5% low).
 for ver, k, s, plus, nm in trials:
+    if plus:
+        continue
     e = by[(ver, k)]; e[0] += 1; e[1] += s; e[2] += base[ver] * 1.1 ** k
 tot = [0, 0, 0.0]
 print(f"{'version':7} {'k':>2} {'n':>4} {'sparked':>8} {'expected':>8}")
