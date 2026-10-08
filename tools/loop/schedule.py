@@ -38,6 +38,8 @@ def main() -> None:
     ap.add_argument("--targets", default=DEFAULT_TARGETS,
                     help="skills whose hints the trainee's events should be planned for")
     ap.add_argument("--no-events", action="store_true", help="plan for affinity only")
+    ap.add_argument("--no-dirt", action="store_true",
+                    help="no optional dirt G1s (a trainee far from dirt A: coin-flip wins and no Dirt spark)")
     args = ap.parse_args()
     data, acct = Data(args.master, args.names), load_account(args.account)
     db = data.db
@@ -98,7 +100,7 @@ def main() -> None:
             "select p.race_permission, p.month, p.half, r.id, cs.ground, cs.distance from single_mode_program p"
             " join race_instance ri on ri.id=p.race_instance_id join race r on r.id=ri.race_id"
             " join race_course_set cs on cs.id=r.course_set where r.grade=100 and p.base_program_id=0"):
-        if not value(rid):
+        if not value(rid) or (args.no_dirt and ground == 2):
             continue
         for year in {1: [1], 2: [2], 3: [2, 3], 4: [3]}[perm]:
             t = turn(year, mo, half)
