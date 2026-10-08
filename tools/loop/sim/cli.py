@@ -18,7 +18,10 @@ def inputs(ap: argparse.ArgumentParser) -> None:
     ap.add_argument("--names", default=str(COMPANION_DATA / "names.json"))
     ap.add_argument("--loop-data", default=str(COMPANION_DATA / "loop_data.json"), help="the trainees' own skills")
     ap.add_argument("--scenario", type=int, default=1, help="looping in: 1 URA Finale, 2 Unity Cup, 3 Grand Concert")
+    ap.add_argument("--grade", choices=sorted(world.WHITE_STARS_BY_GRADE), default="below-ss",
+                    help="the final grade runs end at: a new spark's stars (SS and up: more 2-3 stars)")
 
 
 def init(args: argparse.Namespace) -> None:
     world.init(args.master, args.names, args.account, args.rental, args.loop_data)
+    world.set_grade(args.grade)

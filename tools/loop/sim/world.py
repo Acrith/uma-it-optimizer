@@ -16,7 +16,17 @@ TARGETS = ["Racing Spirit: Stamina", "Racing Spirit: Power", "Uma Stan", "Nimble
 RS_TARGETS = {"Racing Spirit: Stamina", "Racing Spirit: Power"}
 INSP = {1: 0.03, 2: 0.06, 3: 0.09}
 BASE = {"normal": 0.2, "double": 0.25, "gold": 0.4}
-WHITE_STARS = (0.417, 0.53, 0.053)          # 1/2/3 stars, the test box's whites
+# A new white spark's stars (1/2/3) follow the run's final grade: the site's
+# spark screens, 2026-10-08 (34,905 sparks, tools/loop/spark_rolls.py), as
+# the community parenting guide's table has it: below SS 50/44/5, SS and up
+# 22/68/10. One list, changed in place (sim.py imports it).
+WHITE_STARS_BY_GRADE = {"below-ss": (0.50, 0.445, 0.055), "ss": (0.22, 0.68, 0.10)}
+WHITE_STARS = list(WHITE_STARS_BY_GRADE["below-ss"])
+
+
+def set_grade(grade: str) -> None:
+    """The final grade the simulated runs end at: the stars of their sparks."""
+    WHITE_STARS[:] = WHITE_STARS_BY_GRADE[grade]
 TYPICAL = {"parent": 220, "grandparent": 63}  # the Sparks module's typical affinities
 
 # Set by init(): the game's master data, the affinity model, the skills.

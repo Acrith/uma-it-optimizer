@@ -10,11 +10,13 @@ Rules (sources: loopdata.py, the companion's rates.ts, and checks
   own skills (up to her potential) need no hint;
 - bought: every hinted target (and its gold when hinted or her own);
 - spark roll: base 20% (white) / 25% (◎) / 40% (gold) x 1.1 per carrier of
-  the 6 (165 trials: 44 sparked vs 50.3 expected);
+  the 6, a "+" no carrier, the two rolls independent (measured 2026-10-08,
+  spark_rolls.py: 71,166 roll-1 trials, 20.0 / 25.5 / 39.9% x 1.101);
 - "+": in URA every roll, exactly one "+" on one of the Racing Spirits
   bought (9 of 9 rolls); that skill loses its plain spark in that roll
   (Unity Cup's "+" is an Ignited Spirit's, Grand Concert has none);
-- stars of a new white: 1/2/3 at 41.7/53/5.3% (the test box);
+- stars of a new white: by the run's final grade, below SS 50/44/5%, SS and
+  up 22/68/10% (world.set_grade, `--grade`; 34,905 sparks);
 - the better roll is kept by the Sparks module's own rating.
 """
 from __future__ import annotations

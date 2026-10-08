@@ -61,6 +61,9 @@ umaladder-companion beside this repo (`--names`, `--loop-data`).
 - `calib_gen.py --data <companion data folder> --master <master.mdb>`: the
   spark roll model against the player's spark records (sparked vs expected
   per version and carriers), the "+" in every roll, the box's "+" sparks.
+- `spark_rolls.py --db <site copy> --runs <receipts> --master <master.mdb>`:
+  the spark roll measured on every companion user's spark screens joined to
+  each run's six ancestors (the rules table below has its results).
 - `lineage.py`: the looping process itself, over months (the looping
   guide's "the parent from (1) + Rental until you hit again"): the own
   parent is the best veteran by lineage value (the newest child takes over
@@ -104,15 +107,16 @@ replications, 4 weeks):
   Nimble Navigator every run. Unity Cup without borrows beat URA with them.
 - Rerolling doubles the 4+ and 5/5 chances a run (5.9% -> 11.4% and 0.46% ->
   0.91%); decoy Racing Spirits matter in URA (none bought: 5/5 impossible).
-- Not verified for Unity Cup: its skill points, Agnes Digital's Uma Stan
-  hint rate there (19 runs), and the spark roll there (calibrated on URA
-  rolls). A few Unity Cup runs and `calib_gen.py` settle it.
+- Not verified for Unity Cup: its skill points and Agnes Digital's Uma Stan
+  hint rate there (19 runs). Its spark roll is measured now (11,475 trials,
+  1.008 of the rule, `spark_rolls.py`).
 
 ## Rules used, and how sure they are
 
 | Rule | Source | Status |
 |---|---|---|
-| White spark generation 20 / 25 / 40% (normal / double circle / gold), 35.4 / 44.3 / 70.9% with all 6 ancestors carrying it. The rate follows the version bought; the spark is always the group's white (a bought It's On! sparks Ramp Up at the gold rate) | community looping guide; GameTora legacies guide; owner; master: sparks exist only for whites (`succession_factor_effect` hints a white) | x1.1 per ancestor carrying it (matches both end values exactly; uma.moe's lineage planner uses the same curve) |
+| White spark generation 20 / 25 / 40% (normal / double circle / gold), 35.4 / 44.3 / 70.9% with all 6 ancestors carrying it. The rate follows the version bought; the spark is always the group's white (a bought It's On! sparks Ramp Up at the gold rate) | community looping guide; GameTora legacies guide; owner; master: sparks exist only for whites (`succession_factor_effect` hints a white) | measured 2026-10-08 (`spark_rolls.py`: 2,908 spark screens of 112 companion users, 71,166 roll-1 trials): 20.0 / 25.5 / 39.9% x 1.101 per carrier (95% 1.094-1.107), observed / rule 1.003 / 1.018 / 1.000, every scenario within 2%. A parent and a grandparent carrier count the same (1.09 and 1.11); the carriers' stars don't matter (one carrier at 1/2/3 stars: 22.3 / 21.9 / 21.0%); a "+" carrier adds nothing (0.97, 95% 0.90-1.03); the two rolls are independent (both sparked 4,955 vs 4,923 expected); no cap on sparks a roll (variance 4.86 vs 4.95) |
+| A new white's stars follow the run's final grade: below SS 50 / 44 / 5% (1/2/3 stars), SS and up 22 / 68 / 10%; the version bought doesn't change them | the community parenting guide's table; site spark screens | measured 2026-10-08 on 34,905 new sparks (SS: 17,500 rank score); the simulator takes `--grade` |
 | Hints also come from the scenario's own events and the trainee's own events | `data/scenario_event_hints.json` (273 URA Finale receipts: every Racing Spirit skill 31-43% of runs; the other scenarios never); uma-it-web `trainee_events.json` (GameTora trainee pages, `tools/analysis/export_trainee_events.py`: 163 events that hint a skill once races are won, e.g. Vodka's "The Coolest and Number One", Pedal to the Metal +2 for eight wins incl. both Arima Kinen) | measured / sourced; an event's chance is its races' win chances, each first in its streak |
 | Inspiration twice per run; white 3/6/9%, pink 1/3/5%, blue 70/80/90%, green 5/10/15%, race 1/2/3% per ancestor, x (1 + that ancestor's affinity / 100). A parent's affinity: trainee-parent, parent-parent, the trios with its parents, shared G1s with its parents and the other parent. A grandparent's: the trio with its child and the trainee, shared G1s with its child. No extra factor for grandparents: they fire about half as often only because their affinity is lower | uma.guide sparks guide; `inspiration_rates.py` on 8,155 IT receipts | measured 2026-09-28: fired vs predicted within 0.1% (parents) and 2% (grandparents); a flat halving for grandparents predicts half of what fired |
 | Affinity: relation points per pair and trio (`succession_relation*`), +3 per G1 win shared parent-parent and parent-grandparent; 51+ circle, 151+ double circle | game tables; community calculators | thresholds match the game's rank table; one published pair was 34 vs 39 here; the total's exact combination unverified |
