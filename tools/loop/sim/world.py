@@ -3,14 +3,13 @@ The inputs are the player's local files, passed in (cli.py); nothing
 personal is kept here."""
 from __future__ import annotations
 
-import functools
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from affinity import Affinity  # noqa: E402
-from loopdata import Data, Uma, scenario_hint, trainee_events, win_chance  # noqa: E402
+from loopdata import Data, Uma, scenario_hint  # noqa: E402
 
 TARGETS = ["Racing Spirit: Stamina", "Racing Spirit: Power", "Uma Stan", "Nimble Navigator", "Pedal to the Metal"]
 RS_TARGETS = {"Racing Spirit: Stamina", "Racing Spirit: Power"}
@@ -48,6 +47,7 @@ PLUS_TAX = True
 # trainee's own gold of either adds nothing in that scenario.
 SCENARIO_GOLD_GROUPS = {2: {20046, 20049}}
 SCEN_GOLD: dict[str, float] = {}
+MIN_SCENARIO = 0.2
 
 
 def init(master: str, names: str, account: str, rental: str, loop_data: str) -> None:
@@ -62,7 +62,6 @@ def init(master: str, names: str, account: str, rental: str, loop_data: str) -> 
     own_skills.clear()
     own_skills.update(json.load(open(loop_data, encoding="utf-8"))["own_skills"])
     _files.update(account=account, rental=rental, names=names)
-    event_hint.cache_clear()
 
 
 def own_of(card: int, potential: int) -> dict[str, str]:
@@ -80,37 +79,22 @@ def own_of(card: int, potential: int) -> dict[str, str]:
     return out
 
 
-@functools.lru_cache(None)
-def event_hint(card: int, target: str, apt_key: tuple) -> float:
-    """Chance her own events hint the target: all of an event's races won
-    (each first in its streak) at her starting aptitudes."""
-    apt = dict(apt_key)
-    g = GROUP[target]
-    best = 0.0
-    for e in trainee_events(card):
-        if g not in data.skill_groups(s for s, _ in e["skills"]):
-            continue
-        if e["other"] or not e["needs"] or any(n["rule"] not in ("all", "enter") for n in e["needs"]):
-            continue
-        p = 1.0
-        for need in e["needs"]:
-            for ri, _ in need["races"] if need["rule"] == "all" else []:
-                _, ground, m, _ = data.race(ri)
-                dist = apt["short"] if m <= 1400 else apt["mile"] if m <= 1800 else apt["medium"] if m <= 2400 else apt["long"]
-                p *= min(win_chance(apt["turf"] if ground == 1 else apt["dirt"], dist, 1), 100) / 100
-        best = max(best, p)
-    return best
-
-
 def set_scenario(sc: int) -> None:
     """Switch the looping scenario: its own hints (and the golds it gives
     every run); the Racing Spirit "+" only in URA."""
     global SCENARIO, PLUS_TAX
     SCENARIO = sc
     SCEN.clear()
-    SCEN.update({t: scenario_hint(sc, GROUP[t]) for t in TARGETS})
+    # Shares under MIN_SCENARIO aren't counted, as in the companion (spark.ts
+    # MIN_SCENARIO): they're partly cards' events missing from the card lists
+    # (leftover_check.py, 2026-10-08: stable over time, but 68 card-skill
+    # pairs move them by 10+ points), so not a deck-free source.
+    SCEN.update({t: s if (s := scenario_hint(sc, GROUP[t])) >= MIN_SCENARIO else 0.0
+                 for t in TARGETS})
     SCEN_GOLD.clear()
-    SCEN_GOLD.update({t: 1.0 for t in TARGETS if GROUP[t] in SCENARIO_GOLD_GROUPS.get(sc, set())})
+    # Their gold as often as the scenario hints them (the companion's SCENARIO_GOLD): every run.
+    golds = SCENARIO_GOLD_GROUPS.get(sc, set())
+    SCEN_GOLD.update({t: SCEN[t] for t in TARGETS if GROUP[t] in golds})
     PLUS_TAX = sc == 1
 
 
@@ -121,7 +105,6 @@ def set_targets(targets: list[str]) -> None:
     TARGETS[:] = list(targets)
     GROUP.clear()
     GROUP.update({t: data.group(t) for t in TARGETS})
-    event_hint.cache_clear()
 
 
 def names() -> dict:

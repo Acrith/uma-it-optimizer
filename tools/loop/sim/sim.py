@@ -6,8 +6,13 @@ Rules (sources: loopdata.py, the companion's rates.ts, and checks
 2026-10-01 on the test account's spark records, calib_gen.py):
 - hint: inspiration from the 6 ancestors, twice a run, white 3/6/9% by
   stars x (1 + affinity/100) ("+" sparks hint too); the scenario's own events
-  (URA: Racing Spirit skills); her events (races won); the deck's cards; her
-  own skills (up to her potential) need no hint;
+  (URA: Racing Spirit skills); her own events, and the deck's cards, as the
+  companion's setup module reads its card_hints.json (site receipts: her
+  share per character and scenario; a card's narrowest cell that measured the
+  target, a trainer card's chain gold on the pal curve at the deck's pals);
+  her own skills (up to her potential) need no hint; the golds' sources
+  independent. The companion's setup.ts is the same model (parity:
+  fixture_full.py; Grand Concert's lyric line is the companion's only);
 - bought: every hinted target (and its gold when hinted or her own);
 - spark roll: base 20% (white) / 25% (◎) / 40% (gold) x 1.1 per carrier of
   the 6, a "+" no carrier, the two rolls independent (measured 2026-10-08,
@@ -21,9 +26,12 @@ Rules (sources: loopdata.py, the companion's rates.ts, and checks
 """
 from __future__ import annotations
 
+import functools
 import json
+import math
 import random
 from dataclasses import dataclass
+from pathlib import Path
 
 import world
 from world import (
@@ -35,7 +43,6 @@ from world import (
     TYPICAL,
     WHITE_STARS,
     Uma,
-    event_hint,
     own_of,
 )
 
@@ -67,25 +74,71 @@ def deck(name, hints: dict, golds: dict | None = None) -> Deck:
 DECKS: tuple = ()
 DECK_KH = DECK_YB = None
 # A deck given as card ids (lineage.py --deck): its rates per target from
-# the companion's card_hints.json (site receipts, per card and scenario).
+# the companion's card_hints.json (site receipts, per card, scenario and race
+# band), which also holds the pal curve and the trainees' own event hints.
 DECK_CARDS: list[int] = []
 CARD_HINTS = ""
+DEFAULT_CARD_HINTS = (Path(__file__).resolve().parents[4]
+                      / "umaladder-companion" / "data" / "card_hints.json")
+# The run's race count, which picks the cards' race band (the companion's
+# usual 27 until the player's agenda says otherwise).
+RACES = 27
+
+
+@functools.lru_cache(None)
+def _card_hints(path: str) -> dict:
+    return json.load(open(path or DEFAULT_CARD_HINTS, encoding="utf-8"))
+
+
+def her_hint(card: int, t: str) -> tuple[float, float]:
+    """Her own events' chance to hint the target, and to hint its gold:
+    measured per character on the site's receipts, this scenario's share,
+    else all scenarios' (the companion's setup module, `her`/`herGold`)."""
+    cells = (_card_hints(CARD_HINTS).get("trainees") or {}).get(str(card // 100)) or {}
+    cell = cells.get(str(world.SCENARIO)) or cells.get("0") or {}
+    g = str(world.GROUP[t])
+    return (cell.get("hint") or {}).get(g, 0.0), (cell.get("gold") or {}).get(g, 0.0)
 
 
 def deck_from_cards(name: str, cards: list[int], sc: int) -> Deck:
     """Per target: the chance some card of the deck hints it (and the gold),
-    the cards taken as independent, each from its scenario's cell (else all
-    scenarios'). The deck's pal count is not adjusted for."""
-    by_card = json.load(open(CARD_HINTS, encoding="utf-8"))["cards"]
+    the cards independent, as the companion's setup module reads them: each
+    card's narrowest cell that measured the target (this scenario's race band,
+    its all races, then all scenarios' band and all races); a gold counted
+    where its white isn't is a hint too; a trainer card's chain gold on the
+    pal curve at its own offset, by the deck's pals (pal and group cards)."""
+    h = _card_hints(CARD_HINTS)
+    band = next((i for i, (lo, hi) in enumerate(h["bands"]) if lo <= RACES <= hi), -1)
+    # A card too rare on the site for rates still counts among the pals (its
+    # type from the names file), as the companion's deck does.
+    listed = world.names().get("support_cards") or {}
+    types = [(h["cards"].get(str(c)) or {}).get("type") or (listed.get(str(c)) or [0, 0, 0])[2]
+             for c in cards]
+    pals = sum(1 for k in types if k in (2, 3))
+    logit = h["palLogit"][min(len(h["palLogit"]) - 1, max(0, pals))]
     hints, golds = {}, {}
     for t in TARGETS:
         g = str(world.GROUP[t])
         miss_h = miss_g = 1.0
         for c in cards:
-            by = (by_card.get(str(c)) or {}).get("by", {})
-            cell = (by.get(str(sc)) or by.get("0") or {}).get("all") or {}
-            miss_h *= 1 - cell.get("hint", {}).get(g, 0.0)
-            miss_g *= 1 - cell.get("gold", {}).get(g, 0.0)
+            card = h["cards"].get(str(c))
+            if not card:
+                continue
+            here, every = card["by"].get(str(sc)) or {}, card["by"].get("0") or {}
+            cells = [x for x in (here.get(f"b{band}"), here.get("all"),
+                                 every.get(f"b{band}"), every.get("all")) if x]
+            src = (next((x for x in cells if g in x["hint"]), None)
+                   or next((x for x in cells if (x.get("gold") or {}).get(g)), None))
+            if src is None:
+                continue
+            a, gold = src["hint"].get(g, 0.0), (src.get("gold") or {}).get(g, 0.0)
+            a = a or gold
+            off = (src.get("goldOff") or {}).get(g)
+            if card["type"] == 1 and off is not None:
+                chain = 1 / (1 + math.exp(-(logit + off)))
+                a, gold = min(1.0, max(chain, max(0.0, a - gold) + chain)), chain
+            miss_h *= 1 - a
+            miss_g *= 1 - gold
         hints[t], golds[t] = 1 - miss_h, 1 - miss_g
     return deck(name, hints, golds)
 
@@ -143,7 +196,6 @@ def _setup(card: int, potential: int, p1: Uma, p2: Uma, dk: Deck):
     if not r:
         return None
     own = own_of(card, potential)
-    ak = apt_key(card, p1, p2)
     out = []
     for i, t in enumerate(TARGETS):
         k = sum(1 for m, _, _ in r["members"] if t in m.sparks)
@@ -152,10 +204,11 @@ def _setup(card: int, potential: int, p1: Uma, p2: Uma, dk: Deck):
             for st in (m.sparks.get(t), m.sparks.get(f"{t} +")):
                 if st:
                     miss *= (1 - INSP[st] * (1 + a / 100)) ** 2
-        other = 1 - (1 - SCEN[t]) * (1 - event_hint(card, t, ak)) * (1 - dk.hint[i])
-        # The scenario's every-run golds (Unity Cup: It's On!, No Stopping
-        # Me!) come to any trainee: her own gold of those adds nothing.
-        sg = max(dk.gold[i], world.SCEN_GOLD.get(t, 0.0))
+        her, her_gold = her_hint(card, t)
+        other = 1 - (1 - SCEN[t]) * (1 - her) * (1 - dk.hint[i])
+        # The golds' sources, independent: the scenario's every-run golds
+        # (Unity Cup: It's On!, No Stopping Me!), her own events', the deck's.
+        sg = 1 - (1 - world.SCEN_GOLD.get(t, 0.0)) * (1 - her_gold) * (1 - dk.gold[i])
         if t in own:
             h, g = 1.0, 1.0 if own[t] == "gold" else sg
         else:
