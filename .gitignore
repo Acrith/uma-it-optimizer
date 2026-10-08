@@ -33,3 +33,6 @@ AGENTS.md
 # Extractor API config carries a bearer token; keep it out of git.
 # The .example.json version stays tracked for onboarding.
 tools/memory_extractor/uma-it-config.json
+
+# Local secrets (the uma.moe API key)
+.env
