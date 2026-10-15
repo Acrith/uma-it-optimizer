@@ -29,6 +29,22 @@ PREDICTIONS, written 2026-10-15 before the first run:
 A slot effect counts as real only if S2's size shows in both the pooled fit
 and S3. Limit break is checked apart (a borrowed card is LB4 more often).
 
+RESULT, 2026-10-15, the 2026-10-07 pull (23,707 runs; 63,931 chain-gold
+trials in 114 card x scenario x gold cells, gold rate 22.2%):
+  S2 rejected: no slot loses. Slots 2-5 within +0.07 of slot 1 (+0.057,
+     +0.071, +0.012, +0.067; SE about 0.036); slot 6, the friend, +0.167
+     (SE 0.054), the other way from S2.
+  S1 holds for slots 2-5 and nearly for 6: each slot's chain golds 0.97 to
+     1.03 times what the model without slots predicts (the friend 18.9%
+     against 18.3% expected).
+  S3 within players (468 cells, 34,144 trials): every step positive, none
+     over 2 SE (slot 6 +0.26, SE 0.14).
+  With an LB4 term slot 6 stays +0.21; LB4 itself -0.09 (SE 0.04).
+  In IT a card's slot doesn't cost it its chain; the friend slot finishes
+  a little more often, if at all. Agnes Tachyon (30101) as a sample: 33.3%
+  in slots 1-5 (7,339), 26.3% as a friend (38, too few to tell). No Kris S
+  card had a countable chain gold.
+
     uv run python tools/loop/slot_chains.py --runs <receipts> --master <master.mdb> \\
         --events <card_event_skills.json> --trainee-events <trainee_events.json> \\
         --scenario-hints <scenario_event_hints.json>
