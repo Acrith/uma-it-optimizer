@@ -56,6 +56,10 @@ TEXT_CAT = {
                               # events — 31 of 63 characters have more than
                               # one, covering 79% of runs — so the chara
                               # name alone does not identify what was run.
+    "support_card_name": 77,  # index = support card id: the name the card shows
+                              # (20021 -> "Aoi Kiryuin", where the character's
+                              # own is "Trainer Kiryuin"; 30067 -> "Heirs to
+                              # the Throne", a group card of Symboli Rudolf's)
     "skill_name": 47,         # index = skill_id (e.g. 200352 -> "Corner Recovery ○")
     "skill_desc": 48,         # index = skill_id (e.g. 200352 -> "Slightly increase
                               # velocity when navigating a corner. (Late Surger)")
@@ -193,6 +197,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
         # Rather than hardcode a partial map, pass it through raw and let
         # the enrichment layer decorate.
         support_cards: dict[str, dict] = {}
+        card_names = _load_text_map(con, TEXT_CAT["support_card_name"])
         for r in con.execute(
             "SELECT id, chara_id, rarity, command_type, command_id, "
             "support_card_type, skill_set_id "
@@ -203,6 +208,7 @@ def dump(mdb_path: Path, out_path: Path) -> dict:
                 "id": cid,
                 "chara_id": r["chara_id"],
                 "chara_name": uma_names.get(r["chara_id"], f"?uma:{r['chara_id']}"),
+                **({"card_name": card_names[cid]} if cid in card_names else {}),
                 "rarity": r["rarity"],
                 # command_id is the training-focus indicator (101=Power,
                 # 102=Speed, 103=Stamina, 105=Guts, 106=Wit, 0=Friend).
