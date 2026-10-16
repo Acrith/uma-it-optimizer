@@ -20,6 +20,11 @@ Together they answer the three unknowns that gate plugin v2:
               No heap scan: counts plus a few sample entries.
               Game state: HOME screen, logged in. Nothing open.
 
+  lending     Which veteran the player lends to other trainers and the
+              account's trainer ID: user / rental / profile classes'
+              field layouts and the singleton's matching members.
+              Game state: HOME screen, logged in. Nothing open.
+
   itsetup     The Independent Training state (WorkIdleSingleModeData
               and friends) the same way: trainee, parents, deck, times.
               Game state: IT setup screen (before Start), or a run going.
@@ -80,6 +85,18 @@ MODES = {
         "must_have_field": r"$^",
         "max_scans": 0,
         "targets": r"support|trainedchara|chara",
+        "state": "HOME screen, logged in, nothing open",
+    },
+    # Which veteran the player lends (the parent other trainers borrow) and
+    # the account's trainer ID: field layouts of the user / rental / profile
+    # classes, and the WorkDataManager members that look like them.
+    "lending": {
+        "keywords": r"^gallop\.work.*(user|rental|succession|profile|friend|follow|trainedchara)|rental",
+        "must_have_field": r"$^",
+        "max_scans": 0,
+        "targets": r"<userdata>|rental|succession|profile|friend|follow",
+        "depth": 3,
+        "samples": 3,
         "state": "HOME screen, logged in, nothing open",
     },
     "view": {
