@@ -356,7 +356,31 @@ fn on_menu_click_inner() {
         ));
         return;
     }
-    match http::upload_run(&cfg.api_url, &cfg.api_token, &filename, &bytes) {
+    // Upload off the GUI thread. on_menu_click runs inside Hachimi's
+    // Present hook (Unity render thread) while Hachimi holds its Gui
+    // mutex, and the window procedure on the main thread blocks on that
+    // same mutex — a blocking POST here (up to the 30s timeout) freezes
+    // the whole game. notify() and set_status() are both just
+    // mutex-guarded queues, so they're safe to call from a worker.
+    let spawned = std::thread::Builder::new()
+        .name("uma-it-upload".into())
+        .spawn(move || {
+            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                upload_and_report(&cfg, &filename, &bytes)
+            }));
+            if result.is_err() {
+                error!("[uma-it] upload thread panicked");
+                notify("Upload failed: internal error (see log)");
+            }
+        });
+    if let Err(e) = spawned {
+        error!("[uma-it] failed to spawn upload thread: {e}");
+        notify("Upload failed: couldn't start upload thread");
+    }
+}
+
+fn upload_and_report(cfg: &config::Config, filename: &str, bytes: &[u8]) {
+    match http::upload_run(&cfg.api_url, &cfg.api_token, filename, bytes) {
         http::UploadOutcome::Created { url } => {
             info!("[uma-it] uploaded {} → {:?}", filename, url);
             notify(&format!("Uploaded {filename}"));

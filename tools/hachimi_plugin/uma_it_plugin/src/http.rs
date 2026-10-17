@@ -18,13 +18,14 @@
 //!    a fresh row)
 //! - other 4xx/5xx — surface to the user via notification
 //!
-//! **Blocking on the game's GUI thread.** ureq is sync. On a modest
-//! upload (~200-400 KB) over a reasonable connection this returns in
-//! well under a second, which is acceptable for a menu-click action.
-//! If uploads start taking multiple seconds we can move this to a
-//! background thread — but that would need the notification callback
-//! to be main-thread-safe, which we haven't validated. Keep it simple
-//! until we have evidence we need async.
+//! **Called from a background thread.** ureq is sync, and the menu
+//! callback runs inside Hachimi's Present hook while Hachimi holds its
+//! Gui mutex — the window procedure blocks on that same mutex, so a
+//! slow POST there froze the whole game. `on_menu_click` hands the
+//! upload to a worker thread instead. Hachimi's
+//! `gui_show_notification` only pushes onto a mutex-guarded queue
+//! (`enqueue_plugin_notification`), so notifying from the worker is
+//! safe.
 
 use std::time::Duration;
 
