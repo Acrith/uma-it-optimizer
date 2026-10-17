@@ -313,6 +313,16 @@ unsafe fn setup() -> Result<(), String> {
 /// edge-sdk is defined that way. The scan itself is unsafe, but
 /// the callback wrapper isn't.
 extern "C" fn on_menu_click(_userdata: *mut c_void) {
+    // A panic unwinding out of an extern "C" fn aborts the process
+    // (Hachimi's catch_unwind on its side can't intercept it), so
+    // catch it here and surface it instead of killing the game.
+    if std::panic::catch_unwind(on_menu_click_inner).is_err() {
+        error!("[uma-it] Extract panicked — see log above");
+        notify("Extract failed: internal error (see log)");
+    }
+}
+
+fn on_menu_click_inner() {
     gc_scan::scan_and_log();
     let (filename, bytes) = match write_capture_to_disk() {
         Ok(pair) => pair,
@@ -477,8 +487,84 @@ fn extractor_filename(smc: &json::JsonValue) -> Option<String> {
     if scenario_id <= 0 || card_id <= 0 {
         return None;
     }
-    let ts = chrono::Local::now().format("%Y%m%dT%H%M%S").to_string();
+    let ts = local_timestamp().format("%Y%m%dT%H%M%S").to_string();
     Some(format!("{ts}_scen{scenario_id}_uma{card_id}.json"))
+}
+
+/// Current local time, without panicking.
+///
+/// chrono's `Local::now()` panics ("No such local time") when
+/// `GetTimeZoneInformationForYear` fails. Under Wine/Proton that
+/// happens whenever Wine can't map the Linux zone to a Windows one
+/// (Wine 9.0: America/Vancouver, America/Edmonton,
+/// Australia/Lord_Howe, Africa/Casablanca, Africa/El_Aaiun), and a
+/// panic here aborts the game through the extern "C" menu callback.
+/// `GetLocalTime` isn't a usable fallback either — in those zones
+/// Wine's guess is off by 30-60 minutes. So: chrono first, then the
+/// Linux host's own zone through Wine's Z: drive, then UTC.
+fn local_timestamp() -> chrono::DateTime<chrono::FixedOffset> {
+    if let Ok(now) = std::panic::catch_unwind(chrono::Local::now) {
+        return now.fixed_offset();
+    }
+    let now = chrono::Utc::now();
+    if let Some((offset, source)) = wine_host_utc_offset(now.timestamp()) {
+        if let Some(offset) = chrono::FixedOffset::east_opt(offset) {
+            info!("[uma-it] Windows time zone lookup failed — using Linux host zone ({source})");
+            return now.with_timezone(&offset);
+        }
+    }
+    error!("[uma-it] local time zone lookup failed — using UTC for filename");
+    now.fixed_offset()
+}
+
+/// UTC offset (seconds) of the Linux host's time zone when running
+/// under Wine: `$TZ` if set (Wine passes it through), else
+/// `/etc/localtime`. Returns None on real Windows, where `Z:` could
+/// be anything.
+fn wine_host_utc_offset(unix_now: i64) -> Option<(i32, String)> {
+    if !running_under_wine() {
+        return None;
+    }
+    let from_env = std::env::var("TZ").ok().filter(|v| !v.is_empty()).and_then(|v| {
+        let v = v.trim_start_matches(':');
+        let path = if v.starts_with('/') {
+            format!("Z:{v}")
+        } else {
+            format!("Z:/usr/share/zoneinfo/{v}")
+        };
+        match std::fs::read(&path) {
+            Ok(bytes) => tz::TimeZone::from_tz_data(&bytes).ok().map(|t| (t, path)),
+            // Not a zone name — maybe a POSIX string like "EST5EDT".
+            Err(_) => tz::TimeZone::from_posix_tz(v).ok().map(|t| (t, format!("TZ={v}"))),
+        }
+    });
+    let (zone, source) = from_env.or_else(|| {
+        let path = "Z:/etc/localtime";
+        let bytes = std::fs::read(path).ok()?;
+        tz::TimeZone::from_tz_data(&bytes).ok().map(|t| (t, path.to_string()))
+    })?;
+    let offset = zone.find_local_time_type(unix_now).ok()?.ut_offset();
+    Some((offset, source))
+}
+
+/// Wine's ntdll exports `wine_get_version`; real Windows doesn't.
+#[cfg(not(windows))]
+fn running_under_wine() -> bool {
+    false
+}
+
+/// Wine's ntdll exports `wine_get_version`; real Windows doesn't.
+#[cfg(windows)]
+fn running_under_wine() -> bool {
+    #[link(name = "kernel32")]
+    extern "system" {
+        fn GetModuleHandleA(name: *const u8) -> *mut c_void;
+        fn GetProcAddress(module: *mut c_void, name: *const u8) -> *mut c_void;
+    }
+    unsafe {
+        let ntdll = GetModuleHandleA(b"ntdll.dll\0".as_ptr());
+        !ntdll.is_null() && !GetProcAddress(ntdll, b"wine_get_version\0".as_ptr()).is_null()
+    }
 }
 
 /// Error variants from [`write_capture_to_disk`]. Separated so
