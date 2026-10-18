@@ -905,6 +905,11 @@ def main() -> int:
         print("[!] Finish an IT run, reach the Training Log popup, and try again.")
         return 6
 
+    # The game server: this tool attaches to the Steam Global client only
+    # (PROCESS_NAME), so its runs are Global's. The site keeps Global and JP
+    # apart (uma-it-web services/servers.py).
+    result["server"] = "global"
+
     RUNS_DIR.mkdir(exist_ok=True)
     out_path = RUNS_DIR / _output_name(result)
     out_path.write_text(json.dumps(result, indent=2), encoding="utf-8")

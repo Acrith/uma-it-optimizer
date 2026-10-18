@@ -527,6 +527,16 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), CaptureError> {
         "plugin_version".into(),
         JsonValue::string(concat!("hachimi-v", env!("CARGO_PKG_VERSION"))),
     ));
+    // The game server the run was played on: the site keeps Global and JP
+    // apart (uma-it-web services/servers.py). Left out for a client we
+    // don't know; the site then reads it from the run's content.
+    if let Some(server) = std::env::current_exe()
+        .ok()
+        .and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned()))
+        .and_then(|n| server_of_exe(&n))
+    {
+        root.push(("server".into(), JsonValue::string(server)));
+    }
 
     // Stash the walked SMC — needed after the loop for the
     // extractor-style filename (scenario_id + card_id come from it).
@@ -692,4 +702,28 @@ fn write_capture_to_disk() -> Result<(String, Vec<u8>), CaptureError> {
         .map_err(|e| CaptureError::Other(format!("write {}: {}", path, e)))?;
     info!("[uma-it] wrote capture ({} bytes) to {}", bytes.len(), path);
     Ok((filename, bytes))
+}
+
+
+/// The game server a client executable belongs to: Steam Global, or JP
+/// (DMM, Steam JP). None for any other client.
+fn server_of_exe(exe_name: &str) -> Option<&'static str> {
+    match exe_name.to_ascii_lowercase().as_str() {
+        "umamusumeprettyderby.exe" => Some("global"),
+        "umamusume.exe" | "umamusumeprettyderby_jpn.exe" => Some("jp"),
+        _ => None,
+    }
+}
+
+#[cfg(test)]
+mod server_tests {
+    use super::server_of_exe;
+
+    #[test]
+    fn clients_map_to_their_server() {
+        assert_eq!(server_of_exe("UmamusumePrettyDerby.exe"), Some("global"));
+        assert_eq!(server_of_exe("umamusume.exe"), Some("jp"));
+        assert_eq!(server_of_exe("UmamusumePrettyDerby_Jpn.exe"), Some("jp"));
+        assert_eq!(server_of_exe("something_else.exe"), None);
+    }
 }
