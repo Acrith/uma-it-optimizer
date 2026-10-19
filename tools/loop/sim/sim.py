@@ -92,10 +92,11 @@ def _card_hints(path: str) -> dict:
 
 def her_hint(card: int, t: str) -> tuple[float, float]:
     """Her own events' chance to hint the target, and to hint its gold:
-    measured per outfit on the site's receipts (else what all her character's outfits give), this scenario's share,
-    else all scenarios' (the companion's setup module, `her`/`herGold`)."""
+    measured per outfit on the site's receipts (else what all her character's outfits give),
+    this scenario's share, else all scenarios' (the companion's setup module, `her`/`herGold`)."""
     trainees = _card_hints(CARD_HINTS).get("trainees") or {}
-    # Her outfit's own (outfits have events of their own), else what all her character's outfits give.
+    # Her outfit's own (outfits have events of their own), else what all her character's
+    # outfits give.
     cells = trainees.get(str(card)) or trainees.get(str(card // 100)) or {}
     cell = cells.get(str(world.SCENARIO)) or cells.get("0") or {}
     g = str(world.GROUP[t])
