@@ -1516,11 +1516,14 @@ scheduled; pick a batch, not single items.
   prioritized it (hint level 5) and no more than the background otherwise.
 - The site's hint count (uma-it-web services/hint_rates.py) now serves
   `prio` per cell: an event skill's share on the runs that prioritized it,
-  over its own background; `hint` is the other runs'. Format 2 unchanged,
-  `prio` added (an older companion ignores it).
+  over its own background; beside it `noprio`, the runs known not to
+  (companion receipts); `hint` stays every run but the prioritized ones,
+  mostly of unknown setups (a card's signature skill there blends both:
+  63% where `noprio` is 0% and `prio` 58%). Format 2 unchanged, keys added
+  (an older companion ignores them).
 - The module reads the player's setup already: use `prio` for the skills
-  they prioritized, `hint` for the rest, in the target chances and the
-  "all X%" chip. Ships with the next companion release (after the site
+  they prioritized, `noprio` where given for the rest, else `hint`, in the
+  target chances and the "all X%" chip. Ships with the next companion release (after the site
   deploy and a recount).
 
 **Notifications** (owner: "1 into 3+2")
