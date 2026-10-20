@@ -229,13 +229,17 @@ def main() -> int:
     # everything else, run ahead of campaign_data: 254/255 were named
     # weeks before their data rows existed. Global mdb only; JP campaign
     # ids are a different server's numbering. Additive, but a campaign
-    # gaining its data row later gets its dates filled in.
+    # gaining its data row later gets its dates filled in, and the row
+    # wins after that. open_flag: the campaign a player must unlock first
+    # (253, x3 rewards "for 72 hours after drawing your fortune", opens
+    # with 251 and is dated to 2050), so its dates say nothing about
+    # whether it runs for everyone.
     campaigns = m.setdefault("campaigns", {})
     c_title = _text(g, 187)
     c_desc = _text(g, 188)
     c_data = {row[0]: row for row in g.execute(
         "select campaign_id, target_type, target_id, effect_type_1, "
-        "effect_value_1, image_icon_id, start_time, end_time from campaign_data")}
+        "effect_value_1, image_icon_id, start_time, end_time, open_flag_id from campaign_data")}
     c_added = c_filled = 0
     for cid, title in sorted(c_title.items()):
         if not _is_en(title):
@@ -246,11 +250,14 @@ def main() -> int:
             entry = {"id": cid, "title": title, "desc": c_desc.get(cid, "")}
             campaigns[str(cid)] = entry
             c_added += 1
-        if row and "start" not in entry:
-            entry.update({"target_type": row[1], "target_id": row[2],
-                          "effect_type": row[3], "effect_value": row[4],
-                          "icon": row[5], "start": row[6], "end": row[7]})
-            c_filled += 1
+        if row:
+            fields = {"target_type": row[1], "target_id": row[2],
+                      "effect_type": row[3], "effect_value": row[4],
+                      "icon": row[5], "start": row[6], "end": row[7],
+                      **({"open_flag": row[8]} if row[8] else {})}
+            if any(entry.get(k) != v for k, v in fields.items()):
+                entry.update(fields)
+                c_filled += 1
 
     # ── card hint skills ── the skills each support card can hint
     # (single_mode_hint_gain, hint_gain_type 0: hint_value_1 is the
@@ -292,7 +299,7 @@ def main() -> int:
     for pid, label in p_added:
         print(f"  + program {pid}  {label}")
     print(f"items: {len(items)}, card hint sets: {len(hints)}")
-    print(f"campaigns: {c_added} added, {c_filled} got dates (total {len(campaigns)})")
+    print(f"campaigns: {c_added} added, {c_filled} dated from the game (total {len(campaigns)})")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
           f"{len(s_added)} skills (total {len(skills)}), "
           f"{len(f_added)} factors (total {len(factors)}), "
