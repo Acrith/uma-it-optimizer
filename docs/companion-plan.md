@@ -1507,6 +1507,22 @@ route-B one-shot capture; plugin inbox; site sync via `/api/me/day`),
 tested live on the owner's PCs. Everything below is collected, not
 scheduled; pick a batch, not single items.
 
+**Setup module: chances for the player's own priorities** (queued
+2026-10-20, owner: "Queue that")
+- An event's choice goes the way of a skill the IT setup prioritized
+  (measured on the site's companion receipts, which carry
+  `setup.prioritized_skills`): 26 card event skills rise by 30 points or
+  more when prioritized, e.g. a friend card's Maverick on every run that
+  prioritized it (hint level 5) and no more than the background otherwise.
+- The site's hint count (uma-it-web services/hint_rates.py) now serves
+  `prio` per cell: an event skill's share on the runs that prioritized it,
+  over its own background; `hint` is the other runs'. Format 2 unchanged,
+  `prio` added (an older companion ignores it).
+- The module reads the player's setup already: use `prio` for the skills
+  they prioritized, `hint` for the rest, in the target chances and the
+  "all X%" chip. Ships with the next companion release (after the site
+  deploy and a recount).
+
 **Notifications** (owner: "1 into 3+2")
 1. Rich Windows notifications: icon, image, action buttons ("Open run"
    on uploads, "Open Settings" when uploads pause).
