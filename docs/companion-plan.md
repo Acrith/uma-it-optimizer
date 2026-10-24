@@ -1509,6 +1509,8 @@ scheduled; pick a batch, not single items.
 
 **Setup module: chances for the player's own priorities** (queued
 2026-10-20, owner: "Queue that")
+BUILT 2026-10-24 (companion 32a2939, unreleased): prio for prioritized targets, noprio for
+the rest where measured, every run's before Final Confirmation; a "prio" mark on the chip.
 - An event's choice goes the way of a skill the IT setup prioritized
   (measured on the site's companion receipts, which carry
   `setup.prioritized_skills`): 26 card event skills rise by 30 points or
