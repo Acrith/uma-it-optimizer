@@ -83,6 +83,11 @@ DEFAULT_CARD_HINTS = (Path(__file__).resolve().parents[4]
 # The run's race count, which picks the cards' race band (the companion's
 # usual 27 until the player's agenda says otherwise).
 RACES = 27
+# The skills the IT setup prioritizes (names), None when not known: a card's
+# event skill then takes the site's rate on the runs that prioritized it
+# (`prio`), the others the rate on the runs known not to (`noprio`), as the
+# companion's Setup module does since 2026-10-24 (rateKind).
+PRIORITIZED: set[str] | None = None
 
 
 @functools.lru_cache(None)
@@ -136,6 +141,11 @@ def deck_from_cards(name: str, cards: list[int], sc: int) -> Deck:
                 continue
             a, gold = src["hint"].get(g, 0.0), (src.get("gold") or {}).get(g, 0.0)
             a = a or gold
+            if PRIORITIZED is not None:
+                kind = "prio" if t in PRIORITIZED else "noprio"
+                cell = next((x for x in cells if g in (x.get(kind) or {})), None)
+                if cell is not None:
+                    a = max(cell[kind][g], gold if kind == "prio" else 0.0)
             off = (src.get("goldOff") or {}).get(g)
             if card["type"] == 1 and off is not None:
                 chain = 1 / (1 + math.exp(-(logit + off)))
