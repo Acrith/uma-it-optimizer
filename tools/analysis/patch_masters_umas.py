@@ -261,37 +261,42 @@ def main() -> int:
 
     # Race-reward campaigns (effect 9, "Race Reward Star Piece"; Discord,
     # 2026-10-21: "tells you what race and shard it's for"): effect_value is
-    # a race_additional_id: the race(s) whose win pays, how often, and the
-    # reward rows. Rows of type 1 are paid every time, type 2 one of them by
-    # rate (/10000); item_category 102 is Star Pieces of the uma card item_id.
-    # IT runs earn them (833 of 38,361 receipts to 2026-10-19: 5 pieces in
-    # race_reward_plus_bonus, 1 or 2 in race_reward_bonus_win).
+    # a race_additional_id, one row per race whose win pays. Per race: the
+    # race and its slot (grade; race_permission 1 Junior, 2 Classic, 3
+    # Classic+Senior, 4 Senior, 5 Finale; month, half; ground 1 turf 2 dirt;
+    # distance), the wins paid per day, and its reward rows: type 1 paid
+    # every time, type 2 one of them by rate (/10000); item_category 102 is
+    # Star Pieces of the uma card item_id. IT runs earn them (833 of 38,361
+    # receipts to 2026-10-19: 5 in race_reward_plus_bonus, 1 or 2 in
+    # race_reward_bonus_win).
     race_names = _text(g, 32)
     for entry in campaigns.values():
         if entry.get("effect_type") != 9:
             continue
-        adds = g.execute(
-            "select a.race_program_id, a.race_additional_reward_id, a.reward_limit, ri.race_id "
-            "from campaign_single_race_add_data a "
-            "join single_mode_program p on p.id = a.race_program_id "
-            "join race_instance ri on ri.id = p.race_instance_id where a.race_additional_id = ?",
-            (entry.get("effect_value"),)).fetchall()
-        if not adds:
-            continue
-        rows = g.execute(
-            "select item_category, item_id, reward_type, reward_value, reward_rate from "
-            "campaign_single_race_add_reward where race_additional_reward_id = ? order by id",
-            (adds[0][1],)).fetchall()
-        reward = {
-            "races": [race_names.get(race, f"?race:{race}") for _, _, _, race in adds],
-            "limit": adds[0][2],
-            "item_category": rows[0][0] if rows else None,
-            "item_id": rows[0][1] if rows else None,
-            "fixed": sum(v for _, _, t, v, _ in rows if t == 1),
-            "extra": [[v, r // 100] for _, _, t, v, r in rows if t == 2],
-        }
-        if entry.get("race_reward") != reward:
-            entry["race_reward"] = reward
+        races = []
+        for prog, reward_id, limit, race, perm, month, half, grade, ground, distance in g.execute(
+                "select a.race_program_id, a.race_additional_reward_id, a.reward_limit, r.id, "
+                "p.race_permission, p.month, p.half, r.grade, cs.ground, cs.distance "
+                "from campaign_single_race_add_data a "
+                "join single_mode_program p on p.id = a.race_program_id "
+                "join race_instance ri on ri.id = p.race_instance_id "
+                "join race r on r.id = ri.race_id join race_course_set cs on cs.id = r.course_set "
+                "where a.race_additional_id = ? order by a.id", (entry.get("effect_value"),)):
+            rows = g.execute(
+                "select item_category, item_id, reward_type, reward_value, reward_rate from "
+                "campaign_single_race_add_reward where race_additional_reward_id = ? order by id",
+                (reward_id,)).fetchall()
+            races.append({
+                "name": race_names.get(race, f"?race:{race}"), "program": prog,
+                "grade": grade, "years": perm, "month": month, "half": half,
+                "ground": ground, "distance": distance, "limit": limit,
+                "item_category": rows[0][0] if rows else None,
+                "item_id": rows[0][1] if rows else None,
+                "fixed": sum(v for _, _, t, v, _ in rows if t == 1),
+                "extra": [[v, r // 100] for _, _, t, v, r in rows if t == 2],
+            })
+        if races and entry.get("race_reward") != {"races": races}:
+            entry["race_reward"] = {"races": races}
             c_filled += 1
 
     # ── card hint skills ── the skills each support card can hint
