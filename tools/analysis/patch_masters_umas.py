@@ -259,6 +259,41 @@ def main() -> int:
                 entry.update(fields)
                 c_filled += 1
 
+    # Race-reward campaigns (effect 9, "Race Reward Star Piece"; Discord,
+    # 2026-10-21: "tells you what race and shard it's for"): effect_value is
+    # a race_additional_id: the race(s) whose win pays, how often, and the
+    # reward rows. Rows of type 1 are paid every time, type 2 one of them by
+    # rate (/10000); item_category 102 is Star Pieces of the uma card item_id.
+    # IT runs earn them (833 of 38,361 receipts to 2026-10-19: 5 pieces in
+    # race_reward_plus_bonus, 1 or 2 in race_reward_bonus_win).
+    race_names = _text(g, 32)
+    for entry in campaigns.values():
+        if entry.get("effect_type") != 9:
+            continue
+        adds = g.execute(
+            "select a.race_program_id, a.race_additional_reward_id, a.reward_limit, ri.race_id "
+            "from campaign_single_race_add_data a "
+            "join single_mode_program p on p.id = a.race_program_id "
+            "join race_instance ri on ri.id = p.race_instance_id where a.race_additional_id = ?",
+            (entry.get("effect_value"),)).fetchall()
+        if not adds:
+            continue
+        rows = g.execute(
+            "select item_category, item_id, reward_type, reward_value, reward_rate from "
+            "campaign_single_race_add_reward where race_additional_reward_id = ? order by id",
+            (adds[0][1],)).fetchall()
+        reward = {
+            "races": [race_names.get(race, f"?race:{race}") for _, _, _, race in adds],
+            "limit": adds[0][2],
+            "item_category": rows[0][0] if rows else None,
+            "item_id": rows[0][1] if rows else None,
+            "fixed": sum(v for _, _, t, v, _ in rows if t == 1),
+            "extra": [[v, r // 100] for _, _, t, v, r in rows if t == 2],
+        }
+        if entry.get("race_reward") != reward:
+            entry["race_reward"] = reward
+            c_filled += 1
+
     # ── card hint skills ── the skills each support card can hint
     # (single_mode_hint_gain, hint_gain_type 0: hint_value_1 is the
     # skill id). Powers the site's "deck has a card that hints X"
