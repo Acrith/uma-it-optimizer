@@ -33,6 +33,10 @@ Nothing personal is kept here. The inputs are files you pass in:
 - `affinity.py`, `loopdata.py`: the affinity model and the shared rules.
 - `inspiration_rates.py`: checks the inspiration rule on site receipts
   (which sparks fired at each inspiration, by lineage position).
+- `homebrew_hints.py`, `homebrew_rolls.py`: the inspiration rule and the
+  spark roll on own pairs (both parents the player's own) against borrow
+  runs, by the repeats own lines bring (the same veteran on both sides, a
+  character twice, in-breeding).
 
 ## Simulation (`sim/`)
 
@@ -113,6 +117,21 @@ replications, 4 weeks):
   hint rate there (19 runs). Its spark roll is measured now (11,475 trials,
   1.008 of the rule, `spark_rolls.py`).
 
+## Homebrew: own pairs only (2026-10-26)
+
+Looping without borrows, both parents from the player's own box. The rules
+hold for own pairs (table below). The pick: 41 synced boxes, each looping the
+community sheet's style its box carries most (needed + nice), own pairs only,
+10 runs a day for 60 days, 40 paired replications. Picking each run's two
+parents and trainee by the chance that the kept child beats the box's best
+fully looped count (she and both parents carry the skill) reached the next
+level first on 40 of 41 boxes: on average 22 days sooner than picking the two
+best by the parent rating (se 2.6), 28 sooner than by expected sparks; the
+level after that 14 and 17 days sooner. Ties broken the site board's way
+(closest level first) play the same (0.0 days, se 0.1). Barring in-bred
+trainees changes nothing measurable. On one owner box (Late, 11 needed), own
+pairs reach 7/11 in a median 21 days against 7 with a borrow every other run.
+
 ## Rules used, and how sure they are
 
 | Rule | Source | Status |
@@ -131,6 +150,8 @@ replications, 4 weeks):
 | Pinks at the start: 1 / 4 / 7 / 10 lineage stars -> +1 / +2 / +3 / +4 ranks | owner, 2026-09-28, confirmed on the setup screen | verified (Vodka dirt G -> E, Taiki B -> A with 4 stars) |
 | IT race win chance by summed surface + distance rank and races in a row (A/A 110%, A/E 70%, A/F 50%; 3rd/4th/5th/6th in a row lower) | Japanese IT table (screenshot from the owner) | sourced; the table notes the rank sum is itself assumed |
 | A trainee must reach Dirt A to generate a Dirt spark | community looping guide | sourced |
+| Own pairs (both parents the player's own, "homebrew") follow the same rules as borrow runs; a veteran who sits on both sides (siblings as parents, a mother with her daughter) is two carriers, for the hint and for the roll | `homebrew_hints.py` on 36,786 IT runs (19,119 own pairs), `homebrew_rolls.py` on 15,598 spark screens | measured 2026-10-26: inspiration fired 1.025x the model on own pairs, 1.022x on borrow runs; her skills 36.4% fired vs 35.8% modelled with both copies (28.8% with her once); the roll 1.001 of the rule on own pairs (322,975 trials), 1.003 counting both copies vs 1.123 counting her once |
+| The affinity model at its low end | `homebrew_hints.py`; the carriers' own modelled affinity | measured 2026-10-26: within 1% for parents from 100 and grandparents from 25 up; parents modelled at 50-100 fire 1.24-1.38x (as if at ~100-160), runs the model totals under 150 1.4x: 1.4% of runs, mostly sprint and dirt characters (Sakura Bakushin O, Haru Urara, Aston Machan). Open: relations missing for them, likely |
 
 ## First test (2026-09-28)
 
