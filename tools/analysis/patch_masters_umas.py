@@ -157,6 +157,43 @@ def main() -> int:
         }
         s_added.append((sid, s_names.get(sid, "?")))
 
+    # ── skill effects ── what a skill does, in the game's own numbers
+    # (skill_data's ability columns, /10000), for the preset editor's
+    # "Velocity +0.35 · 2.4 s" (owner, 2026-10-28: "what each skill does
+    # in terms of gains"). Per condition set: seconds at 1,000 m (-1 =
+    # the whole race, 0 = at once), the time usage (1 = fixed, else it
+    # varies), then [type, value, value usage (1 = fixed, else it
+    # scales), target type, target value] per effect: type 27 velocity,
+    # 31 acceleration, 9 recovery, 1-5 a stat; target 1 = herself.
+    FX_COLS = ", ".join(
+        f"float_ability_time_{i}, ability_time_usage_{i}, " + ", ".join(
+            f"ability_type_{i}_{j}, float_ability_value_{i}_{j}, "
+            f"ability_value_usage_{i}_{j}, target_type_{i}_{j}, "
+            f"target_value_{i}_{j}" for j in (1, 2, 3)) for i in (1, 2))
+
+    def _num(v: int) -> float | int:
+        x = round(v / 10000, 4)
+        return int(x) if x == int(x) else x
+
+    fx_by_id = {}
+    for conn in (jp, g):                      # global wins on overlap
+        for row in conn.execute(f"select id, {FX_COLS} from skill_data"):
+            sets = []
+            for k in (1, 18):                 # 17 columns per set
+                fx = [[row[c], _num(row[c + 1]), row[c + 2], row[c + 3],
+                       row[c + 4]]
+                      for c in (k + 2, k + 7, k + 12) if row[c]]
+                if fx:
+                    sets.append([_num(row[k]) if row[k] > 0 else row[k],
+                                 row[k + 1], fx])
+            fx_by_id[row[0]] = sets
+    fx_set = 0
+    for sid, s in skills.items():
+        sets = fx_by_id.get(int(sid))
+        if sets and s.get("effects") != sets:
+            s["effects"] = sets
+            fx_set += 1
+
     # ── factors ── a new chara's own inheritance sparks (Firelight,
     # I'm Possible!) arrive with the chara, so a stale snapshot leaves
     # the lineage and inspiration panels showing unnamed rows.
@@ -338,7 +375,8 @@ def main() -> int:
         print(f"  + factor {fid}  {label}")
     for pid, label in p_added:
         print(f"  + program {pid}  {label}")
-    print(f"items: {len(items)}, card hint sets: {len(hints)}")
+    print(f"items: {len(items)}, card hint sets: {len(hints)}, "
+          f"skill effects set: {fx_set}")
     print(f"campaigns: {c_added} added, {c_filled} dated from the game (total {len(campaigns)})")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
           f"{len(s_added)} skills (total {len(skills)}), "
