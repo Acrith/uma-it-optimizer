@@ -95,12 +95,14 @@ def skills_of(event: dict) -> list[list[int]]:
 
 
 def goal_wins(path: Path) -> dict[int, list[dict]]:
-    """The high-confidence goal wins as events, per character id."""
+    """The high-confidence goal wins (and race wins) as events, per character id."""
     events: dict[int, list[dict]] = {}
     for h in json.loads(path.read_text(encoding="utf-8"))["hints"]:
         if h["confidence"] == "high":
+            kind = h.get("kind", "goal_win")
+            label = "Goal win" if kind == "goal_win" else "Race win"
             events.setdefault(h["chara"], []).append({
-                "name": f"Goal win: {h['race']}", "kind": "goal_win", "skills": [[h["skill"], 1]],
+                "name": f"{label}: {h['race']}", "kind": kind, "skills": [[h["skill"], 1]],
                 "needs": [{"rule": h["rule"], "races": h["races"]}], "other": []})
     return events
 
