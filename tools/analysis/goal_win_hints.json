@@ -4,7 +4,7 @@
   "imported": "2026-10-30",
   "runs": 69133,
   "wins": "per scenario (1 URA Finale, 2 Unity Cup, 3 Our Grand Concert, 4 Trackblazer): [wins it came on, wins of the goal race where it could show] (it can't when her other sources already took it to hint level 5)",
-  "scenarios": "Outside Trackblazer it came on 62,697 of 62,788 such wins (99.9%); in Trackblazer on 115 of 791 (14.5%).",
+  "scenarios": "Outside Trackblazer it came on 62,697 of 62,788 such wins (99.9%). Trackblazer has no secret events: there 115 of 791 had the skill (14.5%), from other sources (other trainees' Trackblazer runs get these skills 9.3% of the time, and some of these trainees' other events give them).",
   "confidence": "high: 95% or more of 10 or more wins outside Trackblazer; low: fewer wins, or under 95% (note)",
   "not_imported": "64 rows for characters with no trainee on Global yet"
  },
