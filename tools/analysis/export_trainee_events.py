@@ -17,51 +17,27 @@ Other conditions (dates, strategies, rivals, fan counts...) are kept as they
 are under `other`: the event may still happen, but a plan cannot aim for it.
 
 Goal wins: winning one of her career goals hints one skill (one level), on
-the race's win event. GameTora lists few of them (12 of the 66 rows for
-trainees on Global, 2026-10-30). They come from the community sheet
-"Umamusume Guarantee Career Hint" (mostly from umamusume.wikiru.jp;
-GOAL_WINS_SOURCE, saved as CSV beside the snapshots).
-Each row's race is matched among her goals in the game's master
-(single_mode_route_race), which gives the race instance and its year; every
-outfit of hers gets the event (kind "goal_win"), unless one of its GameTora
-events already hints that skill.
+the race's win event. GameTora lists few of them; ours are in
+goal_win_hints.json (imported once from a community sheet on
+2026-10-30, each checked against the IT runs, with the evidence). Every
+outfit of hers gets the high-confidence ones as an event (kind "goal_win"),
+unless one of its GameTora events already hints that skill.
 
-    python export_trainee_events.py [--snapshot DIR] [--goal-wins CSV] --global-mdb master.mdb
+    python export_trainee_events.py [--snapshot DIR] --global-mdb master.mdb
 """
 from __future__ import annotations
 
 import argparse
-import csv
-import difflib
 import json
-import re
 import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 
 HERE = Path(__file__).parent
 SNAPSHOT = HERE / "../../references/gametora_trainees_2026-10-21"
-GOAL_WINS = HERE / "../../references/goal_win_hints_2026-10-30.csv"
+GOAL_WINS = HERE / "goal_win_hints.json"
 OUT = HERE / "../../../uma-it-web/uma_it_web/enrich/data/trainee_events.json"
 SOURCE = "https://gametora.com/umamusume/characters"
-GOAL_WINS_SOURCE = "https://docs.google.com/spreadsheets/d/1g2Ld4hV5A9yInIfq0X0QE0KLX-CXKDSN9Btp1kmkXKM"
-
-# Sheet rows the IT runs contradict (2026-10-30, 69,133 Global runs: runs
-# that won the race whose events gave the hint), left out.
-GOAL_WINS_LEFT_OUT = {
-    "Zenno Rob Roy": "34% of 50",
-    "Tosen Jordan": "36% of 25",
-    "Aston Machan": "44% of 210",
-}
-# The sheet's spellings that differ from the game's.
-SKILL_FIX = {"rishing heat": "rising heat", "eaget": "eager",
-             "competitive spirt": "competitive spirit", "nimble nav": "nimble navigator"}
-CHARA_FIX = {"tm opera o": "t m opera o", "victoira pisa": "victoire pisa"}
-RACE_FIX = {"spring tenno sho": "tenno sho spring", "autumn tenno sho": "tenno sho autumn",
-            "m c nambu hai": "mile championship nambu hai", "nhk mile": "nhk mile cup"}
-# A name's mark, best first: the plain white (○) is the skill a hint opens.
-MARKS = {"○": 0, "": 1, "◎": 2, "×": 3}
-
 # Named race sets: [race_instance_id, year]. Satsuki Sho, Japanese Derby,
 # Kikuka Sho; Oka Sho, Japanese Oaks, Shuka Sho; Osaka Hai, Tenno Sho
 # (Spring), Takarazuka Kinen; Tenno Sho (Autumn), Japan Cup, Arima Kinen.
@@ -118,85 +94,26 @@ def skills_of(event: dict) -> list[list[int]]:
     return out
 
 
-def norm(s: str) -> str:
-    return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
-
-
-def goal_wins(db: sqlite3.Connection, path: Path) -> tuple[dict, dict, dict]:
-    """The sheet's goal-win hints as events, per character id; the rows left
-    out with why; the skill names matched loosely, to the game's name."""
-
-    def text(cat: int) -> dict[int, str]:
-        return dict(db.execute("select [index], text from text_data where category=?", (cat,)))
-
-    charas = {norm(t): i for i, t in text(6).items()}
-    skills: dict[str, list[tuple]] = {}
-    for sid, rarity, name in db.execute(
-            "select s.id, s.rarity, t.text from skill_data s"
-            " join text_data t on t.category=47 and t.[index]=s.id"):
-        skills.setdefault(norm(name), []).append((rarity, MARKS.get(name[-1:], 1), sid))
-    race_names = text(32)
-    # A goal names a program, or a race group (single_mode_race_group: the
-    # JBC races, run at a different course each year).
-    goals: dict[int, list[tuple[int, int, str]]] = {}
-    for chara, turn, instance, race in db.execute(
-            "select r.chara_id, g.turn, p.race_instance_id, i.race_id from single_mode_route r"
-            " join single_mode_route_race g on g.race_set_id = r.race_set_id"
-            " left join single_mode_race_group rg on rg.race_group_id = g.condition_id"
-            " join single_mode_program p on p.id = coalesce(rg.race_program_id, g.condition_id)"
-            " join race_instance i on i.id = p.race_instance_id"
-            " where r.scenario_id = 0 and g.condition_type = 1 and g.turn <= 72"):
-        year = (turn - 1) // 24 + 1
-        goals.setdefault(chara, []).append((instance, year, race_names.get(race, "")))
+def goal_wins(path: Path) -> dict[int, list[dict]]:
+    """The high-confidence goal wins as events, per character id."""
     events: dict[int, list[dict]] = {}
-    left: dict[str, str] = {}
-    loose: dict[str, str] = {}
-    for row in csv.DictReader(path.open(encoding="utf-8")):
-        who, hint = row["Uma"].strip(), row["Guarantee Hint"].strip()
-        race = row["Career Race"].strip()
-        if not who or not race or hint.lower() == "nothing":
-            continue
-        chara = charas.get(CHARA_FIX.get(norm(who), norm(who)))
-        if chara is None or chara not in goals:
-            left[who] = "no trainee on Global"
-            continue
-        if who in GOAL_WINS_LEFT_OUT:
-            left[who] = GOAL_WINS_LEFT_OUT[who]
-            continue
-        k = SKILL_FIX.get(norm(hint), norm(hint))
-        if k not in skills:
-            k = next(iter(difflib.get_close_matches(k, skills, n=1, cutoff=0.85)), None)
-            loose[f"{who}: {hint}"] = k or ""
-        m = re.match(r"^Y([123])\s+(.*)$", race)
-        year, want = (int(m.group(1)), m.group(2)) if m else (None, race)
-        want = f" {RACE_FIX.get(norm(want), norm(want))} "
-        mine = [(g, f" {norm(g[2])} ") for g in goals[chara] if year in (None, g[1])]
-        found = ([g for g, n in mine if n == want]
-                 or [g for g, n in mine if want in n or n in want])
-        if k is None or len({(g[1], g[2]) for g in found}) != 1:
-            left[who] = (f"skill {hint!r} not found" if k is None
-                         else f"{race!r}: {len(found)} of her goals match")
-            continue
-        races = sorted([instance, y] for instance, y, _ in found)
-        events.setdefault(chara, []).append({
-            "name": f"Goal win: {found[0][2]}", "kind": "goal_win",
-            "skills": [[min(skills[k])[2], 1]],
-            "needs": [{"rule": "any" if len(races) > 1 else "all", "races": races}],
-            "other": []})
-    return events, left, loose
+    for h in json.loads(path.read_text(encoding="utf-8"))["hints"]:
+        if h["confidence"] == "high":
+            events.setdefault(h["chara"], []).append({
+                "name": f"Goal win: {h['race']}", "kind": "goal_win", "skills": [[h["skill"], 1]],
+                "needs": [{"rule": h["rule"], "races": h["races"]}], "other": []})
+    return events
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--snapshot", type=Path, default=SNAPSHOT)
-    ap.add_argument("--goal-wins", type=Path, default=GOAL_WINS)
-    ap.add_argument("--global-mdb", type=Path, required=True,
-                    help="her goals and the game's names, for the goal wins; every race exists")
+    ap.add_argument("--global-mdb", type=Path, required=True, help="to check every race exists")
     args = ap.parse_args()
     db = sqlite3.connect(f"file:{args.global_mdb}?mode=ro", uri=True)
     known = {ri for (ri,) in db.execute("select id from race_instance")}
     group = dict(db.execute("select id, group_id from skill_data"))
-    goals, left, loose = goal_wins(db, args.goal_wins)
+    goals = goal_wins(GOAL_WINS)
     trainees = {}
     unplanned = added = 0
     on_gametora: set[int] = set()
@@ -229,7 +146,6 @@ def main() -> int:
         trainees[str(item["card_id"])] = {"event_skills": sorted(event_skills),
                                           "events": events}
     out = {"_meta": {"source": SOURCE, "snapshot": args.snapshot.resolve().name.rsplit("_", 1)[-1],
-                     "goal_wins": GOAL_WINS_SOURCE, "goal_wins_file": args.goal_wins.name,
                      "exported_at": datetime.now(UTC).isoformat(timespec="seconds")},
            "trainees": trainees}
     text = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
@@ -242,14 +158,8 @@ def main() -> int:
         print(f"races not in the master data: {sorted(unknown)}")
     print(f"{len(trainees)} trainees, {n_events} conditional events with a skill hint "
           f"({unplanned} with no race to plan) -> {OUT.resolve()}")
-    print(f"goal wins: {len(goals)} characters, {added} events added to their outfits, "
-          f"{len(on_gametora)} characters have it as a GameTora event")
-    absent = "no trainee on Global"
-    print("  left out: " + "; ".join(f"{who} ({why})" for who, why in sorted(left.items())
-                                     if why != absent))
-    print(f"  {absent}: {sum(why == absent for why in left.values())} rows")
-    print("  skill names matched loosely: "
-          + "; ".join(f"{k} -> {v or '?'}" for k, v in sorted(loose.items())))
+    print(f"goal wins: {added} events on {len(goals)} characters' outfits "
+          f"({len(on_gametora)} characters have one as a GameTora event)")
     return 0
 
 
