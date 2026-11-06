@@ -86,11 +86,13 @@ def main() -> None:
     race_set = db.execute("select race_set_id from single_mode_route where chara_id=? and scenario_id=0",
                           (args.trainee // 100,)).fetchone()[0]
     objectives, need_place = {}, {}
-    # condition_type 1 only: one program (2 is "place in N races of a grade", its condition_id the grade: Agnes
-    # Digital's "3rd or better in 3 G1 races" read as program 100, the Hakodate Kinen; companion gen_loop_data, 11-04).
-    for t, pid, top in db.execute("select turn, condition_id, condition_value_1 from single_mode_route_race"
-                                  " where race_set_id=? and condition_type = 1 and condition_id < 10000 order by sort_id",
-                                  (race_set,)):
+    # condition_type 1 only: one program (2 is "place in N races of a grade", its
+    # condition_id the grade: Agnes Digital's "3rd or better in 3 G1 races" read as
+    # program 100, the Hakodate Kinen; companion gen_loop_data, 11-04).
+    for t, pid, top in db.execute("select turn, condition_id, condition_value_1"
+                                  " from single_mode_route_race where race_set_id=?"
+                                  " and condition_type = 1 and condition_id < 10000"
+                                  " order by sort_id", (race_set,)):
         # Two races on one turn (Oaks or Derby): the game sets the first as
         # the goal, and IT does not let the player swap it.
         if t in objectives:
