@@ -28,3 +28,8 @@ ureq = { version = "2.10", default-features = false, features = ["tls"] }
 # (YYYYMMDDTHHMMSS format matching the .exe extractor). std's
 # SystemTime gives us epoch seconds — chrono formats them.
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
+# TZif parser for the Wine/Proton fallback in local_timestamp(): when
+# Wine can't map the Linux zone to a Windows one, chrono's Local
+# panics, so we read the host's /etc/localtime (or $TZ) through Z:.
+# Pure Rust, no dependencies.
+tz-rs = { version = "0.7", default-features = false, features = ["std"] }
