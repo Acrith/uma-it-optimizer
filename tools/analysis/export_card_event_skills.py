@@ -11,6 +11,12 @@ receipt's Events bucket, and these lists explain ~92% of its golds that
 are not scenario golds. The file shape is the site's contract, so a source
 of our own (the story assets) can replace this one later.
 
+`levels`: per card, skill id -> per event that hints it, the levels it can give (`+3`; `+1/+3` either; null where an
+event gives the skill whole), for the site's hint count to split a shared Events bucket by level (2026-11-11).
+
+`choice`: per card, its event skills some event gives behind a choice (two or more options, one without it): the
+ones an IT setup's priority can steer, for the site's count to measure prioritized runs apart only for them.
+
 `event_names`: per card, skill id -> the events whose choices give it (their
 English names in GameTora's event data; the current version, not its
 `history`), for the companion's Setup to name the event behind an EVENT mark
@@ -58,8 +64,73 @@ def event_names(event_data: str) -> dict[str, list[str]]:
     return out
 
 
-def read(snapshot: Path) -> tuple[dict[str, list[int]], dict[str, dict[str, list[str]]]]:
-    cards, names = {}, {}
+def _levels(v) -> set[int]:
+    """GameTora's hint level text: "+3", or "+1/+3" (either)."""
+    out = set()
+    for part in str(v or "").split("/"):
+        try:
+            out.add(int(part.strip().lstrip("+")))
+        except ValueError:
+            pass
+    return out
+
+
+def event_levels(event_data: str) -> dict[str, list[list[int]] | None]:
+    """Skill id -> per event that hints it, the hint levels it can give (one per event: it fires once, one choice
+    taken), so a receipt's shared Events bucket can be split by level (2026-11-11, owner: Ikuno Dictus's chain gives
+    Full Throttle +3, Heirs to the Throne's date +1). None where an event gives the skill whole (`sg`) or a level
+    can't be read: its level in the receipt says nothing."""
+    out: dict[str, list[list[int]] | None] = {}
+    for events in json.loads(event_data or "{}").values():
+        for e in events if isinstance(events, list) else []:
+            per: dict[str, set[int] | None] = {}
+            for choice in e.get("c") or []:
+                for r in choice.get("r") or []:
+                    d, t = r.get("d"), r.get("t")
+                    items = ([(d, r.get("v"))] if t in ("sk", "sg") and isinstance(d, int)
+                             else [(x["d"], x.get("v")) for x in d if isinstance(x, dict) and isinstance(x.get("d"), int)]
+                             if t == "sr" and isinstance(d, list) else [])
+                    for i, v in items:
+                        lv = _levels(v) if t != "sg" else set()
+                        if not lv or per.get(str(i), set()) is None:
+                            per[str(i)] = None
+                        else:
+                            per[str(i)] = per.get(str(i), set()) | lv
+            for i, lv in per.items():
+                if lv is None or out.get(i, []) is None:
+                    out[i] = None
+                else:
+                    out.setdefault(i, []).append(sorted(lv))
+    return out
+
+
+def choice_skills(event_data: str) -> set[str]:
+    """The skill ids some event gives behind a choice: two or more options, one of them without it. An IT setup that
+    prioritizes the skill can steer such an event; one option (Ikuno Dictus's chain end: Keep Going! or Full Throttle
+    at random), or every option giving it, it can't (2026-11-11)."""
+    out: set[str] = set()
+    for events in json.loads(event_data or "{}").values():
+        for e in events if isinstance(events, list) else []:
+            opts = e.get("c") or []
+            if len(opts) < 2:
+                continue
+            per = []
+            for choice in opts:
+                ids = set()
+                for r in choice.get("r") or []:
+                    d, t = r.get("d"), r.get("t")
+                    if t in ("sk", "sg") and isinstance(d, int):
+                        ids.add(str(d))
+                    elif t == "sr" and isinstance(d, list):
+                        ids |= {str(x["d"]) for x in d if isinstance(x, dict) and isinstance(x.get("d"), int)}
+                per.append(ids)
+            every = set.intersection(*per)
+            out |= set.union(*per) - every
+    return out
+
+
+def read(snapshot: Path) -> tuple[dict[str, list[int]], dict[str, dict[str, list[str]]], dict[str, dict], dict[str, list[int]]]:
+    cards, names, levels, choice = {}, {}, {}, {}
     for path in sorted(snapshot.glob("*.json")):
         page = json.loads(path.read_text(encoding="utf-8"))["pageProps"]
         item = page["itemData"]
@@ -69,17 +140,22 @@ def read(snapshot: Path) -> tuple[dict[str, list[int]], dict[str, dict[str, list
             found = event_names((page.get("eventData") or {}).get("en", ""))
             if mine := {str(s): found[str(s)] for s in skills if found.get(str(s))}:
                 names[str(item["support_id"])] = mine
-    return cards, names
+            lv = event_levels((page.get("eventData") or {}).get("en", ""))
+            if mine := {str(s): lv[str(s)] for s in skills if str(s) in lv}:
+                levels[str(item["support_id"])] = mine
+            ch = choice_skills((page.get("eventData") or {}).get("en", ""))
+            choice[str(item["support_id"])] = sorted(s for s in skills if str(s) in ch)
+    return cards, names, levels, choice
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--global-mdb", type=Path, help="lists released cards the snapshot lacks")
     args = ap.parse_args()
-    cards, names = read(SNAPSHOT)
+    cards, names, levels, choice = read(SNAPSHOT)
     out = {"_meta": {"source": SOURCE, "snapshot": SNAPSHOT.resolve().name.rsplit("_", 1)[-1],
                      "exported_at": datetime.now(UTC).isoformat(timespec="seconds")},
-           "cards": cards, "event_names": names}
+           "cards": cards, "event_names": names, "levels": levels, "choice": choice}
     OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")) + "\n",
                    encoding="utf-8")
     unnamed = sum(1 for c, v in cards.items() for s in v if str(s) not in names.get(c, {}))
