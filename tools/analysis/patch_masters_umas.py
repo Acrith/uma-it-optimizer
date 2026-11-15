@@ -351,6 +351,57 @@ def main() -> int:
             hints[str(cid)] = sorted(set(sids))
     m["card_hint_skills"] = hints
 
+    # ── card race bonus ── each support card's Race Bonus (%) at its level
+    # cap for LB 0..4 (Discord #suggestions, 2026-11-11: a Race Bonus column
+    # on Decks). support_card_effect_table type 15 gives values at levels
+    # 1, 5, ..., 50 with -1 where unset: locked before the first set level,
+    # linear (floored) between set levels, flat after the last; plus the
+    # unique effect's type 15 once the card reaches its level. Matches
+    # GameTora's per-LB numbers on all 1,170 Global card x LB rows of the
+    # 2026-08-07 export (references/support_cards_gametora_data). Only
+    # cards with a race bonus at some LB; Global first, JP for the rest.
+    rb_levels = (1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50)
+
+    def _rb_at(vals: list[int], level: int) -> int:
+        pts = [(lv, v) for lv, v in zip(rb_levels, vals) if v != -1]
+        if not pts or level < pts[0][0]:
+            return 0
+        prev = pts[0]
+        for lv, v in pts:
+            if lv == level:
+                return v
+            if lv > level:
+                l0, v0 = prev
+                return v0 + (v - v0) * (level - l0) // (lv - l0)
+            prev = (lv, v)
+        return prev[1]
+
+    race_bonus: dict[str, list[int]] = {}
+    for conn in (jp, g):                           # global overwrites JP
+        caps = {r: list(lvs) for r, *lvs in conn.execute(
+            "select rarity, limit_0, limit_1, limit_2, limit_3, limit_4 from support_card_limit")}
+        effect = {cid: list(vals) for cid, *vals in conn.execute(
+            "select id, init, limit_lv5, limit_lv10, limit_lv15, limit_lv20, limit_lv25, limit_lv30, "
+            "limit_lv35, limit_lv40, limit_lv45, limit_lv50 from support_card_effect_table where type = 15")}
+        unique: dict[int, tuple[int, int]] = {}
+        for cid, lv, t0, v0, t1, v1 in conn.execute(
+                "select id, lv, type_0, value_0, type_1, value_1 from support_card_unique_effect"):
+            rb = (v0 if t0 == 15 else 0) + (v1 if t1 == 15 else 0)
+            if rb:
+                unique[cid] = (lv, rb)
+        for cid, rarity in conn.execute("select id, rarity from support_card_data"):
+            if cid not in effect and cid not in unique:
+                continue
+            per_lb = []
+            for level in caps[rarity]:
+                rb = _rb_at(effect[cid], level) if cid in effect else 0
+                if cid in unique and level >= unique[cid][0]:
+                    rb += unique[cid][1]
+                per_lb.append(rb)
+            if any(per_lb):
+                race_bonus[str(cid)] = per_lb
+    m["card_race_bonus"] = dict(sorted(race_bonus.items(), key=lambda kv: int(kv[0])))
+
     # ── items ── names for everything a race can pay out (sashes, shoes,
     # Support Points, Dream Glimmer, statues...). Receipts carry
     # (item_type = item_data.item_category, item_id = item_data.id).
@@ -375,7 +426,7 @@ def main() -> int:
         print(f"  + factor {fid}  {label}")
     for pid, label in p_added:
         print(f"  + program {pid}  {label}")
-    print(f"items: {len(items)}, card hint sets: {len(hints)}, "
+    print(f"items: {len(items)}, card hint sets: {len(hints)}, race bonus cards: {len(race_bonus)}, "
           f"skill effects set: {fx_set}")
     print(f"campaigns: {c_added} added, {c_filled} dated from the game (total {len(campaigns)})")
     print(f"added {len(added)} trainee cards (total {len(umas)}), "
